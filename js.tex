@@ -1,0 +1,639 @@
+\documentclass[main.tex,fontsize=8pt,paper=a4,paper=portrait,DIV=calc,]{scrartcl}
+\input{../../../latex/ost-summary-template.tex}
+
+\lstdefinelanguage{JavaScript}{
+  keywords={break, case, catch, continue, debugger, default, delete, do, else, false, finally, for, function, if, in, instanceof, new, null, return, switch, this, throw, true, try, typeof, var, void, while, with},
+  morecomment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]',
+  morestring=[b]",
+  ndkeywords={class, export, boolean, throw, implements, import, this},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  sensitive=true
+}
+
+%%%%%define html as viable language
+\lstset{
+    language=JavaScript,
+    style=code,
+}
+%%%%%
+
+\begin{document}
+\begin{table}[h!]
+\section{Basics}
+\begin{tabular}{|m {0.205\linewidth}|m{0.750\linewidth}|}
+\hline
+ECMAScript & 
+Javascript is only an implementation of ECMAScript. So ECMA is the actual standard.\\
+\hline 
+debug without IDE & 
+\begin{lstlisting}
+debugger;
+\end{lstlisting}
+\, \newline
+\textcolor{teal}{This simply makes the browser stop at this line if the dev tools are open!}\\
+\hline
+Facts about javascript & 
+\begin{itemize}
+  \item \textcolor{teal}{It's dynamic}
+  \item \textcolor{teal}{It's dynamically typed! (like python)}
+  \item \textcolor{teal}{both functional and object-oriented}
+  \item \textcolor{teal}{It fails silently --> "geil"}
+  \item \textcolor{teal}{It's deployed as source code, so everything is at least source available}
+  \item \textcolor{teal}{It's part of the web platform}
+\end{itemize}
+\\
+\hline
+\textbf{Primitives vs Objects} & 
+\large\textcolor{red}{Primitives}
+\normalsize
+\begin{itemize}
+  \item \textcolor{teal}{string, number, boolean, undefined}
+  \item \textcolor{teal}{compared by value}
+  \item \textcolor{teal}{always immutable}
+\end{itemize}
+\, \newline
+\large\textcolor{red}{Objects}
+\normalsize
+\begin{itemize}
+  \item \textcolor{teal}{Arrays, Regular Expressions, Functions}
+  \item \textcolor{teal}{compared by Reference}
+  \item \textcolor{teal}{Mutable by default}
+  \vspace{-3mm}
+\end{itemize}
+\\
+\hline
+Types & 
+\includegraphics[scale=0.45]{2022-10-11-10:33:44.png}\\
+\hline
+Boolean Checks & 
+\textcolor{red}{Every value can be converted to a boolean}\newline
+\begin{itemize}
+  \item !!(null) => false
+  \item Boolean( null ) => false
+\end{itemize}
+\, \newline
+\begin{itemize}
+  \item \textcolor{teal}{Logical Operators \&\& ||}
+  \item \textcolor{teal}{Not !}
+  \item \textcolor{teal}{Equality Checks === !== > >= < <=} true or false
+  \item \textcolor{teal}{Value Equality Check == !=} true false or NaN -> cast to number
+  \vspace{-3mm}
+\end{itemize}
+\, \newline
+\minipg{
+True Values:\newline
+\begin{itemize}
+  \item false
+  \item 0 
+  \item "" 
+  \item null 
+  \item undefined 
+  \item NaN
+\end{itemize}
+}
+{True Values:
+\begin{itemize}
+  \item "0" \textcolor{teal}{any string that has something in it is considered true}
+  \item "false"
+  \item \char`\[ \char`\]
+  \item \char`\{ \char`\}
+\end{itemize}}\\
+\hline 
+NaN &
+\vspace{2mm}
+\begin{itemize}
+  \item \textcolor{red}{is an error value} 
+  \item 0 / 0 = NaN
+  \item is of type number
+  \item NaN == NaN is false \textcolor{teal}{// use isNan\char`\( \char`\) instead}
+  \vspace{-3mm}
+\end{itemize}\\
+\hline
+Infinity & 
+Infinity is a number in js, can be used to represent the mathematical infinity.\newline
+Will also be used if the number is too big!\\
+\hline
+Numbers & 
+\textcolor{red}{Every value can be casted to a number!}\newline
+\begin{itemize}
+  \item +(true) = 1
+  \item Number(true) = 1
+  \item Number(null) = 0
+  \item Number("abc") = NaN \textcolor{teal}{remember NaN is of type number!}
+  \item one exception -> symbol, this is not a number
+  \vspace{-3mm}
+\end{itemize}\\
+\hline
+String & 
+\textcolor{teal}{Can be represented with either "" or ''}\newline
+\textcolor{teal}{Escape character is \textbackslash}\newline
+\minipg{
+Typical Methods:\newline
+\begin{itemize}
+  \item length
+  \item slice
+  \item trim\char`\( \char`\)
+  \item includes\char`\( \char`\)
+  \item indexOf\char`\( \char`\)
+\end{itemize}
+}
+{
+  Special Operations:
+  \textcolor{red}{Number + String = String}\newline
+  \textcolor{red}{String + Number = String}\newline
+}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+null / undefined & 
+\textcolor{teal}{Undefined means nothing, not yet defined}\newline
+\textcolor{teal}{null is a value, the null value}\newline
+\textcolor{red}{IMPORTANT: null == undefined = true !!}\newline
+Example with null and undefined:\newline
+\begin{lstlisting}
+import * as userList
+from './user.mjs';
+console.log( userList.get(0) );
+console.log( userList.update(0, {birthday: "19.05.1986"}) );
+console.log( userList.update(0, {name : undefined, birthday: "19.05.1986"}) );
+console.log( userList.update(0, {name : null, birthday: "19.05.1986"}) );
+{ name: 'Michael', birthday: '19.05.1985' }
+{ name: 'Michael', birthday: '19.05.1986' }
+{ name: 'Michael', birthday: '19.05.1986' }
+{ name: null, birthday: '19.05.1986' }
+\end{lstlisting}
+\\
+\hline
+Array & 
+\begin{lstlisting}
+const arr = [ 'a', 'b', 'c' ];
+arr[0] = 'x';
+arr.push("d");
+console.log(arr); // [ 'x', 'b', 'c', 'd' ]
+console.log(arr.length); // 4
+\end{lstlisting}
+\, \newline
+This is the list for everything.\newline
+\begin{itemize}
+  \item \textcolor{teal}{no fix length}
+  \item \textcolor{teal}{index starts at 0}
+  \vspace{-3mm}
+\end{itemize}
+\, \newline
+\, \newline
+\textcolor{orange}{\textbf{To check if something is an array you can compare constructors!}}\newline
+\begin{lstlisting}
+function isArray(arr) {
+  if(arr.constructor === Array) {
+    return true;
+  }
+  return false;
+}
+\end{lstlisting}
+\, \newline
+\textcolor{teal}{arr.forEach}\newline
+\begin{lstlisting}
+let sum = 0;
+arr.forEach(num => { sum += num });
+\end{lstlisting}
+\, \newline
+\textcolor{teal}{arr.reduce}\newline
+\begin{lstlisting}
+const sum = arr.reduce((total, n) => total + n, 0);
+\end{lstlisting}
+\\
+\hline
+For Loops & 
+\textcolor{teal}{classic:}\newline
+\begin{lstlisting}
+for(let i=0; i<arr.length; ++i) {
+  console.log("for",arr[i]);
+} // like regular loop just with let
+\end{lstlisting}
+\, \newline
+\textcolor{teal}{For-In:}\newline
+\begin{lstlisting}
+for(const x in arr) {
+  console.log("for in", x + ":" + arr[x]);
+} // !! this returns the index string not the element !!
+\end{lstlisting}
+\, \newline
+\textcolor{teal}{For-Of:}\newline
+\begin{lstlisting}
+for(const y of arr) {
+  console.log("for of", y);
+} // like for(auto e : arr)
+\end{lstlisting}
+\\
+\hline
+Object & 
+\textcolor{teal}{An object is a collection of properties}\newline
+These values are stored in a \textbf{key | value} -> \textbf{HashSet}.\newline
+\begin{lstlisting}
+cosnt person = {
+  name: "spass"
+  func: function() {
+    return this.name;
+  }
+};
+person.name = "Bob";
+person.func();
+\end{lstlisting}\\
+\hline
+Mutability of Objects & 
+\textcolor{teal}{You can overwrite functions inside of these objects!}\newline
+\begin{lstlisting}
+person.func = function() {
+  console.log("this does something else now !");
+}
+\end{lstlisting}\\
+\hline
+Functions &
+\textcolor{teal}{As expected, functions are first class citizens, aka they can be variables!}\newline
+\begin{lstlisting}
+func = printSomething() {
+  console.log("ping pang");
+}
+func();
+\end{lstlisting}
+\, \newline
+Or You can use something like lambdas:\newline
+\begin{lstlisting}
+const func = (value) => {
+  console.log(value);
+}
+func(5); // prints 5
+\end{lstlisting}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Parameters & 
+\large\textcolor{red}{in javascript you can call functions with too many parameters, they will simply be stored in a buffer!!}\newline
+\normalsize
+\begin{lstlisting}
+function foo(name, ...params){
+console.log(1,name);
+console.log(2,params.join(";"));
+}
+foo("Michael", "Gfeller", "OST", "IFS");
+// prints "Michael" and "Gfeller;OST;IFS"
+\end{lstlisting}\\
+\hline
+& \large \textcolor{teal}{Properties of functions}\newline
+\normalsize
+\begin{lstlisting}
+const fn1 = function(){ return "Michael" };
+console.log(fn1.name);
+// ""
+
+const fn2 = function name(){ return "Michael" };
+console.log(fn2.name);
+// "name"
+console.log(fn2.length); // 0
+
+const fn3 = function name(name){ return name };
+console.log(fn3.length); // 1
+\end{lstlisting}
+\, \newline
+\large \textcolor{red}{!!! Javascript doesn't have function overloading !!!}\newline
+\normalsize The solution is to use if statements inside those functions with \textbf{typeof}\newline
+\begin{lstlisting}
+jQuery.fn.init = function( selector, context ) {
+//...
+if ( !selector ) {
+return this;
+}
+// Handle HTML strings
+if ( typeof selector === "string" ) {
+//...
+} else if ( selector.nodeType ) {
+//...
+} else if ( jQuery.isFunction( selector ) ) {
+//...
+}
+//...
+return jQuery.makeArray( selector, this );
+};
+\end{lstlisting}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\section{}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\section{DOM Document Object Model}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+window & 
+\textcolor{orange}{This simply provides global objects such as \textbf{console, document and HTMLDocument}}\newline
+\textcolor{teal}{All global variables reside here.}\\
+\hline
+Selection &
+\textcolor{orange}{There are different ways of selecting an element or node:}\newline
+\begin{itemize}
+  \item \textcolor{teal}{document.querySelector('name')} // select by CSS syntax -> also allows css selectors!
+  \item \textcolor{teal}{document.querySelectorAll('.nav')} // select All by CSS syntax -> also allows css selectors!
+  \item \textcolor{teal}{document.getElementById('list-container')} // select by id
+  \item \textcolor{teal}{document.getElementByTagName('li')} // select by Tag name
+  \item \textcolor{teal}{document.getElementsByClassName('nav-item')} // select by class name
+\end{itemize}\newline
+\textcolor{orange}{Just use the querySelector -> it allows more ways to select it! \newline
+However theoretically the html selectors are faster!}\\
+\hline
+DOM-Manipulation by create & 
+\textcolor{orange}{We can also create new elements with js the same way we select elements}\newline
+\begin{lstlisting}
+const newEl = document.createElement('div');
+newEl.appendChild(document.createTextNode('Hello'));
+document.querySelector("#container").appendChild(newEl);
+\end{lstlisting}
+\, \newline
+\pic{2022-10-18-11:26:10.png} \pic{2022-10-18-11:26:36.png}\newline
+\textcolor{orange}{this is faster with small changes, DOM references stay the same, event handlers stay alive}\\
+\hline
+DOM-Manipulation by innerHTML & 
+\begin{lstlisting}
+const c = document.querySelector('#container');
+c.innerHTML = '<div>Ping pang!</div>';
+\end{lstlisting}
+\, \newline
+\textcolor{orange}{this is likely faster and more readable}\\
+\hline 
+DocumentFragment & 
+\textcolor{orange}{This creates a temporary fragment that will be deleted when attaching this to a parent node.}\newline
+\begin{lstlisting}
+document.createDocumentFragment();
+\end{lstlisting}
+\, \newline
+\pic{2022-10-18-11:31:01.png}\\
+\hline
+EventListener & 
+\textcolor{orange}{An event listener is used to bind a function to something like a button\newline
+For example a darkmode button is mapped to the useDarkMode function}\newline
+\begin{lstlisting}
+document.querySelector('button')
+.addEventListener('click' // action to map , useDarkMode // function to map,[options] // once, capture etc)
+\end{lstlisting}
+\\
+\hline
+remove Eventlistener \newline and dispatchEvent & 
+You can of course also remove an eventlistener, or execute an event per js call:\newline
+\begin{lstlisting}
+document.querySelector('button').removeEventListener('click', useDarkMode);
+// remove eventlistener
+
+document.querySelector('button').dispatchEvent('click');
+// dispatch the click event
+\end{lstlisting}\\
+\hline
+NodeStructure & 
+\textcolor{orange}{HTML is built like a tree with different nodes and leafs.}\newline
+\textcolor{teal}{Important is that there are different types of nodes that html uses}\newline
+\begin{itemize}
+  \item \textcolor{orange}{ElementNode} head,body,li,title etc
+  \item \textcolor{orange}{AttributeNode} href, charset, src etc
+  \item \textcolor{orange}{TextNode} some text to display
+  \item \textcolor{orange}{Comments} <!-- kekw -->
+  \vspace{-3mm}
+\end{itemize}
+\, \newline
+\pic{2022-10-18-10:35:52.png}
+\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+\textbf{async and defer} & 
+\textcolor{orange}{\textbf{async:} Async means that the script will be loaded and executed immediately.\newline
+This means that there \textbf{is no guarantee for order} and the script will be \textbf{executed before the document has loaded}.}\newline
+\textcolor{blue}{\textbf{defer:} This is the opposite to async, it will \textbf{gurarantee order}, \newline
+and the document will \textbf{be loaded before the script executes}.}\newline
+\pic{2022-10-18-10:45:27.png}\includegraphics[scale=0.4]{2022-10-18-10:46:00.png}\newline
+\textcolor{orange}{\textbf{If you want to check whether or not the document is ready, \newline
+then you can do this with: }}\textcolor{red}{\textbf{\emph{document.readyState}}}
+\\
+\hline
+TextContent and innerText & 
+\textcolor{orange}{HTMLElement.innerText provides the rendered text with css applied}\newline
+\textcolor{blue}{HTMLElement.textContent provides the complete raw text with no css applied}\\
+\hline 
+className and classList & 
+\begin{lstlisting}
+<script>
+console.log(
+document.querySelector("#el").className);
+// box alert important
+
+console.log(document.querySelector("#el")
+.classList);
+// DOMTokenList(3) ["box", "alert", "important"]
+</script>
+\end{lstlisting}\\
+\hline
+\end{tabular}
+\subsection{Event Handling}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+EventListener with options & 
+\begin{lstlisting}
+target.addEventListener(type, listener[, options]);
+\end{lstlisting}
+\, \newline
+options:\newline
+\begin{itemize}
+  \item capture
+  \item once
+  \item 
+  \vspace{-3mm}
+\end{itemize}\\
+\hline
+Event Listener vs inline & 
+\begin{lstlisting}
+<HTMLElement>.addEventListener()
+document.querySelector("#1").addEventListener("click", () => alert('1'));
+// multiple listeners possible!
+
+<HTMLElement>.on… = eventHandler
+document.querySelector("#2").onclick = () => alert('2’);
+// only 1 listener possible
+// will overwrite previous onclick assignments
+
+<button onclick="alert('3')">3</button>
+// provides the least amount of flexibility, not recommended
+\end{lstlisting}\\
+\hline
+Event Phases & \minipg{
+\textcolor{orange}{Events go through 3 phases:}\newline
+\begin{enumerate}
+  \item \textcolor{teal}{Capture-Phase}\newline
+    Event travels from root to leaf\newline
+    Every Element can react here
+  \item \textcolor{teal}{Target-Phase}\newline
+    Event will be destroyed on target
+  \item \textcolor{teal}{Bubble-Phase}\newline/
+    Event travels from leaf to root\newline
+    Each element can react
+\end{enumerate}
+\, \newline
+\textcolor{orange}{Event bubbling and capture is used to dynamically change lists, etc.}
+}
+{\pic{2022-10-18-12:15:49.png}}[0.3,0.4]\\ 
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[!ht]
+\subsection{Node}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Important Properties and functions & 
+\textcolor{orange}{\textbf{Properties}}
+\begin{itemize}
+  \item \textcolor{teal}{children} only nodes of type HTMLelement 
+  \item \textcolor{teal}{childNodes} 
+  \item \textcolor{teal}{firstChild} first node child
+  \item \textcolor{teal}{firstElementChild} first element child
+  \item \textcolor{teal}{nextSibling} next node sibling
+  \item \textcolor{teal}{nextElementSibling} next element 
+  \item \textcolor{teal}{parentElement} 
+\end{itemize}
+\, \newline
+\textcolor{orange}{Functions}\newline
+\begin{itemize}
+  \item \textcolor{teal}{appendChild()}
+  \item \textcolor{teal}{removeChild()}
+  \vspace{-3mm}
+\end{itemize}\\
+\hline
+\end{tabular}
+\subsection{Element}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Important Properties and functions & 
+\textcolor{orange}{\textbf{Properties}}
+\begin{itemize}
+  \item \textcolor{teal}{id} 
+  \item \textcolor{teal}{className} 
+  \item \textcolor{teal}{classList} 
+  \item \textcolor{teal}{innerHTMl}
+\end{itemize}
+\, \newline
+\textcolor{orange}{Functions}\newline
+\begin{itemize}
+  \item \textcolor{teal}{getAttribute()}
+  \item \textcolor{teal}{setAttribute()}
+  \item \textcolor{teal}{toggleAttribute()}
+  \item \textcolor{teal}{closest()}
+  \vspace{-3mm}
+\end{itemize}\\
+\hline
+Element ParentNode & 
+\textcolor{orange}{Element also implements Parentnode:}\newline
+Properties:\newline
+\begin{itemize}
+  \item \textcolor{teal}{children}
+  \item \textcolor{teal}{firstElementChild}
+  \item \textcolor{teal}{lastElementChild}
+\end{itemize}\newline
+Functions:\newline
+\begin{itemize}
+  \item \textcolor{teal}{append()} 
+  \item \textcolor{teal}{remove()}
+  \vspace{-3mm}
+\end{itemize}\\
+\hline
+\end{tabular}
+\subsection{HTMLElement}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Important Properties and functions & 
+\textcolor{orange}{\textbf{Properties}}
+\begin{itemize}
+  \item \textcolor{teal}{dataset} 
+  \item \textcolor{teal}{style} 
+  \item \textcolor{teal}{hidden}
+\end{itemize}
+\, \newline
+\textcolor{orange}{Functions}\newline
+\begin{itemize}
+  \item \textcolor{teal}{createCaption()}
+  \item \textcolor{teal}{createTFoot()}
+  \item \textcolor{teal}{createTHead()}
+  \vspace{-3mm}
+\end{itemize}\\
+\hline
+\end{tabular}
+\subsection{Event-Object}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Important Properties and functions & 
+\textcolor{orange}{\textbf{Properties}}
+\begin{itemize}
+  \item \textcolor{teal}{target} // element of event origin 
+  \item \textcolor{teal}{currentTarget} // element that has listener for this event
+\end{itemize}
+\, \newline
+\textcolor{orange}{Functions}\newline
+\begin{itemize}
+  \item \textcolor{teal}{preventDefault()} // prevents default actions like automatic form submit
+  \item \textcolor{teal}{stopPropagation()} // stops capturing and bubbling
+\end{itemize}
+\, \newline
+\textcolor{orange}{Specific Event types}\newline
+\begin{itemize}
+  \item \textcolor{teal}{MouseEvent}
+  \item \textcolor{teal}{WheelEvent}
+  \item \textcolor{teal}{InputEvent}
+  \item \textcolor{teal}{KeyboardEvent}
+  \vspace{-3mm}
+\end{itemize}\\
+\hline
+Keyboard Event & 
+\begin{lstlisting}
+<body>
+<input>
+<script>
+document.querySelector("input").addEventListener("keydown", (event) => {
+console.log(event.key);
+})
+</script>
+\end{lstlisting}
+\minipg{
+\begin{itemize}
+  \item change: what changed?
+  \item keydown: which key has been pressed?
+  \item ctrlKey: was the control pressed during keydown?
+  \vspace{-3mm}
+\end{itemize}
+}
+{\includegraphics[scale=0.5]{2022-10-18-12:33:39.png}}[0.35,0.4]\\
+\hline
+\end{tabular}
+\end{table}
+\end{document}
+

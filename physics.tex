@@ -1,0 +1,205 @@
+\documentclass[main.tex,fontsize=8pt,paper=a4,paper=portrait,DIV=calc,]{scrartcl}
+\input{../../../latex/ost-summary-template.tex}
+\begin{document}
+\section{Terms and Definitions}
+\begin{table}[h!]
+\begin{tabular}{|p{0.2\linewidth}|p{0.755\linewidth}|}
+\hline
+
+\hline
+\hline
+\hline
+\end{tabular}
+\end{table}
+\section{General Rules}
+All physical rules are universal, this means there is no space in the universe where these rules do not apply. \\ In other words, shit like equestria is sadly not possible according to physics, what a surprise!
+\section{Vectors}
+\textbf{Notation} \( \vec{A} = \begin{bmatrix}x_{1} \\ x_{2} \end{bmatrix} \) OR \(\vec{A} = (x1 | x2)\)
+\,   \,As you have learned in vocational school, use the first for vectors, the second for points.\\
+\pictext{2022-09-23-10:41:26.png}
+{A vector is nothing but a projection in the X,Y,Z planes \\ 
+It has both a direction and a value\\
+This value is usually modified by a scalar aka a factor. Then the vector can be something more universal \\
+We call this universal vector a unit vector. A directional vector with the value 1.}[0.6,0.35,0.3]\\
+\pictext{2022-09-23-10:41:32.png}{}[0.6,0.35,0.3]\\
+\pictext{2022-09-23-10:41:37.png}{If the direction and the value is the same, then there is nothing that differentiates this vector from another.}[0.6,0.35,0.3]\\
+\pictext{2022-09-23-10:41:44.png}{A vector is identical if both the value and the direction is the same.}[0.6,0.35,0.3]\\
+\pictext{2022-09-23-10:41:48.png}{Similar, if the value is identical but the direction is negated, then you have the inverse vector.}[0.6,0.35,0.3]\\
+\pictext{2022-09-23-10:41:53.png}{simple vector math}[0.6,0.35,0.3]\\
+\subsection{Dotproduct}
+\Large{\textbf{\textcolor{red}{\( \vec{a} * \vec{b} = |\vec{a}| * |\vec{b}| * sin(\alpha) * n \)}}}\newline
+\normalsize This returns a scalar, aka a number that you can use.\newline
+This will return 0 when used in a right angle as \(cos(90)\) is 0!\\
+\subsection{Crossproduct}
+\Large{\textbf{\textcolor{red}{\( \vec{a} \text{ x } \vec{b} = |\vec{a}| * |\vec{b}| * cos(\alpha) \)}}}\newline
+\normalsize This is usually used to get the unit vector of the resulting vector.\newline
+\(\alpha\) is the angle between the vector \(\vec{a}\) and \(\vec{b}\)\newline
+\emph{\textcolor{teal}{For more information and proof, check the dedicated vector Document from vocational school.}}\\
+\begin{table}[h!]
+\begin{tabular}{|m{0,2\linewidth}|m{0.755\linewidth}|}
+\hline
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}
+\section{friction}
+\begin{tabular}{|m{0,2\linewidth}|m{0.755\linewidth}|}
+\hline
+\textbf{regular friction} & \minipg{
+regular friction has 2 formulas. \newline
+standing friction = standing coefficient * force of mass \newline
+\large \textcolor{red}{\(F_{s} = \gamma_s * F_G\)}\newline 
+\normalsize friction = moving coefficient * force of mass \newline 
+\large\textcolor{red}{\(F_{m} = \gamma_m * F_G\)} \normalsize
+}{\pic{2022-09-30-11:13:56.png}}[0.4,0.5]\\
+\hline
+\textbf{viscose friction} &
+Viscose friction happens when you do not have a rigid/dry body.\newline
+A good example for this are tires. They act as a "lubricant" in proper conditions -> see F1.\newline
+In this case the more contact you have to the floor, the less friction you will have.\newline
+Interestingly this also means that it is very unlikely that you get stuck in mud/snow with small tires,\newline
+but very much likely that you do get stuck with big slick tires -> also see f1 kekw\\
+\hline 
+\end{tabular}
+\section{Actio \& Reactio}
+\begin{tabular}{|m{0.977\linewidth}|}
+\hline
+\minipg{
+A force being inflicted upon a body will be met with the same force by said body.\newline
+The only difference here is that the body with more mass has more "lag". \newline
+In other words, more force is needed to accelerate that body.\newline
+This means that the only reason why the earth doesn't follow you when you jump,\newline
+is that the earth is by magnitudes heavier than you!
+}{\pic{2022-09-30-11:28:18.png}}[0.6,0.3]\\
+\hline
+\end{tabular}
+\section{torque}
+\begin{tabular}{|m{0,2\linewidth}|m{0.755\linewidth}|}
+\hline
+\textbf{line of effect} & \minipg{
+A vector of a force can be used anywhere on that vector.\newline
+This means that the point of effect can be moved infinitely in the vector line.\newline
+}{\pic{2022-09-30-11:37:46.png}}[0.4,0.55]\\
+\hline
+\textbf{lever} & \minipg{
+}{\pic{2022-09-30-11:44:32.png}}[0.3,0.4]\\
+\hline
+  \textbf{Force and Acceleration} & 
+\textcolor{teal}{A force will always result in an acceleration, this can either be positive or negative(braking).\newline
+However remember that an acceleration of 0 does not mean braking, it means constant speed!}\\
+\hline
+  \textbf{torque} & 
+ \Large \( |\vec{M}| = a * |\vec{F}| \)\newline
+ \, \newline
+ \textcolor{teal}{ \normalsize \textbf{The value of Torque is always the length * force.}\newline
+   And it does not matter what constellation of force and length you use\newline
+It will always be the same result as when the force increases with a new constellation the length decreases!}\newline
+\, \newline
+\textbf{Torque in vector format}\newline
+It is simply the cross product of 2 vectors!\newline
+\pic{2022-10-07-10:47:00.png}\newline
+\minipg{
+\Large \textcolor{teal}{These 2 can be combined!}\newline
+\normalsize \textcolor{teal}{Notice the length and the force F, they have a 90 degree angle as is needed.\newline
+\textbf{However the same calculation can be achieved by using the value of the cross product between r and F.\newline
+This can be done as long as we have a reference point, here R!.}}\newline
+\, \newline
+\Large \( \text{if reference point available: } |\vec{M}| = | \vec{r} \text{x} \vec{F} | = a * | \vec{F} | \ \)}
+{\pic{2022-10-07-10:50:19.png}}[0.5,0.4]\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak 
+\begin{table}[ht!]
+\section{Mass and Equilibrium}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline 
+\textbf{Center of Mass} & \minipg{
+  \textbf{\textcolor{teal}{ The sum of a mass * length -> level over the sum of all masses will result in either the center of mass,\newline
+  or an axis of it -> x, y, z.}}
+}
+{
+\, \newline
+\Huge \( x_s = \dfrac{\sum_i x_i * m_i }{\sum_i m_i} \)\newline
+\, \newline
+\Huge \( y_s = \dfrac{\sum_i y_i * m_i }{\sum_i m_i} \)\newline
+\, \newline
+\Huge \( z_s = \dfrac{\sum_i z_i * m_i }{\sum_i m_i} \)\newline}[0.4,0.4]\\
+\hline
+\textbf{Equilibrium} &
+If you want an equilibrium, then all forces need to combine into 0!\newline
+\, \newline
+\Large \textcolor{teal}{\( \displaystyle\sum_{n}^{i=1}\vec{F_i} = \vec{0} \) AND \( \displaystyle\sum_{m}^{i=1} \vec{M_i} = \vec{0} \)}\newline
+\normalsize \\
+\hline
+\textbf{stable equilibrium} &
+pushing an item in this state will cause the item to return to the original form.
+\\
+\textbf{unstable equilibrium} & 
+Pushing an item in this state will destroy the equilibrium.
+\\
+\textbf{indifferent equilibrium} &
+Pushing an item in this state will create a new equilibrium.
+\\
+\hline
+\end{tabular}
+\section{Pressure and Stretching}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+\textbf{Pullpressure} & 
+\textcolor{teal}{The pullpressure is the vertical pressure per area.}\newline
+\, \newline
+\large \( \sigma = \dfrac{F}{A} \)\newline
+\normalsize \\
+\hline
+\textbf{Pushpressure} & 
+\textcolor{teal}{the pushpressure is the parallel pressure per area.}\newline
+\, \newline
+\large \( \tau = \dfrac{F}{A} \)\newline
+\normalsize \\
+\hline
+\textbf{Stretching} & 
+\, \newline
+The stretching is \textbf{similar} to the pullpressure.\newline
+This can be visualized via this formula:\newline
+\, \newline
+\large \( \epsilon = \dfrac{\Delta l}{l} \approx \dfrac{F}{A} = \sigma \)\newline
+\, \newline
+\large \( \epsilon = \dfrac{1}{E} * \sigma \)
+\, \newline
+\normalsize \\
+\hline
+\textbf{crosscontraction} &
+\, \newline
+\large \( \epsilon_q = \dfrac{\Delta d}{d} \)
+\, \newline
+\normalsize \\
+\hline
+\textbf{crosscontraction as Poisson-Number} &
+\, \newline
+\large \( \epsilon_q = -\gamma \epsilon \)
+\, \newline
+\normalsize \\
+\hline
+\textbf{\textcolor{orange}{Compressability}} &
+\, \newline
+\large \( \dfrac{\Delta V}{V} = - \kappa * \Delta p  \)
+\, \newline
+\, \newline
+\large \( \kappa = 0 \text{ or } \infty \text{ -> } \gamma = 0.5  \)
+\, \newline
+\normalsize \\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\section{}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+
+\hline
+\end{tabular}
+\end{table}
+\end{document}

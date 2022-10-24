@@ -1,0 +1,164 @@
+\documentclass[main.tex,fontsize=8pt,paper=a4,paper=portrait,DIV=calc,]{scrartcl}
+\input{../../../latex/ost-summary-template.tex}
+\begin{document}
+\begin{table}[h!]
+\section{Terms and Definitions}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+AGI Articifial General Intelligence & This is the hypothetical goal of achieving an AI that can perform general task as good or even better than a human. Aka, the goal is to essentially mimic a human in their general life. \\
+\hline
+Turing test & This is an idea that if a machine can do X task just like a human, aka indistinguishable from the human, then the machine has passed the Turing test. The problem with this however, is that a machine needs to learn to lie, since a human can do this as well -> see the pinoccio problem. The second problem is that certain tasks are too complex for humans but might not be for a machine, in this case the Turing test simply makes no sense. \\
+\hline
+Machine Learning & Machine Learning is comprised of 3 different techniques. Supervised learning, unsupervised learning and reinforcement learning. Supervised and unsupervised are not that different other tan the presence of the human. Reinforcement learning however is different as the AI is rewarded for "good" behavior/results and "punished" for bad behavior/results. \\
+\hline
+NLP Natural Language Processing & The research field of trying to achieve both understanding and creation of natural human language by AI. While development has been in the works for quite a while, because AI can't understand context, it is still very much "in beta". \\
+\hline
+\emph{The 4 Ingredients of Machine-Learning} & 
+\vspace{2mm}
+\begin{enumerate}
+\item Data \newline
+In order for a machine to learn anything you need to provide it with data to work with.
+\item Cost-Function(Loss) \newline
+You need a way to tell your machine what is considered to be good or bad. \newline
+Without it the machine can't learn from it's previous endeavors.\newline
+\item Model \newline
+This can be something simple as 2 parameters like \(y_i = ax_i + b\) or something complicated like a neural network.\newline
+We usually use something like \emph{tensorflow} or \emph{pytorch} to define the model
+\item Optimization
+An algorithm that minimizes the amount of parameters needed for the cost function. \newline
+Usually something like Stochastic Gradient Descent(SGD), ADAM, RMSProp 
+\end{enumerate}
+\vspace{2mm}
+There are many more, but these 4 are the most important. You might also care about performance optimization\newline
+visualization and validation though.\\
+\hline
+\end{tabular}
+\subsection{Representation of words}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+\textbf{\emph{One-hot vector}} & \minipg{ 
+This is a vector with 1 value set to 1, this represents the word.\newline
+If you now iterate over a sentence, you will end up with a matrix.\newline}
+{\pic{2022-09-29:08:51:08.png}}[0.3,0.7]\newline
+Problems with this approach\newline
+\begin{itemize}
+\item high dimensionality\newline
+for 100,000 words you would need 100,000 dimensions to the vector.\newline
+\item sparse information\newline
+The vast majority of the vector aka all but one, is just 0's, this is not data!.\newline
+\item no generalization \newline
+There is no context for words, no groups, no terms.\newline
+For example a car is associated with tires but not with mangos.\newline
+This method can't associate anything with anything.\newline
+\end{itemize}
+\\
+\hline
+\textbf{\emph{Indexing}} & 
+Indexing simply assigns a number to a word. \newline
+This approach solves the problem of having a vector with mostly 0's,\newline
+but it does not solve the problem of not having context, a mango still has no boundary.\\
+\hline
+\textbf{\emph{Distributed Representation (dense vectors)}} & \minipg{
+This finally solves the issue of context to a certain extend.\newline
+We represent a context with a color, if 2 words have the same color in their graph, then there is overlap with these words.\newline
+In the following figure the context male is represented in the words man and king, while the context female is represented in the words queen and woman.}
+{\pic{2022-09-29:09:14:13.png}}[0.4,0.4]\newline
+\minipg{
+The way this is done is with a vector that is dense,\newline
+this means that this vector has data in multiple dimensions to show context.
+}{\pic{2022-09-29:09:19:18.png}}[0.28,0.4]\newline
+Important other things to remember:\newline
+\begin{itemize}
+\item The dot product of 2 vectors becomes 1 if the vectors are parallel.
+\item The dot product of 2 vectors becomes 0 if the vectors are orthogonal -> 90 degree angle.
+\item The dot product of 2 vectors becomes -1 if the vectors are in the opposite direction.
+\end{itemize}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[h!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+\textbf{\emph{Distance between word vectors}} &
+\minipg{
+Just like with a regular vector you can calculate the distance between a vector.\newline
+Similarly you can also calculate the angle between 2 vectors instead.\newline
+}{\pic{2022-09-29:09:34:08.png}}[0.28,0.6]\\
+\hline
+\textbf{\emph{Finding vector representations}} & 
+The obvious question is how do we get the representation of vectors?\newline
+\begin{itemize}
+\item The first way is to simply use pretrained models that already have the vectors.\newline
+\item The other way is to use an embedding layer, this can be done with tools like \textbf{\emph{word2vec}}.\newline
+With word2vec you can also use predefined embeddings in order to save you some work.\newline
+Another one of these embeddings is \textbf{\emph{GloVe}}.
+\end{itemize}
+Important tool for creating classes for embedding layers: \textcolor{red}{\textbf{\emph{Keras}}}\\
+\hline
+\end{tabular}
+\subsection{Random Variables}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+\textbf{Discrete and continuous} & \minipg{
+Discrete variables are a set of finite numbers.\newline
+\large \( X = { 1.5 , 2.678 , 5 , 6.3 , 10 } \)\newline}
+{\pic{2022-10-06:08:25:05.png}}[0.3,0.4]\newline
+\minipg{
+\normalsize Continuous variables are a range of numbers.\newline
+\large \( X = (2, 7 ) \) 2 to 7\newline\normalsize}
+{\pic{2022-10-06:08:25:08.png}}[0.3,0.4]\\
+\hline
+Likelyhood and Base information &
+The maximum amount of information we can have about a random variable is \textbf{the possible value it can have}, see the set above.\newline
+And \textbf{the likelyhood of a specific value appearing}.\\
+\hline
+\textbf{Notations} & \minipg{
+  \emph{\textcolor{teal}{Pr(X=x) is often written in the more compact form P(x) or p(x), or sometimes as PX(x) (there's no formal rule)}}}
+{\pic{2022-10-06:08:38:46.png}}[0.3,0.5]\\
+\hline
+Dice example &
+\pic{2022-10-06:08:49:14.png} \pic{2022-10-06:08:49:26.png}\\
+\hline
+\textbf{Probability Mass Function (PMF)} &
+\pic{2022-10-06:08:51:23.png} \pic{2022-10-06:08:52:19.png}\\
+\hline
+\textbf{Joint Probability} & 
+Joint probability is simply the probability of more than 1 thing, in this case 2.\newline
+\textcolor{red}{\textbf{If the variables are dependent on each other:}}\newline
+\huge \( Pr(A,B) = Pr( A \text{ given } B) * Pr(B) \)\newline
+\normalsize \textcolor{teal}{We multiply the chance of A \textbf{(considering A and B can be true at the same time)} with the chance of B.}\newline
+For example \(Pr(A \text{ given }B) = 0 \), this means A can't happen when B happens.\newline
+\textcolor{red}{\textbf{If the variables are \emph{NOT} dependent on each other:}}\newline
+\huge \( Pr(A,B) = Pr(A) * Pr(B) \)\newline
+\normalsize \textcolor{teal}{We multiply the chance of A with the chance of B. (independent of each other)}\\
+\hline
+\textbf{Conditional Probability} & 
+This is the \textbf{opposite of Joint Probability with dependence}.\newline
+\huge \( P(X,Y) = P(X | Y) P(Y) \)\newline
+\normalsize\textcolor{teal}{This is the probability of x and y if y is true. aka probability of x if y is true * probability of y}\\
+\hline
+\textbf{Bayes Rule} & \minipg{
+  Bayes rule uses the fact that we can substitute variables,\newline 
+  here we substitute the conditional probability of 2 variables.\newline
+  \pic{2022-10-06:09:44:53.png}
+}
+{\pic{2022-10-06:09:18:12.png}}[0.4,0.4]
+\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Confusion Matrix & 
+This is simply a matrix that shows correlation of 2 things in a row.\newline
+Theoretically, since they are dependent, they should only provide either both true or both false.\newline
+However, this is not always the case.\newline
+\textcolor{orange}{The general rule: True Positives and True Negatives should always be higher than the other 2!}\newline
+\pic{2022-10-20:08:33:25.png}\\
+\hline
+\end{tabular}
+\end{table}
+\end{document}
