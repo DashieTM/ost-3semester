@@ -1,5 +1,5 @@
 \documentclass[main.tex,fontsize=8pt,paper=a4,paper=portrait,DIV=calc,]{scrartcl}
-\input{../../../latex/ost-summary-template.tex}
+\input{ost-summary-template.tex}
 
 \lstset{
     language={[x86masm]Assembler},
@@ -139,14 +139,14 @@ assembly & This is the "compiler" of assembly. Be aware this is \textbf{platform
 \hline
 Assembler converts instructions\newline directly into binary. & db 48 | Byte 48d \newline
 db 0x35, 0h21, 049h | Bytes 35h , 21h , 49h \newline
-db ’a’ | with ASCII-Code of a = 61h ≡ db 0x61 \newline
-db ’Hello’ | ASCII-Codes of H, e, l, l and o ≡ db 0x48, 0x61, 0x6c, 0x6c, 0x6f\newline
-Word       | dw 0x2135 | ≡ db 0x35, 0x21\newline
-Doubleword | dd 0x2135 | ≡ db 0x35, 0x21, 0x00, 0x00, \newline 
-Quadword   | dq 0x2135 | ≡ db 0x35, 0x21, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 \\  
+db ’a’ | with ASCII-Code of a = 61h \(\equiv\) db 0x61 \newline
+db ’Hello’ | ASCII-Codes of H, e, l, l and o \(\equiv\) db 0x48, 0x61, 0x6c, 0x6c, 0x6f\newline
+Word       | dw 0x2135 | \(\equiv\) db 0x35, 0x21\newline
+Doubleword | dd 0x2135 | \(\equiv\) db 0x35, 0x21, 0x00, 0x00, \newline 
+Quadword   | dq 0x2135 | \(\equiv\) db 0x35, 0x21, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 \\
 \hline
 Numbers in assembly & 200 | 0200d | 0d200 | 0c8h | \$0c8h | 0xc8 | 0hc8 \newline
-11001000b | 1100_1000b | 1100_1000y | 0b1100_1000 | 0y1100_1000
+11001000b | 1100\_1000b | 1100\_1000y | 0b1100\_1000 | 0y1100\_1000
 \\
 \hline
 Pointers in Assembly & \vspace{2mm}\includegraphics[scale=0.2]{2022-09-27-04:12:53.png} \newline
@@ -279,12 +279,17 @@ div rbx  \newline
 d = RDX:RAX\newline
 RAX <-- RDX:RAX / RBX\newline
 RDX <-- RDX:RAX mod RBX
-\item shl z,   i  \textcolor{teal}{// z * \(2^i\) }
-\item shr z,   i  \textcolor{teal}{// z * \(2^{-i}\) z signed}
-\item sar z,   i  \textcolor{teal}{// z * \(2^{-i}\) z unsigned }
+\item shl z,   i  \textcolor{teal}{// z * \(2^i\)               --> shift}
+\item shr z,   i  \textcolor{teal}{// z * \(2^{-i}\) z signed   --> shift}
+\item sar z,   i  \textcolor{teal}{// z * \(2^{-i}\) z unsigned --> shift}
 \item rol z,   i  \textcolor{teal}{// Left-Rotate i Bits }
 \item ror z,   i  \textcolor{teal}{// Right-Rotate i Bits }
-\end{itemize}\\
+\end{itemize}
+\, \newline
+\textcolor{teal}{cmp: This instruction essentially does the same as sub rax, rbs, however,\newline
+the difference is that sub will overwrite the rax value, cmp will not!\newline
+\textbf{cmp will only set the flags!}}\newline
+\\
 \hline
 NAND in Assembly & 
 \begin{lstlisting}
@@ -368,7 +373,7 @@ Partial Linking &
     \item \textcolor{teal}{Preprocessor} -> parts like \#include
     \item \textcolor{teal}{Base contructs} -> variables function etc inside one file and in the base language
     \item \textcolor{teal}{Standard libraries} -> additional function and types 
-    \vpace{-3mm}
+    \vspace{-3mm}
   \end{itemize}
 }\\
 \hline
@@ -613,10 +618,10 @@ int pang = (int)ping;
 Bitwise Operators & 
 \vspace{2mm}
 \begin{itemize}
-  \item \textcolor{teal}{not: \ascitilde q}
+  \item \textcolor{teal}{not: \(\tilde{} \) q}
   \item \textcolor{teal}{and: q \& p }
   \item \textcolor{teal}{or: q | p}
-  \item \textcolor{teal}{or: q ^ p}
+  \item \textcolor{teal}{or: q \^ p}
   \item \textcolor{teal}{or: q << p} left shift
   \item \textcolor{teal}{or: q >> p} right shift
 \end{itemize}
@@ -638,6 +643,246 @@ Arithmic Operators&
 \, \newline
 \textcolor{red}{\textbf{The return type of these is int NOT bool!}}\newline
 The reason for this is that C is a very old language and bool didn't exist when it was created.\\
+\hline
+\textbf{Imul vs Mul} & 
+\textcolor{orange}{(C) In case of 2 unsigned integers, we should technically use the mul instruction,\newline
+however, the compiler will often use the imul instruction instead as it is better for optimization!\newline
+The reason for the imul usage, is that 2 negative numbers would result in the same operation as 2 regular numbers\newline 
+therefore 2 normal numbers will result in the same operation!}\newline
+\textcolor{red}{Important with imul the signed integers will be treated as negative! But AGAIN this does \textbf{NOT} matter!!!}\\
+\hline
+\textbf{Carry Flag} & 
+\textcolor{orange}{The carry flag signifies the \textbf{overflow with unsigned integers!}}\newline
+\textcolor{teal}{0001 + 1111 = 0000 AND CF = 1 -> 1 + 15 = 0 -> CF = 1}\\ 
+\hline
+\textbf{Overflow Flag} & 
+\textcolor{orange}{The  overflow flag signifies the \textbf{overflow with signed integers!}}\newline
+\textcolor{teal}{0111 + 0001 = 1000 -> 7 + 1 = -8 (only 3 bits are for data!! first bit is the signature!!)}\\
+\hline
+CF vs OF &
+\textcolor{red}{The compiler can't distinguish between unsigned or signed for a number, this is why it always sets both flags, later on the compiler needs to use the right one.\newline
+This means on overflow, both values are set and then later on the right flag will be used based on the variable!}\\
+\hline
+\textbf{FlagList} & 
+\vspace{2mm}
+\begin{itemize}
+\item \textcolor{teal}{CF:} Carry Flag, overflow for unsigned integers 
+\item \textcolor{teal}{OF:} Overflow Flag, overflow for signed integers
+\item \textcolor{teal}{ZF:} Zero Flag, will be set when the result is 0
+\item \textcolor{teal}{SF:} Sign Flag, is the highest bit of the result -> leftmost byte (little endian)
+\item \textcolor{teal}{PF:} Parity Flag, set if the lowest byte has an even number of bits
+\vspace{-3mm}
+\end{itemize}\\
+\hline
+\textbf{Condition Codes (CC)} & 
+\textcolor{orange}{Certain instructions will only be used when a combination of flags is given -> Condition Code}\newline
+\textcolor{teal}{Example: condition "Above" -> CF = 0 AND ZF = 0}\newline
+\textcolor{green}{List of CC:}\newline
+\begin{tabular}{|ll|ll|}
+\hline
+\textcolor{teal}{A : Above }& \textcolor{teal}{ -> CF = 0 AND ZF = 0}&
+\textcolor{teal}{AE: Above or Equal } & \textcolor{teal}{ -> CF = 0}\\
+\textcolor{teal}{B : Below } & \textcolor{teal}{ -> CF = 1}&
+\textcolor{teal}{BE: Below or Equal } & \textcolor{teal}{ -> CF = 1 AND ZF = 1}\\
+\textcolor{teal}{E : Equal }& \textcolor{teal}{ -> ZF = 1}&
+\textcolor{teal}{G : Greater }& \textcolor{teal}{ -> SF = OF = 0 AND ZF = 0}\\
+\textcolor{teal}{GE: Greater or Equal }& \textcolor{teal}{ -> SF = OF}&
+\textcolor{teal}{L : Less }& \textcolor{teal}{ -> SF != OF}\\
+\textcolor{teal}{LE: Less or Equal }& \textcolor{teal}{ -> SF != OF AND ZF = 1}&
+\textcolor{teal}{PE: Parity Even} & \textcolor{teal}{ -> PF =1}\\
+\textcolor{teal}{PO: Parity Old } & \textcolor{teal}{ -> PF = 0}&
+\textcolor{teal}{Z:  Zero}&\textcolor{teal}{ -> ZF = 1} \\
+\end{tabular}
+\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Jumps & 
+\textcolor{orange}{This is essentially goto!}\newline
+\begin{lstlisting}
+jmp 230 ; moves 230 down 
+jmp -230 ; moves 230 up
+; We can also jump to labels!!!!
+  mov eax, [x]
+  cmp eax, 3
+  jne label1 ; jump to label1 if eax not equal to 3
+  mov eax, [y]
+  
+label1: 
+  inc eax
+\end{lstlisting}\\
+\hline
+Conditional Mov & 
+\textcolor{orange}{cmovCC: mov if condition is met! \textbf{the cc stands for the code!}}\newline
+\begin{lstlisting}
+mov rax, [ux]
+mov rbx, [uy]
+cmp rax, rbx
+cmove rcx, 5 ; move 5 into rcx if rax and rbx are equal!
+\end{lstlisting}\\
+\hline
+Conditional JMP & 
+\textcolor{orange}{jCC: jmp if condition is met! \textbf{the cc stands for the code!}}\newline
+\begin{lstlisting}
+cmp rax, rbx
+je 230 ; move 230 down if rax and rbx are equal
+\end{lstlisting}\\
+\hline
+Conditional SET &
+\textcolor{orange}{setCC: set if condition is met! \textbf{the cc stands for the code!}}\newline
+\begin{lstlisting}
+
+\end{lstlisting}\\
+\hline
+If Else & 
+\begin{lstlisting}
+mov eax, [ux]
+cmp eax, 2 
+ja else_body ; jump to else statements if condition is met
+
+jmp after_if ; will only be hit when condition at "ja" was false
+
+else_body: 
+; will only be hit if condition at "ja" was true
+after_if:
+; will be hit by everything
+\end{lstlisting}\\
+\hline
+do while in assembly & 
+\textcolor{red}{The do while loop is the worst loop possible according to the professor. lol}\newline
+\begin{lstlisting}
+loop: 
+  dec rcx
+  jnz loop ; if rcx not z, go to loop
+\end{lstlisting}\\
+\hline
+While in assembly & 
+\begin{lstlisting}
+mov rcx, 23 
+jmp condition 
+
+loop: 
+  ; body -> do something 
+condition: 
+  dec rcx 
+  jnz loop ; move to loop if rcx not 0
+\end{lstlisting}\\
+\hline
+For in assembly & 
+\begin{lstlisting}
+mov rcx, 0
+
+loop: 
+
+  inc rcx
+condition: 
+  cmp rcx 10
+  jle loop
+\end{lstlisting}\\
+\hline
+Pointer-Addition in assembly & 
+\pic{2022-10-25-04:40:00.png}\newline
+\textcolor{teal}{We can add additional bytes to a pointer. \newline
+in C: int *p = 0x20; -> p+1 == 0x24 -> p+2 == 0x28\newline
+or simply use the ++p for the same as p+1}
+\, \newline
+\begin{lstlisting}
+extern int *begin; // defined somewhere else 
+extern int *end;   // defined somewhere else 
+int sum = 0;
+for (int *p = begin; p != end; ++p) {
+sum += *p; // same as regular for loop just with pointer instead
+ ;// then dereference the pointer here to get the value 
+ ;// warning, if you go beyong what you should -> undefined behavior, likely segmentation fault!
+}
+\end{lstlisting}
+\\
+\hline
+
+\hline
+
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
 \hline
 \end{tabular}
 \end{table}

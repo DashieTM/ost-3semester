@@ -1,5 +1,5 @@
 \documentclass[main.tex,fontsize=8pt,paper=a4,paper=portrait,DIV=calc,]{scrartcl}
-\input{../../../latex/ost-summary-template.tex}
+\input{ost-summary-template.tex}
 
 \lstset{
     language=[Sharp]C,
@@ -444,15 +444,197 @@ NURBS &
 This is used in things like CAD programs, they are essentially the points to interpolate,\newline
 you use this to change the forms in these programs.\\
 \hline
-
+Lindenmayer & 
+\textcolor{teal}{Lindenmayer is a strange system to draw graphics by using forward movement:\newline
+for example f+f+f+ angle=90 means 3 times forward in positive and then doing a 90 degree turn.\newline
+This is essentially what people do in highschool, lmao}\newline
+\includegraphics[scale=0.4]{2022-10-26-02:14:35.png}\\
+\hline
+Koch Snowflake & 
+\textcolor{orange}{The idea here is that an infinite amount of added bends will create a finite area, but an infinite line.}\newline
+\includegraphics[scale=0.4]{2022-10-26-02:21:43.png}\newline
+\textcolor{teal}{The triangles are the bends, the area is the are between the full and dashed line.}\\
+\hline
+Hilbert Curve & 
+\textcolor{teal}{Essentially procedural filling of a figure:}\newline 
+\includegraphics[scale=0.4]{2022-10-26-02:22:50.png}\\
+\hline
+Fractals & 
+\textcolor{orange}{Fractals are the idea of recursively creating a 3D structure, usually a tree:}\newline
+\includegraphics[scale=0.35]{2022-10-26-02:26:27.png}\newline
+\textcolor{teal}{Usually these do not look as natural as this one, but this is of course the goal}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Recursive flattening & 
+\textcolor{orange}{This is nothing else other than the smoothing of a structure by recursively exchanging hard surfaces with smaller ones to make them look more smooth:}\newline
+\includegraphics[scale=0.4]{2022-10-26-02:32:46.png}\newline
+\textcolor{teal}{This is essentially similar to what you do with the sphere, where you can define how many vertices you want to build.}\newline
+\includegraphics[scale=0.4]{2022-10-26-02:37:46.png}\newline
+\textcolor{teal}{Here we split the splines in the middle of each line and create another point.}\\
+\hline
+\end{tabular}
+\subsection{Terms in Meshes}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Terms &
+\begin{itemize}
+\item \textcolor{orange}{Valence: Count of incoming and outgoing edges}
+\item \textcolor{orange}{Boundary: outer edges of polygon}
+\item \textcolor{orange}{Completely regular: all nodes are regular}
+\item \textcolor{orange}{Mostly regular: most nodes are regular}
+\item \textcolor{orange}{irregular: rest}
+\vspace{-3mm}
+\end{itemize}\\
+\hline 
+Irregular and Regular Nodes & 
+\textcolor{orange}{A node is regular if it has exactly 6 incoming/outgoing edges if the node is inside the polygon and exactly 4 incoming/outgoing edges if it is an edge node.}\newline
+\textcolor{orange}{A node is irregular if it has 4 edges if inside and 3 if edgenode}\\
+\hline
+Model Repair & 
+\textcolor{orange}{There are 2 main ways to repair a model: Area based algorithms and Volume based algorithms:}\newline
+\minipg{
+\textcolor{teal}{Area based:}\newline
+\begin{itemize}
+  \item \textcolor{green}{ Surface characteristics stay} 
+  \item \textcolor{red}{ inferior detection and solving of errors } 
+    \, \newline
+    \, \newline
+\end{itemize}
+}{
+\textcolor{teal}{Volume based:}\newline
+\begin{itemize}
+  \item \textcolor{green}{ Good detection and solving of errors} 
+  \item \textcolor{red}{ often too detailed, with subpar triangulation quality\newline
+    Therefore surface characteristics are lost} 
+\end{itemize}
+}[0.4,0.4]\\
+\hline
+Vertex Clustering & 
+\textcolor{orange}{This is the gradual reduction of trianges, while keeping the shape of the mesh.}\newline
+\includegraphics[scale=0.4]{2022-10-26-03:37:42.png}\newline
+\textcolor{teal}{Each triangle that has 2 nodes in one square gets eliminated, based on how big, or how small these squares are the clustering leads to a worse approximation of the structure!}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\section{Rasterization and Aliasing}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Rasterization & 
+\textcolor{orange}{This is the projection of pixels in a triangle.}\newline
+\textcolor{red}{\textbf{Here only the pixels are colorized -> shown, that have their center inside the triangle!}}\newline
+\includegraphics[scale=0.4]{2022-11-02-04:24:11.png}\\
+\hline
+Z-Buffer in Rasterization & 
+\textcolor{orange}{In order to specify which object is closer to the camera, we can use the z buffer with different color values to represent this axis.}\newline
+\, \newline
+\includegraphics[scale=0.45]{2022-11-02-04:24:20.png}
+\includegraphics[scale=0.45]{2022-11-02-04:24:29.png}
+\includegraphics[scale=0.45]{2022-11-02-04:24:35.png}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Z-Precision & 
+\textcolor{orange}{Due to the loss of floating point precision, if you have things that are too close together, you can have so called \textbf{Z-Fighting}, this happens when the value is nearly identical, and it therefore might choose parts of one and parts of the other.}\newline
+\textcolor{purple}{This essentially is flimering in games!}\\
+\hline
+Aliasing & 
+\textcolor{orange}{Due to the fact that we ignore all pixels that are not withing the triangle, we will lose precision, which will often represent itself as the staircase like aliasing. This means that the projection will have very sharp and unnatural edges.}\\
+\hline
+Anti-Aliasing & 
+\textcolor{orange}{This is the counter to the staircase problem that smoothes the edges.}\newline
+\textcolor{pruple}{It essentially uses the same trick as the Z-Buffer to generate values that then have colorization based on the value:}\newline
+\includegraphics[scale=0.45]{2022-11-02-04:45:00.png} \includegraphics[scale=0.45]{2022-11-02-04:45:06.png}\\
+\hline
+Super-Sampling & 
+\textcolor{purple}{This is essentially the little brother of anti aliasing, it calculates the same thing as the aliasing does with 4 points instead of one.\newline
+Then it will pick the color strength based on how many points are inside the triangle, if none are inside the triangle, then it will not be colorized}\newline
+\, \newline
+\includegraphics[scale=0.45]{2022-11-02-04:48:13.png}\\
+\hline
+Mipmaps & 
+\textcolor{orange}{The super sampling method doesn't work for textures as it is only done once per pixel.\newline
+Here we can solve this issue by creating multiple textures that will be applied when needed.\newline
+In other words, the system will take another texture as soon as you are either too close or too far away form the polygon.}\newline
+\, \newline
+\includegraphics[scale=0.45]{2022-11-02-05:05:00.png}\\
+\hline
+\end{tabular}
+\section{Reflections and Shadows}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline 
+Reflection on surfaces & 
+\textcolor{orange}{The idea is that you have a mirror and you want to show the reflection of that object in a mirror. Here you would create a virtual reflection camera that will project this object onto this surface.}\newline
+\includegraphics[scale=0.45]{2022-11-02-05:17:03.png}\\
+\hline
+Shadow Mapping & 
+\textcolor{orange}{The idea is very simple, use the original light source as vector source and then project the object that should throw a shadow to the surface in question. \newline
+Here instead of using the same colors, we only use the same depth, the color will be the shadow color!}\newline
+\includegraphics[scale=0.36]{2022-11-02-05:12:34.png}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline 
+Shadow Mapping example code &
+\vspace{2mm}
+\begin{lstlisting}
+var lookingVector = position - _light.Position;
+float sinFovy = height / lookingVector.Length;
+float fovy = MathF.Asin(sinFovy);
+var projection = Device.GetPerspectiveProjection(
+  fovy, width / height, 0.1f, 100.0f);
+var view = new CameraView(
+  _light.Position,
+  lookingVector.Normalized(),
+  Device.World.Unit3Y);
+  lightViewProjection = Device.GetViewMatrix(view) * projection;
+var shadow = Device.TakeDepthPicture(
+  Scene, size,
+  _light.Ambient.GetColor4(1),
+  _light.Position, view, projection);
+\end{lstlisting}\\
+\hline
+General Reflections & 
+\textcolor{orange}{General reflections are done by reflecting an object against a texture, this can of course als be an object:}\newline
+\includegraphics[scale=0.4]{2022-11-02-05:17:03.png}\\
+\hline
+Projection of different objects & 
+\textcolor{orange}{You can project a texture for a different type of object to another by essentially cutting it into pieces. For example you might take a texture for a sphere and use it on a cube:}\newline
+\includegraphics[scale=0.4]{2022-11-02-05:27:46.png}\\
+\hline
+Depth-Map&
+\textcolor{orange}{This is simply a visualization of the Z-Buffer:}\newline
+\textcolor{purple}{white = far away\newline
+balck = close}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\section{}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
 
 \hline
-
-\hline
-
-\hline
-
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\section{}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
 
 \hline

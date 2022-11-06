@@ -1,5 +1,5 @@
 \documentclass[main.tex,fontsize=8pt,paper=a4,paper=portrait,DIV=calc,]{scrartcl}
-\input{../../../latex/ost-summary-template.tex}
+\input{ost-summary-template.tex}
 
 \lstset{
     language=c++,
@@ -34,7 +34,8 @@ This defines a variable with a set value.\newline
 \begin{lstlisting}
 int i = 5;
 int a{5};
-\end{lstlisting}
+\end{lstlisting} 
+\, \newline
 \textcolor{red}{\textbf{PLEASE, note the \emph{extern} keyword}}\newline
 \textcolor{orange}{This means that only a tag is declared, there is no memory allocation yet.\newline
 Without extern the memory is allocated, this is as the extern expects the variable to be declared/defined somewhere else}\\
@@ -493,7 +494,8 @@ std::optional<std::string> inputName(std::istream & in) {
   return {};
 }
 \end{lstlisting}
-& \textcolor{teal}{This simply returns the type string if name was able to be parsed, or no type, aka void if it could not be parsed.}\\
+\, \newline
+\textcolor{teal}{This simply returns the type string if name was able to be parsed, or no type, aka void if it could not be parsed.}\\
 \hline
 Error Status Side Effect &
 
@@ -634,7 +636,7 @@ Something() : Something() {
 \textcolor{orange}{Unlike java, here we can just call constructors of multiple parent classes!}\\
 \hline
 const this & 
-\textcolor{ornage}{\textbf{The this keyword can be const, it may then not change the values of membervariables!}}\\
+\textcolor{orange}{\textbf{The this keyword can be const, it may then not change the values of membervariables!}}\\
 \hline 
 \textbf{static variables} &
 \begin{lstlisting}
@@ -754,5 +756,322 @@ A list of possibilities:\newline
 \hline
 \end{tabular}
 \end{table}
-\end{document}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Inline Operator &
+\textcolor{orange}{The best way to define an operator is with the inline version:}\newline
+\begin{lstlisting}
+class Date {
+    int year, month, day;
+  public:
+    auto print(std::ostream & os) const -> std::ostream& {
+    //print logic
+    }
+};
+Inline auto operator<<(std::ostream & os, Date const& date) -> std::ostream& {
+  return date.print(os);
+}
+\end{lstlisting}
+\, \newline
+\textcolor{teal}{This makes sure that the operator function that is outside of your class can have any order of variables -> inside the class it would always be the "this" keyword first.\newline
+However it also makes sure that the operator function respects the private variables -> no access since outside of class}\\
+\hline
++= and + &
+\textcolor{orange}{Since you can have 2 different implementation of + and +=, you have to make sure they actually have the same functionality!}\newline
+\begin{lstlisting}
+struct Ring5 : boost::addable<Ring5> {
+  auto operator*=(Ring5 const &r) -> Ring5 {
+  val = (val * r. val) % 5;
+  return *this;
+  }
+};
+inline auto operator*(Ring5 l, Ring5 const & r) -> Ring5 {
+  return l += r;
+}
+\end{lstlisting}\\
+\hline
+Automatic conversion & 
+\textcolor{orange}{You can also use the operators to convert to unsigned etc.\newline
+This is worse than a static cast, but it requires less code}\newline
+\begin{lstlisting}
+struct Ring5 {
+  Ring5(unsigned x) : val{x % 5} {}
+    operator unsigned() const { // convert to unsigned
+    return val;
+  }
+};
+\end{lstlisting}\\
+\hline
+\end{tabular}
+\section{Namespaces}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Global Namespace & 
+\textcolor{orange}{The global namespace -> "::" is usually omitted, as it is usually unique, keep it that way please!}\newline
+\begin{lstlisting}
+::std::string x = "ping"; // with global namespace
+std::string y = "pang"; // without global namespace
+\end{lstlisting}\\
+\hline
+Accessing Namespace & 
+\begin{lstlisting}
+std::string x = "ping";
+// the namespace is std, with the class to access being string.
+\end{lstlisting}\\
+\hline
+Creating Namespace & 
+\textcolor{teal}{Namespaces are made similarly to classes, but without the curly braces at the end!\newline
+We also do not have a "this" keyword here, obviously!}\newline
+\begin{lstlisting}
+namespace gurri {
+  void somefunc();
+  int someotherfunc();
+}
+\end{lstlisting}
+\, \newline
+\textcolor{orange}{Just like classes, namespaces are defined in the hpp, or h file for code style purposes!}\\
+\hline
+Using directive & 
+\textcolor{orange}{The using directive should only ever be explicitly used.\newline
+This means don't use the entire namespace, only use specific functions that you know will not be overwritten again!}\newline
+\begin{lstlisting}
+using std::string; // ok if no other package is used for string
+string x = "ping"; // ok
 
+using namespace std; // NO FUCK OFF!
+\end{lstlisting}\\
+\hline
+Anonymous Namespaces & 
+\textcolor{orange}{These namespaces are used to hide implementation details from other files.\newline
+The reason is essentially that no-one can access this namespace as it has no name.}\newline
+\begin{lstlisting}
+namespace{
+  void print() {
+    std::cout << "pingpang\n";
+  }
+  print(); // ok
+}
+print(); // ERROR, no access to print!
+\end{lstlisting}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Argument Dependent Lookup & 
+\textcolor{orange}{Just like you don't need to specify the this keyword inside of functions of classes,\newline
+you also don't need to use the "::" operator to access anything inside a namespace, if you are already inside a namespace function!}\newline
+\begin{lstlisting}
+namespace calendar { // inside hpp
+class Date {
+  void print();
+  bool isValid();
+};
+}
+void calendar::Date::print() { // sinside cpp
+  if (isValid()) { // works as we are inside the function that is in the namespace and class!
+    std:cout << this;
+  }
+}
+\end{lstlisting}
+\, \newline
+\textcolor{red}{IMPORTANT: this also works with parameters!}\newline
+\includegraphics[scale=0.4]{2022-10-25-08:44:51.png}\newline
+\textcolor{teal}{At the end, please do not rely too much on this, as it is not always clear what is being used}\\
+\hline
+Overwriting the std Namespace & 
+\textcolor{orange}{Overwriting the standard namespace is not allowed!\newline
+If you want to overwrite something in the std namespace use this workaround:}\newline
+\begin{lstlisting}
+using std::ostream;
+using std::vector;
+using out = std::ostream_iterator<int>;
+
+namespace X { // create a namespace to use instead of the std vector
+  struct vec : vector<int> { // vec is a new type
+  using vector<int>::vector; // inherit ctors
+};
+// this is now allowed!!:
+auto operator<<(ostream& os, vec const& v) -> ostream& { 
+  copy(begin(v), end(v), out{os, ","});
+  return os;
+}
+}
+auto print(ostream& os) -> void {
+  // copy all vector members to ostream and print them!
+  using outv = std::ostream_iterator<X::vec>;
+  vector<X::vec> vv{{1, 2, 3}, {4, 5, 6}};
+  copy(begin(vv), end(vv), outv{os, "\n"});
+}
+\end{lstlisting}\\
+\hline
+\end{tabular}
+\section{Enums}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Scopend and Unscoped Enums &
+\textcolor{orange}{The difference is only the use of scope and the cast.}\newline
+\begin{lstlisting}
+// unscoped:
+enum Day { 
+  Mon, Tue, Wed, Thu, Fri, Sat, Sun
+}; // 0, 1, 2, 3, 4, 5, 6
+// conversion to int:
+int day = Sun; // ok
+
+// scoped:
+enum class Day { 
+  Mon, Tue, Wed, Thu, Fri, Sat, Sun
+}; // 0, 1, 2, 3, 4, 5, 6
+// conversion to int:
+int day = Sun; // ERROR!
+int day = static_cast<int>(Day::Sun); // ok
+
+// Note, the scoped enum always requires the scope operator
+auto test(Day day) {
+  if (day == Day::Sun) { // scope used here, no scope for the regular enum!
+    return true;
+  }
+  return false;
+}
+\end{lstlisting}\\
+\hline
+Int to Enum & 
+\textcolor{orange}{Converting from int to enum always needs a cast:}\newline
+\begin{lstlisting}
+DayOfWeek tuesday = static_cast<DayOfWeek>(1);
+\end{lstlisting}\\
+\hline
+Values for Enums &
+\textcolor{teal}{You can specify the number for each part of an enum}\newline
+\begin{lstlisting}
+enum FilePermissions {
+  readable = 1,  //001
+  writeable = 2, //010
+  executable = 4 //100
+};
+\end{lstlisting}\\
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Specifying Types & 
+\textcolor{orange}{You can specify a type for an enum to use:}\newline
+\begin{lstlisting}
+enum LaunchPolicy : unsigned char {
+sync = 1,
+async = 2,
+gpu = 4
+}
+\end{lstlisting} 
+\, \newline
+\textcolor{teal}{\textbf{Keep in mind that it will still have to be an integral type!!}}\\
+\hline
+Enum Operator Overloading & 
+\begin{lstlisting}
+enum DayOfWeek {
+  Mon, Tue, Wed, Thu, Fri, Sat, Sun
+};
+auto operator++(DayOfWeek& aday) -> DayOfWeek {
+  int day = (aday + 1) % (Sun + 1);
+  aday = static_cast<DayOfWeek>(day);
+  return aday;
+}
+\end{lstlisting}\\
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+\end{tabular}
+\end{table}
+\end{document}

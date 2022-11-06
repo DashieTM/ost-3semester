@@ -1,5 +1,5 @@
 \documentclass[main.tex,fontsize=8pt,paper=a4,paper=portrait,DIV=calc,]{scrartcl}
-\input{../../../latex/ost-summary-template.tex}
+\input{ost-summary-template.tex}
 
 \lstdefinelanguage{JavaScript}{
   keywords={break, case, catch, continue, debugger, default, delete, do, else, false, finally, for, function, if, in, instanceof, new, null, return, switch, this, throw, true, try, typeof, var, void, while, with},
@@ -334,15 +334,6 @@ return jQuery.makeArray( selector, this );
 \end{table}
 \pagebreak
 \begin{table}[ht!]
-\section{}
-\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
-\hline
-
-\hline
-\end{tabular}
-\end{table}
-\pagebreak
-\begin{table}[ht!]
 \section{DOM Document Object Model}
 \begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
@@ -358,7 +349,8 @@ Selection &
   \item \textcolor{teal}{document.getElementById('list-container')} // select by id
   \item \textcolor{teal}{document.getElementByTagName('li')} // select by Tag name
   \item \textcolor{teal}{document.getElementsByClassName('nav-item')} // select by class name
-\end{itemize}\newline
+\end{itemize}
+\, \newline
 \textcolor{orange}{Just use the querySelector -> it allows more ways to select it! \newline
 However theoretically the html selectors are faster!}\\
 \hline
@@ -478,8 +470,8 @@ Event Listener vs inline &
 document.querySelector("#1").addEventListener("click", () => alert('1'));
 // multiple listeners possible!
 
-<HTMLElement>.on… = eventHandler
-document.querySelector("#2").onclick = () => alert('2’);
+<HTMLElement>.on... = eventHandler
+document.querySelector("#2").onclick = () => alert('2');
 // only 1 listener possible
 // will overwrite previous onclick assignments
 
@@ -559,7 +551,8 @@ Properties:\newline
   \item \textcolor{teal}{children}
   \item \textcolor{teal}{firstElementChild}
   \item \textcolor{teal}{lastElementChild}
-\end{itemize}\newline
+\end{itemize}
+\, \newline
 Functions:\newline
 \begin{itemize}
   \item \textcolor{teal}{append()} 
@@ -635,5 +628,426 @@ console.log(event.key);
 \hline
 \end{tabular}
 \end{table}
-\end{document}
+\pagebreak
+\begin{table}[ht!]
+\section{Scopes}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Var vs let & 
+\textcolor{orange}{Usually we declare variables using the let keyword, however, the old var keyword still has one technicality that the let keyword doesn't have. Namely the var keyword will always be available for the parent scope:}\newline
+\begin{lstlisting}
+{ // empty explicit scope to show difference
+  function some_func() {
+    let num1 = 5;
+    var num2 = 6;
+    console.log(num1); // ok -> 5
+    console.log(num2); // ok -> 6
+  }
+    console.log(num1); // -> undefined!
+    console.log(num1); // ok -> 6
+}
+\end{lstlisting}\\
+\hline
+Scope per file in NodeJs &
+\textcolor{orange}{NodeJs creates an additional scope per file, this means that you essentially can only explicitly declare a truly global variable with var.}\newline
+\textcolor{red}{However, the browser does \textbf{NOT} have this feature!}\\
+\hline
+Closure & 
+\textcolor{orange}{This is just the concept of boxing a something in something and then accessing the scope from the inner "something". Usually done with functions:}\newline
+\begin{lstlisting}
+function something1() {
+  let num = 5;
+  function something2() {
+    console.log(num); // obviously works
+  }
+}
+\end{lstlisting}\\
+\hline
+global Scope & 
+\textcolor{orange}{If you access a global variable, it is probably better to use the \textbf{global.variable} naming scheme. The reason for this is obviously the fact that you don't use the variable of another scope by accident.}\\
+\hline
+This in scopes & 
+\textcolor{orange}{if we do not have an object, then the \textbf{the global scope will be this!}\newline
+This means that you can do things like this:}\newline
+\begin{lstlisting}
+function printName() {
+  console.log(this.name);
+}
 
+const name = "ping"
+
+const logEntry = {
+  name: "pang"
+};
+
+logEntry.printName = printName;
+logEntry.printName(); // will print "pang"
+printName(); // will print "ping" -> empty object will always invoke the global object!!
+\end{lstlisting}\\
+\hline
+Functions with new (old js) & 
+\textcolor{orange}{Before proper OOP was introduced, this was the way you wrote OOP in js:}\newline
+\begin{lstlisting}
+// given the code from above, we create another printName instance with new
+// this will create an empty object that will be the "instance" to call the method on
+new printName();
+
+// This is what happens under the hood when you call new printName()!
+// function newPrintName() {
+//   var self = {}
+//   console.log(self.name);
+//   return self;
+// }
+\end{lstlisting}\\
+\hline
+This as a parameter & 
+\textcolor{orange}{You can also pass the this keyword as a parameter!}\newline
+\begin{lstlisting}
+logEntry.printName({name: "pingpang"});
+// this will print "pingpang" instead of the logEntry name "pang" !!
+\end{lstlisting}\\
+\hline
+Bind & 
+\textcolor{orange}{You can also "bind" a certain "this" to one function in particular, this means that all other function other than the one you bound, will be used with the regular "this"!!}\newline
+\begin{lstlisting}
+const bindPrintName = logEntry.printName({ name: "burrmiu" });
+bindPrintName(); // this will ALWAYS print "burrmiu"
+// at least until you override it!
+bindPrintName({name: "pangPing!"}); // !!!! this will still print "burrmiu" !!!!
+\end{lstlisting}\\
+\hline
+\end{tabular}
+\section{strict}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Basic & 
+\textcolor{orange}{This disables certain JS features that might be unwanted in this particular usecase. \newline
+It can be enabled per Scope or per file}\newline
+\textcolor{purple}{Usually this simply makes JS throw an exception when you would expect it from other functions,for example when using a method with a "this" but used on nothing -> exception instead of using global scope.}\\
+\hline
+Usage & 
+\begin{lstlisting}
+function someFunc() {
+  'use strict'; // this enables the strict mode for this particular scope or file
+  // for compatability, should a browser use old js without this feature, then the strict will simply be ignored
+}
+\end{lstlisting}\\
+\hline
+General & 
+\textcolor{orange}{All new features in JS are in strict mode, this essentially forces us to use it, and it is generally good practice to simply use the strict mode!}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\section{Lambda}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Notation & 
+\begin{lstlisting}
+let x = (parameter) => {
+  // Do something
+  console.log(parameter);
+};
+x(5); // will print 5!
+\end{lstlisting}\\
+\hline
+This in Lambda &
+\textcolor{orange}{In Lambdas the this is always based on the parent scope.\newline
+For example within a function or a class the this will be based on that function or class:}\newline
+\begin{lstlisting}
+function Point(x, y){
+this.x = x;
+this.y = y;
+this.area = () => this.x + this.y;
+}
+
+var areaFn = new Point(10,50).area;
+console.log(areaFn());
+
+// explicit version!
+// function Point(x, y) {
+//   var _this = this; // here the _this is mapped to this!
+//   this.x = x;
+//   this.y = y;
+//   this.area = function () {
+//     return _this.x + _this.y;
+//   };
+// }
+\end{lstlisting}\\
+\hline
+\end{tabular}
+\section{Objects and Classes}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Objects are Hashtables! & 
+\textcolor{orange}{Every object is a hashtable, this means that we have different means to access it's values. \newline
+The same thing therefore applies to arrays as well as long as there is a name for it:}\newline
+\begin{lstlisting}
+const items = {name: "pingpang"};
+
+console.log(items.name);
+console.log(items["name"]);
+// these are both the same!
+\end{lstlisting}
+\, \newline
+\textcolor{purple}{Since js does not have static types, you can also add something like name: "ping" to an array and access it the same way you access any other object, however this is \textbf{not recommended!}}\\
+\hline
+Classes &
+\vspace{2mm}
+\begin{itemize}
+\item \textcolor{purple}{\#: This is the prefix for private variables}
+\item \textcolor{purple}{super: Superclass call}
+\item \textcolor{purple}{instanceof: this checks whether or not,\newline
+  an instance is an object of class xyz\newline
+Note, subclasses are also instanceof parentclass!}
+\vspace{-3mm}
+\end{itemize}
+\begin{lstlisting}
+class Clock {
+  #timer // the # makes it private!
+  currentTime
+  constructor(param) {
+    super();
+  }
+  start() {
+    this.#timer = setTimeout(() => { 
+      this.currentTime = new Date();
+    }, 1000);
+  }
+  get time() {
+    return this.currentTime
+  }
+  set time(newTime) {
+    this.currentTime = newTime
+  }
+}
+
+const clock = new Clock(); // instance
+\end{lstlisting}\\
+\hline
+Classes before JS6 & 
+\textcolor{orange}{The prototype keyword was used to use OOP before JS6, this is still used under the hood, but do not use this anymore unless you have performance issues.}\\
+\hline
+This Context with Lambda Callbacks &
+\textcolor{red}{This code below does not work, the reason for this is that when we pass person.wackUP, we lose the this context, as we only pass the function itself!}\newline
+\begin{lstlisting}
+class Person {
+  constructor(name) {
+    this.name = name;
+  }
+
+  wackUp() {
+    console.log(`${this.name} is awake!`)
+  }
+}
+class Alarm {
+  registerAlarm(callback) {
+    setTimeout(() => {
+      callback()
+    }, 1000);
+  }
+}
+const person = new Person("Michael");
+const alarm = new Alarm();
+alarm.registerAlarm(person.wackUp);
+\end{lstlisting}
+\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+&
+\textcolor{red}{In order to preserve the context, we can pass the function as a lambda:}\newline
+\begin{lstlisting}
+alarm.registerAlarm(() => person.wackUP() );
+\end{lstlisting} 
+\, \newline
+\textcolor{red}{The same can be done in the class itself!!}\newline
+\begin{lstlisting}
+wackUp = () => {
+  console.log(`${this.name} is awake!`)
+}
+\end{lstlisting}\\
+\hline
+\end{tabular}
+\section{Modules}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+UseCase & 
+\textcolor{orange}{The use case is as expected the prevention of namespace issues.\newline
+For example every script in the browser is in the global scope, this means that if the index.js and the home.js both have a function called hello(), then they will overwrite each others definition!!}\newline
+\textcolor{purple}{The other usecase is \textbf{dependency solving} and \textbf{code departmentalization}.}\newline
+\textcolor{teal}{In Node.js the file need to end with .mjs in order to use modules, in the browser the ending .js is fine.}\newline
+\textcolor{teal}{Modules are \textbf{ALWAYS STRICT!}}\\
+\hline
+Definition & 
+\textcolor{purple}{\textbf{Modules simply export or import values and functionality to or from other modules!}}\\
+\hline
+Module Usage & 
+\textcolor{red}{\textbf{In order to use a module, the file itself needs to be a module!}}\newline
+\begin{lstlisting}
+<script src="index.js" type="module"></script>
+\end{lstlisting}
+\, \newline
+\textcolor{orange}{The usage is done with the import keyword:}\newline
+\begin{lstlisting}
+import {register as alarmClock} from './libs/alarm-clock.js'
+import {register as newsFeed} from './libs/news-feed.js'
+import * from './pingpang.js' // import every export from this file 
+import defaultExport from './something.js' // default export explained below
+\end{lstlisting}\\
+\hline
+Export& 
+\textcolor{purple}{There are 2 types of exports, \textbf{named} and \textbf{unnamed}.}\newline
+\, \newline
+\textcolor{orange}{\textbf{Named Export}: In order to export a function or value, you need to use the export keyword before that function/value:}\newline
+\begin{lstlisting}
+export someFunc() {
+  console.log("pingpang");
+}
+\end{lstlisting}
+\, \newline
+\textcolor{orange}{\textbf{defaultExport}: Here we define an export at the end of the file:}\newline
+\begin{lstlisting}
+export default {name: "pangping"};
+
+// in the import file
+console.log(defaultExport.name);
+\end{lstlisting}
+\\
+\hline
+\end{tabular}
+\section{Advanced JS Features}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Spread & 
+\textcolor{orange}{Spread is a feature that allows fast and easy concatenation of arrays just like in haskell:}\newline
+\begin{lstlisting}
+const listA = [1,2,3,4,5];
+const listB = [10,11,12,13,14];
+const listC = [...listA, ...listB];
+
+// this can also be done with other objects
+
+const objA = {name: "pingpang"};
+const objB = {name: "pangping"};
+const objC = {...objA,...objB}; // this copies the values of objA and objB into objC
+const objD = {objA,objB}; // this however copies the full object into it
+
+console.log(objC); // {name: "pingpang", name: "pangping"}
+console.log(objD); // {{name: "pingpang"}, {name: "pangping"}}
+// note the extra curly braces on the objD -> deep copy!
+\end{lstlisting}\\
+\hline
+Spread Operator as parameter & 
+\textcolor{orange}{You can also enter an array as a parameter:}\newline
+\begin{lstlisting}
+function something(a,b,c) {
+  return a + b + c;
+}
+const arr = [1,2,3,4,5,6,7,8,9];
+something(...arr); // this works -> a=1,b=2,c=3,a2=4,b2=5....
+\end{lstlisting}\\
+\hline
+Destructuring & 
+\textcolor{orange}{You can create variables directly from an array or object:}\newline
+\begin{lstlisting}
+const [a, b] = [10,20]; // a = 10, b = 20 
+const {c, d} = {name: "pang", price: 50};
+
+function something({message}) {
+  console.log(message);
+}
+something({message:"pangping"}) // prints "pangping"!
+
+function printWithDefaults({message = "message"} = {}) { // object destructuring
+console.log(message);
+}
+printWithDefaults({code: "error_1"}) // error_1
+printWithDefaults() // message
+\end{lstlisting}\\
+\hline
+Nullish Operator & 
+\textcolor{orange}{In case you want to check if for example a number exists, even a 0, you can use the nullish operator.\newline
+This will simply use the value in case it exists, or the default value that you have specified if it is undefined or null.}\newline
+\begin{lstlisting}
+console.log(0 ?? 42); // will print 0 
+console.log(undefined ?? 42); // will print 42
+\end{lstlisting}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Optional chaining & 
+\textcolor{orange}{In JS you might always encounter values that are undefined, this often leads to issues where you call a function with undefined values, or even worse the entire function is undefined.\newline
+We can counteract this with the Optional Operator:}\newline
+\begin{lstlisting}
+const item = {
+  name: "pangping",
+  price: 10, 
+  fun: {
+    word: "no"
+  }
+};
+console.log(item.fun?.word); // this will print "no" IF the fun object exists!
+// otherwise we simply do not execute this code, no exception will be thrown.
+\end{lstlisting}\\
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\section{PolyFill and BabelJS}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+BabelJS & 
+\textcolor{orange}{BabelJS converts new and modern JS code into old style JS, this is used for compatibility with older browsers that do not support the new features.}\\
+\hline
+PolyFill &
+\textcolor{orange}{BabelJS has certain limitations that PolyFill tries to essentially "fill in". This further increases the compatibility with older browsers, however, this still is limited to a certain extend.\newline
+For example due to the translating, the performance will be much worse, and considering we are already using an older browser, this can quickly get out of hand.}\\
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+\end{tabular}
+\end{table}
+\end{document}

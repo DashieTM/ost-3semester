@@ -1,5 +1,5 @@
 \documentclass[main.tex,fontsize=8pt,paper=a4,paper=portrait,DIV=calc,]{scrartcl}
-\input{../../../latex/ost-summary-template.tex}
+\input{ost-summary-template.tex}
 \begin{document}
 \section{Terms and Definitions}
 \begin{table}[h!]
@@ -195,9 +195,156 @@ This can be visualized via this formula:\newline
 \end{table}
 \pagebreak
 \begin{table}[ht!]
-\section{}
+\section{Acceleration, Velocity and Distance}
 \begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
+Median Acceleration & 
+\textcolor{orange}{The median acceleration is the end velocity - the start velocity over the end time - the start time:}\newline
+\, \newline
+\huge \( \overset{\_}{a} = \dfrac{v_2 - v_1}{t_2 - t_1} = \dfrac{v(t_2) - v(t_1)}{t_2 - t_1} \) \newline
+\normalsize \\
+\hline
+Current Acceleration & 
+\textcolor{orange}{The current acceleration is the limit of the current velocity - the velocity of current time - delta time over delta time. \newline
+Or easier, the derivation of current velocity:}\newline
+\, \newline
+\huge \( a(t) = \underset{\Delta t -> 0}{\lim} \dfrac{v(t) - v(t - \Delta t)}{\Delta t} = \dfrac{d}{dx}v(t)\) \newline
+\normalsize \\
+\hline
+Derivatives &
+\, \newline
+\huge \(\dfrac{d}{dt}a(t) = v(t) = \int{s(t)} \)\newline
+\, \newline
+\huge \(\dfrac{d}{dt}v(t) = s(t)\)\newline
+\, \newline
+\normalsize \textcolor{orange}{Also note that when you integrate, you get a constant c -> hence the following:}\newline
+\, \newline
+\huge \( v(t) = \int{a(t) dt} = \int{0 dt} = c \text{ --> if a(t) == 0}\) \newline
+\, \newline
+\normalsize \textcolor{red}{This is why the acceleration on earth -> gravity is constant!! HOLY FUCK}\\
+\hline
+Derivative of a Vector & 
+\textcolor{orange}{The derivative of a vector is the derivative of each component, meaning the following:}\newline
+\large \(\dfrac{d}{dx} \vec{r}(t) = (\dfrac{d}{dx} x(t), \dfrac{d}{dx} y(t), \dfrac{d}{dx} z(t) ) \)\newline
+\, \newline \normalsize \\
+\hline
+Current Velocity with Vectors & 
+\textcolor{orange}{This specifies the current velocity of a vector:}\newline
+\, \newline
+\huge \( \vec{v}(t) = \underset{\Delta t -> 0}{\lim} \dfrac{\Delta \vec{r}}{\Delta t} = \dfrac{d}{dx} \vec{r} = \overset{.}{\vec{r}} \) \newline 
+\, \newline \normalsize \\
+\hline
+Radial Acceleration & 
+\, \newline
+\huge \( a_{tan} = \underset{\Delta t -> 0}{lim} \dfrac{\Delta v_{tan}}{\Delta t} = \dfrac{dv}{dt} = \overset{.}{v} \) \newline
+\, \newline
+\huge \( \dfrac{\Delta v_{rad}}{v} = \dfrac{\Delta r}{r}\)
+\, \newline
+\huge \( a_{rad} = \underset{\Delta t -> 0}{\lim} \dfrac{\Delta v_{rad}}{\Delta t} = \dfrac{v}{r}\underset{\Delta t -> 0}{\lim} \dfrac{\Delta v}{\Delta t} = \textcolor{red}{\dfrac{v^2}{r}} \) \newline
+\, \newline
+\huge \( v(t) = a_{tan} * t + v_0 \) \newline
+\huge \( s(t) = \dfrac{a_{tan} * t^2}{2} + v_0 * t + s_0\) \newline
+\, \newline \normalsize \
+\textcolor{orange}{In case that \(a_{tan}\) is 0, you obviously only evaluate \(v_0 * t + s_0\) , this is because the first part would evaluate to 0.}
+\\
+\hline
+Angle Velocity & 
+\, \newline
+\huge \( \omega = \underset{\Delta t -> 0}{\lim} \dfrac{\phi(t + \Delta t - \phi(t))}{\Delta t} = \dfrac{d\phi}{dt} = \overset{.}{\phi} \) \newline
+\, \newline \normalsize
+\begin{itemize}
+\item \textcolor{orange}{\(\phi\) == angle}
+\item \textcolor{orange}{\(\omega\) == angle acceleration}
+\item \textcolor{orange}{ t == time}
+\vspace{-3mm}
+\end{itemize}
+\\ 
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Frequency and Circulation &
+\, \newline
+\huge \( f = \dfrac{1}{T} <=> T = \dfrac{1}{f} \)\newline
+\, \newline
+\huge \( \omega = \dfrac{2\pi}{T} <=> T = \dfrac{2\pi}{\omega} \)\newline
+\, \newline
+\huge \( \omega = 2\pi f <=> f = \dfrac{\omega}{2\pi} \)\newline
+\, \newline
+\huge \textcolor{orange}{\( r \omega = \dfrac{2\pi r}{T} = v \)}\newline
+\, \newline
+\huge \textcolor{orange}{\( \alpha = \underset{\Delta t -> 0}{\lim} \dfrac{\omega (t + \Delta t) - \omega (t)}{\Delta t} = \dfrac{d\omega}{dt} \)}\newline 
+\, \newline
+\huge \textcolor{orange}{\( \alpha_{tan} = \dfrac{dv}{dt} = \dfrac{d}{dt}r * \omega = r * \alpha \)}\newline 
+\, \newline
+\textcolor{purple}{constant angle-motion (no acceleration)}\newline
+\huge \textcolor{orange}{\( \Phi(t) = \omega_0 * t + \Phi_0 \)  | given \(\alpha == 0 \) and \( \omega = \omega_0 == \text{ constant} \)}\newline
+\, \newline
+\textcolor{purple}{constant accelerated angle-motion}\newline
+\huge \textcolor{orange}{\( \Phi(t) = \dfrac{\alpha_0 t^2}{2} + \omega_0 * t + \Phi_0 \) \newline given \( \alpha == \alpha_0 == \text{ constant} \) and \(\omega == \alpha_0 * t + \omega_0 \) }\newline
+\, \newline \normalsize
+\begin{itemize}
+\item \textcolor{orange}{T = Time per Circulation}
+\item \textcolor{orange}{\(f\) == frequency}
+\item \textcolor{orange}{r == radius}
+\item \textcolor{orange}{v == velocity}
+\item \textcolor{orange}{\(\Phi\) == angle}
+\item \textcolor{orange}{\(2\pi\) == 1 Circulation}
+\end{itemize}\\
+\hline
+\end{tabular}
+\section{Free Fall and Parables}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Vertical Throw & 
+\, \newline
+\huge \textcolor{orange}{\( \alpha = -g == \text{ constant}  \)}\newline
+\, \newline
+\huge \textcolor{orange}{\( v(t) = -g * t + v_0 \)}\newline
+\, \newline
+\huge \textcolor{orange}{\( h(t) = \dfrac{-g * t^2}{2} + v_o * t + h_0  \)}\newline
+\, \newline
+\huge \textcolor{purple}{\( t_{max} = \dfrac{v_0}{g} \)}\newline
+\, \newline
+\huge \textcolor{purple}{\( h_{max} = h(t_{max}) = \dfrac{-g * v^{2}_{0}}{2 g^2 } + \dfrac{v_{0}^{2}}{g} + h_0 = \dfrac{v_{0}^{2}}{2g} + h_0 \)}\newline
+\, \newline \normalsize
+\begin{itemize}
+\item \textcolor{orange}{a == acceleration}
+\item \textcolor{orange}{v = velocity}
+\item \textcolor{orange}{h = height}
+\item \textcolor{orange}{t = time}
+\item \textcolor{orange}{g = gravity -> 9.81}
+\end{itemize} 
+\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Free Fall & 
+\, \newline
+\huge \textcolor{orange}{\( a = -g == \text{ constant} \)}\newline
+\, \newline
+\huge \textcolor{orange}{\(v(t) = -g * t\)}\newline
+\, \newline
+\huge \textcolor{orange}{\(h(t) = \dfrac{-g * t^2}{2} + h_0\)}\newline
+\, \newline \normalsize
+\begin{itemize}
+\item \textcolor{orange}{a == acceleration}
+\item \textcolor{orange}{v = velocity}
+\item \textcolor{orange}{h = height}
+\item \textcolor{orange}{t = time}
+\item \textcolor{orange}{g = gravity -> 9.81}
+\end{itemize} 
+\\
+\hline
+Throw Distance & 
+
 
 \hline
 \end{tabular}

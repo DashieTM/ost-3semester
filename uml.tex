@@ -1,5 +1,5 @@
 \documentclass[main.tex,fontsize=8pt,paper=a4,paper=portrait,DIV=calc,]{scrartcl}
-\input{../../../latex/ost-summary-template.tex}
+\input{ost-summary-template.tex}
 
 \begin{document}
 \begin{table}[h!]
@@ -451,6 +451,96 @@ This is used to update your branch when you work on a feature, or if you need to
 Eg. you work on voice activation and notice that you need to change the ancestor from main to group-call :)}\newline
 \textcolor{red}{This is more clean in comparison to merging when updating a branch!}\newline
 \textcolor{teal}{Don't rebase to other repositories, should be common sense, but you never know.}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\section{State Machine Diagrams}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Generic Definition & 
+\textcolor{orange}{The base idea is a machine that has different behaviors dependent on the current state, that the machine is in at a given time.}\newline
+\textcolor{red}{Important Notes:}\newline
+\textcolor{purple}{\indent With state machines, every object needs to have a state at every point, there can't be objects that have no state, otherwise it would obviously not be a state machine anymore. \newline
+\indent With uml state machines, you don't always need a final state like with DFAs and NFAs, this is usually because modern system often go into a standby rather than being done for good.}\newline
+\textcolor{teal}{State Machines are useful in a variety of cases:}\newline
+\begin{itemize}
+\item \textcolor{teal}{Domain analysis}
+\item \textcolor{teal}{Requirements analysis}
+\item \textcolor{teal}{Design}
+\item \textcolor{teal}{Sometimes even implementation}
+\vspace{-3mm}
+\end{itemize}\\
+\hline
+Scope & 
+\textcolor{orange}{\textbf{The scope can be anything with a state dependent behavior.}}\newline
+This could be something like a light switch, a bug report, etc.\\
+\hline
+Notation & 
+\textcolor{orange}{There are different notations to state machines, for example DFAs and NFAs from Automata\newline
+However for this module, we will use UML notation}\newline
+\minipg{\includegraphics[scale=0.4]{2022-10-31-08:31:35.png}\newline
+}{\includegraphics[scale=0.4]{2022-10-31-08:40:28.png}}[0.4,0.4]\\
+\hline
+Transition &
+\vspace{2mm}
+\includegraphics[scale=0.4]{2022-10-31-08:52:11.png}\newline
+\textcolor{red}{Legend:}\newline
+\begin{itemize}
+\item \textcolor{teal}{event: The event that has triggered the transition}
+\item \textcolor{teal}{[guard]: an if statement on the event}
+\item \textcolor{teal}{action: an action that can be performed on the transition}
+\vspace{-3mm}
+\end{itemize}\\
+\hline
+Events & 
+\textcolor{orange}{Events are always \textbf{instant and sequential}, they occur \textbf{outside of the system in consideration.}\newline
+They can be viewed as a message or signal that the system receives.}\newline
+\textcolor{purple}{\textbf{No event trigger means that the transition is ALWAYS triggered!}}\\
+\hline
+Guards & 
+\textcolor{orange}{The enabling boolean expression for the event.\newline
+Typically refers to: \newline
+Extended state variables or some internal or external state.}
+\\
+\hline
+Actions & 
+\textcolor{orange}{Actions are \textbf{atomic and can't be interrupted}.\newline
+Typically an \textbf{imperative command}, that involves sending a message or updating an extended state variable.}\newline
+\textcolor{purple}{We define entry \textbf{entry actions} and \textbf{exit actions} in order for us to have more flexibility when writing and reading the state diagram.\newline
+Actions can be composed/chained with a \textbf{\textit{;}} -> count := count + 1; something else;}\\
+\hline
+Nested State Machines & 
+\textcolor{orange}{You can always create a state machine inside another state machine in order to have even more modularity.\newline
+For example you might have an on-off state, then inside the on state you have an entire new system that does something else when on and things happen.}\newline
+\includegraphics[scale=0.45]{2022-10-31-09:24:04.png}\newline
+\textcolor{purple}{Here you can see the phone statemachine and another one inside it.\newline
+Should you be inside the right statemachine, you can always exit from this and go back to the outside state machine, aka from connecting to idle by pressing cancel or something similar.}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Creation of a State Machine & 
+\vspace{2mm}
+\begin{enumerate}
+  \item \textcolor{purple}{Read through the description quickly,\newline
+    Decide on the \textbf{object} and the \textbf{level of abstraction}}
+  \item \textcolor{purple}{Read through the description \textbf{carefully, multiple times and:}}\newline
+    \begin{itemize}
+    \item \textcolor{teal}{Identify the relevant \textbf{states}}
+    \item \textcolor{teal}{Identify all possible \textbf{events}}
+    \item \textcolor{teal}{Identify and draw in \textbf{all relevant transitions}}
+    \item \textcolor{teal}{Identify and draw in \textbf{all guards}}
+    \item \textcolor{teal}{Identify and draw in \textbf{all actions}}
+    \item \textcolor{teal}{Simplify the diagram using \textbf{nested states}}
+    \item \textcolor{teal}{Simplify the diagram using \textbf{extended state variables}}
+    \vspace{-3mm}
+    \end{itemize}
+\end{enumerate}\\
 \hline
 \end{tabular}
 \end{table}

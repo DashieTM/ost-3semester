@@ -1,5 +1,5 @@
 \documentclass[main.tex,fontsize=8pt,paper=a4,paper=portrait,DIV=calc,]{scrartcl}
-\input{../../../latex/ost-summary-template.tex}
+\input{ost-summary-template.tex}
 \begin{document}
 \begin{table}[h!]
 \section{Terms and Definitions}
@@ -23,7 +23,8 @@ You need a way to tell your machine what is considered to be good or bad. \newli
 Without it the machine can't learn from it's previous endeavors.\newline
 \item Model \newline
 This can be something simple as 2 parameters like \(y_i = ax_i + b\) or something complicated like a neural network.\newline
-We usually use something like \emph{tensorflow} or \emph{pytorch} to define the model
+We usually use something like \emph{tensorflow} or \emph{pytorch} to define the model\newline
+At the end of the day it is always some sort of \textbf{mathematical function!}
 \item Optimization
 An algorithm that minimizes the amount of parameters needed for the cost function. \newline
 Usually something like Stochastic Gradient Descent(SGD), ADAM, RMSProp 
@@ -158,6 +159,84 @@ Theoretically, since they are dependent, they should only provide either both tr
 However, this is not always the case.\newline
 \textcolor{orange}{The general rule: True Positives and True Negatives should always be higher than the other 2!}\newline
 \pic{2022-10-20:08:33:25.png}\\
+\hline
+\end{tabular}
+\section{Linear Regression}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Idea & 
+\textcolor{teal}{The basic idea of linear regression is to check for correlation between two sets of data, for example, what is the correlation of mouse size to mouse weight? \newline
+Linear regression tries to do this with a simple straight line! It is therefore the easiest way to get a correlation, but it is also not very accurate.\newline
+To rectify the bad accuracy, we do this multiple times for a small sets of data, aka for slices of the data.}\\
+\hline
+Formula & 
+\large \(\hat{y}_i = m * x_i + d \)\newline
+\( e_i = y_i - \hat{y}_i \)\newline
+\huge \( E = \dfrac{1}{2N} \sum_{i=1}^{N}e_{i}^{2} = \dfrac{1}{2N} \sum_{i=1}^{N}(y_i - (m * x_i +b))^2 \) 
+\normalsize \, \newline
+Legend: \newline
+\begin{itemize}
+\item \textcolor{orange}{m = slope}
+\item \textcolor{orange}{\(x_i\) = x of datapoint}
+\item \textcolor{orange}{\(y_i\) = y of datapoint}
+\item \textcolor{orange}{\( \delta y_i \) = y of line -> mean(y)}
+\item \textcolor{orange}{d = y offset}
+\item \textcolor{orange}{\(e_i\) = single residual -> value of a datapoint}
+\item \textcolor{orange}{E = sum of residuals}
+\item \textcolor{orange}{N = amount of datapoints}
+\vspace{-3mm}
+\end{itemize}
+\, \newline
+\pic{2022-10-27:09:04:09.png}\newline
+\textcolor{orange}{You need to first decide what the line is for yourself, this means manual fitting!\newline
+Then you can see the Residual Error which would be \textbf{E} in the formula!}\newline
+\textcolor{red}{The ultimate goal is to \textbf{MINIMIZE E -> MINIMIZE ERROR!}}
+\\
+\hline
+Correlation and Causation &
+\textcolor{orange}{Just because something has a mathematical correlation, does not mean that it also has a causality. Some things might be correlated for random reasons, or even simple chance. \newline
+For example you might find that the increase in cats is correlated with stormy weather, the data reflects that, but if you know how the weather works, you know that this is utter bs and will never be true.}\\
+\hline
+Parson Correlation Coefficient & 
+\vspace{2mm}
+\pic{2022-10-27:09:11:27.png}\newline
+\begin{itemize}
+\item \textcolor{orange}{The correlation is 1 if \textbf{m is positive}, and \textbf{E is 0}.}
+\item \textcolor{orange}{The correlation then gradually gets less if there is a deviation between x and y.}
+\item \textcolor{orange}{If \textbf{m is negative} and \textbf{E is 0}, then we have -1 correlation. This is still correlation, just negative!}
+\item \textcolor{orange}{Should either x or y be constant then calculating the correlation is not possible.}
+\item \textcolor{orange}{Lastly, nonsense / nonfunction data, we have correlation 0.}
+\vspace{-3mm}
+\end{itemize}\\
+\hline
+Multivariate Linear Regression & 
+\textcolor{orange}{This tries to map multiple x data to y -> for example both amount of cats and the amount of dogs correlated to weather, same nonsense, but not 2 times!}\newline
+Formula: \( \hat{y}_i = m_{cat} * x_i + m_{dog} * x_i + d \)\newline
+\textcolor{teal}{As you can see there is no difference between this formula and the last, other than the fact that we now have two slopes.}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+\textbf{Sochastic Gradient Descent (SGD)} & 
+\textbf{\textcolor{purple}{You calculate the multivariate linear regression in each step and reduce the error by modifying the parameters in each step}}\newline
+\textcolor{orange}{Note that each point represents its own mode, meaning there are different parameters for each point.\newline
+This is also how machine learning is done, you might have values like speed and angle that need to be changed in each iteration to take an apex in the perfect manner.}\newline
+\includegraphics[scale=0.4]{2022-11-04-01:38:51.png}\\
+\hline
+Annealed SGD & 
+\textcolor{orange}{The obvious consequence of this method is that \textbf{the learning effect decays over time,}}\textcolor{red}{this is called \textbf{annealing}.}\newline
+\textcolor{orange}{With different options we can control how this curve will drop down. The parameter that we use to represent this curve is called \textbf{alpha}.}\newline
+\includegraphics[scale=0.4]{2022-11-04-01:43:27.png}\\
+\hline
+Limitations & 
+\textcolor{purple}{The limitations of this method is that you only use 1 datum -> 1 batch of datapoints for each model. This means that you will have to calculate this over, and over, and over again.\newline
+\textbf{In the industry this is usually done in batches of size 32,64,128!}}\newline
+\textcolor{orange}{Also, in order to use the SGD the loss function needs to be a \textbf{differentiable function}, this simply means that you can take the derivative of this function at \textbf{every point}. }\newline
+\includegraphics[scale=0.4]{2022-11-04-01:56:28.png}\newline
+\textcolor{orange}{On the right side there is the top point where you have 2 interpretations of a derivation, this of course can't be done, so here you would need to define the point manually, or simply use a different function in the first place.}\\
 \hline
 \end{tabular}
 \end{table}
