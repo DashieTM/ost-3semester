@@ -452,6 +452,22 @@ Eg. you work on voice activation and notice that you need to change the ancestor
 \textcolor{red}{This is more clean in comparison to merging when updating a branch!}\newline
 \textcolor{teal}{Don't rebase to other repositories, should be common sense, but you never know.}\\
 \hline
+Distributed Version Control &
+\textcolor{orange}{The only real change is in the "server", before we talked about local repositories and the server repository. \newline
+Now we can have a variable amount of "servers", making it distributed. \newline
+Each instance is still a \textbf{DAG of commits}.}\newline
+\, \newline
+\textcolor{purple}{The way we talk about the instances is \textbf{remotes}, hence the command git remote.\newline
+You have various ways of setting these up like https, ssh and more. Here ssh is the most flexible one.}\\
+\hline
+Centralized Workflow & 
+\textcolor{orange}{Here the developers all have access to one singular repository. Usually this is used for internal projects that aren't open to the rest of the world.\newline
+This workflow is not distributed, as the developers only have their changes on their working pc and commit locally.}\\
+\hline
+Integration-Manager Workflow & 
+\textcolor{orange}{Here each developer has a fork of the main repository, then the developers create pull requests of the main repository.\newline
+This gives you more control over what changes get upstreamed, it can work with open source worklow, and the developers can work on their changes on multiple pcs, as they essentially have their own version of the project.}\\
+\hline
 \end{tabular}
 \end{table}
 \pagebreak
