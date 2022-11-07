@@ -1763,9 +1763,65 @@ This also reduces runtime and complexity of code.}\newline
 \, \newline
 \textcolor{Red}{\textbf{Just like haskell, you don't want Result<E, T> or Option<T>, these are just necessities because of user input or similar, which otherwise leads to SIDE-EFFECTS!!}}\\
 \hline
-
+\end{tabular}
+\section{Generics}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
+\textcolor{orange}{Just like c++, rust allows you to specify generics, or templates instead of specific types in order to reduce code replication:}\newline
+\begin{lstlisting}
+// function
+fn largest<T>(list: &[T]) -> &T {
+  // Note the <T> and &[T]
+  // the first specifies the generic name to implement
+  // the second specifies that we will receive a reference of list T
+  // then we return a reference of T
+}
 
+// struct
+struct Point<T> {
+    x: T,
+    y: T,
+}
+\end{lstlisting}
+\, \newline
+\textcolor{purple}{Similar to c++, you need to specify the name of the type that you will use. This makes sure rust understands that this is meant as a type, not as a variable or function name.}\\
+\hline
+Restricting the type & 
+\textcolor{orange}{Haskell restricts you on using operators to types implementing a trait, rust does the same thing! So if you want to compare 2 values of a generic type, you need to restrict this type to types with the \textbf{std::cmp::PartialOrd} trait!}\newline
+\begin{lstlisting}
+fn largest<T: std::cmp::PartialOrd>(list: &[T]) -> &T {
+    // note, here we say that T is of type std::cmp::PartialOrd,
+    // which can be ordered/compared!
+    let mut largest = &list[0];
+
+    for item in list {
+        if item > largest { // now works
+            largest = item;
+        }
+    }
+
+    largest
+}
+\end{lstlisting}\\
+\hline
+Limitations & 
+\textcolor{orange}{Just like c++, you need to specify what the generic type will be, you can't for example use T for i32 and then create another variable with type T for f32:}\newline
+\begin{lstlisting}
+struct Point<T> {
+    x: T,
+    y: T,
+}
+
+fn main() {
+    let wont_work = Point { x: 5, y: 4.0 };
+} // ERROR, type T can't be i32 and f32 at the same time!!
+
+// In this case we can simply use 2 types instead:
+struct Point<U, T> {
+    x: U,
+    y: T,
+} // now float and int work, since we have 2 generic types!!
+\end{lstlisting}\\
 \hline
 
 \hline
