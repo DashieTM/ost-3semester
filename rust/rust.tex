@@ -1454,10 +1454,10 @@ Workaround &
 If you use latin languages as your only language, then you will likely never really deal with this, but it is always good to keep in mind that for proper translations this will be necessary to care about!\newline
 \textbf{Should you index a string slice that isn't complete, like trying to get 1 character out of a ukranian character that has more than 8 bit encoding, then you will receive a panic -> CRASH!}}\newline
 \begin{lstlisting}
-let hello = "Здравствуйте"; // cyka
+let hello = "cyrillic letters";
 
 let s = &hello[0..1]; // PANIC -> 
-// thread 'main' panicked at 'byte index 1 is not a char boundary; it is inside 'З' (bytes 0..2) of 'Здравствуйте',
+// thread 'main' panicked at 'byte index 1 is not a char boundary; it is inside '3' (bytes 0..2) of 'cyrillic letters',
 // note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 \end{lstlisting}\\
 \hline
@@ -1471,17 +1471,17 @@ Iterating over Strings &
 \textcolor{orange}{You can still iterate over a string, which is much more useful either way. The only note to take here is that you can either iterate over chars, or iterate over the bytes under these chars:}\newline
 \begin{lstlisting}
 // chars:
-for c in "Зд".chars() {
+for c in "3A".chars() { // cyrillic 3A
     println!("{}", c);
-} // prints З and д
+} // prints 3 and A // cyrillic
 
 // bytes: 
-for b in "Зд".bytes() {
+for b in "3A".bytes() { // cyrillic 3A
     println!("{}", b);
 }
 // prints: 
-// 208 151 -> З
-// 208 180 -> д
+// 208 151 -> 3
+// 208 180 -> A // cyrillic
 
 // the before mentioned grapheme cluster is not provided as a standard library, 
 // if you need this for hindu or similar languages, use a crate from crates.io
@@ -1767,6 +1767,7 @@ This also reduces runtime and complexity of code.}\newline
 \section{Generics}
 \begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
+Notation & 
 \textcolor{orange}{Just like c++, rust allows you to specify generics, or templates instead of specific types in order to reduce code replication:}\newline
 \begin{lstlisting}
 // function
@@ -1781,6 +1782,12 @@ fn largest<T>(list: &[T]) -> &T {
 struct Point<T> {
     x: T,
     y: T,
+}
+
+// enum 
+enum Option<T> {
+    Some(T),
+    None,
 }
 \end{lstlisting}
 \, \newline
@@ -1811,7 +1818,6 @@ struct Point<T> {
     x: T,
     y: T,
 }
-
 fn main() {
     let wont_work = Point { x: 5, y: 4.0 };
 } // ERROR, type T can't be i32 and f32 at the same time!!
@@ -1822,6 +1828,52 @@ struct Point<U, T> {
     y: T,
 } // now float and int work, since we have 2 generic types!!
 \end{lstlisting}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Impl and functions & 
+\textcolor{orange}{With enums and structs, you can use the generics on the \textbf{impl}!}\newline
+\begin{lstlisting}
+impl<T> Point<T> { // note the T next to impl
+    fn x(&self) -> &T { // <T> not necessary as T is already declared in scope
+        &self.x
+    }
+}
+// OR you can implement this on a specific type as well
+impl Point<f32> { // if point has type f32, use this -> most specific!!
+    fn x(&self) -> &f32 {
+        (self.x.powi(2) + self.y.powi(2)).sqrt()
+    }
+}
+\end{lstlisting}
+\, \newline
+\textcolor{purple}{Note, the type specified on the impl does not mean that you can't use other types in the function itself!}\newline
+\begin{lstlisting}
+impl <T> Point<T> { // T defined
+    fn something<U>(x: U) { // U defined
+        // do something
+    }
+}
+\end{lstlisting}\\
+\hline
+Performance & 
+\textcolor{orange}{Just like with c++, the generic code gets replaced with regular code on compiling, this means that there is no performance hit with generics.}\\
+\hline
+\end{tabular}
+\section{Traits}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+
+\hline
+
+\hline
+
+\hline
+
 \hline
 
 \hline
