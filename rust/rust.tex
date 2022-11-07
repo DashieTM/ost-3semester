@@ -1867,21 +1867,128 @@ Performance &
 \section{Traits}
 \begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
-
+Basics & 
+\textcolor{orange}{Traits are \textbf{similar (not completely the same!) to interfaces} in java(trash) or virtual function in c++.}\newline
+\textcolor{purple}{The way we do this is by defining a trait and then the function that this trait needs to implement:}\newline
+\begin{lstlisting}
+pub trait Summary {
+    fn summarize(&self) -> String;
+}
+\end{lstlisting}\\
 \hline
+Implementing a trait on a type & 
+\textcolor{orange}{When we now want to implement one of these traits on a type we have to define how this type implements the functions defined in the trait:}\newline
+\begin{lstlisting}
+pub struct NewsArticle {
+    pub headline: String,
+    pub location: String,
+    pub author: String,
+    pub content: String,
+}
 
+impl Summary for NewsArticle { // trait summary on NewsArticle
+    fn summarize(&self) -> String {
+        format!("{}, by {} ({})", self.headline, self.author, self.location)
+    } // simply returns a string formatted by the values above
+}
+\end{lstlisting}\\
 \hline
-
+Scopes and traits & 
+\textcolor{orange}{If you use types that have a trait, you need to make sure that \textbf{the aforementioned trait is also in scope!}}\newline
+\begin{lstlisting}
+use aggregator::{Summary, Tweet};
+// the type tweet can't be used without Summary being "used" as well!
+\end{lstlisting}\\
 \hline
-
+Coherence & 
+\textcolor{red}{You can only implement traits for types if one of the following is given:\newline
+\textbf{-- the trait is local to our crate}\newline
+\textbf{-- the type is local to our crate}}\newline
+\, \newline
+\textcolor{red}{This means that you can't implement a trait from an external crate to an external type within your local crate.\newline
+This is done to make sure that the code form other people/crates can't break your own code!}\newline
+\textcolor{orange}{An example for this would be implementing the Display trait on Vec<T> within a crate you made. This would mean implementing a standard library trait on a standard library type within your own crate, \textbf{not possible!}}\\
 \hline
+Default Implementations & 
+\textcolor{orange}{You can also use a default implementations if the trait has defined one.\newline
+You can define a default implementation on a trait as follows:}\newline
+\begin{lstlisting}
+// define default implementation
+pub trait Summary {
+    fn summarize(&self) -> String {
+        String::from("(Read more...)")
+    }
+}
 
+// using default implementation
+impl Summary for NewsArticle {}
+\end{lstlisting}
+\, \newline
+\textcolor{purple}{Note, you still \textbf{have to specify that you use the default implementation}, you just won't need to write the actual implementation, as you will use the default one.}\\
 \hline
-
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
-
+Combining the two & 
+\textcolor{orange}{You can combine the default implementation methods with ones that require an implementation, this allows you to specify a small portion that the type needs to implement while using these functions somewhere else that has a default implementation:}\newline
+\begin{lstlisting}
+pub trait Summary {
+    fn summarize_author(&self) -> String;
+    // function that needs to be implemented
+    fn summarize(&self) -> String {
+        format!("(Read more from {}...)", self.summarize_author())
+    } // default implementation function using a regular one
+}
+\end{lstlisting}\\
 \hline
+Traits as parameters & 
+\textcolor{orange}{You can use the traits as parameters. This means that a certain function will only be callable with types that implement this trait:}\newline
+\begin{lstlisting}
+pub fn notify(item: &impl Summary) { 
+    // item can be any type that implements summary!
+    println!("Breaking news! {}", item.summarize());
+}
 
+// trait bound is the same but with a longer syntax:
+pub fn notify<T: Summary>(item: &T) {
+    println!("Breaking news! {}", item.summarize());
+} // funnily enough, this is more concise when more than 1 parameter is used!
+\end{lstlisting}\\
+\hline
+Multiple trait bounds & 
+\textcolor{orange}{You can also use multiple traits on a bound:}\newline
+\begin{lstlisting}
+pub fn notify<T: Summary + Display>(item: &T) {
+    // note the use of the + operator to chain traits!!
+}
+\end{lstlisting}\\
+\hline
+Where clause & 
+\textcolor{orange}{Too many trait bounds can make a function hard to read, therefore the where clause exists, with which you can define the trait bounds on individual lines:}\newline
+\begin{lstlisting}
+fn some_function<T, U>(t: &T, u: &U) -> i32
+where
+    T: Display + Clone,
+    U: Clone + Debug,
+{
+\end{lstlisting}\\
+\hline 
+Returning a trait bound type & 
+\begin{lstlisting}
+fn returns_summarizable() -> impl Summary {
+    Tweet {
+        username: String::from("horse_ebooks"),
+        content: String::from(
+            "of course, as you probably already know, people",
+        ),
+        reply: false,
+        retweet: false,
+    }
+}
+\end{lstlisting}\\
 \hline
 \end{tabular}
 \end{table}
@@ -1931,4 +2038,6 @@ let x = dbg!(34 * 32 - 23);
 \hline
 \end{tabular}
 \end{table}
+Code Snippets and Screenshots were taken from \href{https://doc.rust-lang.org/book/title-page.html}{https://doc.rust-lang.org/book/title-page.html}\newline
+Copyright Notices are provided within the repository.
 \end{document}
