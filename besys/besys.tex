@@ -518,8 +518,14 @@ static int c = 5;
 \textbf{Identifiers} & 
 Identifiers are needed to format the output of \textcolor{teal}{printf} as a certain number/type.\newline
 \begin{itemize}
-\item \textcolor{teal}{Integer = \%d}
-\item \textcolor{teal}{double = \%f}
+\item \textcolor{teal}{sizeof(Integer) as signed decimal = \%d}
+\item \textcolor{teal}{sizeof(Integer) as unsigned decimal = \%u}
+\item \textcolor{teal}{sizeof(Integer) as hexadecimal = \%x or \%U}
+\item \textcolor{teal}{sizeof(long) as signed decimal = \%li}
+\item \textcolor{teal}{sizeof(long long) as signed decimal = \%lli}
+\item \textcolor{teal}{sizeof(void *) as pointer (hexadecimal -> address) = \%p}
+\item \textcolor{teal}{sizeof(cahr *) as pointer (null terminated string) = \%s}
+\item \textcolor{teal}{sizeof(double) as floating point decimal = \%f}
 \item \textcolor{teal}{}
 \item \textcolor{teal}{}
 \vspace{-3mm}
@@ -643,6 +649,61 @@ Arithmic Operators&
 \, \newline
 \textcolor{red}{\textbf{The return type of these is int NOT bool!}}\newline
 The reason for this is that C is a very old language and bool didn't exist when it was created.\\
+\hline
+Function parameters in C &
+\textcolor{orange}{C handles function parameters in a weird way, you can call a function with no parameters with any amount of parameters. If you want to explicitly state that you do not want any parameters, then you need to include the parameter "void" in the declaration. C++ doesn't do this!}\newline
+\begin{lstlisting}
+void f();
+void b(void);
+// formatting to keep the lines shorter
+void f() { printf("pangping!"); } // ok
+void f(1,2,3,4) { printf("pangping!"); } // ok LMAO
+void b() { printf("pangping!"); } // ok
+void b(1,2,3,4) { printf("pangping!"); } // !!ERROR!!
+\end{lstlisting}\\
+\hline
+Copy by default & 
+\textcolor{orange}{Just like c++ all parameters will be copied by default, if you want to use the same object, use pointers! \textbf{yes RAW POINTERS not references! That is another c++ feature!}}\newline
+\begin{lstlisting}
+int x = 5;
+void f(int x) {
+  x = x + 1;
+} // x is still 5 as the parameter was copied!
+void b(int *x) {
+  *x = *x + 1;
+} // now x is 6 as we used the pointer!
+\end{lstlisting}\\
+\hline
+Global vs Local variables & 
+\textcolor{orange}{Global variables will always be \textbf{initialized as 0 if we do not initialize it ourselves!}}\newline
+\textcolor{purple}{Local variables on the other hand \textbf{will not be initialized by the compiler, aka it will be the value that the memory address it has at that point!}}\newline
+\textcolor{teal}{The simple reason for this, is that the global variables are allocated on the heap, they have a fixed memory address, where as the local variables are on the stack!}\\
+\hline
+Function Pointers & 
+\textcolor{orange}{Functions can be called by using pointers, quite nice:}\newline
+\begin{lstlisting}
+int g ( int x , int y );
+
+int (*p) (int, int) = &f ;
+p = g;
+i = (*p) (1, 2); // calls the function g with parameters (1, 2)
+j = p(3, 4); // same
+\end{lstlisting}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak 
+\begin{table}[ht!]
+\section{Section Name}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
 \textbf{Imul vs Mul} & 
 \textcolor{orange}{(C) In case of 2 unsigned integers, we should technically use the mul instruction,\newline
@@ -802,9 +863,106 @@ sum += *p; // same as regular for loop just with pointer instead
 \end{lstlisting}
 \\
 \hline
-
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
+Functions in assembly & 
+\begin{lstlisting}
+mov [opa_and512], op1a
+mov [opb_and512], op1b
+mov [res_and512], res1
+mov [raddr_and512], after1
+;the idea is that we store after 1 and go there when needed
+and512:
+    xor rcx, rcx
 
+loop_and512:
+    mov rax, [opa_and512 + 8 * rcx]
+    mov rax, [opb_and512 + 8 * rcx]
+    mov [res_adn512 + 8 * rcx], rax
+
+    inc rcx
+    cmp rcx, 8 
+    jne loop_and512
+    jmp [raddr_and512] ; move to after1
+
+after1:
+    ;do something
+\end{lstlisting} 
+\, \newline
+\textcolor{orange}{We have an obvious problem with this, if we want to do a recursive function, we would need to define multiple global functions in order to get the proper behavior.}\newline
+\begin{lstlisting}
+S: 
+    test rax, rax ;n == 0?
+    js rsi
+
+    mov rcx, rax
+    dec rax
+    mov rsi, after ; set rsi to after
+    jump S 
+
+after: 
+    add rax, rcx ; as soon as we hit this code we have an endless loop!
+    ; potential fix another register rso to after2:
+    ; if ok jump to rso
+    jump rsi
+after2:
+    ; do more
+\end{lstlisting}
+\, \newline
+\textcolor{orange}{So what we would like to have is something like a stack:}\newline
+\textcolor{orange}{Stack Push}\newline
+\includegraphics[scale=0.4]{2022-11-08-03:34:38.png}
+\includegraphics[scale=0.4]{2022-11-08-03:34:50.png}
+\includegraphics[scale=0.4]{2022-11-08-03:34:43.png}\newline
+\textcolor{orange}{Stack Pop}\newline
+\includegraphics[scale=0.4]{2022-11-08-03:35:28.png}
+\includegraphics[scale=0.4]{2022-11-08-03:35:38.png}
+\includegraphics[scale=0.4]{2022-11-08-03:35:33.png}\newline
+\textcolor{red}{IMPORTANT: The stack memory address decreases from top to bottom!!}\newline
+\begin{lstlisting}
+S: 
+    test rax, rax ;n == 0?
+    js rsi
+
+    push rax
+    dec rax
+    push after
+    jump S 
+
+after: 
+    pop rcx
+    add rax, rcx
+after2:
+    pop rsi
+    jmp rsi
+\end{lstlisting}\\
+\hline
+call and ret & 
+\textcolor{orange}{These are simply a combination of either push and jmp or pop and jmp:}\newline
+\begin{itemize}
+\item \textcolor{orange}{call = push rax and jmp a}
+\item \textcolor{orange}{ret = pop rax and jmp rax}
+\vspace{-2mm}
+\end{itemize} 
+\begin{lstlisting}
+S: 
+    test rax, rax
+    jz final ; goto final if n == 0
+
+    push rax
+    dec rax
+    call S ; goto S
+    ; final will return here !!
+    pop rcx 
+    add rax, rcx
+    ret ; return after we went to final 
+final:
+    ret ; return after where called
+\end{lstlisting}\\
 \hline
 \end{tabular}
 \end{table}
@@ -812,19 +970,58 @@ sum += *p; // same as regular for loop just with pointer instead
 \begin{table}[ht!]
 \begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
-
+Parameters on Stack & 
+\textcolor{orange}{When we want to jump to a function, we first push the function to jump to in the stack, then its arguments, and then the return function.\newline
+This means that the parameters will be on the stack until you return from the function.}\\
 \hline
-
+Frame Pointer & 
+\textcolor{orange}{With each function call, the \textbf{frame pointer} will move back and forth,\newline
+this requires a stable register for the frame pointer, this is the register \textbf{RBP (Base Pointer) on inte64}}\newline
+\textcolor{teal}{Prolog}\newline
+\begin{lstlisting}
+push rpb ;push base pointer to stack
+mov rbp, rsp ;rsp into rpb
+\end{lstlisting} 
+\, \newline
+\textcolor{teal}{Epilog}\newline
+\begin{lstlisting}
+mov rsp, rpb ; move rpb into rsp 
+pop rbp ; pop rbp from stack
+\end{lstlisting}\\
 \hline
-
+Stack Allocation& 
+\textcolor{orange}{You don't allocate or de-allocate every single variable one by one, instead you allocate or de-allocate it all at once:}\newline
+\begin{lstlisting}
+sub rsp, 0x20 ; allocates 0x20 bytes on stack
+add rsp, 0x20 ; deallocates 0x20 bytes on stack
+\end{lstlisting} 
+\, \newline
+\textcolor{orange}{You can then access the current result that is over the frame pointer like this:}\newline
+\begin{lstlisting}
+mov rcx, [rbp - 0x8] ; access memory for results
+\end{lstlisting}\\
 \hline
+Parameters in Assembly & 
+\textcolor{orange}{Since we do not have an integrated concept of functions, we need to handle the parameter passing ourselves.}\newline
+\textcolor{purple}{Here we first push the parameter on to the stack, then we push the function pointer to the stack, this means that the function pointer is on the top.}\newline
+\begin{lstlisting}
+f: 
+    push[x] // push the parameter to the stack
+    call g  // push the function pointer to the stack
+g: 
+    push rbp 
+    mov rbp, rsp 
+     
+    mov rcx, [rpb + 0x10]
 
+    mov rsp, rbp 
+    pop rbp 
+    ret
+\end{lstlisting}\\
 \hline
-
-\hline
-
-\hline
-
+Calling Conventions & 
+\textcolor{orange}{The calling convention is the contract between the caller and the callee, it needs to define how the parameters will be passed, how the return values will be handled and how the stack will be built/reduced.}\newline
+\textcolor{purple}{This can either be between a function and another function, or between a program and the operating system.}\\
 \hline
 
 \hline
