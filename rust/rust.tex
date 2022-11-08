@@ -2153,6 +2153,36 @@ where
 }
 \end{lstlisting}\\
 \hline
+Dangling references comparison to c++ & 
+\begin{lstlisting}
+// cpp
+int main() {
+  int* ptr;
+
+  {
+    int x = 5;
+    ptr = &5;
+  }
+
+  std::cout << *ptr << "\n";
+}
+// rust
+fn main() {
+    let r;
+
+    {
+        let x = 5;
+        r = &x;
+    }
+
+    println!("r: {}", r);
+}
+\end{lstlisting}
+\, \newline
+\textcolor{orange}{As you can see, rust makes sure that the unsafe code that would access de-allocated memory could not even compile!\newline C++ on the other hand lets you shoot yourself in the foot. \newline
+  And java would create an exception with it's runtime overhead. Rust has the safety of java and the speed of c++ by catching unsafe errors on compile time!!
+}\\
+\hline
 \end{tabular}
 \section{Tests}
 \begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
@@ -2175,6 +2205,12 @@ mod tests {
 }
 \end{lstlisting}\\
 \hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
 Assert & 
 \textcolor{purple}{Assert can handle multiple variants like \textbf{assert\_eq!()} which tests if the result is equal to a number or \textbf{assert!()}, which tests for a boolean.}\newline
 \begin{itemize}
@@ -2183,7 +2219,7 @@ Assert &
 \item \textcolor{orange}{assert\_ne! -> not equals number}
 \item \textcolor{orange}{item 4}
 \vspace{2mm}
-\end{itemize} 
+\end{itemize}\\ 
 \hline
 PartialEq and Debug & 
 \textcolor{red}{The tests can only be done on types that implement the \textbf{PartEq and Debug traits}, as they are used to print the values!!\newline
@@ -2201,7 +2237,7 @@ fn greeting_contains_name() {
     ); // the second parameter is the message to print on failure,
        // with the result variable next
 }
-\end{lstlisting}
+\end{lstlisting}\\
 \hline
 Should panic & 
 \textcolor{orange}{You can tell rust that the test should result in a panic:}\newline
@@ -2233,6 +2269,78 @@ fn greater_than_100() {
     Guess::new(200);
 } // test successful if panic
 \end{lstlisting}\\
+\hline
+
+\hline
+
+\hline
+
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
 \hline
 
 \hline
@@ -2287,7 +2395,8 @@ let x = dbg!(34 * 32 - 23);
 
 \hline
 \end{tabular}
-\end{table}
+\, \newline
 Code Snippets and Screenshots were taken from \href{https://doc.rust-lang.org/book/title-page.html}{https://doc.rust-lang.org/book/title-page.html}\newline
 Copyright Notices are provided within the repository.
+\end{table}
 \end{document}

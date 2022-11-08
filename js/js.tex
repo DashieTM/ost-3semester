@@ -1019,9 +1019,40 @@ Naming schemes &
 \vspace{-2mm}
 \end{itemize}\\ 
 \hline
-
+Functions & 
+\textcolor{orange}{Function should also be \textbf{short, fitting name for functionality, pos-x compliant} -> only 1 functionality and \textbf{as few parameters as possible}}\\
 \hline
-
+Code Smells & 
+\begin{tabular}{m{0.3\linewidth}m{0.45\linewidth}}
+Names\newline
+\begin{itemize}
+\item \textcolor{orange}{useless Names}
+\item \textcolor{orange}{too short names}
+\item \textcolor{orange}{too abstract names}
+\end{itemize}
+& 
+Functions\newline
+\begin{itemize}
+\item \textcolor{orange}{too many parameters}
+\item \textcolor{orange}{too much dead code -> not reached code}
+\item \textcolor{orange}{Function too long}
+\item \textcolor{orange}{boolean flags}
+\end{itemize} \\
+Comments\newline
+\begin{itemize}
+\item \textcolor{orange}{outdated comments}
+\item \textcolor{orange}{superfluous comments}
+\item \textcolor{orange}{commented code}
+\end{itemize} 
+& 
+More \newline
+\begin{itemize}
+\item \textcolor{orange}{Code duplicates}
+\item \textcolor{orange}{Inconsistent formatting}
+\item \textcolor{orange}{Inconsistent naming across functions and names}
+\end{itemize}\\
+\end{tabular}
+\\
 \hline
 
 \hline
@@ -1045,9 +1076,16 @@ PolyFill &
 \textcolor{orange}{BabelJS has certain limitations that PolyFill tries to essentially "fill in". This further increases the compatibility with older browsers, however, this still is limited to a certain extend.\newline
 For example due to the translating, the performance will be much worse, and considering we are already using an older browser, this can quickly get out of hand.}\\
 \hline
-
+Model View Controller (MVC) & 
+\textcolor{orange}{This is essentially an abstract system to create web-applications, it abstracts 3 different things: the \textbf{view -> Display of data}, the \textbf{model -> app state}, and the \textbf{Controller -> reaction to input}}\newline
+\includegraphics[scale=0.4]{2022-11-08-11:39:15.png}\newline
+\textcolor{teal}{You can create this for every project that you would create with the tri-force html/css/js}\\
 \hline
-
+Example for MVC & 
+\vspace{2mm}
+\includegraphics[scale=0.4]{2022-11-08-11:42:52.png} \textcolor{orange}{App-states}\newline
+\includegraphics[scale=0.4]{2022-11-08-11:42:58.png}\textcolor{orange}{Display of data}\newline
+\includegraphics[scale=0.4]{2022-11-08-11:43:08.png}\textcolor{orange}{Reaction to input}\\
 \hline
 
 \hline
