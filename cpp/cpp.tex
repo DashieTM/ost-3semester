@@ -994,27 +994,82 @@ auto operator++(DayOfWeek& aday) -> DayOfWeek {
 }
 \end{lstlisting}\\
 \hline
-
+\end{tabular}
+\section{Containers}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
-
+Categories &
+\vspace{2mm}
+\begin{itemize}
+\item \textcolor{orange}{Sequence Containers: \newline
+  Elements are accessible in order as they were inserted/created\newline
+  find in linear time through algorithm find}
+\item \textcolor{orange}{Associative Containers:\newline
+  Elements are accessible in sorted order\newline
+  find as member function in logrithmic time}
+\item \textcolor{orange}{Hashed Container (Unsorted Associative Container)\newline
+  Element are accessible in unspecified order\newline
+  find as member function in constant time}
+\vspace{2mm}
+\end{itemize}\\ 
 \hline
-
+General Container Info &
+\vspace{2mm}
+\includegraphics[scale=0.4]{2022-11-08-08:23:10.png}\newline
+\begin{itemize}
+\item \textcolor{orange}{begin()/end()}: Get iterators for algorithms and iteration in general
+\item \textcolor{orange}{erase(iter)}: Removes the element at position the iterator iter points to
+\item \textcolor{orange}{insert(iter, value)}: Inserts value at the position the iterator iter points to
+\item \textcolor{orange}{size()/empty()}: Check the size of the container
+\vspace{2mm}
+\end{itemize}
+\, \newline
+\textcolor{teal}{Containers can be:}\newline
+\begin{itemize}
+  \item \textcolor{teal}{default-constructed}: std::vector<int> v{}
+  \item \textcolor{teal}{copy-constructed}: std::vector<int> v2{v};
+\item \textcolor{teal}{Equality compared if the same type}: if(v == v2)
+\item \textcolor{teal}{lexicographically compared if elements can be compared}
+\item \textcolor{teal}{emptied with clear()}
+\vspace{2mm}
+\end{itemize}\\
 \hline
-
+Initialization & 
+\textcolor{orange}{Just like vectors, containers can usually be initialized via the 3 main methods: }\newline
+\begin{itemize}
+  \item \textcolor{teal}{initializer list}: std::vector<int> v{1,2,3,5,6};
+  \item \textcolor{teal}{Construction with number of elements}: std::vector<int> v(5, 10);
+  \item \textcolor{teal}{With range}: std::vector<int> v{cbegin(v), cend(v)};
+\item \textcolor{teal}{item 4}
+\vspace{2mm}
+\end{itemize}\\
 \hline
-
+Sequence Containers & 
+\vspace{2mm}
+\includegraphics[scale=0.4]{2022-11-08-08:32:12.png}\newline
+\begin{itemize}
+\item \textcolor{teal}{std::vector}
+\item \textcolor{teal}{std::deque}
+\item \textcolor{teal}{std::list}
+\item \textcolor{teal}{std::array}
+\vspace{2mm}
+\end{itemize}\\
 \hline
-
-\hline
-
-\hline
-
-\hline
-
-\hline
-
-\hline
-
+std::array &
+\vspace{2mm}
+\begin{lstlisting}
+std::array values{1,2,3,5,6};
+// instead of
+int obsolete[]{2,3,4,5,6};
+\end{lstlisting}
+\, \newline
+\begin{itemize}
+\item \textcolor{orange}{Fixed-size container, can't insert/append}
+\item \textcolor{orange}{Can be initialized at compile time}
+\item \textcolor{orange}{use std::array over C style array}
+\item \textcolor{orange}{item 4}
+\vspace{2mm}
+\end{itemize}\\ 
 \hline
 \end{tabular}
 \end{table}
@@ -1022,27 +1077,88 @@ auto operator++(DayOfWeek& aday) -> DayOfWeek {
 \begin{table}[ht!]
 \begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
-
+Double Ended queue std::deque & 
+\vspace{2mm}
+\includegraphics[scale=0.4]{2022-11-08-08:39:23.png}\newline
+\textcolor{orange}{This is like the std::vector with the additional functions: \textbf{push\_front() and pop\_front()}}\newline
+\textcolor{teal}{Special implementation for std::vector<bool> and std::deque<bool>.}\\
 \hline
-
+std::list & 
+\vspace{2mm}
+\includegraphics[scale=0.4]{2022-11-08-08:41:00.png}\newline
+\begin{itemize}
+\item \textcolor{orange}{Efficient insertion in any position}
+\item \textcolor{orange}{Lower efficiency in bulk operations}
+\item \textcolor{orange}{Requires member-function call for sort() etc}
+\item \textcolor{orange}{Only bi-directional iterators - no index access!}
+\vspace{-2mm}
+\end{itemize}\\
 \hline
-
+std::forward\_list & 
+\begin{lstlisting}
+std::forward_list<int> l{1, 2, 3, 4, 5, 6};
+\end{lstlisting}
+\, \newline
+\includegraphics[scale=0.4]{2022-11-08-08:43:38.png}\newline
+\begin{itemize}
+\item \textcolor{orange}{Efficient insertion AFTER any position, but clumsy with iterator to get "before position"}
+\item \textcolor{orange}{Only forward-iterators, lumsy to search and remove, use member-functions not algorithms}
+\item \textcolor{orange}{Avoid, except when there is a specific need! \textbf{Better use std::list or std::vector}}
+\vspace{-2mm}
+\end{itemize}\\
 \hline
-
+std::stack & 
+\begin{lstlisting}
+std::stack<int> s{};
+s.push(42);
+std::cout << s.top();
+s.pop();
+\end{lstlisting}
+\, \newline
+\includegraphics[scale=0.4]{2022-11-08-08:47:04.png}\newline
+\begin{itemize}
+\item \textcolor{orange}{Uses std::deque or std::vector/std::list and limits its functionality to stack operation}
+\item \textcolor{orange}{No iteration}
+\item \textcolor{orange}{Delegates push\_back(), back() and pop\_back()}
+\item \textcolor{orange}{No longer a proper container, \textbf{deliberate limitation!}}
+\vspace{-2mm}
+\end{itemize}\\
 \hline
-
+std::queue & 
+\begin{lstlisting}
+std::queue<int> q{};
+q.push(42);
+std::cout << q.front();
+q.pop();
+\end{lstlisting}
+\, \newline
+\includegraphics[scale=0.4]{2022-11-08-08:48:42.png}\newline
+\begin{itemize}
+\item \textcolor{orange}{Uses std::deque or std::vector/std::list and limits its functionality to stack operation}
+\item \textcolor{orange}{No iteration}
+\item \textcolor{orange}{Delegates push\_back(), back() and pop\_back()}
+\item \textcolor{orange}{No longer a proper container, \textbf{deliberate limitation!}}
+\vspace{-2mm}
+\end{itemize}\\
 \hline
-
-\hline
-
-\hline
-
-\hline
-
-\hline
-
-\hline
-
+std::priority\_queue & 
+\begin{lstlisting}
+std::priority_queue<int> q{};
+q.push(42);
+std::cout << q.front();
+q.pop();
+\end{lstlisting}
+\, \newline
+\includegraphics[scale=0.4]{2022-11-08-08:51:40.png}\newline
+\begin{itemize}
+\item \textcolor{orange}{Uses std::deque or std::vector/std::list and limits its functionality to stack operation}
+\item \textcolor{orange}{No iteration}
+\item \textcolor{orange}{Delegates push\_back(), back() and pop\_back()}
+\item \textcolor{orange}{No longer a proper container, \textbf{deliberate limitation!}}
+\item \textcolor{orange}{Keeps elements sorted}
+\item \textcolor{orange}{top() element is always the smallest (requires elment type to be comparable)}
+\vspace{-2mm}
+\end{itemize}\\
 \hline
 \end{tabular}
 \end{table}
@@ -1050,7 +1166,324 @@ auto operator++(DayOfWeek& aday) -> DayOfWeek {
 \begin{table}[ht!]
 \begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
+\vspace{2mm}
+Associative Containers & 
+\begin{itemize}
+\item \textcolor{Orange}{Key Unique / Key only: std::set}
+\item \textcolor{Orange}{Key Unique / Key and value: std::map}
+\item \textcolor{Orange}{Multiple Equivalent Keys / Key only: std::multiset}
+\item \textcolor{Orange}{Multiple Equivalent Keys / Key and value: std::multimap}
+\vspace{-2mm}
+\end{itemize}\\ 
+\hline
+std::set &
+\begin{lstlisting}
+std::set<int> values{5,6,2,9,8};
+\end{lstlisting}
+\, \newline
+\begin{itemize}
+\item \textcolor{orange}{Stores elements in sorted order (\textbf{ascending by default})}\newline
+  order can be overwritten by the 2nd template parameter
+\item \textcolor{orange}{Iteration walks over the elements in order}\newline
+  Keys cannot be modified through iterators!
+\item \textcolor{orange}{Use member functions for .find and .count}\newline
+  Tree-search instead of sequential search\newline
+  Result of .count(element is either 0 or 1\newline
+  Since C++20 there is a .contains(element) member
+\item \textcolor{orange}{Initializer does not need to be sorted}\newline
+  s.contains(x) as quick check if x is present in std::set
+\item \textcolor{orange}{Discouraged alternatives: s.find(x) != s.end() or s.count(x)}
+\vspace{-2mm}
+\end{itemize} 
+\textcolor{orange}{Example:}\newline
+\begin{lstlisting}
+#include <iostream>
+#include <set>
+auto filterVowels(std::istream& in, std::ostream& out) -> void {
+  std::set const vowels{'a', 'e', 'o', 'u', 'i', 'y'};
+  char c{};
+  while (in >> c) {
+    if (!vowels.contains(c)) {
+      out << c;
+    }
+  }
+}
+auto main() -> int {
+  filterVowels(std::cin, std::cout);
+}
+\end{lstlisting}\\
+\hline
+std::map  &
+\begin{lstlisting}
+std::map<char, size_t> vowels{{'a', 3}, {'e', 8}, {'i', 5}, {'o', 4}, {'u', 2}, {'y', 1}};
+\end{lstlisting}
+\, \newline
+\includegraphics[scale=0.4]{2022-11-08-09:15:15.png}\newline
+\begin{itemize}
+\item \textcolor{Orange}{Stores key-value pairs in sorted order}\newline
+  Sorted by key in ascending order\newline
+  \textcolor{teal}{Order can be overwritten by the 3rd template parameter}
+\item \textcolor{Orange}{Iterators access std::pair<key, value>}\newline
+  Use .first for key and .second for value
+\item \textcolor{orange}{m.contains(x) as quick check if x is a key present in std::map}\newline
+  Discouraged alternative m.find(x) != m.end() or m.count(x)
+\item \textcolor{orange}{auto is simpler than std::pair<key, value>, obviously lol}
+\item \textcolor{orange}{Indexing operator[] inserts a new entry automatically if key is not present}\newline
+  Key is the argument of the index operator, values is the default value of the value type\newline
+  Returns the value by reference, which allows modification
+\vspace{-2mm}
+\end{itemize} 
+\, \newline
+\textcolor{orange}{Example:}\newline
+\begin{lstlisting}
+auto countVowels(std::istream& in, std::ostream& out) -> void {
+  std::map<char, size_t> vowels{{'a', 0}, {'e', 0}, {'i', 0}, {'o', 0}, {'u', 0}, {'y', 0}};
+  char c{};
+  while (in >> c) {
+    if (vowels.contains(c)) { // only count those chars that are already in the map
+    ++vowels[c];
+    for_each(cbegin(vowels), cend(vowels), [&out](auto const& entry) {
+      // entry is a pair<char, size_t>
+      out << entry.first << " = "<< entry.second << '\n';
+    });
+  }
+}
+\end{lstlisting}\\
+\hline
+std::multiset and std::multimap & 
+\begin{lstlisting}
+std::multiset<char> letters{'a', 'a', 'c', 'c', 'c', 'e', 'e', 'f'};
+// note the c that appears 3 times!
+\end{lstlisting}
+\, \newline
+\includegraphics[scale=0.4]{2022-11-08-09:24:23.png}\newline
+\begin{itemize}
+\item \textcolor{orange}{Multiple Keys allowed}\newline
+  Use equal\_range() or lower\_bound()/upper\_bound() member functions/algorithms to find boundaries of equivalent keys
+\item \textcolor{orange}{Can be a bit more tedious to work with than std::set}
+\vspace{-2mm}
+\end{itemize} \\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+&
+\textcolor{orange}{Example:}\newline
+\begin{lstlisting}
+auto sortedStringList(std::istream& in, std::ostream& out) -> void {
+  using inIter = std::istream_iterator<std::string>;
+  using outIter = std::ostream_iterator<std::string>;
+  std::multiset<std::string> words{inIter{in}, inIter{}};
+  copy(cbegin(words), cend(words), outIter(out, "\n"));
+  auto current = cbegin(words);
+  while (current != cend(words)) {
+    auto endOfRange = words.upper_bound(*current);
+    copy(current, endOfRange, outIter{out, ", "});
+    out << '\n'; // next range on new line
+    current = endOfRange;
+  }
+}
+\end{lstlisting} 
+\begin{itemize}
+\item \textcolor{orange}{First copy-algorithm call prints each word on separate line}
+\item \textcolor{orange}{Code in while-loop groups equivalent words on one line}
+\vspace{-2mm}
+\end{itemize} \\
+\hline
+std::unordered\_set & 
+\begin{lstlisting}
+#include <algorithm>
+#include <iostream>
+#include <iterator>
+#include <unordered_set>
+auto main() -> int {
+  std::unordered_set<char> const vowels{'a', 'e', 'i', 'o', 'u'};
+  using in = std::istreambuf_iterator<char>;
+  using out = std::ostreambuf_iterator<char>;
+  remove_copy_if(in{std::cin}, in{}, out{std::cout},
+  [&](char c) { return vowels.count(c); }
+  );
+}
+\end{lstlisting}
+\, \newline
+\begin{itemize}
+\item \textcolor{orange}{Usage is almost equivalent to std::map}\newline
+  Except lack of ordering
+\item \textcolor{orange}{Don't use std::unordered\_map with your own types, unless you are an expert in hash functions and you benefit from the speedup}\newline
+  Boost library provides hash-combiner helper
+\vspace{-2mm}
+\end{itemize} \\
+\hline
+std::unordered\_map & 
+\begin{lstlisting}
+#include <iostream>
+#include <string>
+#include <unordered_map>
+auto main() -> int {
+  std::unordered_map<std::string, int> words{};
+  std::string s{};
+  while (std::cin >> s) { ++words[s]; }
+    for(auto const& p : words) {
+    std::cout << p.first << " = "<< p.second << '\n';
+  }
+}
+\end{lstlisting}
+\, \newline
+\begin{itemize}
+\item \textcolor{orange}{Usage is almost equivalent to std::map}\newline
+  Except lack of ordering
+\item \textcolor{orange}{Don't use std::unordered\_map with your own types, unless you are an expert in hash functions and you benefit from the speedup}\newline
+  Boost library provides hash-combiner helper
+\vspace{-2mm}
+\end{itemize} \\
+\hline
+\end{tabular}
+\section{Iterators}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Different Iterators & 
+\textcolor{orange}{There are 2 different main categories, input iterators and output iterators.\newline
+The input iterators has a bunch of parent-iterators with different behaviors}\newline
+\includegraphics[scale=0.4]{2022-11-08-09:34:02.png}\newline
+\textcolor{teal}{The more you move outwards on the input iterator, the more power these iterators have!}\\
+\hline
+Input Iterators & 
+\begin{lstlisting}
+struct input_iterator_tag{};
+auto operator* () -> Element;
+auto operator++() -> It&;
+auto operator++(int) -> It;
+auto operator==(It const&) -> bool;
+auto operator!=(It const&) -> bool;
+auto operator= (It const&) -> It&;
+It(It const&); //copy ctor
+\end{lstlisting} 
+\, \newline
+\begin{itemize}
+\item \textcolor{orange}{Supports reading the "current" element}
+\item \textcolor{orange}{Allows for one-pass input algorithms}\newline
+  \textcolor{red}{Can't step backwards}
+\item \textcolor{orange}{Models the std::istream\_iterator and std::istream}
+\item \textcolor{orange}{Can be compared with == and !=}\newline
+  To other iterator objects of teh sae type: It
+\item \textcolor{orange}{Can be copied}\newline
+  \textcolor{red}{After increment (calling ++) all other copies are invalid!}\newline
+  *it++ is allowed explicitly (by the standard)
+\vspace{-2mm}
+\end{itemize}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Forward Iterators &
+\begin{lstlisting}
+struct forward_iterator_tag{};
+auto operator* () -> Element&;
+auto operator++() -> It&;
+auto operator++(int) -> It;
+auto operator==(It const&) -> bool;
+auto operator!=(It const&) -> bool;
+auto operator= (It const&) -> It&;
+It(It const&); //copy ctor
+\end{lstlisting} 
+\, \newline
+\begin{itemize}
+\item \textcolor{orange}{Can do whatever an input iterator can do, and:} \newline
+  \textcolor{teal}{Supports changing the "current" element, unless elements are const}
+\item \textcolor{orange}{Still allows only for one-pass input algorithms}\newline
+  \textcolor{red}{Can't step backwards}\newline
+  But can keep iterator copy around for later reference
+\item \textcolor{orange}{Models the std::forward\_list iterators}
+\vspace{-2mm}
+\end{itemize} \\
+\hline
+Bidirectional Iterator & 
+\begin{lstlisting}
+struct bidirectional_iterator_tag{};
+auto operator* () -> Element&;
+auto operator++() -> It&;
+auto operator++(int) -> It;
+auto operator--() -> It&;
+auto operator--(int) -> It;
+auto operator==(It const&) -> bool;
+auto operator!=(It const&) -> bool;
+auto operator= (It const&) -> It&;
+It(It const&); //copy ctor
+\end{lstlisting}
+\, \newline
+\begin{itemize}
+\item \textcolor{orange}{Can do whatever a forward iterator can, plus..}\newline
+  \textcolor{red}{CAN GO BACKWARDS}
+\item \textcolor{orange}{Allows for forward-backwards-pass algorithms}
+\item \textcolor{orange}{Models the std::iterators}
+\vspace{-2mm}
+\end{itemize}\\ 
+\hline
+Random Access Iterators & 
+\begin{lstlisting}
+struct random_access_iterator_tag{};
 
+auto operator* () -> Element&;
+auto operator++() -> It&;
+auto operator++(int) -> It;
+auto operator--() -> It&;
+auto operator--(int) -> It;
+auto operator==(It const&) -> bool;
+auto operator!=(It const&) -> bool;
+auto operator= (It const&) -> It&;
+It(It const&); //copy ctor
+auto operator[](distance) -> Element&;
+auto operator+(distance) -> It;
+auto operator+=(distance) -> It&;
+auto operator-(distance) -> It;
+auto operator-=(distance) -> It&;
+auto operator-(It const &) -> distance;
+//relational operators, like <
+\end{lstlisting}
+\, \newline
+\begin{itemize}
+\item \textcolor{orange}{Can do whatever a bidirectional iterator can, plus..}\newline
+  \begin{itemize}
+  \item \textcolor{teal}{Directly access element at index (offset to current position): distance can be positive or negative}
+  \item \textcolor{teal}{Go n steps forward or backwards}
+  \item \textcolor{teal}{"Subtact" two iterators to get the distance}
+  \item \textcolor{teal}{Compare with relational operators (<, <=, >, >=)}
+  \end{itemize} 
+\item \textcolor{orange}{Allows random access in algorithms}
+\item \textcolor{orange}{Models the std::vector iterators}
+\vspace{-2mm}
+\end{itemize} \\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Output Iterator & 
+\begin{lstlisting}
+struct output_iterator_tag{};
+auto operator*() -> Element&;
+auto operator++() -> It&;
+auto operator++(int) -> It;
+\end{lstlisting}
+\, \newline
+\begin{itemize}
+\item \textcolor{orange}{Can write value to current element, but only once (*it = value)}\newline
+  Then increment is required
+\item \textcolor{orange}{Modeled after std::ostream\_iterator}
+\item \textcolor{orange}{Most other iterators can also act as output iterators}\newline
+  \textcolor{red}{Unless the underlying container is const}
+\item \textcolor{orange}{Exception: associative containers will allow only read-only iteration}
+\item \textcolor{orange}{No comparison and end to an out rang is not queryable}
+\vspace{-2mm}
+\end{itemize}\\ 
 \hline
 
 \hline
