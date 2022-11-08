@@ -2270,11 +2270,46 @@ fn greater_than_100() {
 } // test successful if panic
 \end{lstlisting}\\
 \hline
-
+Tests with Return<T, E> & 
+\textcolor{orange}{You can also use Result<T, E> in tests to show that an error occurred, and unlike panic you also don't need a special message formatting, as the string can be placed inside the Err() part}\newline
+\begin{lstlisting}
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn it_works() -> Result<(), String> {
+        if 2 + 2 == 4 {
+            Ok(())
+        } else {
+            Err(String::from("two plus two does not equal four"))
+        }
+    }
+}
+\end{lstlisting} 
+\, \newline
+\textcolor{purple}{Should you instead want to check whether or not a certain function returns an Err(), then you can do this like this:}\newline
+\begin{lstlisting}
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn it_works() -> Result<(), String> {
+        assert(func_to_test().is_err());
+    }
+}
+\end{lstlisting}
+\, \newline
+\textcolor{red}{Note that you can't use \textbf{should panic}, as Err() is not a panic!}\\
 \hline
-
+Default binaries in test mode & 
+\textcolor{orange}{You specify to compile the tests with \textbf{cargo test}, which then will launch a special test environment, where \textbf{all tests are run in parallel!}\newline
+Rust also \textbf{disables all other output during test mode!} This makes sure that your tests are easy to read, but you can overrule this behavior with command line options -> see cargo test --help for more.}\\
 \hline
-
+Turning off async in testing & 
+\textcolor{orange}{Some tests might depend on each other because of a shared state like a file. In this case the multithreading of rusts tests can turn your tests invalid!\newline
+  Luckily with the commandline flag \textbf{--test-threads=1} you can limit this to a singular thread making the threads serialized again.\newline
+You can of course also use a different number should you want that.}\\
+\hline
+Output during testing & 
+\textcolor{orange}{Output such as println can be enabled during tests with the \textbf{--show-output=1} flag}\\
 \hline
 \end{tabular}
 \end{table}
