@@ -1000,11 +1000,24 @@ console.log(item.fun?.word); // this will print "no" IF the fun object exists!
 // otherwise we simply do not execute this code, no exception will be thrown.
 \end{lstlisting}\\
 \hline
-
+\end{tabular}
+\section{Clean Code}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
-
+Naming & 
+\textcolor{orange}{Names of variables, function etc should be \textbf{short, intuitive and explicit}.}\newline
+\textcolor{teal}{Also the names should be \textbf{spellable} and consisting of \textbf{kown words}, something that you can't say is useless in coop programming.}\newline
+\textcolor{purple}{Avoid repeating yourself, if the app is about webtrc, you don't need to specify this every time!}\\
 \hline
-
+Naming schemes & 
+\textcolor{orange}{There are different schemes for different types of variables that you use.}\newline
+\begin{itemize}
+\item \textcolor{purple}{regular variables and functions >> camelCase}
+\item \textcolor{purple}{constants >> ALL\_CAPS}
+\item \textcolor{purple}{boolean values >> isValue}
+\item \textcolor{purple}{arrays >> pluralNaming}
+\vspace{-2mm}
+\end{itemize}\\ 
 \hline
 
 \hline

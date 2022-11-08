@@ -1485,13 +1485,38 @@ auto operator++(int) -> It;
 \vspace{-2mm}
 \end{itemize}\\ 
 \hline
-
+std::distance(start, goal) & 
+\begin{itemize}
+  \item \textcolor{orange}{counts the number of hops it needs to take to the goal}  
+\item \textcolor{orange}{Efficient for random access iterators}
+\item \textcolor{orange}{For other iterators it has to loop -> not efficient}\newline
+  This also implies that the goal has to be after start.
+\vspace{-2mm}
+\end{itemize}\\ 
 \hline
-
+std::advance(itr, n) & 
+\textcolor{orange}{std::advance simply moves x steps forward or backwards ( if the iterator allows it!)}\newline
+\begin{itemize}
+\item \textcolor{teal}{Efficient for random access iterators}
+\item \textcolor{teal}{returns void -> no copies made}
+\vspace{-2mm}
+\end{itemize} \\
 \hline
-
+std::next() / std::prev() & 
+\textcolor{orange}{Goes one step further/back on the iterator and returns a copy of the value in the container at the next index.}\newline
+\textcolor{teal}{The step can be specified to be something other than 1 with a temporary argument!}\\
 \hline
-
+const iterators & 
+\textcolor{red}{A const iterator does not mean that the iterator itself is const, only the elements behind it are! In other words, it just doesn't allow you to modify the elements behind it.}\newline
+\begin{lstlisting}
+std::vector v{3, 1, 4, 1, 5, 9, 2, 6};
+auto const iter1 = values.begin(); //std::vector<int>::iterator const
+++iter1;
+auto iter2 = values.cbegin(); //std::vector<int>::const_iterator
+*iter = 2;
+\end{lstlisting}
+\, \newline
+\textcolor{teal}{Here we would try to change the value behind the iterator, this doesn't work with const iterators!}\\
 \hline
 
 \hline
