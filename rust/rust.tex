@@ -2153,6 +2153,91 @@ where
 }
 \end{lstlisting}\\
 \hline
+\end{tabular}
+\section{Tests}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Creating a test &
+\textcolor{orange}{In rust tests are automatically added when you create a libary!}\newline
+\begin{lstlisting}
+$ cargo new adder --lib
+     Created library `adder` project
+$ cd adder
+
+// the above commands lead to this:
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn it_works() {
+        let result = 2 + 2;
+        assert_eq!(result, 4);
+    }
+}
+\end{lstlisting}\\
+\hline
+Assert & 
+\textcolor{purple}{Assert can handle multiple variants like \textbf{assert\_eq!()} which tests if the result is equal to a number or \textbf{assert!()}, which tests for a boolean.}\newline
+\begin{itemize}
+\item \textcolor{orange}{assert! -> boolean}
+\item \textcolor{orange}{assert\_qg! -> equals number}
+\item \textcolor{orange}{assert\_ne! -> not equals number}
+\item \textcolor{orange}{item 4}
+\vspace{2mm}
+\end{itemize} 
+\hline
+PartialEq and Debug & 
+\textcolor{red}{The tests can only be done on types that implement the \textbf{PartEq and Debug traits}, as they are used to print the values!!\newline
+Usually the automatic \#[derive(PartialEq, Debug)] should work}\\
+\hline
+Custom Test failure message & 
+\begin{lstlisting}
+#[test]
+fn greeting_contains_name() {
+    let result = greeting("Carol");
+    assert!(
+        result.contains("Carol"),
+        "Greeting did not contain name, value was `{}`",
+        result
+    ); // the second parameter is the message to print on failure,
+       // with the result variable next
+}
+\end{lstlisting}
+\hline
+Should panic & 
+\textcolor{orange}{You can tell rust that the test should result in a panic:}\newline
+\begin{lstlisting}
+
+impl Guess {
+    pub fn new(value: i32) -> Guess {
+        if value < 1 {
+            panic!(
+                "Guess value must be greater than or equal to 1, got {}.",
+                value
+            );
+        } else if value > 100 {
+            panic!(
+                "Guess value must be less than or equal to 100, got {}.",
+                value
+            );
+        }
+
+        Guess { value }
+    }
+}
+
+#[test]
+#[should_panic(expected = "less than or equal to 100")]
+// the expected keyword says that this string should be inside the panic message
+// you can see above to see if that is the case
+fn greater_than_100() {
+    Guess::new(200);
+} // test successful if panic
+\end{lstlisting}\\
+\hline
+
+\hline
+
+\hline
 
 \hline
 \end{tabular}
