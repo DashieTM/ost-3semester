@@ -2299,6 +2299,12 @@ mod tests {
 \, \newline
 \textcolor{red}{Note that you can't use \textbf{should panic}, as Err() is not a panic!}\\
 \hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
 Default binaries in test mode & 
 \textcolor{orange}{You specify to compile the tests with \textbf{cargo test}, which then will launch a special test environment, where \textbf{all tests are run in parallel!}\newline
 Rust also \textbf{disables all other output during test mode!} This makes sure that your tests are easy to read, but you can overrule this behavior with command line options -> see cargo test --help for more.}\\
@@ -2317,9 +2323,24 @@ Output during testing &
 \begin{table}[ht!]
 \begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
-
+Running Selections of tests & 
+\textcolor{orange}{You can select a subset of tests via a name, or singular tests.}\newline
+\textcolor{purple}{single tests: cargo test test\_name}\newline
+\textcolor{purple}{subset of tests: part of a name -> add -> all tests with add in the function name\_name}\newline
+\textcolor{purple}{subset via module name: the module is also part of the name so library::testname -> you can filter via the library name!}\\
 \hline
-
+Igoring tests & 
+\textcolor{teal}{Some tests can be very time consuming, so it might be better to usually ignore them, that's why the \textbf{[ignore]} flag exists:}\newline
+\begin{lstlisting}
+#[test]
+#[ignore]
+fn some_test {
+    // do something
+}
+\end{lstlisting}
+\, \newline
+\textcolor{purple}{You can then include this test with \textbf{--include-ingored},\newline
+or only run the ignored tests with \textbf{--ignored}}\\
 \hline
 
 \hline
