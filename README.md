@@ -2,7 +2,7 @@
 
 ## Collection of University material created during the 3.semester at OST.
 
-### Rust: not a university, module just personal interest
+### Rust: not a university module, just personal interest
 ### webdev1: introduction module into html/css/js
 ### physics: general physics, not very advanced
 ### pmqm: just ignore this
