@@ -712,8 +712,8 @@ export function main() {
 \hline
 Animations & 
 \begin{lstlisting}
-import { GUI } from '../node_modules/three/examples/jsm/libs/dat.gui.module.js’;
-import { OrbitControls } from '../node_modules/three/examples/jsm/controls/OrbitControls.js’;
+import { GUI } from '../node_modules/three/examples/jsm/libs/dat.gui.module.js';
+import { OrbitControls } from '../node_modules/three/examples/jsm/controls/OrbitControls.js';
 
 export function main() {
   const renderer = new THREE.WebGLRenderer({canvas});
@@ -766,8 +766,185 @@ Javascript has a bunch of helper functions for that, but typescript strguggles w
 \hline
 Scene graph & 
 This resembles a tree structure with every object that will be displayed by WebGL:\newline
-\includegraphics[scale=0.4]{2022-11-09:02:30:04.png}\newline
+\includegraphics[scale=0.4]{2022-11-09-02:30:04.png}\newline
 \textcolor{orange}{An example for the scene graph can be found in the basic rendering part.}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Building Generic objects with treejs & 
+\begin{lstlisting}
+class CustomSinCurve extends THREE.Curve<THREE.Vector3> {
+  getPoint(t: number) {
+    return new THREE.Vector3(...);
+  }
+}
+const path = new CustomSinCurve(5, 10);
+const tubeGeometry = new THREE.TubeBufferGeometry(path);
+
+const shape = new THREE.Shape();
+shape.arc(0, 0, 5, Math.PI * 1.2, -0.2*Math.PI, true);
+shape.lineTo(0, -10);
+const extrudeSettings = {
+  depth: 2,
+  bevelEnabled: true,
+  bevelThickness: 0.5,
+  bevelSize: 1,
+  bevelSegments: 3
+};
+const geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+\end{lstlisting} 
+\, \newline
+\textcolor{orange}{TubeGeometry: this allows you to inflate a random curve into a tube.}\newline
+\textcolor{orange}{Extrusions: this allows you to turn a 2D shape into a 3D shape.}\\
+\hline
+Building your own objects with vertices & 
+\begin{lstlisting}
+var vertices = [
+  new THREE.Vector3( 1, 1,0),
+  new THREE.Vector3( 1,-1,0),
+  new THREE.Vector3(-1, 1,0),
+  new THREE.Vector3(-1,-1,0),
+];
+var faces = [
+  new THREE.Face3(0,2,1),
+  new THREE.Face3(1,2,3),
+];
+var geom = new THREE.Geometry();
+geom.vertices = vertices;
+geom.faces = faces;
+geom.computeFaceNormals();
+const obj = new THREE.Mesh(geom, new THREE.MeshPhongMaterial({color: 0x44aa88}));
+scene.add(obj);
+\end{lstlisting}\\
+\hline
+Loading of objects & 
+\begin{lstlisting}
+await new OBJLoader()
+  .loadAsync('../models/16834_hand.obj')
+  .then((object: THREE.Object3D) => {
+    scene.add(object);
+    camera.lookAt(object.position);
+    renderer.render(scene, camera);
+});
+\end{lstlisting}\\
+\hline
+Different lights in treejs & 
+\begin{itemize}
+\item \textcolor{orange}{Ambient Light}
+\item \textcolor{orange}{Point Light (with shadows)}
+\item \textcolor{orange}{Spot Light (with shadows and cone effect)}
+\item \textcolor{orange}{Directional Light (with shadows parallel light)}
+\item \textcolor{orange}{Hemisphere Light (simulates lighting under clear sky)}
+\item \textcolor{orange}{Area Light (glowing area, needs a lot of power)}
+\item \textcolor{orange}{Lens Flare (mom get the camera)}
+\vspace{-3mm}
+\end{itemize}\\
+\hline
+Mesh & 
+\textcolor{orange}{A mesh can be metal-like, non-metal-like, rough, or soft on a scale:}\newline
+\includegraphics[scale=0.4]{2022-11-09-05:18:51.png}\newline
+\textcolor{purple}{There are 2 more materials used, but usually only for debugging purposes:\newline
+\textbf{DepthMaterial and NormalMaterial}}\\
+\hline
+Mapping of Textures & 
+\begin{lstlisting}
+export async function main() {
+  await new THREE.TextureLoader()
+  .loadAsync("../textures/grid.png")
+  .then((texture: THREE.Texture) => {
+    const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
+    camera.position.z = 1;
+    const scene = new THREE.Scene();
+    const plane = new THREE.Mesh(
+    new THREE.PlaneGeometry(),
+    new THREE.MeshBasicMaterial({ map: texture }))
+    scene.add(plane)
+    render({}, camera, scene);
+  });
+}
+\end{lstlisting} 
+\, \newline
+\textcolor{orange}{This can also be used for \textbf{reflection (specularMap) and transparency(alphaMap)}}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Picture effects & 
+\textcolor{orange}{Used to continuously apply effects after the transformation of the 3D model to the 2D view.\newline
+For this reason, such filters are very effiecient!}\newline
+\begin{lstlisting}
+const renderScene = new RenderPass(scene, camera); // pipeline input
+const res = new THREE.Vector2(canvas.clientWidth, canvas.clientHeight);
+const bloomPass = new UnrealBloomPass(res, 1.5, 0.4, 0);
+composer.setSize(canvas.clientWidth, canvas.clientHeight);
+composer.addPass(renderScene);
+composer.addPass(bloomPass);
+composer.render(); // call render on the composer instead of the renderer
+\end{lstlisting}\\
+\hline
+Multi effects with MaskPass & 
+\textcolor{orange}{Mask Passes allow you to use multiple effects on a picture with postprocessing:}\newline
+\begin{lstlisting}
+const composer = new EffectComposer(renderer);
+composer.setSize(canvas.clientWidth, canvas.clientHeight);
+composer.addPass(new RenderPass(scene1, camera));
+// render right cube
+composer.addPass(new UnrealBloomPass(res, 1.25, 1, 0.1));// apply effect
+composer.addPass(new MaskPass(scene2, camera));
+// restrict effect area
+const renderScene2 = new RenderPass(scene2, camera);
+renderScene2.clear = false;
+composer.addPass(renderScene2);
+// render left cube
+composer.addPass(new ClearMaskPass());
+// undo area restriction
+composer.addPass(new ShaderPass(CopyShader));
+\end{lstlisting}
+\, \newline
+\includegraphics[scale=0.4]{2022-11-09-05:28:15.png}\\
+\hline
+Sprites & 
+\textcolor{orange}{Sprites are efficient cheap 2D geometry that will always be directed towards the camera, therefore giving a cheap imitation of 3D:}\newline
+\begin{lstlisting}
+const geometry = new THREE.BufferGeometry();
+const vertices = [];
+for ( let i = 0; i < 10000; i ++ ) {
+  const x = Math.random() * 2000 - 1000;
+  const y = Math.random() * 2000 - 1000;
+  const z = Math.random() * 2000 - 1000;
+  vertices.push(x, y, z);
+}
+geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+const textureLoader = new THREE.TextureLoader();
+const sprite1 = textureLoader.load('../textures/sprites/snowflake1.png');
+
+const parameters = [
+  { color: [ 0.90, 0.05, 0.5 ], sprite: sprite1, size: 10 },
+];
+const materials = [];
+for ( let i = 0; i < parameters.length; i ++ ) {
+  materials[i] = new THREE.PointsMaterial( {
+    size: parameters[i].size,
+    map: parameters[i].sprite,
+    blending: THREE.AdditiveBlending,
+    depthTest: false,
+    transparent: true } );
+  const color = parameters[i].color;
+  materials[i].color.setHSL(color[0], color[1], color[2]);
+  const particles = new THREE.Points(geometry, materials[i]);
+  particles.rotation.x = Math.random() * 6;
+  particles.rotation.y = Math.random() * 6;
+  particles.rotation.z = Math.random() * 6;
+  scene.add(particles);
+}
+\end{lstlisting}\\
 \hline
 \end{tabular}
 \end{table}
