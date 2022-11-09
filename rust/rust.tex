@@ -2317,12 +2317,6 @@ You can of course also use a different number should you want that.}\\
 Output during testing & 
 \textcolor{orange}{Output such as println can be enabled during tests with the \textbf{--show-output=1} flag}\\
 \hline
-\end{tabular}
-\end{table}
-\pagebreak
-\begin{table}[ht!]
-\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
-\hline
 Running Selections of tests & 
 \textcolor{orange}{You can select a subset of tests via a name, or singular tests.}\newline
 \textcolor{purple}{single tests: cargo test test\_name}\newline
@@ -2342,10 +2336,126 @@ fn some_test {
 \textcolor{purple}{You can then include this test with \textbf{--include-ingored},\newline
 or only run the ignored tests with \textbf{--ignored}}\\
 \hline
-Production Setup & 
-
+CFG flag & 
+\textcolor{orange}{In rust tests can be written with the cfg flag to tell rust to not run the tests with cargo build, only with cargo test.}\newline 
+\begin{lstlisting}
+#[cfg(test)]
+mod tests {
+  #[test]
+  // something
+}
+\end{lstlisting}\\
 \hline
+using private function to test & 
+\textcolor{orange}{If you want to test a private function, all you have to do is bringing the parent context into scope:}\newline
+\begin{lstlisting}
+pub fn add_two(a: i32) -> i32 {
+    internal_adder(a, 2)
+}
 
+fn internal_adder(a: i32, b: i32) -> i32 {
+    a + b
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn internal() {
+        assert_eq!(4, internal_adder(2, 2));
+    }
+}
+\end{lstlisting}\\
+\hline
+Integration Tests &
+\textcolor{orange}{Integration tests are located in their separate file inside a tests folder:}\newline
+\begin{lstlisting}
+adder
+|>> Cargo.lock
+|>> Cargo.toml
+|>> src
+    |>> lib.rs
+|>> tests
+    |>> integration_test.rs
+// using the tests then in the test file
+use adder;
+
+#[test]
+fn it_adds_two() {
+    assert_eq!(4, adder::add_two(2));
+}
+\end{lstlisting} 
+\, \newline
+\textcolor{orange}{In these files you don't need to include the \#[cfg(tests)] annotation, as rust will automatically ignore these files on regular compilation.}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak 
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Unittests vs Integration Tests & 
+\textcolor{purple}{We make this distinction in order to distinguish tests that are supposed to test the \textbf{internal functionality of our crate with unittests directly inside the lib.rs or similar files}, and \textbf{testing our crate like another programmer would by using integration tests on everything at once with proper API}.}\\
+\hline
+Testing Sequence & 
+\textcolor{orange}{Unittests, doc-tests and integration tests are individual test suites, which will only be run if the previous test suite was successful, aka had no errors.\newline 
+The idea here is that you would only want to test this part if your code itself -> unittests work as intended!\newline
+Should you still want to test a particular file of the integration tests, you can do so with \textbf{cargo test --test test\_file\_name}}\\
+\hline
+Using helper functions with integration tests & 
+\textcolor{orange}{If you want to use special functions with integration tests, then you have to put the file for these functions in a special folder, this is because rust treats all files directly inside of the tests folder as test files. The file with the helper functions would need to be inside a subdirectory:}\newline
+\begin{lstlisting}
+|>> Cargo.lock
+|>> Cargo.toml
+|>> src
+|   |>> lib.rs
+|>> tests
+    |>> common
+    |   |>> mod.rs
+    |>> integration_test.rs
+\end{lstlisting}\\
+\hline
+Integration tests with main.rs & 
+\textcolor{red}{Integration tests can only be used with library crates! This means that we need a file in src/lib.rs, the src/main.rs would not suffice as it is a binary crate!\newline
+The idea is that you do not need to test the main.rs as it doesn't really do much, it just calls the code from the library that works already!}\\
+\hline
+List of commands & 
+\vspace{2mm}
+\begin{itemize}
+\item \textcolor{orange}{Use thread number: cargo test --test-threads=number}
+\item \textcolor{orange}{Show output in tests: cargo test --show-output=1/0}
+\item \textcolor{orange}{Run particular unit test: cargo test --test-test-name}
+\item \textcolor{orange}{Run all unit-tests with string in name: argo test --test-test-partial-name}
+\item \textcolor{orange}{Run all integration tests in file: cargo test --test-file-name}
+\vspace{-3mm}
+\end{itemize}\\
+\hline
+\end{tabular}
+\section{Exmple Commandline Application}
+\subsection{Command Line Parsing}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Automatic Parsing & 
+\textcolor{orange}{Rust features automatic command-line flag parsing, this means with the following code you can extract all options that the user wants to run like this:}\newline
+\begin{lstlisting}
+let args: Vec<String> = std::env::args::collect();
+// note the type annotation is necessary here as rust can't know which collection you would like!
+// this will turn each argument into a string by using collect() on the std::env::args 
+// which in return is an iterator of utf8 encoded arguments
+\end{lstlisting}
+\textcolor{red}{If you need non utf8 encodings, use \textbf{std::env::args\_os} instead.}\\
+\hline
+\end{tabular}
+\subsection{File reading/writing}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline 
+std::fs::read\_to\_string & 
+\textcolor{orange}{This simply reads the content of a file into a string, as already used in the error propagation part:}\newline
+\begin{lstlisting}
+let contents = std::fs::read_to_string(your_file_path) 
+    .expect("make ur file readable lmao");
+\end{lstlisting}\\
 \hline
 
 \hline
