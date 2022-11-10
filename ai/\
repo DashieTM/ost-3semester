@@ -232,7 +232,7 @@ For example you might find that the increase in cats is correlated with stormy w
 \hline
 Parson Correlation Coefficient & 
 \vspace{2mm}
-\includegraphics[scale=0.25]{2022-10-27:09:11:27.png}\newline
+\pic{2022-10-27:09:11:27.png}\newline
 \begin{itemize}
 \item \textcolor{orange}{The correlation is 1 if \textbf{m is positive}, and \textbf{E is 0}.}
 \item \textcolor{orange}{The correlation then gradually gets less if there is a deviation between x and y.}
@@ -247,42 +247,15 @@ Multivariate Linear Regression &
 Formula: \( \hat{y}_i = m_{cat} * x_i + m_{dog} * x_i + d \)\newline
 \textcolor{teal}{As you can see there is no difference between this formula and the last, other than the fact that we now have two slopes.}\\
 \hline
-Basic Idea of Gradient Descent & 
+\textbf{Sochastic Gradient Descent (SGD)} & 
 \textbf{\textcolor{purple}{You calculate the multivariate linear regression in each step and reduce the error by modifying the parameters in each step}}\newline
 \textcolor{orange}{Note that each point represents its own mode, meaning there are different parameters for each point.\newline
-This is also how machine learning is done, you might have values like speed and angle that need to be changed in each iteration to take an apex in the perfect manner.}\\
-\hline
-Gradient Descent & 
-\textcolor{orange}{We learned with Least squares that we can take the slope/intercept and see where it is equal to 0 in order to get the best fitting slope or intercept. \newline
-However, \textbf{not all function will have a derivate equal to 0 -> min or max}. Also it is quite cumbersome to calculate each slope until we get to 0. It \textbf{might take thousands of steps} until we arrive where we want to be.}\newline
-\textcolor{red}{INSTEAD: with gradient descent, we choose a \textbf{Learning Rate}, which will determine our \textbf{step size} in order to skip the part, where we are far away from the optimal 0.\newline
-As soon as we approach derivate 0, we take smaller and smaller steps, until we can't improve the value anymore, either we are at 0 now, or 0 is not reachable and we have reached the nearest possible value instead.}\newline
-\textcolor{purple}{But where do we take these 2 values from? The \textbf{Learning Rate is a user choice}, while the \textbf{step size is the previous derivate * the learning rate}.}\newline
-\includegraphics[scale=0.2]{2022-11-10:05:04:33.png}\newline
-\textcolor{orange}{Note, the -5.7 is the derivate, therefore we multiply it with the learning rate, which is 0.1 and then we have the next step size.\newline
-We can then \textbf{apply the stepsize to the slope or intercept}, whichever we want to calculate.\newline
-Then we simply redo this until the derivate will be 0 or close to 0!}\newline
-Small notes: Gradient descent usually \textbf{stops when the step size is smaller than the learning rate}\newline
-The learning rate is \textbf{usually reduced with each step}.\newline
-Also, there is usually a maximum amount of steps that gradient descent will try, for example 1000 steps.\newline
-\textcolor{red}{Gradient Descent does \textbf{both intercept and slope at once!} This is also why it is called Gradient descent, because each parameter is a Gradient.}\\
-\hline
-\textbf{Sochastic Gradient Descent (SGD)} &
-The first difference between Gradient Descent and Sochastic Gradient Descent, is that with the second we \textbf{only take random samples of data}.\newline
-This allows us to reduce the number of calculations significantly. This is because each iteration of Descent needs the entire MSE to be calculated.\newline
-\textbf{Calculating the MSE around random samples of data instead of the full data, decreases calculation time SIGNFICANTLY!}\newline
-\textcolor{orange}{2. Difference}\newline
-Sochastic Gradient Descent is usually done either with \textbf{just one point per Gradient Descent step}, or with a \textbf{mini-batch -> a small subset of data}, \newline
-usually the \textbf{the best way to go is with a mini-batch, as it combines the best of both worlds}.\newline
-Also, guess what, another performance increase as you need fewer calculations again!\\
-\hline
-\end{tabular}
-\end{table}
-\begin{table}[ht!]
-\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+This is also how machine learning is done, you might have values like speed and angle that need to be changed in each iteration to take an apex in the perfect manner.}\newline
+\includegraphics[scale=0.4]{2022-11-04-01:38:51.png}\\
 \hline
 Annealed SGD & 
-\textcolor{black}{The obvious consequence of the \textbf{learning rate} is that \textbf{the learning effect decays over time,}}\textcolor{red}{this is called \textbf{annealing}.}\newline
+\textcolor{orange}{The obvious consequence of this method is that \textbf{the learning effect decays over time,}}\textcolor{red}{this is called \textbf{annealing}.}\newline
+\textcolor{orange}{With different options we can control how this curve will drop down. The parameter that we use to represent this curve is called \textbf{alpha}.}\newline
 \includegraphics[scale=0.4]{2022-11-04-01:43:27.png}\\
 \hline
 Limitations & 
@@ -297,6 +270,11 @@ Generalization Error &
 For example you might have some data that indicates that x is in linear correlation with y, but as soon as you cross a certain threshold, x behaves in an exponential correlation with y.\newline
 If you only have the data for the linear part, then you will have a very, very scewed model that \textbf{will not actually represent the real world.}\newline
 We call this problem the \textbf{Generalization Error}, where we generalize something without sufficient data.}\\
+\hline
+\end{tabular}
+\end{table}
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
 Training Error & 
 \textcolor{orange}{When you try to fit a model to the data that you have, then you will always have to deal with the problem of potential \textbf{"noisy" data}, it essentially means inaccurate data.\newline
@@ -320,14 +298,7 @@ This way we can limit the generalization error to a certain degree.\newline
 \textbf{The data for each split is chosen randomly!}}\\
 \hline
 Simple models vs Comlex models &
-\textcolor{orange}{In comparison to complex models, \textbf{simpler models} have \textbf{a bigger training error} and a \textbf{smaller generalization error}}\newline
-Or in a different language, \textbf{smaller models have the chance to underfit}, while the \textbf{complex models have the chance to overfit}\\
-\hline
-\end{tabular}
-\end{table}
-\pagebreak
-\begin{table}[ht!]
-\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\textcolor{orange}{In comparison to complex models, \textbf{simpler models} have \textbf{a bigger training error} and a \textbf{smaller generalization error}}\\
 \hline
 Bias-Variance & 
 \textcolor{orange}{This is the combination that makes up the generalization error, \newline
@@ -344,30 +315,9 @@ Regularization &
 \textcolor{orange}{In order to try to achieve low variance and low bias we introduce another function: \textbf{cost function for training/optimization}\newline
 This means we now have 2 functions, the MSE and the optimization function.}\newline
 \includegraphics[scale=0.35]{2022-11-10:09:43:03.png}\newline
-Regularization tries to introduce a way to \textbf{avoid underfitting or overfitting to the training data}. \newline
-This means that we will need to modify our MSE to not do either of these problematic behaviors.\newline
-\textbf{Rigde Regularization achieves this by taking the sum of the "corrected paramters by the MSE"}, for example you might have slope and intercept in linear regression, this means that you will have to calculate the \textbf{optimization loss function}, which is the sum of squares of each parameter multiplied by a positive number hat you choose -> \(\lambda\). \newline You then add this function to the base MSE and you have successfully implemted Ridge Regularization:\newline
-\, \newline
-\textcolor{OliveGreen}{Ridge Regularization:}\newline
-\huge \textcolor{red}{\( \text{Ridge MSE} = \dfrac{1}{2N}\sum^{N}_{j=1}(y_j - h(w,x_j))^2 + \lambda \sum^{P}_{i=1} w_i^2 \)}\newline
-\normalsize \, \newline 
-\, \newline
-\textcolor{OliveGreen}{Lasso Regularization:}\newline
-\huge \textcolor{red}{\( \text{Lasso MSE} = \dfrac{1}{2N}\sum^{N}_{j=1}(y_j - h(w,x_j))^2 + \lambda \sum^{P}_{i=1} |w_i| \)}\newline
-\normalsize \, \newline  
-Legend: \newline
-\begin{itemize}
-\item \textcolor{Orange}{N = sum of datapoints}
-\item \textcolor{Orange}{P = sum of parameters}
-\item \textcolor{Orange}{w = parameter -> can be multiple ones}
-\item \textcolor{Orange}{h = fitting function for example (m * x + d) for linear regression}
-\item \textcolor{Orange}{\( \lambda \) = positive number chosen by user 0 to infinity}
-\vspace{-3mm}
-\end{itemize}\\
-\hline
-
-\hline
-
+\minipg{
+\includegraphics[scale=0.3]{2022-11-10:09:43:08.png}
+}{\textcolor{purple}{You can see the intersection like the \textbf{sweet spot}, in the figure above. The green dots on the circle, the square and the last model are the sweet spot where those 2 attributes connect.}}[0.4,0.3]\\
 \hline
 
 \hline
