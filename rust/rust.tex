@@ -2432,11 +2432,10 @@ List of commands &
 \end{itemize}\\
 \hline
 \end{tabular}
-\section{Exmple Commandline Application}
-\subsection{Command Line Parsing}
+\section{Misc}
 \begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
-Automatic Parsing & 
+Automatic Command Line Parsing & 
 \textcolor{orange}{Rust features automatic command-line flag parsing, this means with the following code you can extract all options that the user wants to run like this:}\newline
 \begin{lstlisting}
 let args: Vec<String> = std::env::args::collect();
@@ -2446,10 +2445,6 @@ let args: Vec<String> = std::env::args::collect();
 \end{lstlisting}
 \textcolor{red}{If you need non utf8 encodings, use \textbf{std::env::args\_os} instead.}\\
 \hline
-\end{tabular}
-\subsection{File reading/writing}
-\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
-\hline 
 std::fs::read\_to\_string & 
 \textcolor{orange}{This simply reads the content of a file into a string, as already used in the error propagation part:}\newline
 \begin{lstlisting}
@@ -2464,13 +2459,109 @@ Test-Driven-Development TDD &
 3. Refactor the code that you just created in order to make it better.\newline
 4. Create the next test and restart this process until done.}\\
 \hline
-
+Using Environment Variables & 
+\begin{lstlisting}
+let ignore_case = env::var("IGNORE_CASE").is_ok();
+// is_ok() just checks whether or not it exists, but doesn't return any value like unwrap etc 
+// You can use any type of environment variable
+// just make sure that you don't accidentally overwrite one that does something specific
+// the one above does nothing, aka it is free game to use 
+\end{lstlisting}\\
 \hline
-
+stdout and stderr & 
+We can write to the standard error output instead of the standard output. \newline
+This is useful when you want to redirect the standard output to a file, but you still want to see when an error ocurred when using the program.\newline
+That's why the standard library includes the \textbf{eprintln!} macro, that should generally be used over println! when printing errors.\newline
+\begin{lstlisting}
+eprintln!("Error ping pang!");
+\end{lstlisting}\\
 \hline
-
+Writing standard output to a file & 
+Rust has a handy feature that allows you to redirect the standard output by calling cargo run with the following parameters: \newline
+\textcolor{orange}{cargo run > output.txt}\newline
+Now the output of stdout will be redirected to this file instead of being printed out to the terminal.\\
 \hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\section{Features from functional Languages}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Closures & 
+\textbf{Closures are essentially lambdas}. The following code from javascript does the same thing as the code below that in rust:\newline
+\begin{lstlisting}
+// js
+(data) => { console.log("pingpang!");}
 
+// rust
+|| println("pingpang!");
+// note with multi-expression closures you need the full version:
+// |kekw: u32| -> u32 {
+    kekw += 5; // inc by 5
+    kekw       // return kekw
+}
+\end{lstlisting}
+Note the "||" in for rust, \textbf{"||" are identical to the parentheses in js}.\newline
+Just like with js you can ommit the {} when only using one expression, and you could then even ommit the arrow.\newline
+\textcolor{OliveGreen}{Important, just like with js, lambdas inherit the scope from the actual function, so "closures" can call self.something()}\newline
+\, \newline
+As closures can also be used like variables, they \textbf{usually don't require you to specify the type annotations}, but there might be some special occasions where the compiler can't infer the type.\newline
+\begin{lstlisting}
+let some_lambda = |kekw| println("this is {}", kekw);
+// here an explicit version that compiles and works the same way! 
+// let some_lambda = |kekw: &str| -> () { println!("This is {}", kekw) }
+some_lambda("pangping!");
+// prints "this is pangping!"
+\end{lstlisting} 
+\textcolor{red}{One major problem with type inference on closures, if you call a closure with one type, then it will be THAT one type ONLY!}\newline
+\textbf{The best solution to this, just write the type annotations so you can be sure that you call it only with one type, and you can always look that type up.}\newline
+This problem gets even worse when you talk about borrowing, we know that we can't have immutable and mutable borrows at the same time.\newline
+However closures can borrow mutable, and they also do so by default when you try to change values of a variable ex, push to a vector.\newline
+If you then try to use the vector after defining the closure but before the closure is used, therefore fiddling with it's borrow time, it will NOT compile!\newline
+A simple annotation would make sure that you KNOW without the compiler telling you that you made a mistake:\newline
+\begin{lstlisting}
+fn main() {
+    let mut list = vec![1, 2, 3];
+
+    let mut borrows_mutably = || list.push(7);
+    // as the name says, from here on list is borrowd mutably!!
+    // so printing the list here would not compile!!
+    
+    borrows_mutably(); 
+    // borrow ended as it isn't being called again
+    println!("After calling closure: {:?}", list); // ok
+}
+\end{lstlisting}\\
+\hline
+Forcing ownership with closures that capture variables from the environment &
+\textcolor{red}{Note: This is about captured variables which means \textbf{variables in the environment/scope}, \textbf{not about parameters}, example here:}\newline
+\begin{lstlisting}
+fn main() {
+    let list = vec![1, 2, 3]; // variable in environment
+    // the following closure captures the variable list!
+    let mut closure_with_capture = || list.push(7); // inferred to borrow mutably!!!
+    let mut closure_from_param = |list: Vec<u32>| list.push(7); // takes ownership as parameter!!!
+}
+\end{lstlisting} 
+\textcolor{red}{Difference between the first and the second closure from above is that with the first one you can pass the ownership to the "object" that will call this closure, the second one only transfers the ownership to the actual closure, not to the closure caller!\newline The first is now shown below:}\newline
+\textbf{Closures with scope variables will not get ownership unless it strictly needs it, but this can be overwritten with the move keyword.}\newline
+For example, we might want to push a variable to a new cpu thread, for this we need to pass the ownership to this new thread,\newline
+as the lifetimes of these cpu threads will not always be the same, one might take longer in run 1 but might be faster in run 2 etc.\newline 
+For now, ignore the multi-threading code as it will be explained later on:\newline
+\begin{lstlisting}
+use std::thread; // multi-threading from standard library
+
+fn main() {
+    let list = vec![1, 2, 3];
+    println!("Before defining closure: {:?}", list);
+
+    // spawn new thread and pass ownership of list to new thread.
+    thread::spawn(move || println!("From thread: {:?}", list))
+        .join()
+        .unwrap();
+}
+\end{lstlisting}\\
 \hline
 \end{tabular}
 \end{table}
@@ -2478,47 +2569,85 @@ Test-Driven-Development TDD &
 \begin{table}[ht!]
 \begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
-
+Closure and Function Traits & 
+Since closures are essentially weird functions they have different traits, a list of them here: \newline
+\begin{itemize}
+\item \textcolor{orange}{FnOnce}\newline
+  \textbf{ALL closures will at least implement this trait! \newline
+  Closures that move captured values out of it's body will only implement this single trait!\newline
+  Closures with only this trait can only be called once!}
+\item \textcolor{orange}{FnMut}\newline
+  \textbf{This will apply to closures that will move captured values out of their body\newline
+  they might however mutate them. They can alse be called more than once.}
+\item \textcolor{orange}{Fn}\newline
+  \textbf{This will apply to functions that will not move captured values out of its body, nor will it mutate them,\newline
+  in fact they might not even caputure any value at all. They can be called more than once and are used often for concurrency!}\newline
+  Functions that have this trait will also have implemented the other 2!
+\end{itemize} 
+\textcolor{red}{Functions can also implement these 3 traits. An example with a function that does this is the Vec::new function.\newline
+Note that the Vec::new has no braces at the end, as it is used just like a closure:}\newline
+\begin{lstlisting}
+unwrap_or_else(Vec::new)
+\end{lstlisting}\\
 \hline
+Dealing with functions that require a certain trait & 
+You might find functions that require a closure to have a certain trait, for example FnMut.\newline
+In this case you need to make sure that your closure actually complies with this.\newline
+Here an example with the sort\_by\_key function:\newline
+\begin{lstlisting}
+#[derive(Debug)]
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
 
-\hline
+fn main() {
+    let mut list = [
+        Rectangle { width: 10, height: 1 },
+        Rectangle { width: 3, height: 5 },
+        Rectangle { width: 7, height: 12 },
+    ];
 
-\hline
+    list.sort_by_key(|r| r.width); // ok -> closure implements FnOnce,FnMut and Fn 
+    // we would only need FnOnce and FnMut though
+    println!("{:#?}", list);
+}
+\end{lstlisting} 
+here is what would happen if you try to use an FnOnce closure with this sort function:\newline
+\begin{lstlisting}
+data#[derive(Debug)]
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
 
-\hline
+fn main() {
+    let mut list = [
+        Rectangle { width: 10, height: 1 },
+        Rectangle { width: 3, height: 5 },
+        Rectangle { width: 7, height: 12 },
+    ];
 
-\hline
+    let mut sort_operations = vec![];
+    let value = String::from("by key called");
 
-\hline
-
-\hline
-
-\hline
-
-\hline
-\end{tabular}
-\end{table}
-\pagebreak
-\begin{table}[ht!]
-\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
-\hline
-
-\hline
-
-\hline
-
-\hline
-
-\hline
-
-\hline
-
-\hline
-
-\hline
-
-\hline
-
+    list.sort_by_key(|r| {
+        sort_operations.push(value); 
+        // capture and moving of value 
+        // only implements FnOnce
+        r.width
+    }); // ERROR FnMut not implemented!
+    println!("{:#?}", list);
+}
+\end{lstlisting} 
+A slight adjustment and it will work: \newline
+\begin{lstlisting}
+let mut num_sort_operations = 0;
+   list.sort_by_key(|r| {
+       num_sort_operations += 1;
+       r.width
+   });
+\end{lstlisting}\\
 \hline
 \end{tabular}
 \end{table}
