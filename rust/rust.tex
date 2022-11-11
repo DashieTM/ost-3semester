@@ -2653,6 +2653,299 @@ let mut num_sort_operations = 0;
 \end{table}
 \pagebreak
 \begin{table}[ht!]
+\section{Iterators}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Creating Iterators & 
+It works just like in c++, you call a function to create an iterator, which you then can use in whatever way you want. \newline
+And just like in c++, the iterator doesn't do anything unelss you use this iterator in some way.\newline
+Note that some types might automatically cerate an iterator in things like a for loop, we already used this behavior with the vector type.\newline
+\begin{lstlisting}
+// explicit
+let v1 = vec![1,2,3];
+let v1_iter = v1.iter();
+for value in v1_iter {
+    // do something
+}
+
+// automatic way implemented for vectors
+let v2 = vec![4,5,6];
+for value in v2 {
+    // do something
+}
+\end{lstlisting}\\
+\hline
+Iterator.next & 
+Just like other languages with iterators, rust has the famous next function implemented. \newline
+This function is defined within the \textbf{Iterator Trait}, this means any type that implements this trait can use this function as well.\newline
+Note that the \textbf{return type of this function is Option<Self::Item>}, this means that you also need to implement this \textbf{associated item type} when using an iterator on user defined type.\newline
+(associated item types will be covered later on)\newline
+\begin{lstlisting}
+pub trait Iterator {
+    type Item;
+
+    fn next(&mut self) -> Option<Self::Item>;
+
+    // methods with default implementations elided/omitted
+}
+\end{lstlisting} 
+\textcolor{OliveGreen}{Note that when you call the next function, the iterator needs to be mutable!}\\
+\hline
+Iterators and Laziness & 
+Iterators in rust are lazy, this means that they will not do anything unless they are "consumed". \newline
+This means they will not do anything unless they iterated over the container and are used up.\newline
+In fact, not only will they not do anything, rust will also not compile this code as you have unused iterators!
+This will also apply to any new iterator that get created after using a previous one. (this will be important with iterator adaptors)\\
+\hline
+Functions that "consume the iterator" & 
+Some functions take ownership of the iterator, then apply a function to each iteration and return the end result when the iterator has been used up, hereby "consuming" it.\newline
+One such function is the sum function, which adds each item in a container to the result and returns it:\newline
+\begin{lstlisting}
+#[test]
+fn iterator_sum() {
+    let v1 = vec![1, 2, 3];
+
+    let v1_iter = v1.iter();
+    let total: i32 = v1_iter.sum();
+
+    assert_eq!(total, 6);
+}
+\end{lstlisting}\\
+\hline
+Iterator Adaptors & 
+These functions don't consume the iterator, instead they will iterate over the container, modify it or do something else with it, and return a new iterator for the potentially modified container.\newline
+A very vell known function for this is \textbf{map}, which takes a closure, applies it to each item in the container and returns a new iterator.\newline
+\begin{lstlisting}
+fn main() {
+    let v1: Vec<i32> = vec![1, 2, 3];
+
+    let v2: Vec<_> = v1.iter().map(|x| x + 1).collect();
+    // .collect generates a new vector!
+    assert_eq!(v2, vec![2, 3, 4]);
+}
+\end{lstlisting}
+\textcolor{OliveGreen}{Note that we can't call map without collect, as it would generate a new iterator that would not have been used, meaning the code wouldn't compile.}\\
+\hline
+Filter with closures that capture the environment & 
+You can also use closures that capture the environment, making it possible to filter over a vector with the filter criteria being a value in the scope.\newline
+Let's take shoe size for example, you might have a vector of shoes and a shoe\_size variable that will determine the filter criteria.\newline
+\begin{lstlisting}
+// shoe_size and shoes as parameters
+fn shoes_in_size(shoes: Vec<Shoe>, shoe_size: u32) -> Vec<Shoe> {
+    shoes.into_iter().filter(|s| s.size == shoe_size).collect()
+    // into iter converts shoes into an iterator
+}
+\end{lstlisting} 
+\textcolor{OliveGreen}{Note, the s parameter in the closure comes from the previous into\_iter function. This means that the s parameter is the iterator.}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Zero-cost abstractions & 
+Just like the c++ philosophy anything you use will not impose any performance cost, this is due to the compiler automatically improving the code so it is faster.\newline
+For exmaple, if you have a loop over 5 elements, the compiled code will remove the loop and make it access these 5 elements directly, just like assembly.\newline
+\textcolor{OliveGreen}{Closures and Iterators are also part of these zero cost abstractions, making them worth using!}\\
+\hline
+Clone vs Iterators & 
+Instead of cloning values from one place to another, you can pass these objects without using a function that will take ownership of these parameters, this is done by using iterators instead: \newline
+\begin{lstlisting}
+use std::env;
+use std::error::Error;
+use std::fs;
+
+pub struct Config {
+    pub query: String,
+    pub file_path: String,
+    pub ignore_case: bool,
+}
+
+// clone version
+impl Config {
+    pub fn build(args: &[String]) -> Result<Config, &'static str> {
+        if args.len() < 3 {
+            return Err("not enough arguments");
+        }
+
+        let query = args[1].clone();
+        let file_path = args[2].clone();
+
+        let ignore_case = env::var("IGNORE_CASE").is_ok();
+
+        Ok(Config {
+            query,
+            file_path,
+            ignore_case,
+        })
+    }
+}
+
+// iterator version
+impl Config {
+    pub fn build(
+        mut args: impl Iterator<Item = String>,
+    ) -> Result<Config, &'static str> {
+        args.next();
+
+        let query = match args.next() {
+            Some(arg) => arg,
+            None => return Err("Didn't get a query string"),
+        };
+
+        let file_path = match args.next() {
+            Some(arg) => arg,
+            None => return Err("Didn't get a file path"),
+        };
+
+        let ignore_case = env::var("IGNORE_CASE").is_ok();
+
+        Ok(Config {
+            query,
+            file_path,
+            ignore_case,
+        })
+    }
+}
+\end{lstlisting} 
+In this case the problem is that the config should own the values not the function, doing this without an iterator would make it extremely conveluted and messy. With an iterator we can simply give ownership of that iterator to the build function, which then lets config own the actual values of said iterator.\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\section{More on Crates}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Cargo profiles & 
+Cargo has different environments that you can use, by default there are always 2, \textbf{release} and \textbf{dev}.\newline
+\textcolor{OliveGreen}{Using a specific environment can be done with cargo build --envname}\newline
+
+\\
+\hline
+Configuring existing and creating new profiles & 
+You can create new env profiles or change existing ones in the cargo.toml file: \newline
+\begin{lstlisting}
+[profile.dev]
+opt-level = 0
+
+[profile.release]
+opt-level = 3
+
+[profile.new]
+opt-level = 2
+\end{lstlisting}
+As you can see there is a new profile new with the optimization level 2.\newline
+\textcolor{OliveGreen}{Note about opt-levels, with 0 you will take less time to compile, but the performance will be worse than in release mode.\newline
+With opt-level 3 you will take longer to compile...}\newline
+More configuration can be found here \href{https://doc.rust-lang.org/cargo/reference/profiles.html}{Profile Documentation}\\
+\hline
+Crates.io & 
+It primarily hosts source code, so it is mostly used for open source projects :)\newline\\
+\hline
+Markdown notation inside rust & 
+\textcolor{OliveGreen}{With /// you can denote the use of markdown inside rust. \newline
+This will also \textbf{automatically create html formatted documentation!}}\newline
+\begin{lstlisting}
+/// Adds one to the number given.
+///
+/// # Examples
+///
+/// ```
+/// let arg = 5;
+/// let answer = my_crate::add_one(arg);
+///
+/// assert_eq!(6, answer);
+/// ```
+pub fn add_one(x: i32) -> i32 {
+    x + 1
+}
+\end{lstlisting} 
+\textcolor{OliveGreen}{You can then run \textbf{cargo doc} to compile the html page}\newline
+Or you can run \textbf{cargo doc --open} to automatically open the documentation.\newline
+The tool that is creating this documentation is called \textbf{rustdoc}\newline
+This is straight up amazing, it even looks nice!!\\
+\hline
+Doc tests & 
+In the testing section we talked about a feature that made no sense yet, the doc test part.\newline
+\textbf{It tests the assert statements in the markdown sections!}\newline
+For example, it would test the my\_crate::add\_one(arg); from above.\\
+\hline
+Documenting the entire crate & 
+Documentation for the entire crate can be made with \textbf{//!}, this is meant as a header.\newline
+\begin{lstlisting}
+//! # My Crate
+//!
+//! `my_crate` is a collection of utilities to make performing certain
+//! calculations more convenient.
+
+/// Adds one to the number given.
+// --snip--
+///
+/// # Examples
+///
+/// ```
+/// let arg = 5;
+/// let answer = my_crate::add_one(arg);
+///
+/// assert_eq!(6, answer);
+/// ```
+pub fn add_one(x: i32) -> i32 {
+    x + 1
+}
+\end{lstlisting}\\
+\hline
+Important when using other modules inside the modules that you want to document &
+If you use other modules inside modules that you want to document, make sure that these modules will be re-exported with \textbf{pub use}, this means that the person using this modules will not have to understand the underlying structure of the system/modules, instead they can just use the functions etc as your exmaple shows!\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Publishing to crates.io & 
+Publishing to crates.io is really simple with cargo, you can just run \textbf{cargo publish} and it will try to publish your crate with the account you made to crates.io.\newline
+Here you can make an account: \href{https://crates.io/}{crates.io}\newline
+\textcolor{OliveGreen}{Then make sure to create an api key and login with \textbf{cargo login apikey}}\newline
+Note that you need to edit your cargo.toml to at least include, \textbf{a name that hasn't been taken yet by another crate on crates.io}, \textbf{a description for your crate} and \textbf{a license for your crate}.\newline
+Note that the license is in the format of \href{https://spdx.org/licenses/}{The Linux Foundation’s Software Package Data Exchange (SPDX)}\newline
+You can also dual license with \textbf{license="MIT or Apache-2.0"}\newline
+Or you can use your own license by providing a license file and referring to this with \textbf{license-file=path-to-file}\newline
+\begin{lstlisting}
+# example for a crate
+[package]
+name = "guessing_game"
+version = "0.1.0"
+edition = "2021"
+description = "A fun game where you guess what number the computer has chosen."
+license = "MIT OR Apache-2.0"
+
+[dependencies]
+...
+\end{lstlisting}
+\textcolor{OliveGreen}{More info about cargo.toml can be found here: \href{https://doc.rust-lang.org/cargo/}{Cargo Documentation}}\\
+\hline
+Publishing a new version & 
+\textcolor{OliveGreen}{Simple, change the version and publish again!}\\
+\hline
+Deprecating older versions of your crate & 
+If for whatever reason a version might be too old, or just plain doesn't work, you can remove it as a dependency for other people by using the command:\newline
+\textbf{cargo yank cratename --vers 1.0}\newline
+This will make version 1.0 deprecated. Note that this \textbf{does not remove the package itself, it only deprecates this version so other projects with this as a dependency won't break}.\newline
+It also prevents future project from using this specific version, as it is marked as deprecated.\newline
+You can also \textbf{undo it by cargo yank cratename --vers 1.0 --undo}\\
+\hline
+Cargo Workspaces & 
+
+\hline
+
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
 \section{Debugging}
 \begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
