@@ -2937,7 +2937,82 @@ This will make version 1.0 deprecated. Note that this \textbf{does not remove th
 It also prevents future project from using this specific version, as it is marked as deprecated.\newline
 You can also \textbf{undo it by cargo yank cratename --vers 1.0 --undo}\\
 \hline
-Cargo Workspaces & 
+Cargo install &
+You can \textbf{install crates from crates.io} with the cargo install command.\newline
+\textcolor{OliveGreen}{cargo install cratename}\\
+\hline
+Expanding cargo & 
+\textbf{If you build a binary with the name prefix \textcolor{red}{cargo-yourCrateName}, then it will be added as a cargo subcommand!!}\newline
+\textcolor{OliveGreen}{cargo yourCrateName} This will then execute your program\\
+\hline
+\end{tabular}
+\subsection{Workspaces}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Creating a workspace & 
+In order to use a workspace, you need to create a cargo.toml file, or use an existing one and add the following configuration. \newline
+The following configuration is an example for how a workspace can be configured:\newline
+\begin{lstlisting}
+[workspace]
+members = [
+    "adder",
+    "add_one",
+]
+\end{lstlisting} 
+Adding a binary can be done the following way:\newline
+\textcolor{OliveGreen}{cargo new binaryname}\newline
+Adding a library can be done the following way:\newline
+\textcolor{OliveGreen}{cargo new libraryname --lib}\newline
+\, \newline
+The structure should then look like this: \newline
+\begin{lstlisting}
+|>> Cargo.lock
+|>> Cargo.toml
+|>> add_one
+|   |>> Cargo.toml
+|   |>> src
+|       |>> lib.rs
+|>> adder
+|   |>> Cargo.toml
+|   |>> src
+|       |>> main.rs
+|>> target
+\end{lstlisting} 
+To make sure that the adder package can use the library add\_one, we need to add this package to the adder cargo.toml!\newline
+This is because \textbf{cargo will not assume that crates depend on each other.}\newline
+\begin{lstlisting}
+[dependencies]
+add_one = { path = "../add_one" }
+// you can also add crates from crates.io as dependencies!
+rand  ="0.8.3"  
+// this will add rand as a dependency
+\end{lstlisting} 
+\textcolor{OliveGreen}{Notice that there is a \textbf{Cargo.lock} file in the parent directory, this makes sure that we never download 2 versions of a library. In case of conflict of versions, cargo will resolve the crate to one version.}\\
+\hline
+Running Cargo commands in the workspaces & 
+\textbf{Cargo commands will execute as if they are executed in the parent directory.}\newline
+The only \textbf{exception} is the \textbf{-p flag with build and test}.\newline
+\textcolor{OliveGreen}{cargo build -p cratename} This will only build this specific crate\newline
+\textcolor{OliveGreen}{cargo test -p cratename} This will only test this specific crate\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
 
 \hline
 
