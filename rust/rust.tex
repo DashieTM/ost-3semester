@@ -2999,15 +2999,66 @@ The only \textbf{exception} is the \textbf{-p flag with build and test}.\newline
 \end{table}
 \pagebreak
 \begin{table}[ht!]
+\section{Smart Pointers}
 \begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
-
+Basics & 
+Until now we have avoided talking about the topic of heap allocation, even when we have already used it -> vectors. \newline
+Just like c++ we have 2 ways of possibly doing this, directly using the type like we did with the vector, which gives us the object reference.\newline
+This reference would look like a any other regular variable and would also behave as such -> dropped when out of scope in both rust AND c++. \newline
+However, when it comes to pointers, we all know that c++ has 2 ways of doing it, the modern safe variant, and the old unsafe variant. \newline
+Rust on the other hand only implements the second version.\\
 \hline
-
+Memory Allocation & 
+When implementing something like an enum, rust will always use the biggest possible enum to determine the size of the enum.\newline
+\textbf{This is done to make sure that we can change from one enum to the other.}\\
 \hline
-
+Overhead & 
+\textbf{Smart pointers are usually known for their overhead.}\newline
+\textbf{This is also true for rust for all but one smart pointer variant, Box<T>.}\\
 \hline
+\textbf{Deref} and \textbf{Drop} & 
+Smart pointers implement the \textbf{Deref} and \textbf{Drop} traits, which means they \textbf{can be used like references} and they \textbf{will free the memory when they go out of scope}.\\
+\hline
+Box<T> & 
+Box<T> is the most basic smart pointer, and also the only smart pointer without additional overhead.\newline
+Use Cases: \newline
+\begin{itemize}
+\item \textcolor{purple}{Recursive Types}\newline
+  Recursive types make it impossible to know the size at compile time. \newline
+  For example what is the size of the following type: List<5,List> ? \newline
+  It might be infinite! Here we need a way to make the type have a static size,\newline
+  which we can do by using a pointer for the list variable, instead of the list itself!
+\item \textcolor{purple}{Moving Data instead of copying it}\newline
+  When you have a large amount of data that needs you need to transfer ownership of,\newline
+  you should be using Box<T> to move the data instead of copying it like on the stack.
+\item \textcolor{purple}{Owning values of generic types}\newline
+  If you want to own a value with only a trait, not a specific type, \newline
+  then you need to use Box<T>.
+\end{itemize} 
+\, \newline
+\textcolor{orange}{How to use the Box<T> smart pointer:}\newline
+\begin{lstlisting}
+fn main() {
+    let b = Box::new(5);
+    println!("b = {}", b);
+}
+\end{lstlisting}
+As you can see, it is quite easy, and rather similar to how the vector and string syntax is. That is of course because Strings and vectors are also implementations of Box<T>! They are on the heap!\newline
+Here is a more useful implementation of Box<T> with a representation of a \textbf{linked list} in the way a functional programming language would implement it:\newline
+\begin{lstlisting}
+enum List {
+    Cons(i32, Box<List>),
+    Nil,
+}
+use crate::List::{Cons, Nil};
 
+fn main() {
+    let list = Cons(1, Box::new(Cons(2, Box::new(Cons(3, Box::new(Nil))))));
+}
+\end{lstlisting}
+Without the box, this code would not compile, as we would not know the size at compile time, which isn't possible to do with the stack!\newline
+That is the trade of for the speed that the stack provides, we can only use values of known size on there!\\
 \hline
 
 \hline
