@@ -3375,12 +3375,63 @@ This is because a points to b and b points to a!\newline
 If you leave the println commented, then you \textcolor{red}{will get a memory leak, as b and a will always have rc count of 1 unless forcefully dropped!!}}
 \\
 \hline
-  Weak<T> & 
-  Weak<T> is essentially a special count of references that will be ignored for dropping, meaning that if there are no strong rc counts but some weak rc remaining, then the value will be dropped either way!\newline
-  \textcolor{OliveGreen}{It also implements the \textbf{weak\_count} function that will show the amount of weak references just like \textbf{strong\_count} will show the amount of strong references}
+Weak<T> & 
+Weak<T> is essentially a special count of references that will be ignored for dropping, meaning that if there are no proper Rc counts but some weak rc remaining, then the value will be dropped either way!\newline
+\textbf{You can create a Weak<T> reference by using the Rc::downgrade function.}\newline
+\textcolor{OliveGreen}{It also implements the \textbf{weak\_count} function that will show the amount of weak references just like \textbf{strong\_count} will show the amount of strong references}\newline
+\textcolor{red}{Weak<T> will also not have ownership over any values, unlike Rc<T> which will have ownership!}\newline
+Because of Weak<T> being ignored for dropping, you can't use it directly, instead you need to call Rc::upgrade function to turn the Weak<T> into a proper Rc<T>.\newline
+Since we can't know if the value still exists we get a Option<Rc<T>> back, meaning we can either receive None, or the reference we wanted to get.\newline
+Usually this is used to get a non-owning reference that doesn't extend the lifetime, hence the dropping either way.\newline
+\, \newline
+Here an example:\newline
+\begin{lstlisting}
+use std::rc::{Rc, Weak};
+let strong_five = Rc::new(5);
+// proper Rc
+let weak_five = Rc::downgrade(&strong_five);
+// this is now a weak pointer to the newly created Rc<i32>
+println!(strong_five);
+// strong_five is now out of scope
+// meaning upgrading weak_five will return None!
+\end{lstlisting}
 \\
 \hline
+Example with nodes & 
+Probably much better is to just have a proper example where this is actually useful.\newline
+Here we want to create a tree structure, where each node knows about its children and its parent. Problem is, we can't have this in an Rc<T> as we would get a \textbf{endless pointer cycle!}.\newline
+To mitigate that problem, we have to use the Weak<T> to specify that \textbf{the child does not own the parent reference!}, this way a child can be dropped without the parent being dropped as well, while the parent being dropped will also drop the child.\newline
+\begin{lstlisting}
+use std::cell::RefCell;
+use std::rc::{Rc, Weak};
 
+#[derive(Debug)]
+struct Node {
+    value: i32,
+    parent: RefCell<Weak<Node>>,
+    children: RefCell<Vec<Rc<Node>>>,
+}
+
+fn main() {
+    let leaf = Rc::new(Node {
+        value: 3,
+        parent: RefCell::new(Weak::new()),
+        children: RefCell::new(vec![]),
+    });
+
+    println!("leaf parent = {:?}", leaf.parent.borrow().upgrade());
+
+    let branch = Rc::new(Node {
+        value: 5,
+        parent: RefCell::new(Weak::new()),
+        children: RefCell::new(vec![Rc::clone(&leaf)]),
+    });
+
+    *leaf.parent.borrow_mut() = Rc::downgrade(&branch);
+
+    println!("leaf parent = {:?}", leaf.parent.borrow().upgrade());
+}
+\end{lstlisting}\\
 \hline
 
 \hline
