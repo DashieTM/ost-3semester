@@ -3026,6 +3026,7 @@ Basic Information:\newline
 \begin{itemize}
 \item \textcolor{purple}{Box<T> only allows \textbf{one immutable or mutable reference at compile time!}}\newline
   See RefCell<T> for workarounds.
+\item \textcolor{purple}{Single ownership of data}
 \item \textcolor{purple}{Box<T> has \textbf{NO performance overhead!}}
 \vspace{-3mm}
 \end{itemize} 
@@ -3172,7 +3173,9 @@ Limitations and information:\newline
 \item \textcolor{purple}{Rc<T> only works in \textbf{single threaded mode!}}
 \item \textcolor{purple}{Rc<T> only allows \textbf{multiple immutable references at compile time!}}\newline
   See RefCell<T> for workarounds.
-\item \textcolor{purple}{Rc<T> has \textbf{performance overhead!}}
+\item \textcolor{purple}{Multi ownership of data!}\newline
+  This means that you will not need to use references!
+\item \textcolor{purple}{Rc<T> has \textbf{NO performance overhead!}}
 \vspace{-3mm}
 \end{itemize} 
 \\
@@ -3220,13 +3223,162 @@ This means that we have to make sure that we do not break any rules, as otherwis
 Limitations and information:\newline
 \begin{itemize}
 \item \textcolor{purple}{RefCell<T> only works in \textbf{single threaded mode!}}
-\item \textcolor{purple}{RefCell<T> allows \textbf{one immutable or mutable reference at runtime!}}\newline
+\item \textcolor{purple}{RefCell<T> allows \textbf{multiple immutable or one mutable reference at runtime!}}\newline
   Because it is checked at \textbf{runtime} you can change the values of the heap data, \newline
   \textbf{even when the RefCell<T> is itself immutable!}\newline
   \textcolor{red}{\textbf{This concept is called interior mutability pattern}}
+\item \textcolor{purple}{Single ownership of data}
 \item \textcolor{purple}{RefCell<T> has \textbf{performance overhead!}}
 \vspace{-3mm}
 \end{itemize}
+\, \newline
+Example implementation:\newline
+\begin{lstlisting}
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::cell::RefCell;
+
+    struct MockMessenger {
+        sent_messages: RefCell<Vec<String>>,
+    }
+
+    impl MockMessenger {
+        fn new() -> MockMessenger {
+            MockMessenger {
+                sent_messages: RefCell::new(vec![]),
+            }
+        }
+    }
+
+    impl Messenger for MockMessenger {
+        fn send(&self, message: &str) {
+            self.sent_messages.borrow_mut().push(String::from(message));
+        }
+    }
+
+    #[test]
+    fn it_sends_an_over_75_percent_warning_message() {
+        // --snip--
+        let mock_messenger = MockMessenger::new();
+        let mut limit_tracker = LimitTracker::new(&mock_messenger, 100);
+
+        limit_tracker.set_value(80);
+
+        assert_eq!(mock_messenger.sent_messages.borrow().len(), 1);
+    }
+}
+\end{lstlisting}
+Here you can see the RefCell<T> being used with the vector, that is because the implementation of messsenger requires you to use an immutable reference to self. \newline
+This would make the call to the vector impossible, however with RefCell<T> we can force this by going to \textbf{runtime instead of compile time!}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Ref<T> and RefMut<T> & 
+These are the actual references behind the RefCell<T>, it essentially just keeps track of these 2 types, which both implement the \textbf{Deref trait}, meaning we can use them like regular references.\newline
+Just like with the Rc<T> it will count the amount of immutable/mutable references and will only go out of scope when the number drops to 0.\newline
+\textcolor{red}{Note, the regular borrowing rules \textbf{still apply!}\newline
+Which means only one mutable OR mutliple immutable references.\newline
+Breaking this will lead to a panic as RefCell<T> is handled at runtime!}\\
+\hline
+Combining RefCell<T> and Rc<T> &
+Recall the Cons list from earlier with the Rc<T> implementation.\newline
+It allowed you to have multiple immutable borrows on the heap, but not \textbf{multiple mutable ones, if you want to have this functionality, you need to use RefCell<T> and Rc<T> in combination!}\newline
+\begin{lstlisting}
+#[derive(Debug)]
+enum List {
+    Cons(Rc<RefCell<i32>>, Rc<List>),
+    Nil,
+}
+
+use crate::List::{Cons, Nil};
+use std::cell::RefCell;
+use std::rc::Rc;
+
+fn main() {
+    let value = Rc::new(RefCell::new(5));
+
+    let a = Rc::new(Cons(Rc::clone(&value), Rc::new(Nil)));
+
+    let b = Cons(Rc::new(RefCell::new(3)), Rc::clone(&a));
+    let c = Cons(Rc::new(RefCell::new(4)), Rc::clone(&a));
+
+    *value.borrow_mut() += 10;
+
+    println!("a after = {:?}", a);
+    println!("b after = {:?}", b);
+    println!("c after = {:?}", c);
+}
+\end{lstlisting}\\
+\hline
+Reference Cycles & 
+Reference cycles are essentially the only possible memory leak in rust, it happens when you have both Rc<T> and RefCell<T> that will create 2 objects which will point to each other.\newline
+It's important to note that the underlying object needs to point to itself, which can \textbf{only be done because of the combination Rc<T> and RefCell<T>!}\newline
+\textcolor{OliveGreen}{The reason for this is that Rc<RefCell<T>> will allow you to mutate with ownership, meaning multiple owners can mutate.\newline
+RefCell<Rc<T>> on the other hand is limited to one mutable borrow is does not share ownership!!}\newline
+Here an example for this problem:\newline
+\begin{lstlisting}
+use crate::List::{Cons, Nil};
+use std::cell::RefCell;
+use std::rc::Rc;
+
+#[derive(Debug)]
+enum List {
+    Cons(i32, RefCell<Rc<List>>),
+    Nil,
+}
+impl List {
+    fn tail(&self) -> Option<&RefCell<Rc<List>>> {
+        match self {
+            Cons(_, item) => Some(item),
+            Nil => None,
+        }
+    }
+}
+
+fn main() {
+    let a = Rc::new(Cons(5, RefCell::new(Rc::new(Nil))));
+    // Rc<RefCell<T>> the ultimate cocktail of doom!
+    // rc count of a is 1 and next item of a is Nil
+
+    let b = Rc::new(Cons(10, RefCell::new(Rc::clone(&a))));
+
+    // rc count of a is now 2 and tail is Nil
+    // rc count of b is now 1 and tail is a
+
+    if let Some(link) = a.tail() {
+        *link.borrow_mut() = Rc::clone(&b);
+    }
+    // rc count of a is 2 and tail is b  
+    // rc count of b is 2 and tail is a -> LOOP!!!
+
+    // this will overflow the stack if uncommented
+    // println!("a next item = {:?}", a.tail());
+}
+\end{lstlisting}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+&
+\vspace{2mm}
+\includegraphics[scale=0.4]{2022-11-14-05:14:13.png}\newline 
+\textbf{Should you uncomment the println above, then you will be stuck until you get a stackoverflow!\newline
+This is because a points to b and b points to a!\newline
+If you leave the println commented, then you \textcolor{red}{will get a memory leak, as b and a will always have rc count of 1 unless forcefully dropped!!}}
+\\
+\hline
+  Weak<T> & 
+  Weak<T> is essentially a special count of references that will be ignored for dropping, meaning that if there are no strong rc counts but some weak rc remaining, then the value will be dropped either way!\newline
+  \textcolor{OliveGreen}{It also implements the \textbf{weak\_count} function that will show the amount of weak references just like \textbf{strong\_count} will show the amount of strong references}
+\\
 \hline
 
 \hline
@@ -3244,6 +3396,7 @@ Limitations and information:\newline
 \hline
 \end{tabular}
 \end{table}
+\pagebreak
 \begin{table}[ht!]
 \section{Debugging}
 \begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
