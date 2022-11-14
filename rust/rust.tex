@@ -3022,6 +3022,13 @@ Smart pointers implement the \textbf{Deref} and \textbf{Drop} traits, which mean
 \hline
 Box<T> & 
 Box<T> is the most basic smart pointer, and also the only smart pointer without additional overhead.\newline
+Basic Information:\newline
+\begin{itemize}
+\item \textcolor{purple}{Box<T> only allows \textbf{one immutable or mutable reference at compile time!}}\newline
+  See RefCell<T> for workarounds.
+\item \textcolor{purple}{Box<T> has \textbf{NO performance overhead!}}
+\vspace{-3mm}
+\end{itemize} 
 Use Cases: \newline
 \begin{itemize}
 \item \textcolor{purple}{Recursive Types}\newline
@@ -3060,6 +3067,173 @@ fn main() {
 Without the box, this code would not compile, as we would not know the size at compile time, which isn't possible to do with the stack!\newline
 That is the trade of for the speed that the stack provides, we can only use values of known size on there!\\
 \hline
+Implementing the Deref Trait & 
+When we want to use the \textbf{* operator}, we need to implement the \textbf{deref trait}.\newline
+Other types like the vector have already done this, but how can we do it for a new type? \newline
+Let's do this by implementing the Box<T> by ourselves!\newline
+\begin{lstlisting}
+struct MyBox<T>(T);
+use std::ops::Deref;
+impl<T> Deref for MyBox<T> {
+    fn new(x: T) -> MyBox<T> {
+        MyBox(x)
+    }
+    fn deref(&self) -> &self::Target {
+        &self.0 / return first item of self
+    } //note the return type
+} // the target is an associated type, will be explained later
+\end{lstlisting}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Defer Coercion & 
+This simply converts the regular type to the reference type when needed,\newline
+for example, it might convert a string to a string slice automatically to save you the need to always pass the variable as explicit reference or proper value.\newline
+\begin{lstlisting}
+fn main() {
+    let m = MyBox::new(String::from("Rust"));
+    hello(&m);
+}
+fn hello(name: &str) {
+    println!("Hello, {name}!");
+} // works string converted to reference type string slice!
+\end{lstlisting}
+\textcolor{OliveGreen}{Note that this will be repeated as many times as needed!\newline
+So if you have something like MyBox<String> it will use deref twice to get from MyBox<String> to \&String to \&str.}\newline
+\textcolor{red}{This is done at compile time, so there is no performance cost!}\\
+\hline
+DerefMut & 
+Similar to how we have to implement the Deref trait for regular references, if we want to use mutable references we have to \textbf{implement DerefMut}.\\
+\hline
+Reference Coercien rules & 
+Rust does reference coercion in the following circumstances: \newline
+\begin{itemize}
+  \item \textcolor{purple}{\&T to \&U when T: Deref<Target=U>}
+  \item \textcolor{purple}{\&mut T to \&mut U when T: DerefMut<Target=U>}
+  \item \textcolor{purple}{\&mut T to \&U when T: Deref<Target=U>}\newline
+    Note that here we coerce a mutable reference to an immutable one!\newline
+    \textbf{The reverse is not possible!}\newline
+    The reason for this is that you can only have 1 mutable reference,\newline
+    guaranteeing that the immutable reference is the ONLY reference can't be done.
+\vspace{-3mm}
+\end{itemize}\\
+\hline
+Drop Trait & 
+The drop trait is very similar to the \textbf{Deconstructor in c++}, the only difference is the timeframe when it is called. In c++ the deconstructor is called whenever an object is deleted, in rust the drop function is called \textbf{whenever a variable goes out of scope.}\newline
+\textcolor{OliveGreen}{Implementation:}\newline
+We can implement the drop trait just like the deref trait:
+\begin{lstlisting}
+struct CustomSmartPointer {
+    data: String,
+}
+
+impl Drop for CustomSmartPointer {
+    fn drop(&mut self) {
+        println!("Dropping CustomSmartPointer with data `{}`!", self.data);
+    }
+}
+
+fn main() {
+    let c = CustomSmartPointer {
+        data: String::from("my stuff"),
+    };
+    let d = CustomSmartPointer {
+        data: String::from("other stuff"),
+    };
+    println!("CustomSmartPointers created.");
+}
+\end{lstlisting}\\
+\hline
+std::mem::drop & 
+Since rust automatically calls the destructor when a value goes out of scope, it means that \textbf{you can't the destructor it manually!}\newline
+\textcolor{OliveGreen}{Instead we can use the std::mem::drop function.}\newline
+This means that you can \textbf{forcefully drop a value early}, while the borrow system makes sure that the destructor will no longer be called, as the value doesn't have an owner anymore, aka it is gone.\newline
+\begin{lstlisting}
+fn main() {
+    let c = CustomSmartPointer {
+        data: String::from("some data"),
+    };
+    println!("CustomSmartPointer created.");
+    drop(c); // this is std::mem::drop!
+    // value is now gone
+    println!("CustomSmartPointer dropped before the end of main.");
+}// no destructor called anymore, as it happened already!
+\end{lstlisting}
+\textcolor{OliveGreen}{Note that the std::mem::drop will still call the object destructor, it just does it for you to make sure that it won't be called again!}\\
+\hline
+Counting Smart Pointer Rc<T> & 
+This is the same as the c++ std::shared\_ptr, \textbf{it keeps track of how many pointers we have to the heap value and will free the memory when there are no longer any pointers to the heap value.}\newline
+Limitations and information:\newline
+\begin{itemize}
+\item \textcolor{purple}{Rc<T> only works in \textbf{single threaded mode!}}
+\item \textcolor{purple}{Rc<T> only allows \textbf{multiple immutable references at compile time!}}\newline
+  See RefCell<T> for workarounds.
+\item \textcolor{purple}{Rc<T> has \textbf{performance overhead!}}
+\vspace{-3mm}
+\end{itemize} 
+\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+&
+Here an example with 2 references to a single list, note that for visualization, there is also a "try" to implement this with Box<T>, but that version will not compile!\newline
+\begin{lstlisting}
+enum List {
+    Cons(i32, Box<List>),
+    Nil,
+}
+
+// with box<T>
+use crate::List::{Cons, Nil};
+
+fn main() {
+    let a = Cons(5, Box::new(Cons(10, Box::new(Nil))));
+    let b = Cons(3, Box::new(a)); // ok moved reference here
+    let c = Cons(4, Box::new(a)); // ERROR, can't move again!
+}
+
+// with Rc<T>
+use std::rc::Rc;
+
+fn main() {
+    let a = Rc::new(Cons(5, Rc::new(Cons(10, Rc::new(Nil)))));
+    let b = Cons(3, Rc::clone(&a)); // ok ref count = 2
+    let c = Cons(4, Rc::clone(&a)); // ok ref count = 3
+}
+\end{lstlisting}
+As you can see, \textbf{each Rc::clone will increment the reference count}, and as long as this is above 0, the original list will not be dropped!\newline
+\textcolor{OliveGreen}{You can check the amount of references with the \textbf{Rc::strong\_count(\&a)} function!}\newline
+\textcolor{teal}{You could implement this with Box<T> by using lifetime parameters instead of using another reference, but this will not work when you want different lifetimes!}\\
+\hline
+RefCell<T> Unsafe Workaround for \textbf{runtime} borrowing &
+This \textbf{bends rusts rules} and is therefore considered \textbf{unsafe}.\newline
+This means that we have to make sure that we do not break any rules, as otherwise the program will panic!, see similar \textbf{segmentation faults in c++/c}.\newline
+
+Limitations and information:\newline
+\begin{itemize}
+\item \textcolor{purple}{RefCell<T> only works in \textbf{single threaded mode!}}
+\item \textcolor{purple}{RefCell<T> allows \textbf{one immutable or mutable reference at runtime!}}\newline
+  Because it is checked at \textbf{runtime} you can change the values of the heap data, \newline
+  \textbf{even when the RefCell<T> is itself immutable!}\newline
+  \textcolor{red}{\textbf{This concept is called interior mutability pattern}}
+\item \textcolor{purple}{RefCell<T> has \textbf{performance overhead!}}
+\vspace{-3mm}
+\end{itemize}
+\hline
+
+\hline
+
+\hline
+
+\hline
 
 \hline
 
@@ -3070,7 +3244,6 @@ That is the trade of for the speed that the stack provides, we can only use valu
 \hline
 \end{tabular}
 \end{table}
-\pagebreak
 \begin{table}[ht!]
 \section{Debugging}
 \begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}

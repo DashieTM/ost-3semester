@@ -559,6 +559,153 @@ Creation of a State Machine &
 \end{enumerate}\\
 \hline
 \end{tabular}
+\section{Software Testing}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Basics & 
+Software testing is part of the \textbf{dynamic techniques}, meaning it is used on the running software.\newline
+Software testing is done to \textbf{show defects of software, not the absence of it!}.\newline
+In contrast to trial and error, it is \textbf{done with clear intention and systematically, reproducable and traceable!}\newline
+Requirements for software testings:\newline
+\begin{itemize}
+\item \textcolor{purple}{Planned} \newline
+  Who does what, when and how?
+\item \textcolor{purple}{Systematically specified}\newline
+  \textbf{Test Specification}
+\item \textcolor{purple}{Results documented} \newline
+  \textbf{Test Protocol}
+\vspace{-3mm}
+\end{itemize} \\
+\hline
+Problem with Software Testing & 
+Usually we build software with some sort of input, this makes the possbility of results infinite! \newline
+How do we create a program that will work with the infinite inputs that we could get?
+\begin{itemize}
+\item \textcolor{purple}{Grouping inputs}\newline
+  Many inputs are very similar, for example, if the program works for 5 numbers,\newline
+  chances are that the input works for yet another number
+\item \textcolor{purple}{Modularization}\newline
+  This means \textbf{testing classes directly, testing packages directly and testing the system directly}
+\vspace{-3mm}
+\end{itemize}\\ 
+\hline
+Different types of "failures" &
+\vspace{2mm}
+\begin{itemize}
+\item \textcolor{orange}{Error}\newline
+  A human action that produces an incorrect result
+\item \textcolor{orange}{Defect}\newline
+  A flaw in a compnent or system that can cause it fo fail to perform its required function.
+\item \textcolor{orange}{Failure}\newline
+  Deviation of the component or system from its expected behavior.
+\item \textcolor{orange}{defect}\newline
+  if encountered during exectuion, may casue a \textbf{failure} of the component or the system
+\item \textcolor{teal}{False-positive result}\newline
+  A test that shows either a good result or a bad result, but it might be skewed due to other issues.
+\vspace{-3mm}
+\end{itemize} \\
+\hline
+Test Specification & 
+This simply says what the \textbf{precondition} is, what the \textbf{input} is, and what the \textbf{expected output} is.\newline
+\textcolor{red}{These are typically \textbf{used for system tests}, which are often done \textbf{manually!!}}\newline
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+Nr. & Description of Test Case & Precondition & Input/Interaction & Expected Output \\
+\hline
+1 & test sum & User selected\newline sum function & 5, 7, 3, 7 & 22 \\
+\hline
+\end{tabular}
+\vspace{2mm}\\
+\hline
+Test Protocol & 
+This simply documents the test procedure.\newline
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+Nr. & Description of Test Case & Precondition & Input/Interaction & Expected Output \\ 
+\hline
+1 & test sum & User selected sum function & 5, 7, 3, 7 & 22 \\
+\hline
+\end{tabular}
+\vspace{2mm}
+\begin{tabular}{|l|l|l|}
+\hline
+Actual Output & Test passed / failed & Tester, Time, Date\\ 
+\hline
+20 & failed & Dashie, 2pm, 11.11.2022\\
+\hline
+\end{tabular}
+\vspace{2mm} \\
+\hline
+Types of Testing & 
+We differentiate \textbf{functional testing}, \textbf{perfromance testing} and \textbf{usability testing}.\\
+\hline
+Levels of testing &
+\vspace{2mm}
+\includegraphics[scale=0.4]{2022-11-14-08:38:52.png}\newline
+The base idea is that you need to want to test each "functionality" \textbf{at the lowest level possible!}\newline
+Therefore prefer unit tests if possible, but move up through the levels if these aren't enough!
+\\
+\hline
+Validation vs Verification & 
+Obviously, just because the tests are good doesn't mean that the product is "validated" by the customer, it might just plain suck.\newline
+On the other hand, the customer might not care about that 1 strange test not passing, if the product works well for them.\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Doubles in testing & 
+When testing, you often need a placeholder in order to perform your tests.\newline
+Here are a bunch of placeholders to consider:\newline
+\begin{itemize}
+\item \textcolor{purple}{Dummy}\newline
+  Object that is passed around but never actually used.\newline
+  Usually this is just used to fill parameter lists.
+\item \textcolor{purple}{Fake}\newline
+  Object that actually have working implementation, but usually take some shortcut,\newline
+  which makes them not suitable for production
+\item \textcolor{purple}{Stubs}\newline
+  Provide answers to calls made during the test.
+\item \textcolor{purple}{Mocks}\newline
+  Pre-programmed objects with expectations which form a specification of the calls they are expected to receive.
+\vspace{-3mm}
+\end{itemize} \\
+\hline
+Black-Box vs White-Box & 
+The black box method \textbf{hides the internal structure}, this means that tests can't directly call random functions from the interal structure, instead it has to work with the proper API that any user would.\newline
+On the other hand the white box approach is the opposite, where \textbf{the entire internal structure is free game to use.}\newline
+Usually \textbf{black box approaches are used with system tests} and \textbf{white box approaches are used for unit tests} and lower level testing.\newline
+\includegraphics[scale=0.4]{2022-11-14-09:40:32.png}\\
+\hline
+Black Box techniques & 
+\textcolor{OliveGreen}{Equivalence Class Partitioning}\newline
+A set of inputs that should show similar behavior.\newline
+\includegraphics[scale=0.4]{2022-11-14-09:43:48.png}\newline
+\textcolor{OliveGreen}{Boundary Value Analysis}\newline
+This tests the edges of the classes, making sure that the proper turning point has been chosen.\newline
+\includegraphics[scale=0.4]{2022-11-14-09:45:41.png}\newline
+
+\\
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+\end{tabular}
 \end{table}
 \end{document}
 
