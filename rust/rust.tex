@@ -3560,7 +3560,103 @@ this is usually used in combination with Duration::from\_sec(), or min/h..\newli
 thread::sleep(Duration::from_secs(1));
 \end{lstlisting}\\
 \hline
+Mutex<T> Mutual Exclusion & 
+This is rusts syste to access mutual shared data between threads, it handles \textbf{locking and unlocking data when accessing and releasing data}. \newline
+In other languages, this is difficult as the programmer needs to remember to lock and unlock the data each time, with rust you can't get this wrong!\newline
+\begin{lstlisting}
+use std::sync::Mutex;
 
+fn main() {
+    let m = Mutex::new(5);
+
+    {
+        let mut num = m.lock().unwrap();
+        // might be Err!
+        *num = 6;
+        // num is a reference, hence the * to dereference it
+    }
+
+    println!("m = {:?}", m);
+    // lock dropped as no longer used!
+}
+\end{lstlisting}
+Mutex returns the type Mutex<T>, this means that you have to unwrap this before using it, and unwrapping it will return a Result<T, E>, making it possible to have proper error handling when the data is locked by another thread. \newline
+This makes it easy to handle the locking issues at compile time, instead of runtime!\newline
+\textcolor{red}{Mutex<T> is a smart pointer named \textbf{MutexGuard that returns a LockResult}, this means that it will implement \textbf{Deref and Drop}. That in return will make sure that \textbf{we automatically drop values when we go out of scope, including the Lock!} }
+\\
+\hline
+Using Mutex<T> with multiple threads with \newline \textbf{Atomic Reference Counting Arc<T>} & 
+We still have one big problem, if we now try to use the mutex in each thread by passing ownership of mutex, then we get an error that tells us that \textbf{Mutex<T> does NOT implement the trait Copy}.\newline
+In other words, you are not allowed to pass the ownership of mutex around!\newline
+Here we would think we can use Rc<T> to fix this issue, but.... we learned that Rc<T> can't be used in multithreading, so we need something else!\newline
+\textcolor{OliveGreen}{This is where \textbf{Arc<T>} comes into play, it works just like Rc<T>, only that it makes sure that you can't interupt the reference counting with other threads!}\newline
+\textcolor{purple}{One might ask why not use this instead of Rc<T> all the time, very simple!\newline
+\textbf{Arc<T> has performance hit as you need to make sure that you are thread safe, which can \emph{ONLY BE DONE AT RUNTIME!!}}}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Usage of Arc<T> and Mutex<T> & 
+Here an example on how to use Arc<T> in multithreading:\newline
+\begin{lstlisting}
+use std::sync::{Arc, Mutex};
+use std::thread;
+
+fn main() {
+    let counter = Arc::new(Mutex::new(0));
+    let mut handles = vec![];
+
+    for _ in 0..10 {
+        let counter = Arc::clone(&counter);
+        let handle = thread::spawn(move || {
+            let mut num = counter.lock().unwrap();
+
+            *num += 1;
+        });
+        handles.push(handle);
+    }
+
+    for handle in handles {
+        handle.join().unwrap();
+    }
+
+    println!("Result: {}", *counter.lock().unwrap());
+}
+\end{lstlisting}
+\, \newline
+\textcolor{OliveGreen}{Note, there are other simpler types to handle concurrent values.\newline
+For something as simple as a number, it might make more sense to use an "async integer".\newline
+You can find more in \href{https://doc.rust-lang.org/std/sync/atomic/index.html}{the std::sync::atomic documentation}}\newline
+\, \newline
+Attention!\newline
+\begin{itemize}
+\item \textcolor{red}{\textbf{Mutex<T> has \emph{interior mutability} just like RefCell<T>!}, \newline
+this is also why we were able to mutate the counter for the example above!}
+\item \textcolor{red}{\textbf{Mutex<T> has the potential for deadlock! Beware!}}
+\vspace{-3mm}
+\end{itemize} \\
+\hline
+The rust langauge and concurrency & 
+Rust has very few actual language features, most are implemented in the standard library, but we don't always use the full library -> see embedded programming.\newline
+Without the standard library we only have \textbf{Send and Sync Markers} as well as \textbf{std::marker}.\newline
+\textcolor{OliveGreen}{Note, markers are prerequisites to traits, in this case marker Sync is needed for trait Sync!}\newline
+\textbf{This is because the standard library implements the trait, not the language itself!}\newline
+\textcolor{red}{More concurrency features can be found in state-of-the-art crates!}\\
+\hline
+Send Marker & 
+Send is the \textbf{Marker} that is needed in order to implement the trait that allows to transfer ownership from one thread to the other, \textbf{nearly all types implement this trait with a few notable exceptions like \emph{Rc<T> and RefcCell<T> as well as raw Pointers!}}\\
+\\
+\hline
+Sync & 
+Sync is the marker that is used to creates references that can be used in multiple threads.\newline
+\textcolor{OliveGreen}{Note that the \textbf{references will need to have the trait Send} in order for the type to have the trait Sync!}\newline
+Just like with Send, \textbf{most primitives have the Sync trait!}\\
+\hline
+Send and Sync manually & 
+Should you try to implement these 2 traits yourself on types, you need to be aware that \textbf{manually implementing Sync and Send is unsafe!}.\\
 \hline
 \end{tabular}
 \end{table}

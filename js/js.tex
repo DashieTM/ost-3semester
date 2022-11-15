@@ -1087,9 +1087,36 @@ Example for MVC &
 \includegraphics[scale=0.4]{2022-11-08-11:42:58.png}\textcolor{orange}{Display of data}\newline
 \includegraphics[scale=0.4]{2022-11-08-11:43:08.png}\textcolor{orange}{Reaction to input}\\
 \hline
-
+\end{tabular}
+\section{npm}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
-
+\begin{itemize}
+\item \textcolor{purple}{npm init} -> create a new project
+\item \textcolor{purple}{npm install} -> install all packages needed for this project
+\item \textcolor{purple}{npm run} -> run the project
+\vspace{-3mm}
+\end{itemize} 
+\hline
+Packages in npm & 
+Each node package has its own \textbf{package.json}.\newline
+This specifies \textbf{the name, the type, the version, main file, description and dependencies}:\newline
+Here an example package:\newline
+\begin{lstlisting}
+{
+  "name": "my-package",
+  "type": "module",
+  "version": "1.0.0",
+  "main": "index.js",
+  "description": "My first node package",
+  "dependencies": {
+    "ws": "^7.3.1"
+  }
+  "devDependencies": {
+    "stylelint": "^13.13.1"
+  }
+}
+\end{lstlisting}\\
 \hline
 
 \hline

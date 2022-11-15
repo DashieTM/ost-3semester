@@ -269,5 +269,70 @@ It is generally recommended to do this for stylistic reasons.\\
 \hline
 \end{tabular}
 \end{table}
+\pagebreak
+\begin{table}[ht!]
+\section{Web Server}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Https Request & 
+Https uses requests to both get and push data.\newline
+We call them \textbf{GET request} and \textbf{POST request}.\newline
+Usually we only use GET requests in combination with js like this:\newline
+\begin{lstlisting}
+async function fetchFromURL() {
+  try {
+    const response = await fetch('result.json', { method: 'GET'});
+    if(response.ok) {
+      const content = await response.text();
+      console.log(content);
+    }
+  } catch(e) {
+    // erroreroni
+  }
+}
+\end{lstlisting}\\
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+\end{tabular}
+\end{table}
 \end{document}
 
