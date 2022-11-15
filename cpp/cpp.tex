@@ -1597,25 +1597,129 @@ auto average(std::vector<int> values) -> int {
 \begin{table}[ht!]
 \begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
-Predicate functions or Lambdas & 
+Additional Argument to Associative Containers & 
+You can pass a bool lambda to associative containers, this means that the result of the predicate must be false or true.\newline
+The idea is that you can give a sorting algorithm to the set in order to easily sort it out of the box.\newline
 \begin{lstlisting}
-auto is_odd = [](auto i) -> bool {return i % 2;};
-auto divides = [](auto i, auto j) -> bool {return !(i % j);};
-// the () can be omitted as long as there are no parameters!
+std::set<int, std::greater<>> reverse_int_set{};
 \end{lstlisting}
-\textcolor{OliveGreen}{Note, the [] are always necessary af of 2022, perhaps some day cpp standard :)}\\
+\textcolor{OliveGreen}{Note that this lambda must be \textbf{transitive and irreflexive}}\newline
+Transitive: \(x > y\) and \(y > z\), then also \(x > z\)\newline
+Irreflexive: \\
 \hline
-
+Transform & 
+Transform uses 2 vectors with a lambda to perform a function on each element in both vectors.\newline
+\begin{lstlisting}
+auto counts = std::vector{3, 0, 1, 4, 0, 2};
+auto letters = std::vector{'g', 'a', 'u', 'y', 'f', 'o'};
+auto combined = std::vector<std::string>{};
+auto times = [](auto i, auto c) { return std::string(i, c); };
+std::transform(begin(counts), end(counts), begin(letters),
+std::back_inserter(combined), times);
+\end{lstlisting}
+Here we would print each character x amount of times, with x being the same index element in the counts vector.\\
 \hline
-
+Merge & 
+Mergesort takes 2 sorted vectors and puts them together:\newline
+\begin{lstlisting}
+std::vector r1{9, 12, 17, 23, 54, 57, 85, 95};
+std::vector r2{2, 30, 32, 41, 49, 63, 72, 88};
+std::vector d(r1.size() + r2.size(), 0);
+std::merge(begin(r1), end(r1), begin(r2), end(r2), begin(d));
+// 2,9,12,17,23,30,32,41,49,54,57,63,72,85,88,95
+\end{lstlisting}\\
 \hline
-
+Remove and Erase & 
+\textcolor{red}{Remove will not actually \textbf{remove} the elements, instead, it will mark them as removable in order to not cause iterator invalidation!}\newline
+\textcolor{OliveGreen}{If you want to properly remove them, then you can also call erase which will then free the marked elements!}\newline
+\begin{lstlisting}
+auto values = std::vector{54, 13, 17, 95, 2, 57, 12, 9};
+auto is_prime = [](unsigned u) { u > 20};
+auto removed = std::remove_if(begin(values), end(values), is_prime);
+// mark 2,9,12,13,17 as to remove
+values.erase(removed, values.end());
+// erase the marked elements
+// vector is now -> 54,57,95
+\end{lstlisting} 
+remove\_if just has an additional boolean check which can be done with a lambda, use case is shown here for filtering!\\
 \hline
-
+Accumulate & 
+Sum function:\newline
+\begin{lstlisting}
+std::vector<std::string> longMonths{"Jan", "Mar", "May", "Jul", "Aug", "Oct", "Dec"};
+auto accumulatedString = std::accumulate(
+next(begin(longMonths)), //Second element
+end(longMonths),
+//End
+longMonths.at(0),
+//First element, usually the neutral element
+[](std::string const & acc, std::string const & element) {
+return acc + ", " + element;
+}); //Jan, Mar, May, Jul, Aug, Oct, Dec
+\end{lstlisting}\\
 \hline
-
+\_if suffix & 
+Just like the remove\_if, there are many other algorithms that implement the if keyword to \textbf{only execute this algorithm when the boolean check is true}.\newline
+Often they are used in combination with \textbf{lambdas}!
+\begin{lstlisting}
+auto numbers = std::set{1, 2, 3, 4, 5, 6, 7, 8, 9};
+auto isPrime = [](auto u) {/*...*/};
+auto nOfPrimes = std::count_if(begin(numbers), end(numbers), isPrime);
+\end{lstlisting}
+\, \newline
+List of Algorithms with the if suffix:\newline
+\minipg{
+\begin{itemize}
+\item \textcolor{teal}{count\_if}
+\item \textcolor{teal}{find\_if}
+\item \textcolor{teal}{find\_if\_not}
+\item \textcolor{teal}{copy\_if}
+\end{itemize} 
+}{\begin{itemize}
+\item \textcolor{teal}{count\_if}
+\item \textcolor{teal}{find\_if}
+\item \textcolor{teal}{find\_if\_not}
+\item \textcolor{teal}{copy\_if}
+\end{itemize} 
+}[0.4,0.4]\\
 \hline
-
+Algorithms \_n Versions & 
+Instead of always going through the entire list, you can also use the \_n suffix algorithms to specify a different endpoint for this algorithm, for example in a vector with 7 elements you might want to only do the first 5 elements, therefore the additional parameter will be 5, for 5 elements!\newline
+\begin{lstlisting}
+auto numbers = std::set{1, 2, 3, 4, 5, 6, 7, 8, 9};
+auto top5 = std::vector<int>(5);
+std::copy_n(rbegin(numbers), 5, begin(top5));
+\end{lstlisting}
+\, \newline
+\begin{itemize}
+\item \textcolor{teal}{search\_n}
+\item \textcolor{teal}{copy\_n}
+\item \textcolor{teal}{fill\_n}
+\item \textcolor{teal}{generate\_n}
+\item \textcolor{teal}{for\_each\_n}
+\vspace{-3mm}
+\end{itemize}\\ 
+\hline
+Heap Algorithm & 
+\begin{lstlisting}
+std::vector<int> v{3,1,4,1,5,9,2,6};
+make_heap(v.begin(),v.end());
+pop_heap(v.begin(),v.end());
+v.pop_back();
+v.push_back(8);
+push_heap(v.begin(),v.end());
+sort_heap(v.begin(),v.end());
+\end{lstlisting}\\
+\hline
+Don't mixmatch Iterators & 
+\textcolor{red}{Don't mixmatch iterators!}:\newline
+\begin{lstlisting}
+std::vector<unsigned> values1 = create_vector();
+std::vector<unsigned> values2 = create_vector();
+auto f = [](unsigned u) {/*...*/};
+std::for_each(begin(values1), end(values2), f);
+\end{lstlisting}
+\\
 \hline
 \end{tabular}
 \end{table}
@@ -1623,25 +1727,62 @@ auto divides = [](auto i, auto j) -> bool {return !(i % j);};
 \begin{table}[ht!]
 \begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
-Additional Argument to Associative Containers & 
-You can pass a bool lambda to associative containers, this means that the result of the predicate must be false or true.\newline
-The idea is that you can give a sorting algorithm to the set in order to easily sort it out of the box.\newline
+Make sure that enough space is allocated in a vector & 
+\textcolor{red}{Make sure that enough space is allocated for when you copy data!}\newline
 \begin{lstlisting}
-std::set<int, std::greater<>> reverse_int_set{};
+std::set<unsigned> numbers{1, 2, 3, 4, 5, 6, 7, 8, 9};
+std::vector<unsigned> primes{};
+auto isPrime = [](unsigned u) {/*...*/};
+std::copy_if(begin(numbers), end(numbers), begin(primes), isPrime);
 \end{lstlisting}
-\textcolor{OliveGreen}{Note that this lambda must be \textbf{transitive and irreflexive}}\\
+\, \newline
+So how do we properly do this? \textbf{Inserters!}\newline
+\begin{lstlisting}
+std::set<unsigned> numbers{1, 2, 3, 4, 5, 6, 7, 8, 9};
+std::vector<unsigned> primes{};
+auto is_prime = [](unsigned u) {/*...*/};
+std::copy_if(begin(numbers), end(numbers), back_inserter(primes), is_prime);
+\end{lstlisting}
+\, \newline
+There are 3 such inserters:\newline
+\begin{itemize}
+\item \textcolor{purple}{back\_inserter}\newline
+  uses the \textbf{push\_back function} to insert at the back
+\item \textcolor{purple}{front\_inserter}\newline
+  uses the \textbf{push\_front function} to insert at the front
+\item \textcolor{purple}{inserter}\newline
+  uses the \textbf{insert member} function to insert
+\item \textcolor{purple}{item 4}
+\vspace{-3mm}
+\end{itemize} \\
 \hline
-
+Iterator invalidation & 
+If you change a vectors size during an algorithm or a loop, you have the problem that your vector might change size. \newline
+The side effect is that \textbf{your vector will resize!} This means that \textbf{it will move to another memory location!}\newline
+Because of the new memory location \textbf{your iterators are now invalid!}\newline
+Avoid modifying vector sizes during iteration, instead use the same system as the remove does, mark them and then modify the vector size later or create a new one.\\
 \hline
-
+Using ranges & 
+You can of course also use ranges instead should they work with your compiler, lol :P\newline
+\begin{lstlisting}
+auto values = std::vector<int>{3, 1, 4, 1, 5, 9};
+// old
+std::reverse(begin(values), end(values));
+// new
+std::ranges::reverse(values);
+\end{lstlisting}\\
 \hline
-
+Non-Modifying Algorithms & 
+\vspace{2mm}
+\includegraphics[scale=0.4]{2022-11-15-09:43:09.png}\\
 \hline
-
+Mutating Sequence Operations & 
+\vspace{2mm}
+\includegraphics[scale=0.4]{2022-11-15-09:43:15.png}\\
 \hline
-
-\hline
-
+Sorting Algorithms and Related Operations & 
+\vspace{2mm}
+\includegraphics[scale=0.4]{2022-11-15-09:43:22.png}\\
 \hline
 \end{tabular}
 \end{table}
