@@ -1118,7 +1118,27 @@ Here an example package:\newline
 }
 \end{lstlisting}\\
 \hline
+Creating a small Server & 
+\begin{lstlisting}
+// imports and config
+import http from 'http';
+const hostname = '127.0.0.1'
+const port = 3000
 
+// handler for requests
+const server = http.createServer((req, res) => {
+  res.statusCode = 200
+  res.setHeader('Content-Type', 'text/plain')
+  res.end('Hello World\n')
+})
+
+// start the server
+server.listen(port, hostname, () => {
+  console.log(
+  `Server running at http://${hostname}:${port}/`)
+  Server starten
+})
+\end{lstlisting}\\
 \hline
 
 \hline
