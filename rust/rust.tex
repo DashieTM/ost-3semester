@@ -3433,7 +3433,81 @@ fn main() {
 }
 \end{lstlisting}\\
 \hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\section{Fearless Concurrency}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Standard Implementation & 
+The standard is to use the operating system threads, which makes it a native feeling to the OS, but might come with drawbacks such as feature limitation based on what the OS allows, or rather doesn't allow you to do.\\
+\hline
+Creating a Thread & 
+\begin{lstlisting}
+use std::thread;
+use std::time::Duration;
 
+fn main() {
+    thread::spawn(|| {
+        for i in 1..10 {
+            println!("hi number {} from the spawned thread!", i);
+            thread::sleep(Duration::from_millis(1));
+        }
+    });
+
+    for i in 1..5 {
+        println!("hi number {} from the main thread!", i);
+        thread::sleep(Duration::from_millis(1));
+    }
+}
+\end{lstlisting}
+The output from this snippet can be different each time you run this code, as threads are not guaranteed to be scheduled in a certain way!\newline
+Also in this case, the main thread finishes first, meaning the program will end, even though the other thread would still technically be in a for loop.\newline
+If you want \textbf{both threads to finish before exiting, use \textcolor{red}{thread.join().unwrap()}}, in this case it would be the following:\newline
+\begin{lstlisting}
+handle.join().unwrap();
+\end{lstlisting}
+Now the entire loop from the spawned thread will finish before exiting!\newline
+\textcolor{OliveGreen}{Note on join: if you use join before the loop in the main thread, then the main thread will wait for the spawned thread to finish it's loop before starting the main loop!\newline
+\textbf{It is therefore important to check where the join() is placed in order to get the proper functionality that was intended!}}\\
+\hline
+Passing ownership to threads with move & 
+As already discussed earlier, we can pass ownership of environment variables by using the move keyword before closures when spawning threads.\newline
+This is necessary to make sure that the new thread is the only owner of that variable, as the lifetime rules can't be respected otherwise with threads! \newline
+\textcolor{OliveGreen}{In other words, we can't know if thread 1 or thread 2 will finish first, and neither can we tell who will access what at a certain time, to prevent this, we \textbf{force} a thread to either own the variable or not to touch it!}\newline
+\begin{lstlisting}
+use std::thread;
+
+fn main() {
+    let v = vec![1, 2, 3];
+
+    let handle = thread::spawn(move || {
+        println!("Here's a vector: {:?}", v);
+    });
+
+    handle.join().unwrap();
+}
+\end{lstlisting}\\
+\hline
+Channels & 
+Channels are a general programming concept to share data between threads. It is essentially a proper messaging system where on thread is the \textbf{sender and the other the receiver}.\newline
+This way, sharing data can be made safe, unlike direct memory access, where you would very, very quickly run into problems when dealing with multiple threads at once!\newline
+Here an example on how to crate and use a channel with 2 threads:\newline
+\begin{lstlisting}
+fn main() {
+    let (tx, rx) = mpsc::channel();
+
+    thread::spawn(move || {
+        let val = String::from("hi");
+        tx.send(val).unwrap();
+    });
+
+    let received = rx.recv().unwrap();
+    println!("Got: {}", received);
+}
+\end{lstlisting}
+\textcolor{red}{The name \textbf{mpsc} stands for \textbf{multiple producers single consumer}, this means that the standard implementation in \textbf{rust allows for multiple transmitting threads and one receiving thread!}}\\
 \hline
 
 \hline
