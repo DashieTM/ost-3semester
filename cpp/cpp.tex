@@ -1518,6 +1518,139 @@ auto iter2 = values.cbegin(); //std::vector<int>::const_iterator
 \, \newline
 \textcolor{teal}{Here we would try to change the value behind the iterator, this doesn't work with const iterators!}\\
 \hline
+\end{tabular}
+\section{Algorithms}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline 
+Different Algorithms and numberic functions & 
+\minipg{
+Algorithms:\newline
+\begin{itemize}
+\item \textcolor{purple}{Filling}
+\item \textcolor{purple}{Finding}
+\item \textcolor{purple}{Property checking}
+\item \textcolor{purple}{Transformation}
+\end{itemize} 
+}{
+Numerics:\newline
+\begin{itemize}
+\item \textcolor{purple}{Generic numberic functions}
+\item \textcolor{purple}{Some functions can be applied in on numeric contexts}
+\end{itemize} 
+}[0.4,0.4]\\
+\hline
+Why? & 
+Why do we use algorithms over loops and other code?\newline
+It is very simple, \textbf{algorithms are easy and safe to use without x amount of possibilities for errors!}\newline
+Think about a loop, you need to make sure you are in the bounds of the vector, or that you assign the right value at each time...\newline
+With algorithms we just say here is range go do stuff.
+Reasons for algorithms:\newline
+\begin{itemize}
+\item \textcolor{purple}{Correctness}\newline
+  Handwritten algorithms are often error prone and need time debugging!
+\item \textcolor{purple}{Readability}\newline
+  Handwritten algorithms are often conveluted and need lots of time reading and understanding.
+\item \textcolor{purple}{Performance}\newline
+  Unless you are very good at what you do, the standard algorithms are likely faster!
+\vspace{-3mm}
+\end{itemize} 
+\\
+\hline
+for\_each & 
+For loop using 2 iterators -> \textbf{begin()} and \textbf{end()} as well as a \textbf{lambda} as the function to execute on each element.\newline
+\begin{lstlisting}
+auto values = std::vector{3, 0, 1, 4, 0, 2};
+auto f = [](auto v) {};
+std::for_each(begin(values), end(values), f);
+\end{lstlisting}\\
+\hline
+Functors & 
+Functors are just overloaded structs or classes on the () operator.\newline
+\textbf{As expected, you can then use this struct or class like it is a function!}\newline
+Here is how to implement it:\newline 
+\begin{lstlisting}
+struct Accumulator {
+  int count{0};
+  int accumulatedValue{0};
+  auto operator()(int value) -> void {
+    count++;
+    accumulatedValue += value;
+  }
+  int average() const;
+  int sum() const;
+};
+auto average(std::vector<int> values) -> int {
+  Accumulator acc{};
+  for(auto v : values) { acc(v); }
+  return acc.average();
+}
+
+auto average(std::vector<int> values) -> int {
+  auto acc = Accumulator{};
+  return std::for_each(begin(values), end(values), acc).average();
+}
+\end{lstlisting}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Predicate functions or Lambdas & 
+\begin{lstlisting}
+auto is_odd = [](auto i) -> bool {return i % 2;};
+auto divides = [](auto i, auto j) -> bool {return !(i % j);};
+// the () can be omitted as long as there are no parameters!
+\end{lstlisting}
+\textcolor{OliveGreen}{Note, the [] are always necessary af of 2022, perhaps some day cpp standard :)}\\
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Additional Argument to Associative Containers & 
+You can pass a bool lambda to associative containers, this means that the result of the predicate must be false or true.\newline
+The idea is that you can give a sorting algorithm to the set in order to easily sort it out of the box.\newline
+\begin{lstlisting}
+std::set<int, std::greater<>> reverse_int_set{};
+\end{lstlisting}
+\textcolor{OliveGreen}{Note that this lambda must be \textbf{transitive and irreflexive}}\\
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+
+\hline
 
 \hline
 

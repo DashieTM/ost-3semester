@@ -3509,13 +3509,56 @@ fn main() {
 \end{lstlisting}
 \textcolor{red}{The name \textbf{mpsc} stands for \textbf{multiple producers single consumer}, this means that the standard implementation in \textbf{rust allows for multiple transmitting threads and one receiving thread!}}\\
 \hline
-
+recv and try\_recv &
+These 2 are used to get the value from a channel, \textbf{recv will block the thread from continuing and will receive Result<T, E> each time a value is sent and an Err when the channel closes!}\newline
+\textbf{try\_recv on the other hand does not block the thread and will immediately receive a Result<T, E> without any delay.}\\
 \hline
-
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
+Transferring Ownership with channels & 
+As already discussed, we can't use variables that we don't own in other threads, this is to prevent reading a dropped value, or trying to use a modified variable.\newline
+In order to still use a variable in another channel we need to \textbf{transfer ownership}, we can do this the following way:\newline
+\begin{lstlisting}
+use std::sync::mpsc;
+use std::thread;
 
+fn main() {
+    let (tx, rx) = mpsc::channel();
+
+    thread::spawn(move || {
+        let val = String::from("hi");
+        tx.send(val).unwrap();
+        // send ownership to main thread
+        // using val after this would not compile!
+        // println!("val is {}", val); ERROR!
+    });
+
+    let received = rx.recv().unwrap();
+    println!("Got: {}", received);
+}
+\end{lstlisting}\\
 \hline
+Multi Producer & 
+As already discussed, we can use multiple producers that send to one receiver, this is how we can accomplish this:\newline
+\begin{lstlisting}
+let (tx, rx) = mpsc::channel();
+let tx1 = tx.clone();
 
+// spawn tx and send!
+// spawn tx1 and send!
+//receive on main..
+\end{lstlisting}\\
+\hline
+thread::sleep & 
+Just as the title says, this will \textbf{force the thread to pause execution for an amount of time},\newline
+this is usually used in combination with Duration::from\_sec(), or min/h..\newline
+\begin{lstlisting}
+thread::sleep(Duration::from_secs(1));
+\end{lstlisting}\\
 \hline
 
 \hline
