@@ -619,7 +619,10 @@ Casts &
 \begin{lstlisting}
 double ping = 5.5;
 int pang = (int)ping;
-\end{lstlisting}\\
+\end{lstlisting}
+\, \newline
+\textcolor{OliveGreen}{Casting is usually the result of bad software design and should be avoided if possible,\newline
+however, sometimes it is needed like with precisions in multiplication!}\\
 \hline
 Bitwise Operators & 
 \vspace{2mm}
@@ -916,6 +919,60 @@ struct Folder {
 Implicit integer conversion & 
 Integers will always be implicitly converted to each other, this can lead to cases where the compiler will subtract \(2^n\) numbers until the conversion will work.\newline
 \textbf{It is therefore recommended to only use explicit conversion rather than using implicit ones!}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Void pointer & 
+As all pointers are just memory addresses, you can always \textbf{implicitly cast a void pointer into a typed one and back!}\newline
+\textcolor{red}{However, this needs serious caution, as interpreting data as anohter type might bring issues and security vulnerabilities!}\newline
+\begin{lstlisting}
+int x;
+int *px = &x;
+void *p = px;
+px = *p;
+\end{lstlisting}\\
+\hline
+Testing for nullptr & 
+Nullpointers in C are tested with the actual value 0:\newline
+\begin{lstlisting}
+if (pointer == 0) {
+  // ...
+}
+\end{lstlisting}\\
+\hline
+Union & 
+Unions are essentially enums from rust without the ability to create methods or use traits.\newline
+\textcolor{OliveGreen}{Members of unions therefore always start at the same address as the union and each union has the same size, just like in c++ and rust, it is equal to the biggest possible union member.}\newline
+\begin{lstlisting}
+union U {
+  int kind ;
+  struct { int kind; char value [256]; } str;
+  struct { int kind; long long value ; } ll;
+};
+union U u1 = {.ll = {.kind = 27, .value = 0x12345}};
+union U u2 = {.str = {.kind = 15, .value = "Hello"}};
+union U *pu = &u2;
+if (pu - > kind == 15) { puts ( pu - > str . value);}
+if (pu->kind == 27) {printf("%llX", pu->ll.value);}
+\end{lstlisting}\\
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
 \hline
 \end{tabular}
 \end{table}
