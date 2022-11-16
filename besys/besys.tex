@@ -694,6 +694,96 @@ j = p(3, 4); // same
 \end{table}
 \pagebreak 
 \begin{table}[ht!]
+\section{Pointers in C}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Raw Pointers & 
+Just like c++:\newline
+\begin{lstlisting}
+int32_t j = 10;
+int32_t *y = &j;
+// y now points to j
+
+y++;
+// y skips 4 bytes as int32_t has size of 4 bytes!
+// also note that this is pointer is now pointing to trash data!!
+\end{lstlisting}\\
+\hline
+Index-Operators with Pointers & 
+For whatever reason this is possible, note that \textbf{one operand needs bo be a pointer and one needs to be an integer! But it doesn't matter which one!}\newline
+\begin{lstlisting}
+a[b] == *(a+b)
+int32_t x = 0;
+int32_t * y = & x ;
+y[0] = 0x42 ;     // same as : x = 0 x42
+(&x)[0] = 0x42 ; // same
+0[&x] = 0x42 ;   // same
+100[200] = 0x42 ;  // Error : no address
+\end{lstlisting}\\
+\hline
+Pointer to Arrays & 
+\vspace{2mm}
+\begin{lstlisting}
+int32_t a[10]; // array with 10 integers
+int* b[10]; // 10 pointers to ints
+void* c[10]; // 10 voidpointers
+int* d[3] = {1,2,3}; // array with elements initialized
+int* d[] = {1,2,3}; // same but size inferred
+
+// usage
+int h = d[2]; // h equal to 3
+\end{lstlisting}\\
+\hline
+sizeof() & 
+The sizeof function will \textbf{return the size of the type with regular types like integers and chars}, and it will \textbf{return the length of an array!}\newline
+\begin{lstlisting}
+int g = 8;
+int* b[] = {3,4,5,6,7};
+printf(%d,g); // prints 8
+printf(%d,b); // prints 5 -> the amount of elements
+\end{lstlisting}\\
+\hline
+size\_t & 
+This is an \textbf{integer that is big enough to access every memory location on our system!}\newline
+Likely a 64bit integer?\\
+\hline
+typdef & 
+Typedef are type aliases that can be used when you have a ridiculous long typename.\newline
+\begin{lstlisting}
+typedef int int_t; // int is int_t type
+\end{lstlisting}\\
+\hline
+Function-Alias &
+\vspace{2mm}
+\begin{lstlisting}
+// Function pointer type with name function_t
+// for functions returning an int
+// and having one parameter of type pint_t
+typedef int (* function_t ) ( pint_t );
+int calculate (pint_t);
+function_t callback = calculate; // No call
+function_t callback2 = &calculate; // same , & is optional
+int x = 0;
+int y = (*callback) (&x);// calls calculate
+\end{lstlisting}\\
+\hline
+Predefined Aliases & 
+There are a bunch of aliases that are predefined:\newline
+\begin{itemize}
+\item \textcolor{purple}{int8\_t, int16\_t, int32\_t, int64\_t}
+\item \textcolor{purple}{intmax\_t: biggest signed integer}
+\item \textcolor{purple}{untptr\_t: signed integer which its into an address}
+\item \textcolor{purple}{uint8\_t, ..., uintmax\_t: ungsigned variants of above}
+\item \textcolor{purple}{size\_t: result type of sizeof(t)}
+\vspace{-3mm}
+\end{itemize}\\ 
+\hline
+
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
 \section{Section Name}
 \begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
