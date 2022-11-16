@@ -744,8 +744,14 @@ printf(%d,b); // prints 5 -> the amount of elements
 \end{lstlisting}\\
 \hline
 size\_t & 
-This is an \textbf{integer that is big enough to access every memory location on our system!}\newline
-Likely a 64bit integer?\\
+size\_t is the return value of sizeof which is big enough to hold any object.\newline
+It provides a datatype to iterate over arrays.\newline
+\textbf{it's essentially an iterator}\newline
+\begin{lstlisting}
+for (size_t i = 0; i < something; i++) {
+  a[i] = 0;
+}
+\end{lstlisting}\\
 \hline
 typdef & 
 Typedef are type aliases that can be used when you have a ridiculous long typename.\newline
@@ -778,16 +784,138 @@ There are a bunch of aliases that are predefined:\newline
 \vspace{-3mm}
 \end{itemize}\\ 
 \hline
+Subtraction on Pointers & 
+You can only subtract pointers when they are of equal size\_t, this means the underlying type needs to be same!\newline
+\begin{lstlisting}
+int32_t *a = 100;
+int32_t *b = 120;
+uint32_t *c = 140;
+ptrdiff_t y = a - b; // ok
+prtdriff_t z = a - c; // ERROR signed and unsgined not the same!
+\end{lstlisting}\\
+\hline
+Strings in C & 
+In C we do not have a standard string, instead we need to use a char array:\newline
+\begin{lstlisting}
+// explicitly with array
+char s [] = { 'H ' , 'a ' , 'i ' , '\0 ' };
+// same as char s [] = { ' H ', 'a ', 'i ', 0};
+char *pc = s ;
 
+// implicitly with pointer
+char *s = "Hai"; //best version
+while (*pc != '\0') {
+  // do something
+  ++ pc ;
+}
+\end{lstlisting}\\
 \hline
 \end{tabular}
 \end{table}
 \pagebreak
 \begin{table}[ht!]
-\section{Section Name}
 \begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
+Arrays as parameters & 
+You can't be passed by value as a whole, instead you pass the pointer, \textbf{even when the parameter type is declared as a full array!}\newline
+\begin{lstlisting}
+int f ( int * a ) { /* ... */ }  // passes pointer
+int f ( int a []) { /* ... */ }  // passes pointer
+int f ( int a [4]) { /* ... */ } // passes pointer
+\end{lstlisting}\\
+\hline
+Arrays will not know about their size & 
+This means that you will need to pass an additional parameter in order for you to iterate over the array!\newline
+\begin{lstlisting}
+int some_func (int *a, int n) {
+  for (int i = 0; i < n; ++i) {
+    a [i] = 0;
+  }
+}
+// small note, with char* [] you can ommit this parameter,
+// as the last char will always be the terminating char \0 !
+\end{lstlisting}
+\, \newline
+\textcolor{red}{There is a small problem with strings should you NOT pass the size parameter, it could potentially lead to reading of unowned memory -> overread exploit,\newline
+in case the null termination won't happen!}\\
+\hline
+const & 
+const simply means that \textbf{you can't change the value, but other functions etc might be able to change it!}\newline
+This is in contrast to C++ and rust which both define something to be universally const if defined as const.\newline
+\textcolor{OliveGreen}{Also, the const will always be for the type on the left of the const word, this means you can make a pointer to a const type,\newline
+or you can make a const pointer:}\newline
+\begin{lstlisting}
+char const *c; // Pointer to const char
+char *const d;     // const Pointer to char
+++c;               // OK : c is pointer
+5 ++d;             // Error : d is const pointer
+6 *c = 'a';        // Error : * c is const char
+7 *d = 'a';        // OK : * c is char
+\end{lstlisting}\\
+\hline
+Predefined String operations &
+\begin{itemize}
+  \item \textcolor{purple}{size\_t strlen (char const *str, size\_t max)}\newline
+  returns the length of the string
+\item \textcolor{purple}{int strcmp (char const *a, char const *b)}\newline
+  compares the string by comparing each char from left to right
+\vspace{-3mm}
+\end{itemize}\\ 
+\hline
+Structs & 
+Structs are the same as in C++, without the additional benefits of methods etc, as C does not have classes and is not an OOP language.\newline
+\begin{lstlisting}
+// with names
+struct something {
+  char c;
+  int b; 
+  // more...
+} t; // explained below
+// without names, used for global variables... 
+struct {
+  int q; 
+  // ...
+}; // exlained below
 
+struct something myStruct; // both names are necessary to instantiate a struct in C!!
+\end{lstlisting}
+\, \newline
+\textcolor{OliveGreen}{The \textbf{t is an instance of the struct, in other words it defines a variable with that name already!}}\newline
+\textcolor{red}{Also note that instantiating a struct requires the full name as follows: \textbf{struct structname variablename}!!}\\
+\hline
+Accessing members of structs & 
+It is just like c++ with a dot in case of a full variable, or an arrow in case of a pointer: \newline
+\begin{lstlisting}
+struct something a;
+struct something *b;
+a.c = 'H';
+a.b = 10;
+b->c = 'E';
+b->b = 50; 
+// or with a list 
+struct something c = {'A', 3};
+\end{lstlisting}\\
+\hline
+Complete vs Incomplete types & 
+A type is considered \textbf{complete if you know the size at compiletime}, otherwise the type is \textbf{considered incomplete when it has an unknown size at compile time.}\newline
+\textbf{Incomplete types} need to be stored \textbf{on the heap!}\\
+\hline
+Forward Declaration & 
+Sometimes you want need to declare something, then use it, but finish it later on to make it a complete type, in this case you can split the full declaration:\newline
+\begin{lstlisting}
+struct Folder ; // Forward - Deklaration
+struct File {
+  struct Folder * parent ; // OK : all pointer types have same size
+  char name [256];         // OK : fixed size array
+}; // --> Type complete
+struct Folder {
+  struct File * file [256]; // OK : fixed size array
+}; // --> Type complete
+\end{lstlisting}\\
+\hline
+Implicit integer conversion & 
+Integers will always be implicitly converted to each other, this can lead to cases where the compiler will subtract \(2^n\) numbers until the conversion will work.\newline
+\textbf{It is therefore recommended to only use explicit conversion rather than using implicit ones!}\\
 \hline
 \end{tabular}
 \end{table}
