@@ -3659,6 +3659,64 @@ Send and Sync manually &
 Should you try to implement these 2 traits yourself on types, you need to be aware that \textbf{manually implementing Sync and Send is unsafe!}.\\
 \hline
 \end{tabular}
+\section{OOP features}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline 
+General & 
+We have already seen the equivalent with classes and methods via enums and methods.\newline
+This is no different to OOP languages.\\
+\hline
+Inheritance & 
+Inheritance doesn't exist in rust as it is a rather disliked feature of many languages in recent years.\newline
+This is because the need to inherit absolutely everything from the parent often makes big parts of the code for this subclass usless or even outright unsafe as it might lead to crashes with functionality that this specific subclass doesn't want or can't implement.\newline
+In rust it is therefore recommended to use the \textbf{default traits as limited implementations of inheritance!}\\
+\hline
+The solution \textbf{dyn traits}& 
+\textcolor{OliveGreen}{In rust we have so called \textbf{dynamic types}, these can be used to, create types that can be used interchangably during runtime. In other words, types that implement a certain trait are known to have certain methods. Because of that we can simply use any type with this trait as if it would be the same.}\newline
+\textcolor{red}{Note, this means that we will choose which methods to call at \textbf{runtime}, this will cause a performance overhead compared to using regular static types. So be somewhat careful with using this the entire time!}\newline 
+\begin{lstlisting}
+pub struct Screen {
+    pub components: Vec<Box<dyn Draw>>,
+}
+\end{lstlisting} 
+\, \newline
+Here you can see a vector with boxed dyn trait draw.\newline
+This means that any type that implements the trait draw can be put into this vector!\newline
+Note however that this will be checked at runtime!\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+\end{tabular}
 \end{table}
 \pagebreak
 \begin{table}[ht!]
@@ -3673,12 +3731,6 @@ let x = dbg!(34 * 32 - 23);
 // It can also print structs and more
 // it used the stderr output for this
 \end{lstlisting}\\
-\hline
-
-\hline
-
-\hline
-
 \hline
 \end{tabular}
 \end{table}
