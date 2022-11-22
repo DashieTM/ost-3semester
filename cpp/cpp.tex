@@ -1788,7 +1788,159 @@ Sorting Algorithms and Related Operations &
 \end{table}
 \pagebreak
 \begin{table}[ht!]
+\section{Templates}
 \begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Basics & 
+You can use one or more types to use in templates.\newline
+\textcolor{OliveGreen}{Note that you usually write the template definition inside the header file!\newline
+\textbf{This also means that templates are implicitly inline!!}}\newline
+\begin{lstlisting}
+template <typename T>
+  auto min(T left, T right) -> T {
+    return left < right ? left : right;
+}
+\end{lstlisting} 
+For the writing in the header file part, the reason for this is that you could only use that template function inside of one cpp file. Usually this makes no sense so we define it in the header, this way we can export the function.\\
+\hline
+Compiler checks & 
+The compiler checks the template code twice, the first time when it sees the template function itself, here it only does basic syntax checking, does the template make sense, are there any missing semicolons etc.\newline
+The next time it checks is at instantiation, here it will do proper checking, like can this type actually be used in this function with all the operators that are used here?\\
+\hline
+Duck typing & 
+"If it walks and quacks like a duck, it must be a duck"\newline
+C++ has a similar way of doing generics as rust, it will simply do the operation if the type has said operation.\newline
+In rust the same is guaranteed, the only difference is that the guarantee usually comes from a trait, while in c++ it must come from the type itself.\newline
+With c++ 20 you can technically also do the same in c++ as you did in rust, but once again funny funny maybe worky maybe noty.\\
+\hline
+Type matching & 
+The c++ compiler only does extremely exact matching, meaning a double and an int will not match to either double double or int int:\newline
+\includegraphics[scale=0.4]{2022-11-22-08:46:33.png}\\
+\hline
+Variable templates & 
+C++ compiler allows for a variable number of templates which can then also be used in a function!\newline
+\begin{lstlisting}
+auto printAll() -> void {} // needed for printAll with the last case where first is empty!
+template<typename First, typename...Types>
+  auto printAll(First const & first, Types const &...rest) -> void {
+  std::cout << first;
+  if (sizeof...(Types)) {
+    std::cout << ", ";
+  }
+  printAll(rest...);
+  // print the variable numbers of parameters
+}
+\end{lstlisting}
+\textcolor{OliveGreen}{Note that the variable number of types needs to be the last part of both the template and the parameter list!!}\\
+\hline
+Packing and unpacking & 
+As you can see above and similar to rust, you can use the ... operator to indicate packing inside the template functions.\newline
+Here it will put together the types with \textbf{Types const \&...rest} and then unpack to use again inside a function with \textbf{rest...}\newline
+\textcolor{OliveGreen}{This is just syntax sugar, the code that will be generated will have hardcoded variables again, you just don't see them in c++ -> only in machine code!}\\
+\hline
+Template overloading & 
+You can overload a template if you for example want to use pointers instead of the actual type, or you can even write an overload for an explicit type:\newline
+\begin{lstlisting}
+template <typename T>
+  auto min(T left, T right) -> T {
+    return left < right ? left : right;
+}
+template <typename T>
+  auto * min(T * left, T * right) -> T {
+    return *left < *right ? left : right;
+}
+auto min(char const * left, char const * right) -> char const * {
+return std::string{left} < std::string{right} ? left : right;
+}
+\end{lstlisting}\\
+\hline
+Generic Operator functions &
+You can create generic operator functions with either a struct or a lambda, but this might not always work, as there are often more specific matches which will be called instead!\newline
+\begin{lstlisting}
+// lambda
+auto const printer = [&out](auto const & e) {
+  out << "Element: " << e;
+};
+
+// struct method
+struct __PrinterLambda {
+  template <typename T>
+  auto operator()(T const & e) const -> void {
+    __out << "Element: " << e;
+  }
+  std::ostream & __out;
+};
+\end{lstlisting}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Converting C string literals to c++ standard literals & 
+C string literals are stored in a char array, this makes it hard to be used, as arrays don't have any special functions attached to them.\newline
+We can instead use std::string\_literals to for example make printing work with string literals:\newline
+\begin{lstlisting}
+using namespace std::string_literals;
+std::cout << min("C++"s, "Java"s);
+\end{lstlisting}\\
+\hline
+More specificity problems & 
+\begin{lstlisting}
+template <typename T>
+  auto min(T & left, T & right) -> T {
+    return left < right ? left : right;
+}
+auto min(std::string const & left, std::string const & right) -> std::string {
+  return std::ranges::lexicographical_compare(left, right, [](char l, char r) {
+    return tolower(l) < tolower(r);
+  }) ? left : right;
+}
+std::string small{"aa"};
+std::string capital{"ZZ"};
+std::cout << min(small, capital) << '\n'; //ZZ
+\end{lstlisting}
+Here the problem would be that we didn't specify the string as const, this mean the template would be called, which didn't specify that we want to compare the lower symbols only. Bigger symbols are always higher up in the ascii table, meaning we get the wrong behavior with ZZ being "smaller" than aa!\\
+\hline
+Dangling references or rather why to use rust & 
+The following is exactly why borrowing just works, we pass 2 references to a function and receive the value of one of them. The problem is that the lifetime of the temporary reference of the parameters will be invalid after the semicolon, exactly like in rust!\newline
+This means you could potentially be getting invalid values!\newline 
+\begin{lstlisting}
+template <typename T>
+auto const & min(T const & left, T const & right) -> T {
+return left < right ? left : right;
+// left and right now dead as lifetime not extended
+// in other words, return is invalid
+}
+std::string const & smaller = min("a"s, "b"s);
+std::cout << "smaller is: " << smaller; // undefined behavior! might or might not work!
+\end{lstlisting}
+\textcolor{OliveGreen}{The fix is to return a const \& reference as well, as this would extend the lifetime of the reference!}\newline
+\begin{lstlisting}
+template <typename T>
+auto min(T const & left, T const & right) -> T const & {
+  return left < right ? left : right;
+}
+\end{lstlisting}\\
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+
 \hline
 
 \hline

@@ -4452,7 +4452,14 @@ fn returns_closure() -> Box<dyn Fn(i32) -> i32> {
 \section{Macros}
 \begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
-
+Macro types & 
+There are the default \textbf{declarative macros} and the \textbf{three types of procedural macros:}\newline
+\begin{itemize}
+  \item \textcolor{purple}{Custom \#[derive] macros that specify code added with the dervie attritute used on structs and enums}
+  \item \textcolor{purple}{Attribute like macros taht define custom attributes usable on any} 
+\item \textcolor{purple}{Function-like macros that look like function calls but operate on the tokens specified as their argument}
+\vspace{-3mm}
+\end{itemize}\\ 
 \hline
 
 \hline
