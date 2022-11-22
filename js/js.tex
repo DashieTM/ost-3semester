@@ -1096,7 +1096,7 @@ Example for MVC &
 \item \textcolor{purple}{npm install} -> install all packages needed for this project
 \item \textcolor{purple}{npm run} -> run the project
 \vspace{-3mm}
-\end{itemize} 
+\end{itemize}\\ 
 \hline
 Packages in npm & 
 Each node package has its own \textbf{package.json}.\newline
@@ -1139,6 +1139,93 @@ server.listen(port, hostname, () => {
   Server starten
 })
 \end{lstlisting}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\section{AJAX Asynchronous JavaScript and XML}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Use Case & 
+The problem with js is that it is singlethreaded, this means that only one thing can be done at a time.\newline
+This makes things like animations problematic, as they can be blocked by requests, clicks etc.\newline
+To solve this the async engine handles a "queue", which means that a request might \textbf{not be executed immediately, but whenever there is a "free space for it"}\newline
+Other Effects that AJAX made possible:\newline
+\begin{itemize}
+\item \textcolor{purple}{Single Page Applications}
+\item \textcolor{purple}{Animations and other changes without refreshing}
+\item \textcolor{purple}{Data via "best effort", UI via "guaranteed"}
+\vspace{-3mm}
+\end{itemize}\\ 
+\hline
+Promise & 
+This states that \textbf{at some point you will receive an answer}, however, \textbf{there is no guarantee for the value}, it can be anything or even null/undefined.\newline
+This is mostly used to get a value that you can't be sure to get, consider it similar to channels in async rust, just that this is within the same thread!\newline
+\textcolor{OliveGreen}{A promise has 3 states, \textbf{Fulfilled, Pending and Rejected}, fulfilled means the action was successfull and a return value is available, pending means operation still active and rejected means the action has failed}\newline
+\begin{lstlisting}
+async function fetchFromURL() {
+  return new Promise ((resolve, reject) => {
+  const response = fetch('https://stone.sifs0005.infs.ch/ranking')
+    .then(res => res.json())
+    .then(json => resolve(json))
+  }).catch(
+    err => reject(err)
+  );
+}
+\end{lstlisting}\\
+\hline
+Constructor of Promise & 
+\begin{lstlisting}
+new Promise((resolve, reject) =>
+// call async func with arguments
+>>>async fn<<< (..., (...callbackArgs) => {
+  if (error) {
+    reject(error);
+  } else {
+    resolve(value);
+  }
+})
+\end{lstlisting}
+As you can see a promise has 2 functions as parameters that will handle the 2 possible end states reject -> rejected and resolve -> fulfilled.\\
+\hline
+Using promises & 
+You can either use promises with the \textbf{.then()} function, or with the \textbf{await} keyword.\newline
+\begin{lstlisting}
+// with .then()
+function onClick() {
+  feetch(url).then(
+    (response) => {
+      console.log(response);
+    }
+  );
+}
+
+// with await
+async function fetchFromURLAwait() {
+  const response = await fetch('https://stone.sifs0005.infs.ch/ranking‘);
+  return response.json();
+}
+\end{lstlisting}
+\hline
+Try catch with async await & 
+Since the promise can fail, we can use a try catch block to do error handling:\newline 
+\begin{lstlisting}
+async function getGreeting() {
+  try {
+    return await greeting;
+  }
+  catch (e) {
+    console.error(e);
+  }
+}
+\end{lstlisting}\\
+\hline
+
+\hline
+
+\hline
+
 \hline
 
 \hline
