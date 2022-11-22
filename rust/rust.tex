@@ -3936,14 +3936,12 @@ WIth this you can ignore a range of items, for example the rest of a struct:\new
 \end{lstlisting} 
 \textcolor{OliveGreen}{Note that you can't take the middle with this, as rust wouldn't know which value to pick}\newline
 \begin{lstlisting}
-fn main() {
-    let numbers = (2, 4, 8, 16, 32);
+let numbers = (2, 4, 8, 16, 32);
 
-    match numbers {
-        (.., second, ..) => { // ERROR, what number??
-            println!("Some numbers: {}", second)
-        },
-    }
+match numbers {
+    (.., second, ..) => { // ERROR, what number??
+        println!("Some numbers: {}", second)
+    },
 }
 \end{lstlisting}\\
 \hline
@@ -3964,7 +3962,6 @@ match num {
     None => (),
 }
 \end{lstlisting} 
-\, \newline
 \textcolor{OliveGreen}{Note that when using if guards, the compiler will not match for exhaustiveness!}\\
 \hline
 Using values from scope within match & 
@@ -3981,7 +3978,6 @@ match x {
     _ => println!("Default case, x = {:?}", x),
 }
 \end{lstlisting} 
-\, \newline
 \textcolor{OliveGreen}{The reason this works is that the if \textbf{if block is not a pattern, therefore it doesn't produce new variables!}}\\
 \hline
 Match precedence & 
@@ -3990,40 +3986,471 @@ This is important for the next code listing. Here we want to match 4, 5 or 6 wit
 However, despite what we might think, it first matches to the pattern 4, 5 or 6 and then to the if block.\newline
 Meaning that either 4 and if, 5 and if, or 6 and if have to be true, not just 4, 5, 6 and if!\newline
 \begin{lstlisting}
-fn main() {
-    let x = 4;
-    let y = false;
+let x = 4;
+let y = false;
 
-    match x {
-        // 4 and y, 5 and y, 6 and y will match this
-        4 | 5 | 6 if y => println!("yes"),
-        _ => println!("no"),
-    }
+match x {
+    // 4 and y, 5 and y, 6 and y will match this
+    4 | 5 | 6 if y => println!("yes"),
+    _ => println!("no"),
 }
 \end{lstlisting}\\
 \hline
-The @ operator & 
+The @ operator &
+\textbf{The @ operator lets uf both match and use the variable at the same time, meaning that a new variable with this value will be created should the pattern be true.}\newline
 \begin{lstlisting}
-fn main() {
-    enum Message {
-        Hello { id: i32 },
-    }
+enum Message { Hello { id: i32 }, }
+let msg = Message::Hello { id: 5 };
 
-    let msg = Message::Hello { id: 5 };
-
-    match msg {
-        Message::Hello {
-            id: id_variable @ 3..=7,
-        } => println!("Found an id in range: {}", id_variable),
-        Message::Hello { id: 10..=12 } => {
-            println!("Found an id in another range")
-        }
-        Message::Hello { id } => println!("Found some other id: {}", id),
+match msg {
+    Message::Hello {
+    // This will match if the id is between 3 and 7 and will assign that value to id_variable
+        id: id_variable @ 3..=7,
+    } => println!("Found an id in range: {}", id_variable),
+    // here we only match to range 10-12
+    Message::Hello { id: 10..=12 } => {
+        println!("Found an id in another range")
     }
 }
 \end{lstlisting}\\
 \hline
+\end{tabular}
+\section{unsafe in rust}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Raw pointers and Dangling References & 
+In rust you usually do not have access to pointers directly, this is of course to keep you safe, and to definitely not get a segmentation fault, however, you can still enforce to use this with \textbf{unsafe code}. \newline
+\textcolor{OliveGreen}{There are 2 types of  raw pointers, \textbf{*const pointer and *mut pointer}}\newline
+The only difference is that the const pointer can't be directly assigned after being dereferenced, aka the value behind the pointer is const.\newline
+\textcolor{red}{Things to note when using raw pointers:}\newline
+\begin{itemize}
+\item \textcolor{purple}{Raw pointers ignore the borrowing rules!}
+\item \textcolor{purple}{Raw pointers are not guarateed to point to valid memory -> nullpr}
+\item \textcolor{purple}{Raw pointers can be null}
+\item \textcolor{purple}{Raw pointers do not implement automatic cleanup -> Drop}
+\end{itemize} 
+In order to get raw pointers you can do it the in the following way:\newline
+\begin{lstlisting}
+let mut num = 5;
+let r1 = &num as *const i32;
+let r2 = &mut num as *mut i32;
 
+// or directly from an address
+let address = 0x012345usize;
+let r = address as *const i32;
+\end{lstlisting} 
+\, \newline
+\textcolor{OliveGreen}{Note that you \textbf{do not need the unsafe keyword} in order to create pointers, \newline
+\textbf{you will only need it to dereference them!}, this is because the only unsafe action is the dereferencing, the creation doesn't matter at all!}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Dereferencing Raw pointers & 
+\textbf{If you want to dereference a raw pointer you need to enclose it in an unsafe block!}\newline
+\begin{lstlisting}
+let mut num = 5;
+
+let r1 = &num as *const i32;
+let r2 = &mut num as *mut i32;
+
+unsafe {
+    println!("r1 is: {}", *r1);
+    println!("r2 is: {}", *r2);
+}
+\end{lstlisting}\\
+\hline
+Creating and calling unsafe functions & 
+When creating functions that will do anything unsafe we \textbf{should} define it with this keyword, this is to make sure that anything that will do something unsafe will be marked as such.\newline
+Here an example:\newline
+\begin{lstlisting}
+unsafe fn dangerous() {}
+
+unsafe {
+    dangerous();
+}
+\end{lstlisting}\\
+\hline
+Using code from another language & 
+\textcolor{OliveGreen}{You can use code from other language with the \textbf{extern keyword} alongside the \textbf{application binary interface (ABI) between the quotes}.}\newline
+The ABI defines how the function is called at the assembly level!\newline
+\textcolor{red}{Note that using other languages is considered unsafe, as rust has no control at all over that code. It might be a C++ code with raw pointers, or perhaps something from haskell that should be safe, but rust has no knowledge over that!}\newline
+\begin{lstlisting}
+extern "C" {
+    // call the function abs defined by the C ABI
+    fn abs(input: i32) -> i32;
+}
+
+fn main() {
+    unsafe {
+        println!("Absolute value of -3 according to C: {}", abs(-3));
+    }
+}
+\end{lstlisting}\\
+\hline
+Creating function to use in other programming languages & 
+You can also "export" rust function to other languages, \textbf{to do this, we need to use the extern keyword alongside the no\_mangle directive}.\newline
+The extern part specifies that we want this to be available for other languages and the mangling part makes sure that the function will not have a rust specific name after compiling.\newline
+\begin{lstlisting}
+#[no_mangle]
+pub extern "C" fn call_from_c() {
+    println!("Just called a Rust function from C!");
+}
+\end{lstlisting}\\
+\hline
+Global variables & 
+Rust can support global variables, although they are very problematic as multiple threads could change them! \newline
+\begin{lstlisting}
+static HELLO_WORLD: &str = "Hello, world!";
+
+fn main() {
+    println!("name is: {}", HELLO_WORLD);
+}
+\end{lstlisting} 
+\, \newline
+\textcolor{OliveGreen}{Static variables have \textbf{fixed memory addresses} and are not fully constant, in other words \textbf{they can be mutated}, but doing this is \textbf{considered unsafe}.}\newline
+\begin{lstlisting}
+static mut COUNTER: u32 = 0;
+
+fn add_to_count(inc: u32) {
+    unsafe {
+        COUNTER += inc;
+    }
+}
+\end{lstlisting}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Unsafe Traits & 
+Unlike with functions, we \textbf{always need to define a trait as unsafe as soon as at least ONE function is considered unsafe.}\newline
+\begin{lstlisting}
+unsafe trait Foo {
+    // methods go here
+}
+
+unsafe impl Foo for i32 {
+    // method implementations go here
+}
+\end{lstlisting}\\
+\hline
+Unions in rust & 
+Unions are primarily a C feature where multiple values point to the same memory address, this means that only one value can be valid at a time.\newline
+Because of that in rust you will need to use the \textbf{unsafe} keyword to get a particular value, this is because there is no way to tell what type you will get from the union!\newline
+\begin{lstlisting}
+#[repr(C)]
+union MyUnion {
+    f1: u32,
+    f2: f32,
+}
+
+let u = MyUnion { f1: 1 };
+let f = unsafe { u.f1 };
+\end{lstlisting}\\
+\hline
+\end{tabular}
+\section{Advanced Traits}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Type implementations in traits & 
+You can implement a "generic" trait on another trait.\newline
+Note that this differs from generic in the sense that we don't need to constantly propagate the type that we used, we only need to do this once, as we define for what type we implement this trait:\newline
+\begin{lstlisting}
+pub trait Iterator {
+    type Item;
+
+    fn next(&mut self) -> Option<Self::Item>;
+}
+
+struct Counter {
+    count: u32,
+}
+
+impl Counter {
+    fn new() -> Counter {
+        Counter { count: 0 }
+    }
+}
+
+impl Iterator for Counter {
+    type Item = u32;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        // --snip--
+        if self.count < 5 {
+            self.count += 1;
+            Some(self.count)
+        } else {
+            None
+        }
+    }
+}
+\end{lstlisting}\\
+\hline
+Default types with generics & 
+You can specify a default type to use when one doesn't specify a more specific type.\newline
+This is particularly useful with operator overloading where you do not want specify something like self each time.\newline
+\begin{lstlisting}
+trait Add<Rhs=Self> { // choose self when nothing else specified
+    type Output;
+
+    fn add(self, rhs: Rhs) -> Self::Output;
+}
+\end{lstlisting}\\
+\hline
+Operator overloading in rust & 
+Rust does not allow you to overload arbitrary operators for any type.\newline
+Instead it has specific functions that you can implement for your own structs and enums, which then add the capability of this operator.\newline
+For example you might want to add the + operator to a struct:\\ 
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+&
+\begin{lstlisting}
+use std::ops::Add;
+
+#[derive(Debug, Copy, Clone, PartialEq)]
+struct Point {
+    x: i32,
+    y: i32,
+}
+
+impl Add for Point {
+    type Output = Point;
+
+    fn add(self, other: Point) -> Point {
+        Point {
+            x: self.x + other.x,
+            y: self.y + other.y,
+        }
+    }
+}
+\end{lstlisting} 
+\, \newline
+\textcolor{OliveGreen}{Not that this is exactly the function that was used to show default traits with.\newline
+Aka the implementation of it on the struct.}\\
+\hline
+function specifity & 
+This refers to functions that might have the same name in multiple traits.\newline
+In other words a type might have a function named fly, this type also implements 2 traits, both of which also have the function fly defined, and we know that in order to implement the trait we \textbf{must implement these functions!}\newline
+However, this leads to ambiguity about what function would be called, so rust \textbf{defaults to the type native function, while the trait functions need explicit calling.}\newline
+\begin{lstlisting}
+trait Pilot {
+    fn fly(&self);
+}
+
+trait Wizard {
+    fn fly(&self);
+}
+
+struct Human;
+
+impl Pilot for Human {
+    fn fly(&self) {
+        println!("This is your captain speaking.");
+    }
+}
+
+impl Wizard for Human {
+    fn fly(&self) {
+        println!("Up!");
+    }
+}
+
+fn main() {
+    let person = Human;
+    Pilot::fly(&person); // fly from trait pilot
+    Wizard::fly(&person); // fly from trait wizard
+    person.fly(); // fly from type human
+}
+\end{lstlisting} 
+\, \newline
+\textcolor{red}{Note, \textbf{this does not work for functions that do not take a form of self as parameter.}}\newline
+Here you would need to specify it with the following way:\newline
+\begin{lstlisting}
+trait Animal {
+    fn baby_name() -> String;
+}
+
+struct Dog;
+
+impl Dog {
+    fn baby_name() -> String {
+        String::from("Spot")
+    }
+}
+
+impl Animal for Dog {
+    fn baby_name() -> String {
+        String::from("puppy")
+    }
+}
+
+fn main() {
+    println!("A baby dog is called a {}", Animal::baby_name()); // ERROR function has no self!
+    println!("A baby dog is called a {}", <Dog as Animal>::baby_name()); // ok
+}
+\end{lstlisting}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Fully qualified syntax & 
+Fully qualified syntax is the explicit way of treating something as if it is something else.\newline
+In the pevious example, we treated the dog as if it was an animal, which lead to the compiler using the animals baby\_name function.
+\textcolor{OliveGreen}{In general we can use any type as any trait if said type implements the trait!}\newline
+\begin{lstlisting}
+<Type as Trait>::function(receiver_if_method, next_arg, ...);
+\end{lstlisting}\\
+\hline
+Supertraits & 
+Just like in OOP, we can make traits depend on each other like interfaces can depend on each other.\newline
+For example a OutlinePrint trait will depend on the trait Display.\newline
+Even more, the OutlinePrint trait will either use but also very likely change the functions from Display, after all the idea is to display a border here.\newline
+\begin{lstlisting}
+// similar to c++ class1 : class2
+trait OutlinePrint: fmt::Display {
+    fn outline_print(&self) {
+        let output = self.to_string();
+        let len = output.len();
+        println!("{}", "*".repeat(len + 4));
+        println!("*{}*", " ".repeat(len + 2));
+        println!("* {} *", output);
+        println!("*{}*", " ".repeat(len + 2));
+        println!("{}", "*".repeat(len + 4));
+    }
+}
+
+struct Point {
+    x: i32,
+    y: i32,
+}
+
+impl OutlinePrint for Point {}
+
+use std::fmt;
+// necessary as otherwise the type couldn't use the 
+// functions from the trait OutlinePrint
+impl fmt::Display for Point {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "({}, {})", self.x, self.y)
+    }
+}
+
+fn main() {
+    let p = Point { x: 1, y: 3 };
+    p.outline_print();
+}
+\end{lstlisting}\\
+\hline
+Coherence fix & 
+On page 21 we talked about coherence, and how you can only use a trait on a type if either one of those 2 is local to your crate.\newline
+There is a workaround for this, you can simply use both in a wrapper which is local to your crate.\newline
+There is no performance hit for this, it is just to save you from unnecessary trouble with bad design.\newline
+\begin{lstlisting}
+use std::fmt;
+
+struct Wrapper(Vec<String>);
+
+impl fmt::Display for Wrapper {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "[{}]", self.0.join(", "))
+    }
+}
+
+fn main() {
+    let w = Wrapper(vec![String::from("hello"), String::from("world")]);
+    println!("w = {}", w);
+}
+\end{lstlisting} 
+\textcolor{OliveGreen}{A downside to this is that you need to implement every function from the underlying type, here vector, that you want to use.\newline
+If that is not what you want, then you could consider using the Deref trait to use a smart pointer like a regular reference.}\\
+\hline
+\end{tabular}
+\section{Advanced Types}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Type aliases & 
+Just like the using directive in c++, you can use the \textbf{type} keyword to create a type alias. \newline
+Note that this is only an alias, you can mix and match these types as they are the same!\newline
+\begin{lstlisting}
+type Thunk = Box<dyn Fn() + Send + 'static>;
+\end{lstlisting}\\
+\hline
+The ! operator & 
+This is essentially a fancy way of saying void.\newline
+It can be used as a return type, which specifies that it returns nothing.\newline
+Note that, because it doesn't return anything, it can be used in a match like this:\newline
+\begin{lstlisting}
+let guess: u32 = match guess.trim().parse() {
+    Ok(num) => num,
+    Err(_) => continue,
+};
+\end{lstlisting}
+\textcolor{OliveGreen}{The second match wouldn't work if we put a string or something similar there, as it expects a u32, but the type \textbf{!} can match to it as it returns nothing.}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Dynamically Sized Types (DST)& 
+\textbf{These are types that are allocated on the heap and are allocated at runtime.}\newline
+Usually they have a size and address allocated at compile time like vectors or strings.\\
+\hline
+Sized Bounds & 
+\textbf{Generics can usually only be used with types that are of known size at compile time, but you can go around this restriction by implementing a different size bound for your functions.}\newline
+\begin{lstlisting}
+// regular generic with compile time types
+fn generic<T: Sized>(t: T) {
+    // --snip--
+}
+// expanded generic with runtime types
+fn generic<T: ?Sized>(t: &T) {
+    // --snip--
+}
+\end{lstlisting}\\
+\hline
+Functions as parameters with \textbf{Function Pointers}& 
+Just like with any other modern language, you can pass functions as parameters, and unlike some other languages, cough haskell, you even see what types they are and which part the function actually is:\newline
+\begin{lstlisting}
+fn add_one(x: i32) -> i32 {
+    x + 1
+}
+
+// note the fn(i32) -> i32 syntax
+fn do_twice(f: fn(i32) -> i32, arg: i32) -> i32 {
+    f(arg) + f(arg)
+}
+\end{lstlisting} 
+\textcolor{OliveGreen}{Function Pointers implement all 3 closure traits -> \textbf{Fn, FnMut, FnOnce}} \newline
+Small sidenote, usually you can always just use a closure as well, but when you interact with C code for example, you would need this instead, as C doesn't have closures/lambdas.\\
+\hline
+Returning closures & 
+Closures are DSTs, so we can't return a closure \textbf{without bending the sized trait}, so what we can do instead if use references/pointers:\newline
+\begin{lstlisting}
+fn returns_closure() -> Box<dyn Fn(i32) -> i32> {
+    Box::new(|x| x + 1)
+}
+\end{lstlisting}\\
+\hline
+\end{tabular}
+\section{Macros}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
 
 \hline
@@ -4077,11 +4504,10 @@ let x = dbg!(34 * 32 - 23);
 \hline
 
 \hline
-
-\hline
 \end{tabular}
 \, \newline
 Code Snippets and Screenshots were taken from \href{https://doc.rust-lang.org/book/title-page.html}{https://doc.rust-lang.org/book/title-page.html}\newline
 Copyright Notices are provided within the repository.
 \end{table}
 \end{document}
+
