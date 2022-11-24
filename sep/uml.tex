@@ -686,10 +686,25 @@ A set of inputs that should show similar behavior.\newline
 \textcolor{OliveGreen}{Boundary Value Analysis}\newline
 This tests the edges of the classes, making sure that the proper turning point has been chosen.\newline
 \includegraphics[scale=0.4]{2022-11-14-09:45:41.png}\newline
-
-\\
+\textcolor{OliveGreen}{State based testing}\newline
+\begin{itemize}
+\item \textcolor{purple}{current state is considered an input parameter}
+\item \textcolor{purple}{next state is considered as output parameter}
+\item \textcolor{purple}{state transitions are treated as equivalence classes}
+\item \textcolor{purple}{can be used for any state dependent behavior}
+\vspace{-3mm}
+\end{itemize} 
+\, \newline
+dumb explanation: Does the system do what I wanted it to do?\\
 \hline
-
+White Box techniques & 
+\minipg{
+\textcolor{orange}{Control Flow Oriented Testing}\newline
+\textbf{Control Flow Graph (CFG)}\newline
+This simply tests if each node has been reached, \textbf{a good value would be roughly 100\%, but this depends on the code. }
+}{
+\includegraphics[scale=0.4]{2022-11-21-08:31:57.png} 
+}[0.4,0.4]\\
 \hline
 
 \hline
@@ -708,4 +723,3 @@ This tests the edges of the classes, making sure that the proper turning point h
 \end{tabular}
 \end{table}
 \end{document}
-
