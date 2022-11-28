@@ -366,7 +366,181 @@ Legend: \newline
 \end{itemize}\\
 \hline
 Difference between lasso regularization and ridge regularization & 
-\textbf{Lasso regularization can hit the slope 0, while ridge is very unlikely to hit it.}\\
+\textbf{Lasso regularization can hit the slope 0, while ridge is very unlikely to hit it. This can be seen with the snapping that lasso has!}\newline
+\textcolor{red}{Lasso regression can't use gradient descent as it can't be deriviated!!}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\section{Scaling}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Basic Issue & 
+Whenever we have 2 values that should be represented which have different \textbf{weights}, then we need to use scaling in order to make both values have an impact on the graph.\newline
+For example if you have one parameter which will affect only a small number, while the other parameter will affect a big number, then changing the second parameter will always \newline
+have a bigger impact than changing the first parameter, as it affects a bigger number.\\
+\hline
+Z-score Normalization &
+\textcolor{OliveGreen}{This rescales the dataset to have a \textbf{mean of 0} and a \textbf{standard deviation of 1}}\newline
+\textbf{for example: Standardization of a parameter with value 2: \((2-5)/2.138 = -1.4\)}\newline
+\, \newline
+\huge \( s = \sqrt{\dfrac{1}{N-1}\sum_{i=0}^{N}(X_i - X_{\text{mean}})^2} \)\newline
+\, \newline
+\( x_{\text{std}} \dfrac{x - X_{\text{mean}}}{s} \)\newline
+\normalsize \, \newline
+Legend:\newline
+\begin{itemize}
+\item \textcolor{purple}{Mean: sum of values of data divided by amount of data}\newline
+  data points: 2,4,4,4,5,5,7,9\newline
+  \(X_{\text{mean}}\) = Mean = 40/8 = 5
+\item \textcolor{purple}{s: sample variance}
+\item \textcolor{purple}{\(X_{\text{std}}\): sample standard deviation}
+\end{itemize} 
+There is another issue that feature scaling will fix, \textbf{regularization is biased, meaning it will punish higher value parameters harder!}\newline
+This is yet another reason why we want to use scaling in order to reduce the effect that regularization has on our parameters.\\
+\hline
+\end{tabular}
+\section{Model Evaluation}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+2-way Holdout & 
+2-way Holdout is the model that we have been using until now with the 20-80 split in data to train and test your model:\newline
+\includegraphics[scale=0.3]{2022-11-17:08:44:33.png}\\
+\hline
+3-way Holdout & 
+\minipg{
+\includegraphics[scale=0.3]{2022-11-17:08:47:18.png}
+\includegraphics[scale=0.3]{2022-11-17:08:47:22.png}
+\includegraphics[scale=0.3]{2022-11-17:08:47:31.png}
+}{
+The idea here is to always have different possibilities of each step, meaning \textbf{multiple parameters to train multiple models}, then \textbf{test each model on the test data}.\newline
+Then you \textbf{use the best parameters, meaning the ones that are the closest to both the training data AND the test data.}\newline
+At the end you have your test error just like with the 2-way holdout.\\
+}[0.45,0.3]
+\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Final Model & 
+In both 2-way and 3-way holdout, you can have a final model calculation: \newline
+\includegraphics[scale=0.3]{2022-11-17:08:54:03.png}\\
+\hline
+Problems with Holdout& 
+In general, the test data will only be a subset of the entire dataset, and if we get unlucky, the test data might be shit.\newline
+In other words, \textbf{it might have extremes or it might have too many values that are just right for our predicted line, but not for the actual line...}\newline
+The solution would be splitting the data further, but how? Find out below kekw\\
+\hline
+k-fold Cross Validation & 
+\textbf{k-fold Cross Validation is just one variant of cross validation, you can theoretically implement your own, but this one if the most used.}\newline
+\textcolor{OliveGreen}{In k-fold cross validation, we split the data multiple times until we have had each split as validation data once, while the rest servers as the training data during that time:}\newline
+\includegraphics[scale=0.3]{2022-11-17:09:07:59.png}\newline
+At the end you can calculate the \textbf{mean and variance of k validation errors}. \textbf{This mean will now be your Validation Error!}\newline
+\includegraphics[scale=0.3]{2022-11-17:09:12:34.png}\newline
+\textcolor{red}{Note, \textbf{the test data is not included in the fold, it is NOT touched until you want to test your models.}}\\
+\hline
+Binary Probability & 
+In many cases we want to know a yes or no answer, based on a prediction, for example is group A applicable for this study  based on their height. You can't just measure everyon so you have to take predictions based on the groups other specifications, eg. you might know their age range, sex, etc. From this data you can get a predicition for the height, which then leads you to your answer, but, this answer is not binary, so what do we do? \newline
+\textcolor{OliveGreen}{Simple, we use a treshold on where we simply say that there we will consider the answer as yes, and everything below is a no.}\newline
+\minipg{
+\includegraphics[scale=0.4]{2022-11-24:08:45:49.png}
+}{
+  There is however a problem with this, you can't use this in combination with linear regression, as we only have either 0 -> false, or 1 -> true. \newline
+  However, we can use what is called \textbf{Logistic Regression}, this will work on the probability instead of the outcome data, which again in our case is 0 or 1 because of our threshold!
+}[0.48,0.28]\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Logistic Regression & 
+As already described before, we now need something that will work on the probability to regress on, how about the signum function, which would turn pretty much any number to 1 or 0?\newline
+\minipg{
+\includegraphics[scale=0.25]{2022-11-24:09:04:16.png}\newline
+}{
+  \large \textcolor{purple}{\( sigmoid(z) = \dfrac{1}{1 + e^{-z}}\)}\newline
+  \large \textcolor{purple}{\( z = h(w,x) = w_1x_1 + w_2x_2 + \text{...} + w_nx_n \)}\newline
+  \normalsize \textbf{The x represents the data that we have, while w is the value to figure out -> unknown line}
+}[0.46,0.3]
+\\
+\hline
+Log(odds) & 
+Because of the division on odds, \textbf{the values that indicate odds in favor of the quotient have a higher magnitude}, in other words, \textbf{should the odds not be in "our" favor, then the number will be between 0 and 1}, however, \textbf{should the odds be in "our" favor, then the number will be between 1 and infinity!!}\newline
+In order to solve this issue, we can take the log of the odds with base e.\newline
+This will make the calculation perfectly symetrical again, with both sides of the odds being represented properly.\newline
+\includegraphics[scale=0.25]{2022-11-24:12:32:32.png} \includegraphics[scale=0.25]{2022-11-24:12:32:39.png}
+\\
+\hline
+Odds vs Probability & 
+The difference in odds is that it only considers a possiblity with the opposite of that, while probability considers the possiblity of something against EVERYTHING.\newline
+Eg. \textbf{my team winning vs not winning -> odds, my team winning vs my team winning, tied, and losing -> probability}\newline
+\textcolor{red}{Odds can however also be displayed by using probabilities instead of numbers, aka the probability of winning divided by the probability of losing is still odds!}\newline
+Consider the ratio of winning as 5, tied as 3 and losing as 4.\newline
+Probability for winning: \( \dfrac{5}{5+3+4} \) \newline
+Odds for winning: \( \dfrac{5}{4} \) OR \textcolor{red}{with probabilities:\( \dfrac{\dfrac{5}{8}}{\dfrac{4}{8}} \)}\newline
+Note, the second is called \textbf{logit function} and can be shortened to this: \textcolor{RubineRed}{\( odds = \dfrac{p}{1 - p} \)}\newline
+\\
+\hline
+Odds Ratio &
+While the previous examples were also ratios, we mean something different with this, namely the division of 2 odd calculations.\newline
+This comes into play when you want to check correlation between two traits based on data.\newline
+Let's take the following idea, we have mice some of which are obese, and some have heart issues.\newline
+\includegraphics[scale=0.4]{2022-11-24:12:59:20.png} \newline
+As you can see the odd ratio is the odds of obese mice having heart issues to the odds of non obese mice having heart issues.\newline
+Then we take the log just like regular odds, in order to make the result symetrical!\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Statistically Significant Odds & 
+For logistic regression we use the \textbf{Wald test} to check whether or not our odds ratio is statistically significant.\newline
+What we do is calculate the \textbf{standard deviation},  this is how most values of the \textbf{odds ratio} will be spread away from 0.\newline
+\includegraphics[scale=0.2]{2022-11-24:01:18:37.png}\newline
+here the standard deviation if the 34.1\% mark.\newline
+However instead of calculating every odds ratio, we can caluclate the following instead to get the same value:\newline
+\large standard deviation = \( \sqrt{\dfrac{1}{23} + \dfrac{1}{6} + \dfrac{1}{117} + \dfrac{1}{210}} \)\newline
+\normalsize As you can see these are the values from the mice obesety to heart problems chart.\newline 
+\textcolor{red}{Should this value be either \textbf{smaller than -2 or bigger than 2, then it is statistically significant!}}
+\\
+\hline
+&
+The odds ratio is the division between the probability of data being 1 and data being 0.\newline
+\large \textcolor{purple}{\( odds(p) = \dfrac{p}{1-p} \)}\newline
+\large \textcolor{purple}{\( log ( \dfrac{Pr(y=1|x)}{1-Pr(y=1|z)} = e^{W^{T}x} ) \)}\newline
+Estimated Probility:\newline
+\large \textcolor{purple}{\( Pr(y=1|x;W) = \dfrac{e^{W^T x}}{1+e^{W^T x}} = \dfrac{1}{1 + e^{W^T x}} = p(x) \)}\newline
+\normalsize \, \newline
+Note: \( W^T x \) is the same as \( w_ix_i \) in matrix form, in other words, the T stands for \textbf{Transform}.\newline
+\large Loss Function:\newline
+\textcolor{purple}{Minimize Cost(W) =\( \dfrac{-1}{N}\sum^{N}_{i=1}(y_i * log(p(x_i)) + (1-y_i)) * log(1 - p(x_i)) \) }\newline 
+\normalsize \, \newline
+For the loss function, we learned that we want to penalize every value that is wrong, eg here too large or too low.\newline
+Here we have the 2 log on prediction for it to be true and for it to be false:\newline 
+\begin{itemize}
+\item \textcolor{purple}{w = parameter}
+\item \textcolor{purple}{p(x) = probability of something with value x}
+\vspace{-3mm}
+\end{itemize}
+\, \newline
+\includegraphics[scale=0.4]{2022-11-24:09:26:52.png} \includegraphics[scale=0.4]{2022-11-24:09:26:55.png}\newline
+\includegraphics[scale=0.25]{2022-11-24:09:30:09.png} \includegraphics[scale=0.25]{2022-11-24:09:30:11.png}\newline
+\textcolor{red}{Here we need to make sure that our coeffiecients/parameters get p to 0 when y is 0 and p to 1 if y is 1.}\newline
+\\
+\hline
+
+\hline
+
+\hline
+
 \hline
 
 \hline
