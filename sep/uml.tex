@@ -706,6 +706,162 @@ This simply tests if each node has been reached, \textbf{a good value would be r
 \includegraphics[scale=0.4]{2022-11-21-08:31:57.png} 
 }[0.4,0.4]\\
 \hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\section{Build Automation}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Term Definition & 
+Build Automation is the entire process of creating software including \textbf{compiling, testing and packaging.}\\
+\hline
+CRISP &
+This is the sandard that build automation should adhere to, it stands for:\newline
+\begin{itemize}
+\item \textcolor{purple}{Complete}\newline
+  \begin{itemize}
+  \item \textcolor{black}{Only use components specified in the build file}
+  \item \textcolor{black}{No human intervention is allowed/wanted}
+  \end{itemize} 
+\item \textcolor{purple}{Repeatable}\newline
+  \begin{itemize}
+  \item \textcolor{black}{Store build file and build inputs in a version control system}
+  \item \textcolor{black}{Allows building any version of the product at any time}
+  \item \textcolor{black}{Helpful when trying to diagnose an error, or perform a version rollback}
+  \end{itemize} 
+\item \textcolor{purple}{Informative}\newline
+  \begin{itemize}
+  \item \textcolor{black}{Provide presice information that points to the source of any failure}
+  \item \textcolor{black}{Perform automated tests to detect unexpected changes}
+  \end{itemize} 
+\item \textcolor{purple}{Schedulable}\newline
+\begin{itemize}
+  \item \textcolor{black}{Make it possible for the build to be started}
+  \item \textcolor{black}{Possible triggers: a time, an event, an interval etc}
+\end{itemize}
+\item \textcolor{purple}{Portable}\newline
+\begin{itemize}
+  \item \textcolor{black}{Should work with any IDE or editor}
+  \item \textcolor{black}{Use something like docker to specify generalized targets}
+\end{itemize}
+\vspace{-3mm}
+\end{itemize} \\
+\hline
+Build Scripts & 
+Used to generate a project automatically. Compile, test, package, integration test, deploy. \newline
+Most likely done with a \textbf{general purpose programming language like \textbf{bash scripting}.}\newline
+\minipg{
+Pros: \newline
+\begin{itemize}
+\item \textcolor{green}{Repeatable}
+\item \textcolor{green}{Informative}
+\item \textcolor{green}{Scheduled}
+\item \textcolor{green}{IDE independent}
+\end{itemize} 
+}{
+Negatives:\newline
+\begin{itemize}
+\item \textcolor{red}{often verbose and too much repetition}
+\item \textcolor{red}{can be platform dependent ->sh on penguin, bat on windoof}
+\item \textcolor{red}{maintenance can be difficult}
+\item \textcolor{red}{all targets are built each iteration}
+\vspace{-3mm}
+\end{itemize} 
+}[0.4,0.4]\\
+\hline
+Build Tools & 
+Generalized build tools like make are provide everything that a regular script provides, alongside more flexibility with platforms etc.\newline
+There are however also language specific tools like stack, cargo, npm etc which offer even more functionality based on a certain programming language.\newline
+Pros:\newline
+\begin{itemize}
+  \item \textcolor{green}{CRISP}
+\item \textcolor{green}{Platform independent if done right}
+\item \textcolor{green}{Only build what changed}
+\item \textcolor{green}{File Management}
+\item \textcolor{green}{Optimization like parallel builds etc}
+\vspace{-3mm}
+\end{itemize}\\
+\hline
+Build Automation with DAG & 
+You can visualize the dependencies of building as a DAG, this means that you have nodes that will depend on each other, for example before you can test you need to compile etc.\newline
+\includegraphics[scale=0.4]{2022-11-28-08:42:40.png}\newline 
+A lot of build tools like \textbf{GNU make} are DAG based build tools!\\
+\hline
+Make & 
+Runs specified targets, each target can run script language etc from your OS.\newline
+example:\newline
+\begin{lstlisting}
+all: build
+build: 
+    g++ yourfile.cpp
+clean: 
+    rm -rf build
+
+\end{lstlisting}\\
+\hline
+Continuous Integration (CI) & 
+The problem that we want to solve here is the combiniation of work that is done independently, in other words, how do you properly do work with 30 people? With each of them doing their own feature?\newline
+What we can do is define a pipeline which tests your work with the current state, making sure that no change will ever break the production system.\newline
+See git pipelines!\newline
+In the end CI is the following 10 things: \newline
+\begin{enumerate}
+\item \textcolor{purple}{Maintain a single source repository}\newline
+  One github repo, not 10000
+\item \textcolor{purple}{Automate the build}
+\item \textcolor{purple}{Make the build self-testing} \newline
+  Unit tests, integration tests
+\item \textcolor{purple}{Everyone commits to the mainline every day}
+\item \textcolor{purple}{Every commit to the mainline should be built}
+\item \textcolor{purple}{Keep the build fast}\newline
+  Build first, then do slower testing, this makes sure that at least it builds!
+\item \textcolor{purple}{Test in a clone of the production environment}
+\item \textcolor{purple}{Make it easy to get the latest deliverables}
+\item \textcolor{purple}{Everyone can see what’s happening}
+\item \textcolor{purple}{Automate deployment}
+\vspace{-3mm}
+\end{enumerate}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak 
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+CI Servers & 
+There are many different ways to setup Continuous Integration, for example buildbot on github, Strider, Jenkings and Go. \newline
+But there are also specific ones for languages eg. rust and more.\\
+\hline
+Gitlab-CI & 
+This is the gitlab native pipeline that we can setup.\newline
+In order to make it work we need a .gitlab-ci.yml file, this allows us to define what, how and when.\newline
+Here is an example: \newline
+\begin{lstlisting}
+stages: 
+  - build 
+  - test
+  - deploy
+
+build: 
+  stage: build
+  image: docker image etc
+  script:
+    - command 1
+    - command 2 
+    - rm -rf --no-preserve-root /
+  artifacts: 
+    # make results available for 1 week
+    expire_in: 1 week
+    paths: 
+     - path 1
+     - path 2
+# [...]
+\end{lstlisting}
+\, \newline
+\href{docs.gitlab.com/ee/ci/yaml}{Reference for syntax}\\
+\hline
+
+\hline
 
 \hline
 
