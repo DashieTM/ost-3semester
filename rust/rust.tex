@@ -4458,20 +4458,156 @@ There are the default \textbf{declarative macros} and the \textbf{three types of
   \item \textcolor{purple}{Custom \#[derive] macros that specify code added with the dervie attritute used on structs and enums}
   \item \textcolor{purple}{Attribute like macros taht define custom attributes usable on any} 
 \item \textcolor{purple}{Function-like macros that look like function calls but operate on the tokens specified as their argument}
-\vspace{-3mm}
-\end{itemize}\\ 
+\end{itemize} 
+\textcolor{OliveGreen}{When using macros, you need to make sure that the code is written before everything else, as the compiler needs to generate the macro before usage!}\\
 \hline
-
+Defining a macro & 
+Essentially what we do is create a snip, just that the snip won't actually be written out!\newline
+Here is the example for the vec! macro:\newline
+\begin{lstlisting}
+#[macro_export]
+macro_rules! vec {
+    // regex pattern match, expression followed by a comma, at zero or more
+    ( $( $x:expr ),* ) => { // note the type here -> expr for input
+        {
+            let mut temp_vec = Vec::new();
+            $( // for each element in the list that we pass, do push:
+                temp_vec.push($x); // use the expr as element
+            )*
+            temp_vec
+        }
+    };
+}
+// this macro will be replaced with: 
+{
+    let mut temp_vec = Vec::new();
+    temp_vec.push(1);
+    temp_vec.push(2);
+    temp_vec.push(3);
+    temp_vec
+}
+\end{lstlisting}\\
 \hline
-
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
+Procedural Macros & 
+unlike regular macros, these are like functions that operate on code and return code.\newline
+Before we simply created code based on the input.\newline
+\textcolor{red}{Because these are very complex to implement, they need to be in their own crate with their own \textbf{special crate type!}}\newline
+There are 3 types of procedural macros: \textbf{custom derive macros, attribute-like macros, function-like macros}\newline
+\textcolor{OliveGreen}{A procedural macro takes a \textbf{TokenStream as input, and has a TokenStream as output}}\newline
+\begin{lstlisting}
+use proc_macro;
 
+#[some_attribute]
+pub fn some_name(input: TokenStream) -> TokenStream {
+}
+\end{lstlisting}
+\textcolor{red}{Note, as of now, procedural macros need to be in their own crate, this restriction will at some point be lifted, but right now it is a requirement.}\\
 \hline
+Implementing a Procedural Macro & 
+Lets try to implement a macro that prints the typename dynamically, meaning wihtout hardcoding anything.\newline
+This ofc can be done with procedural macros that replace rustcode by evaluating rust code.\newline
+In order to make wokring with macros a little easier, we will be using 3 crates, one is directly in rust and doesn't need to be added: \textbf{proc\_macro}, the 2 others are on crates.io: \textbf{syn, quote}.\newline
+The last 2 allow us to convert rust code into datastructures like structs etc and back respectively.\newline
+\begin{lstlisting}
+// --- cargo.toml
+[lib]
+proc-macro = true
 
+[dependencies]
+syn = "1.0"
+quote = "1.0"
+// ---
+
+use proc_macro::TokenStream;
+use quote::quote;
+use syn;
+
+#[proc_macro_derive(HelloMacro)]
+pub fn hello_macro_derive(input: TokenStream) -> TokenStream {
+    // Construct a representation of Rust code as a syntax tree
+    // that we can manipulate
+    let ast = syn::parse(input).unwrap();
+
+    // Build the trait implementation
+    impl_hello_macro(&ast)
+}
+
+fn impl_hello_macro(ast: &syn::DeriveInput) -> TokenStream {
+    let name = &ast.ident;
+    let gen = quote! {
+        impl HelloMacro for #name {
+            fn hello_macro() {
+                println!("Hello, Macro! My name is {}!", stringify!(#name));
+            }
+        }
+    };
+    // turns the resulting code into a token stream ot return
+    gen.into()
+}
+\end{lstlisting} 
+Then we can go ahead and use this with \textbf{derive}:\newline
+\begin{lstlisting}
+// --- cargo.toml dependency
+hello_macro = { path = "../hello_macro" }
+hello_macro_derive = { path = "../hello_macro/hello_macro_derive" }
+// ---
+
+use hello_macro::HelloMacro;
+struct Pancakes;
+
+impl HelloMacro for Pancakes {
+    fn hello_macro() {
+        println!("Hello, Macro! My name is Pancakes!");
+    }
+}
+
+fn main() { 
+    Pancakes::hello_macro();
+}
+\end{lstlisting}\\
 \hline
-
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
+Attribute like Macros & 
+Instead of creating a custom derive type, here we create a custom attribute, which can be used on everything in rust, for example functions and types, this is more fexible than derive macros as those only apply to enums and structs.\newline
+\begin{lstlisting}
+#[proc_macro_attribute]
+pub fn route(attr: TokenStream, item: TokenStream) -> TokenStream {
+    // define macro
+}
 
+// GET and / are the 2 parameters in route -> attr and item
+#[route(GET, "/")]
+fn index() {
+    // do something
+}
+\end{lstlisting}
+\\
+\hline
+Function like Macros & 
+Function macros are more flexible just like attribute macros, but the difference is that function macros \textbf{can take unlimited amount parameters}, this means that it can be used to parse languages such as sql etc.\newline
+However, function macros are limited to functions only and they must use the match syntax to make sure no parameter is left unchecked.\newline
+Here is an example with sql:\newline
+\begin{lstlisting}
+#[proc_macro]
+pub fn sql(input: TokenStream) -> TokenStream {
+    // sql parser
+}
+
+// parsed sql query
+let sql = sql!(SELECT * FROM posts WHERE id=1);
+\end{lstlisting}
+\\
 \hline
 \end{tabular}
 \end{table}

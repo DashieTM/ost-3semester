@@ -126,6 +126,159 @@ With 32 bit we get to \textbf{EAX} which extends the 16 bit by another 16 to the
   \vspace{-3mm}
 \end{itemize}\\
 \hline
+Basics of CPUs & 
+Cpus have 3 main functions:\newline
+\begin{itemize}
+\item \textcolor{purple}{move data to and from registers to memory}
+\item \textcolor{purple}{calculate on registers}
+\item \textcolor{purple}{change the instruction pointer}
+\vspace{-3mm}
+\end{itemize}\\ 
+\hline
+Early PCs and Memory & 
+In early PCs, we used to directly access the main memory, which today would be extremely slow, today we rather access cache which handles the flow of data from the main memory to cache and back.\newline
+\textcolor{OliveGreen}{The idea is basically that the cpu doesn't need to worry about the low level operation of handling the dataflow, it just takes the data and leaves it at that. This allows the CPU to significantly speed up, as it doesn't have to worry about this operation.}\newline
+\includegraphics[scale=0.3]{2022-11-22-03:35:41.png}\\
+\hline
+Physical limiations of CPUs & 
+The maximum speed of our signals in the cpu(latency) is light speed, but even this is only really theoretical, as most materials have a maximum speed of about a third of light speed.\newline
+This means that we need to go closer and closer to the cpu, which is exactly what \textbf{chache does, it is closer to the CPU meaning there is less latency to access it!}\newline
+This is also why new memeory is preferably built within the CPU die, as it makes the length of the wire shorter!\\
+\hline 
+Different Storage types & 
+\textbf{There is persistent storage and fleeting storage}, persistant storage does not need any electricity to keep the data, for example HDDs, SSDs, USB sticks etc.\newline
+They are usually slower but again offer the benefit of actually storing something.\newline
+The other variant is fleeting storage, this is \textbf{WAY faster}, but it \textbf{can't store anything for longer than the PC is online for.}\\
+\hline
+Locality & 
+Locality is the idea that if I used a variable in a program, then it is likely that i \textbf{will use this variable again, and that the next memory addresses after this variable will also be used at some point.}\newline
+This means that these "local" addresses will be cached instead of stuck in slow memory, this makes it much faster to load heap allocated data!\newline
+\begin{lstlisting}
+for (int i = 0; i < n; i++) {
+s = s + a[i];
+}
+m = s / n; 
+\end{lstlisting}
+\, \newline
+\includegraphics[scale=0.4]{2022-11-22-03:53:06.png}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Duties of memory and cache & 
+\begin{itemize}
+\item \textcolor{purple}{Processor and Cache}\newline
+  \begin{itemize}
+  \item \textcolor{white}{optimizes transport between main memory and registers}
+  \item \textcolor{white}{speculates about future access on memory}
+  \end{itemize} 
+\item \textcolor{purple}{Compiler}\newline
+  Registercontrol: defines when data is moved from memory to register and back
+\item \textcolor{purple}{Operating System}\newline
+  \begin{itemize}
+    \item organizes the interaction with storage
+    \item distributes memory to programs
+    \end{itemize}
+\vspace{-3mm}
+\end{itemize}\\ 
+\hline
+Cache terms & 
+\begin{itemize}
+\item \textcolor{purple}{Cache-Size:} Count of usable Bytes\newline
+  Space for addresses is also allocated, but not explicitly stated
+\item \textcolor{purple}{Cache-Hit:} searched address found in cache
+\item \textcolor{purple}{Cache-Miss:} searched address not found in cache\newline
+  access memory instead!
+\item \textcolor{purple}{\(T_C\):} Access time on Cache
+\item \textcolor{purple}{\(T_M\):} Access time on Memory
+\item \textcolor{purple}{\(P_C\):} Probability of a Cache-Hit (likely above 0.9)
+\vspace{-3mm}
+\end{itemize} \\
+\hline
+Calculation for median access time & 
+\textcolor{red}{\(E(T) = P_C * T_C + (1 - P_C )* T_M\)}\newline
+\textcolor{OliveGreen}{Access time on cache is about 1\% of the Access time on memory}\newline
+\textcolor{OliveGreen}{Usually a program will get 95\% Cache-Hits}\\
+\hline
+Fully-Associative Cache & 
+This cache stores an address for each byte, this is really fast, meaning that each individual address is cached, however it will leave a lot on the table in the sense that you need more cache to store things, and considering the fact that cache is expensive and small, this is likely not a good solution for everything:\newline
+\includegraphics[scale=0.35]{2022-11-22-04:18:26.png}\newline
+\textcolor{red}{Note the a is the address and d the value!}\newline
+Lookup:\newline
+\includegraphics[scale=0.35]{2022-11-22-04:20:02.png}\\
+\hline
+CacheLines & 
+This essentially is a block of memory that will be stored in the cache instead of each byte itself. This means we can store more data with less memory addresses.\newline
+The size of the block is therefore the same as the size of the line, otherwise this couldn't work.\newline
+\textcolor{OliveGreen}{The idea here is that the lowest 6 bits of the address in the cache are 0, then we can use these 6 bits to encode the number 64, which is how many bytes we have.\newline 
+  \textcolor{red}{Because of these 6 bit, we also need to divide the address taht we want to use by \(2^6\) which is \(4_h\)!\newline
+  address in 64 cacheline = address in hex / 4 in hex}\newline
+Then we can use this to encode each offset, which can then be used to get the actual address of the data via this offset:}\newline
+\includegraphics[scale=0.35]{2022-11-22-04:30:41.png}\newline
+It will \textbf{always check \(\text{t*} == \text{t}_\text{i}\) at the same time !}\newline
+Here address = 84480801h -> divide by 4h -> 2112020h\newline
+With the lower 6 bits being the offset j -> here 1\newline
+\includegraphics[scale=0.35]{2022-11-22-04:34:35.png}\newline
+Fully asociative cache are really good for async but are hard to implement.\newline
+They often cost a lot of hardware when used in async mode, and otherwise would take longer when running in iterative mode!\\
+\hline
+Direct Mapping & 
+With direct mapping we have all blocks being mapped to a line, while not every line is currently "active", the active part here is referring to the part of the cache that is actually filled with data.\newline
+\includegraphics[scale=0.25]{2022-11-25-04:23:28.png}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+&
+As you can see in direct mapping, you have the \textbf{first 4 bits pointing to the block number}, which here is 7, the \textbf{last 2 bits are pointing to the value, which is the third value 31}.\newline
+In combination \textbf{the bits result in the value that the cell in the memeory holds!!}\newline
+Note that this works with any memory size, as long as the block size is equal to the cache size, and the cache is big enough to store the amount of lines.\newline
+The calculation is as follows:\newline
+\begin{itemize}
+  \item \textcolor{purple}{Bits for block numbers: \(log_2(\text{memory block count})\)}
+  \item \textcolor{purple}{Bits for cell numbers: \( log_2(\text{cell count per block}) \)}
+\end{itemize} 
+\, \newline
+\includegraphics[scale=0.3]{2022-11-25-04:30:25.png}\newline
+Here we split the blocks into each line, meaning that one line will have multiple blocks assigned to it.\newline
+However, this doesn't mean that we have multiple data from other blocks in the cache, it only means that they will be in that line should they be in the cache.\newline
+\includegraphics[scale=0.3]{2022-11-25-04:35:20.png}\newline
+Now we split the Block numbers into yet 2 more categories, \textbf{tag bits} and \textbf{line numbers}\newline
+this can be done as all line numbers will map to the line, the \textbf{the first 2 bits are not necessary for this! See above!}\newline
+This means that we can use the first two for something else, and we use them to indicate which block is actually in the cache currently:\newline
+\includegraphics[scale=0.3]{2022-11-25-04:33:15.png}\newline
+If the first 2 bits are both 0 and the second 2 are both 1, then it would map to 3.\newline
+So it is important to know, that the first 2 bits will define a section of a line, 0, 1, 2 and 3 or 4, 5, 6 and 7 ... etc. While the next 2 bits define the actual line, 1 1 for the third line, 1 0 for the second line, etc.\\
+\hline
+Comparison Fully Associative Cache (FAC)\newline and Direct Mapped Cache (DMC) & 
+The fully associative cache will only have tags and offsets, this is easier to map, but also requieres a bigger tag and more comparators!\newline
+\textbf{In fact, per "way" we need one comparator!}\newline
+\includegraphics[scale=0.25]{2022-11-25-04:43:36.png}\newline
+Other differences: \newline
+DMC has collisions, while the FAC will not, in other words 53 must be stored in the same address with direct mapping as 63, this is a collision! You can only overwrite in this case!
+\\
+\hline
+Set-Associative-Cache (SAC) & 
+The SAC is the middle ground between FAC and DMC, it provides multiple DMCs, namely k amount of DMC! (with k obviously being a variable number)\newline
+\textcolor{red}{Note that all of the caches are as fast as the other, the only difference is complexity, therefore hardware requirements!}\\
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
 \hline
 \end{tabular}
 \end{table}
