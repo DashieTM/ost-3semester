@@ -268,17 +268,356 @@ Set-Associative-Cache (SAC) &
 The SAC is the middle ground between FAC and DMC, it provides multiple DMCs, namely k amount of DMC! (with k obviously being a variable number)\newline
 \textcolor{red}{Note that all of the caches are as fast as the other, the only difference is complexity, therefore hardware requirements!}\\
 \hline
-
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\section{HEAP vs STACK}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
-
+The problem & 
+Many tasks require an \textbf{unknown amount of objects}, this can be anything from entities in games, photos in your file explorer to whatever else.\newline
+How can we guarantee that we have enough memory ready to hold all of the data that can be thrown at us?\\
 \hline
-
+The naive solution & 
+The naive solution is to simply \textbf{predefine how much we need and hardcode it.}\newline
+\minipg{
+\textcolor{green}{Pros:}\newline
+\begin{itemize}
+\item \textcolor{black}{Fast af!}
+\item \textcolor{black}{Easy to implement}
+\end{itemize} 
+}{ 
+\textcolor{red}{Negatives:}\newline
+\begin{itemize}
+\item \textcolor{black}{Hardcoded size! Crash or blocked at max size}
+\item \textcolor{black}{can only be bigger by using a hardcoded bigger version!}
+\end{itemize} 
+}[0.4,0.4]\\
 \hline
-
+The dynamic stack solution & 
+Theoretically you can also dynamically add your elements on your stack, this can be used for specific usecases where you don't know exactly how big your container will be, but you know that it will be lower than the max size of the stack, therefore guaranteeing that it won't crash!\newline
+\begin{lstlisting}
+void f () {
+  size_t s = count_images();
+  thumbnail_t *thumbnails = alloca (s * sizeof (thumbnail_t));
+  create_thumbnails (thumbnails);
+  display_thumbnails (thumbnails);
+}
+\end{lstlisting}
+\, \newline
+\minipg{
+\textcolor{green}{Pros:}\newline
+\begin{itemize}
+\item \textcolor{black}{Fast af!}
+\item \textcolor{black}{dynamic}
+\end{itemize} 
+}{ 
+\textcolor{red}{Negatives:}\newline
+\begin{itemize}
+  \item \textcolor{black}{Hardcoded \textbf{max} size! Crash or blocked at max size}
+  \item \textbf{Not standard!}
+  \item Hard to implement!
+\end{itemize} 
+}[0.4,0.4]\\
 \hline
-
+Heap & 
+The generic solution is the heap solution, this allocates a random space in memory for the specific use of this container.\newline
+This allows us to dynamically increase the size, since we can always change the location and take up more memory as long as the OS has enough of it left.\newline
+\minipg{
+\textcolor{green}{Pros:}\newline
+\begin{itemize}
+\item \textcolor{black}{Dynamic}
+\item \textcolor{black}{Limited only by the capacity of the Memory}
+\end{itemize} 
+}{ 
+\textcolor{red}{Negatives:}\newline
+\begin{itemize}
+\item \textcolor{black}{slower than stack}
+\item \textcolor{black}{Needs to be freed manually by many languages}
+\item \textcolor{black}{Control with heap often leads to runtime checks \newline -> performance loss}
+\end{itemize} 
+}[0.4,0.4]\\
 \hline
+Implicit vs Explicit Memory freeing & 
+Note, this is rather general, as rust does things differently to C and C++.\newline
+\minipg{
+Implicit:\newline
+\begin{itemize}
+\item \textcolor{black}{no memory leaks}
+\item \textcolor{black}{not time deterministic}
+\item \textcolor{black}{Overhead}
+\end{itemize} 
+}{ 
+Explicit:\newline
+\begin{itemize}
+\item \textcolor{black}{Unsafe}
+\item \textcolor{black}{faster}
+\end{itemize} 
+}[0.4,0.4]\newline
+\textcolor{red}{Rust has a middle ground as it essentially has explicit memory handling with proper API, meaning you can't actually fuck up other than reference loops.}\\
+\hline
+Malloc and free & 
+Malloc allocates memory and free deallocates it again.\newline
+\begin{lstlisting}
+#include <stdlib.h>
+thumbnail_t *thumbnail = 0; // create pointer
 
+void initialize_thumbnails() {
+  size_t s = count_images();
+  thumbnails = malloc(s * sizeof (thumbnail_t)); // allocate memory
+  // thumbnails = malloc(sizeof (thumbnail_t [s])); also works
+  // thumbnails = malloc(s * sizeof *thumbnail_t);  also works
+
+  create_thumbnails(thumbnails);
+
+  // at some point 
+  free(thumbnails); // free memory
+  thumbnails = 0;   // reset pointer
+}
+\end{lstlisting}\\
+\hline
+How does the OS allocate memory ? & 
+When we call for 4 integers to be allocated, which would be 16bytes, how much would the OS allocate?
+It will allocate one more \textbf{size\_t} in order to save the size of the allocated space.\newline
+In other words, when called for 16 bytes, it will allocate 20 bytes, while 4 bytes are without data, they only serve as a representation of how much to free.\newline
+\includegraphics[scale=0.4]{2022-11-29-03:48:59.png}\newline
+\textcolor{orange}{Note, the pointer will always direct to the start of the 16 bytes that we wanted to allocate!}\\
+\hline
+Freeing & 
+When freeing, we do not change the pointer, meaning that when we call something like: free(p);, then p will still have the same value, just that this pointer now has memory that no longer "belongs to us".\newline
+We can still however call free again, which will lead to \textbf{undefined behavior! It might free random memory!}\\
+\hline
+Good Practise & 
+In general, when you create a function that uses malloc, \textbf{immediately create a function that calls free!}\newline
+\begin{lstlisting}
+struct T *create_t() {
+  struct T *t = malloc(sizeof (struct T));
+  // something
+  return t;
+}
+
+void destroy(struct T *t) {
+ free(t);
+}
+\end{lstlisting}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak 
+\begin{table}[ht!]
+\section{Fragmentation}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Internal Fragmentation & 
+\textcolor{purple}{This simply means the alloction of bigger blocks of memory than necessary, eg. 200bytes for something with the size of 5 bytes (extreme example)}\newline
+\textcolor{red}{Often this is the case because the heap implementation can't allocate this specific size, eg. we wanted 12 bytes, but the heap implementation can only allocate multiples of 8, hence it allocates 16 and we lose 4 bytes.}\newline
+Possible solutions, \textbf{runtime environments, but those cost performance}, better implementations.\\
+\hline
+External Fragmentation & 
+When we allocate memory we will always search a place where we have enough space for this allocation, this, alongside the fact that not every program will immediately free memory, means that there will be many "holes" in memory that will not be used.\newline
+This memory, when added up will be big in size, but not useful for programs as the individual sizes are of unusable size to them.\newline
+This is why programs should still thrive to have proper memory management, and not just eat everyting up, \textbf{use as much as you need from the get go, but free when you can!}\newline
+\includegraphics[scale=0.4]{2022-11-29-04:01:31.png}\newline
+\textcolor{orange}{This is a fine act of balance and there is no perfect way to handle this.}\newline
+Other solutions:\newline 
+\begin{itemize}
+\item \textcolor{black}{Runtimes.... performance..}
+\item \textcolor{black}{Better implementations of allocating memory}
+\item \textcolor{black}{using your own heaps}
+\item \textcolor{black}{Spawn objects at once and delete at once!}
+\item \textcolor{black}{Composition over Aggregation -> combining of objects in your program}
+\vspace{-3mm}
+\end{itemize} 
+\\
+\hline
+Heap Implementation Variants & 
+There are many implementations, some practial, some optimized..\newline
+\begin{itemize}
+\item \textcolor{purple}{Base Variants}\newline
+  \begin{itemize}
+  \item \textcolor{black}{Variable Blocksize}
+  \item \textcolor{black}{Fixed Blocksize}
+  \item \textcolor{black}{Size Classes}
+    Memory will only be allocated in specific sizes.\newline
+    potences of \(2^0\) to \(2^n\)\newline
+    numbers from 1 to m\newline
+    All free sections in a class size will be listed in a list.
+  \item \textcolor{black}{Budy-System}
+  \end{itemize} 
+\item \textcolor{purple}{Practical Heap Implementations}\newline
+  Usually a combination of base variants:\newline
+  \begin{itemize}
+  \item \textcolor{black}{Hierarchical Chains}
+  \item \textcolor{black}{Variety of different block sizes}
+  \end{itemize} 
+\item \textcolor{purple}{Optimized Heap Implementations}\newline
+  \begin{itemize}
+  \item \textcolor{black}{Depends on the use}
+  \item \textcolor{black}{Heap implementations are constantly improved}
+  \item \textcolor{black}{Sometimes you can choose the strategy -> penguinOS}
+  \item \textcolor{black}{Sometimes a program can have more than one heap strategy}
+  \end{itemize} 
+\vspace{-3mm}
+\end{itemize}\\ 
+\hline
+Fixed Blocksize & 
+The easiest heap implementation is to just define a \textbf{base block size}, then you will only allocate multiples of that block size.\newline
+\textcolor{green}{The benefit of this is that you can store the metedata for the heap allocation for cheap should you allocate a lot of memory}, on the other hand, should you allocate only a small chunk, then you might have a ratio of metadata to actual data of 50\%, which is shite.\newline
+\includegraphics[scale=0.4]{2022-11-29-04:14:43.png} \newline
+\\
+\hline
+Decentralized vs Centralized Metadata & 
+When we store heap allocated data, we always need a way to store the information about how big this allocated memory is, etc.\newline
+There are 2 ways to store this, \textbf{1. decentralized:}\newline
+This means that we either store the \textbf{metadata before of after the allocated memory}, like the first implementation we talked about where you store an \textbf{additionalsize\_t for the metadata}.\newline
+The other new variant is the \textbf{centralized version}, here we store the metadata in a \textbf{structure beyond the allocated memory}, this can be something like a \textbf{Linked List}. \newline
+\textcolor{red}{Note this idea is general, not every heap implementation uses either of these concepts}\\
+\hline
+Memory-Management with Bit-lists & 
+Here we just \textbf{use 1 bit of the block as a flag if the block is free or not.}\newline
+\textcolor{orange}{Usually we use this via a \textbf{Linked List!}}\newline
+We define the following metadata:\newline
+\begin{itemize}
+\item \textcolor{purple}{Status: free or used}
+\item \textcolor{purple}{Start: address of first block of data}
+\item \textcolor{purple}{Size: Count of blocks}
+\item \textcolor{purple}{Next: Address of next Listelement}
+\end{itemize} 
+\, \newline
+\includegraphics[scale=0.4]{2022-11-29-04:18:03.png}\newline
+Since we use a linked list, we need to \textbf{iterate over the elements to see where we have enough space free!}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak 
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Recombination of free spaces & 
+When freeing memory using a list with neighbours, we can always check if the previos or next neighbour is free, should this one be free as well, then we can combine this the block we want to free with the free nieghbour!\newline
+The steps are the following:\newline
+\begin{itemize}
+\item \textcolor{black}{Previous element free: remove this element and extend previous}
+\item \textcolor{black}{Next element free: remove next element and extend previous}
+\item \textcolor{black}{None free: free this element}
+\item \textcolor{black}{Both free: extend previous with this and next}
+\vspace{-3mm}
+\end{itemize} \\
+\hline
+Search Algorithms for free blocks &
+\vspace{2mm}
+\begin{itemize}
+\item \textcolor{purple}{First Fit}\newline
+  Take the first space that fits\newline
+  This leads to many small empty spaces at the start
+\item \textcolor{purple}{Next Fit}\newline
+  Empty spaces everywhere, worse than First Fit
+\item \textcolor{purple}{Best Fit}\newline
+  Best coverage of memory, worst performance
+\item \textcolor{purple}{Worst Fit}\newline
+  shit in general
+\item \textcolor{purple}{Quick Fit}\newline
+Fast reservation: first element of the list with the smallest fitting size\newline
+Neighbours are often not easy to find, recombination of free spaces hard.
+\vspace{-3mm}
+\end{itemize} 
+\, \newline
+\textcolor{red}{Note these algorithms are general, not every heap implementation uses either of these concepts}\\
+\hline
+Buddy-System & 
+\vspace{2mm}
+\begin{itemize}   
+\item A variant of the class size method.\newline
+\item \(2^m\) is the smallest size class\newline
+\item \(2^n\) is the entire memory\newline
+\item At the start there is only the entire Memory, 
+\end{itemize} 
+\, \newline
+\minipg{
+\includegraphics[scale=0.3]{2022-11-29-05:19:44.png}
+}{ 
+At the start we have the full memory, then when we get an allocation request that is smaller than this size divided by 2, we split the memory into 2 sections, these 2 sections are now considered "buddies", as the merge into the bigger part together.\newline
+Since we requested 64bytes from the max of 512 bytes, we can split again, and again, we do this until the split would be smaller than the size we want, this size will then be allocated.\newline
+Each new value that should be allocated will be done in the same way.
+}[0.37,0.37] 
+\textcolor{orange}{When freeing memory, it will always be checked whether or not the "buddy" is also free, if it is, then the entire block can be combined and freed, otherwise only this block is freed.}\\
+\hline
+Object-Pools & 
+\vspace{2mm}
+\begin{itemize}
+\item \textcolor{purple}{Entire memory(Page) is split into equal sized objects}
+\item \textcolor{purple}{Interal fragmentation when objects are not proper divisions of the page}
+\item \textcolor{purple}{No recombination as objects stay as the same size}
+\item \textcolor{purple}{If new objects are needed, a new page is created and split into objects}
+\item \textcolor{purple}{Free objects are listed in a list, usually also initialized}
+\item \textcolor{purple}{Usually found in kernels for fixed objects}
+\vspace{-3mm}
+\end{itemize} \\
+\hline
+Memory Allocation in linux &
+\vspace{2mm}
+\begin{itemize}
+\item \textcolor{orange}{Buddy-System for big allocations}\newline
+  \begin{itemize}
+\item smallest blocksize = 4kB
+\item Other systems for smaller allocations
+\item Subsystems can request multiple of Pagesize
+\item malloc for user Applications
+  \end{itemize} 
+  \begin{itemize}
+  \item \textcolor{black}{Part of the C standard library}
+  \item \textcolor{black}{Variable block size with first fit and decentralized metadata}
+  \item \textcolor{black}{Metadata before and after allocated memory to enable fast recombination}
+  \end{itemize}
+\item \textcolor{orange}{Object-Pools for kernel}\newline
+\begin{itemize}
+\item \textcolor{black}{objects are initialized}
+\item \textcolor{black}{One pool per object type, with 3 lists, \newline
+  full, partially full and empty slabs}
+\item \textcolor{black}{Slab = Memory block from buddy system for objects of same type}
+\item 3 Implementations: \textbf{\textcolor{red}{SLAB,SLOB,SLUB}}\newline
+  SLAB, originally the only one\newline
+  SLOB, created for embedded systems\newline
+  SLUB, todays standard
+\end{itemize} 
+\vspace{-3mm}
+\end{itemize} 
+\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[h!]
+\begin{tabular}{|m{0,2\linewidth}|m{0.755\linewidth}|}
+\hline
+Memory Allocation in Windows & 
+\vspace{2mm}
+\begin{itemize}
+  \item \textcolor{orange}{FreeList[128]}\newline
+    \begin{itemize}
+    \item \textcolor{black}{Free sections are stored in pointer array of size 128}
+    \item \textcolor{black}{FreeList[n]: pointer on linked list for all sections with n blocks}
+    \item \textcolor{black}{FreeList[0]: pointer on linked list for all sections with 128 blocks}
+    \end{itemize} 
+\item \textcolor{orange}{Additional BitList for fast searching of lists that have free space}
+\item \textcolor{orange}{Cache on entries on FreeList[0]}\newline
+  Array with 896 elements for each possible sectionsize from 1kB to 8kB\newline
+  Element i points to first element in FreeList[0] with size 8 * i + 1024
+\item \textcolor{orange}{Bitmap over cache for fast searching of free sections}
+\vspace{-3mm}
+\end{itemize} 
+\, \newline
+\textcolor{orange}{Programs and heap in windows:}\newline 
+\begin{itemize}
+\item \textcolor{purple}{Programs can have two frontends, or optionally on the backend, which implement the heap}\newline
+  Low-Fragmentation closed source heap shit
+\item \textcolor{purple}{A program can have more than one heap, multiple heads for multiple requirements}
+\item \textcolor{purple}{Additional heaps can be made with \textbf{HeapCreate}, which have a windows chosen Heap allocation type}
+\item \textcolor{purple}{Allocation and Freeing is done with \textbf{HeapAlloc} and \textbf{HeapFree}}
+\vspace{-3mm}
+\end{itemize} 
+\\
 \hline
 \end{tabular}
 \end{table}
