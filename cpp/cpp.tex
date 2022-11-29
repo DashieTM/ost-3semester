@@ -1924,23 +1924,249 @@ auto min(T const & left, T const & right) -> T const & {
 }
 \end{lstlisting}\\
 \hline
-
+\end{tabular}
+\section{Class Templates}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
-
+Basics & 
+These are the same as before, just nested within a class to give you flexiblity to create a generic class. \newline
+\begin{lstlisting}
+template <typename T> class Sack {
+  using SackType = std::vector<T>;
+  // ATTENTION, typename needed here for size_type.
+  using size_type = typename SackType::size_type;
+  SackType theSack{};
+public:
+  auto empty() const -> bool {
+    return theSack.empty();
+  }
+  auto size() const -> size_type{
+    return theSack.size();
+  }
+  auto putInto(T const & item) -> void {
+    theSack.push_back(item);
+  }
+  auto getOut() -> T; //Implementation out of line
+};
+\end{lstlisting}\\
 \hline
-
+Typedef vs using & 
+Use using instead of typedef as it is newer and can do the following while typedef can't:\newline
+\begin{lstlisting}
+// ok
+using someName = std::vector<T>;
+// ERROR BRO
+typedef std::vector<T> someName;
+\end{lstlisting}\\
 \hline
+Typename for dependent names & 
+Within the template definition you might use names that are directly or indirectly depending on the template parameter.\newline
+This would mean an endless loop of dependency, to solve this we need to use typename.\newline
+\begin{lstlisting}
+// examples
+template <typename T> void accessTsMembers() {
+  typename T::MemberType m{};
+  T::StaticMemberFunction();
+  T::StaticMemberVariable;
+}
 
+template<typename T> class Sack {
+  using size_type = typename std::vector<T>::size_type;
+  //...
+};
+\end{lstlisting}\\
 \hline
+\end{tabular}
+\end{table}
+\pagebreak 
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Static Member variables &
+Static Member variables are \textbf{semi global variables with a double colon scope.}\newline
+\textcolor{purple}{Global in the sense of each individual type has their own version of it. So if we override the variant for integers, then each integer will access the same value!}\newline
+You can add static structs via inline like this: \newline
+\begin{lstlisting}
+template <typename T> struct StaticMember {
+  inline static int member{sizeof(T)};
+};
+\end{lstlisting}
+\, \newline
+Here an example how you can use this: \newline
+\begin{lstlisting}
+// class.hpp
+template <typename T> struct StaticMember {
+  inline static int member{sizeof(T)};
+};
 
+// class.cpp
+#include "staticMember.hpp"
+auto setMemberTo42() -> int {
+  using MemberType = StaticMember<int>;
+  MemberType::member = 42;
+  return MemberType::member;
+}
+
+// main.cpp
+#include "staticMember.hpp"
+#include <iostream>
+auto setMemberTo42() -> int;
+auto main() -> int {
+  std::cout << StaticMember<double>::member << '\n'; // 8
+  std::cout << StaticMember<int>::member << '\n';    // 4
+  std::cout << setMemberTo42() << '\n'; // overrides!   42
+  std::cout << StaticMember<int>::member << '\n';    // 42
+}
+\end{lstlisting}\\
+\hline
+Dependent names and specificity in template classes & 
+For templates it is better to use the this keyword as otherwise you could potentially use another function that is not inside the class.\newline
+To avoid this, you can add either double colons or the this keyword to avoid problems.\newline 
+\begin{lstlisting}
+template <typename T>
+struct Parent {
+  auto foo() const -> int { // can be called with this->foo()
+  return 42;
+  }
+  static int const bar{43}; // accessed with this->bar
+};
+auto foo() -> int { // can be called with foo()
+  return 1;
+}
+double const bar{3.14}; // accessed with bar
+\end{lstlisting}\\
+\hline
+Containers with pointers & 
+When we use pointers in containers, we have the problem that we can create containers with pointers inside them. \newline
+As expected nobody will give us the guarantee that these pointers will still be valid at any given time.\newline
+To solve this we can create a specific template that is more specific to pointer which makes sure we will not have this issue:\newline
+\begin{lstlisting}
+// Partial Specialization
+template <typename T>
+struct Sack<T *>;
+
+// Explicit Specialization
+template <>
+struct Sack<char const *>;
+\end{lstlisting} 
+\, \newline
+These can then be used to make sure that the values will still be valid.\newline
+We can however, also just prevent the creation of point based containers:\newline
+\begin{lstlisting}
+template <typename T> struct Sack<T *> {
+  ~Sack() = delete; // lmao delete constructor
+};
+
+// while the char const can be done with something like std::vector<string> instead
+template <> struct Sack<char const *> {
+  using SackType = std::vector<std::string>;
+  using size_type = SackType::size_type;
+  SackType theSack;
+}
+\end{lstlisting}\\
+\hline
+Type casting overload & 
+In order to cast a type to another, you must overload the operator for this, or use another function instead:\newline
+\begin{lstlisting}
+// Overload 
+template <typename Elt>
+  explicit operator std::vector<Elt>() const {
+    return std::vector<Elt>(begin(theSack), end(theSack));
+}
+
+// other function 
+template <typename Elt = T>
+  auto asVector() const {
+  return std::vector<Elt>(begin(theSack), end(theSack));
+}
+\end{lstlisting}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak 
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Type deduction with structs & 
+Since C++ 17 the compiler can deduce the typename that you have specified at the top when using functions from classes etc: \newline
+\begin{lstlisting}
+template <typename T> struct Box {
+  Box(T content) : content{content}{}
+  T content;
+};
+auto main() -> int {
+  Box<int> b0{0}; //Before C++17
+  Box      b1{1}; //Since C++17
+}
+\end{lstlisting} \\
+\hline
+Type deduction with initializer lists & 
+Initializer list allow us to create a container without specifiying the type, as it is implicitly passed by the values that you enter:\newline
+\includegraphics[scale=0.4]{2022-11-29-09:27:18.png}\\
+\hline
+Type deduction with Iterators & 
+When we want to use type deduction with iterators, then we need a way to do this with iterators.\newline
+Obviously this is not done out of the box, therefore we need another way to do this: \newline
+\begin{lstlisting}
+template <typename Iter>
+Sack(Iter begin, Iter end) -> Sack<typename std::iterator_traits<Iter>::value_type>;
+
+TEST(testDeductionForIterators) {
+  std::vector values{3, 1, 4, 1, 5, 9, 2, 6};
+  Sack aSack(begin(values), end(values));
+  ASSERT_EQUAL(values.size(), aSack.size());
+}
+// Note without the template above, aSack would not compile!
+\end{lstlisting}\\
+\hline
+Passing a standard container as template parameter & 
+Sometimes we want to have a container itself as a template container, which will be used instead of one harcoded variant.\newline
+\begin{lstlisting}
+Sack<unsigned, std::set> aSack{1, 2, 3};
+
+auto getOut() -> T {
+  throwIfEmpty();
+  auto index = static_cast<size_type>(rand() % size());
+  auto it = begin(theSack);
+  advance(it, index);
+  T retval{*it};
+  theSack.erase(it);
+  return retval;
+}
+\end{lstlisting}\\
+\hline
+Variadic Templates & 
+Normally we have a set of parameters that a template wants, eg. types,containers etc. This means that we can't use initializer lists when passing a container to another container as a template parameter, unless, you use \textbf{variadic template}:\newline
+\begin{lstlisting}
+// Note the end is the default value, include this to make sure defualt constructors will still work!!
+template <typename T, template<typename...> typename Container = std::vector>
+class Sack;
+
+Sack<unsigned, std::set> aSack{1, 2, 3}; //Works
+\end{lstlisting}\\
+\hline
+Non-type parameters & 
+You can also specify non-type parameters for things like size of arrays etc:\newline
+\begin{lstlisting}
+template <typename T, std::size_t n>
+  auto average(std::array<T, n> const & values) {
+  auto sumOfValues = accumulate(begin(values), end(values), 0);
+  return sumOfValues / n;
+}
+
+// You can also use auto if the non-type parameter should be flexible
+template <typename T, auto n>
+  auto average(std::array<T, n> const & values) {
+  auto sumOfValues = accumulate(begin(values), end(values), 0);
+  return sumOfValues / n;
+}
+\end{lstlisting}\\
 \hline
 \end{tabular}
 \end{table}
 \pagebreak
 \begin{table}[ht!]
 \begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
-\hline
-
 \hline
 
 \hline

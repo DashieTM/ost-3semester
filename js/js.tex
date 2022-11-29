@@ -1203,10 +1203,10 @@ function onClick() {
 
 // with await
 async function fetchFromURLAwait() {
-  const response = await fetch('https://stone.sifs0005.infs.ch/ranking‘);
+  const response = await fetch('https://stone.sifs0005.infs.ch/ranking');
   return response.json();
 }
-\end{lstlisting}
+\end{lstlisting}\\
 \hline
 Try catch with async await & 
 Since the promise can fail, we can use a try catch block to do error handling:\newline 
@@ -1220,6 +1220,116 @@ async function getGreeting() {
   }
 }
 \end{lstlisting}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\section{REST}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Representational State Transfer (REST) & 
+This is a style of transerring resources without side effects, this means that \textbf{we only transer data, there will be no function calls!}.\newline
+\begin{itemize}
+\item \textcolor{purple}{Client-Server based}
+\item \textcolor{purple}{Stateless communication}
+\item \textcolor{purple}{Cacheable}
+\item \textcolor{purple}{Layered System} Load balancers, proxies and firewalls
+\item \textcolor{purple}{Unified Interface}
+\vspace{-3mm}
+\end{itemize} \\
+\hline
+Richardsons Maturity Model & 
+\vspace{2mm}
+\includegraphics[scale=0.4]{2022-11-29-11:08:34.png}\\
+\hline
+Level 0: The Swamp of POX & 
+Here we \textbf{send each request individually}, we send plain \textbf{xml} messages.\newline
+Each request is sent to the \textbf{same endpoint}. 
+\includegraphics[scale=0.35]{2022-11-29-11:14:31.png}\\
+\\
+\hline
+Level 1: Ressources & 
+With this level we can data from different endpoints, this essentially allows \textbf{divide and conquer} -> "multithreading".\newline 
+\includegraphics[scale=0.35]{2022-11-29-11:14:57.png}\\
+\hline
+Level 2 HTTP-Verbs & 
+Now we can use different html methods like \textbf{GET or POST}, this distiguises the idea of pushing or getting data, making it easier to handle data apropriately. \newline
+\includegraphics[scale=0.35]{2022-11-29-11:17:08.png}\\
+\hline
+Level 3: Hypermedia Controls & 
+We now can include \textbf{states of the application}, this allows us to specify the exact usecase even further, making it easier to handle the data accordingly:\newline
+Level 3 also gives us the ability to \textbf{specify possible actions} with this data, eg. book an appointment via an \textbf{URI}.
+\includegraphics[scale=0.35]{2022-11-29-11:19:32.png} \newline
+\textcolor{red}{Note the link rel and uri, which specify possible actions to take!}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+REST vs RPC (Remote Procedure Call) & 
+REST is much simpler, this allows a much cleaner implementation of function on your side, and also gives you much more flexibility as to what and how you implement things. \newline
+The downside is that at some point RPC will be easier when you get to a certain dependency on each other, in other words, loosely connected applications benefit from the REST concept, while strongly connected ones benefit from RPC.\newline 
+\textcolor{orange}{In general REST is better for data requests, as it is based on ressources instead of calls}\\
+\hline
+Ressource Oriented Architectures & 
+\vspace{2mm}
+\begin{itemize}
+\item \textcolor{purple}{Ressource}\newline
+  Everything that is important enough to get its own id
+\item \textcolor{purple}{Name}\newline
+  unique ID of a ressource
+\item \textcolor{purple}{Representation}\newline
+  Can be done in multiple ways, html, xml, whatever
+\item \textcolor{purple}{Links}\newline
+  Hyperlinks connect ressources
+\item \textcolor{purple}{Interface}\newline
+  Uniform Interface\newline
+  Standard HTML methods
+\item \textcolor{purple}{Stateless Communication}
+\vspace{-3mm}
+\end{itemize} \\
+\hline
+HTTPS Request & 
+\vspace{2mm}
+\includegraphics[scale=0.4]{2022-11-29-11:35:27.png}\\
+\hline
+Query filter & 
+You can sort your GET queries like this: \newline
+\begin{lstlisting}
+orders?state=active&seller_id=1234
+\end{lstlisting}\\
+\hline
+Important HTTP Methods & 
+\vspace{2mm}
+\begin{itemize}
+\item \textcolor{purple}{GET}\newline
+  Request ressources
+\item \textcolor{purple}{POST}\newline
+  Create ressources
+\item \textcolor{purple}{PUT}\newline
+  Update or Create ressources
+\item \textcolor{purple}{DELETE}\newline
+  Delete ressources
+\item \textcolor{purple}{PATCH}\newline
+  Partial updates
+\vspace{-3mm}
+\end{itemize} \\
+\hline
+Best practices & 
+\vspace{2mm}
+\begin{itemize}
+\item \textcolor{black}{Use JSON as it is native to JS}
+\item \textcolor{black}{Use correct HTML methods}
+\item \textcolor{black}{Use html status codes}
+\item \textcolor{black}{API is only as good as its documentation}
+\item \textcolor{black}{Limit data sent and received}
+\vspace{-3mm}
+\end{itemize}\\ 
+\hline
+
 \hline
 
 \hline
