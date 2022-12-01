@@ -536,6 +536,190 @@ Here we have the 2 log on prediction for it to be true and for it to be false:\n
 \textcolor{red}{Here we need to make sure that our coeffiecients/parameters get p to 0 when y is 0 and p to 1 if y is 1.}\newline
 \\
 \hline
+Confusion Matrix with Logistic Regression & 
+We already talked about True/False Positives/Negatives, this now fits well into our system of evaluating things that can either be true or false.\newline
+Here a True Negative or Positive simply states, that the prediction was right, while a False Negative or Positive indicates that the prediction is wrong.\newline
+\includegraphics[scale=0.4]{2022-12-01:08:21:09.png}\\
+\hline
+Impact of False Positives vs False Negatives & 
+Depending on the use case, the impact of false positives and false negatives are different. For example giving a healthy person a diagnosis of sick in terms of corona might leave them at home for a few days, but other than their employer, noone gets impacted. With a false negative however, they will spread the disease, creating a potential chain of events that leaves thousands of people sick. Hence, in this case, the impact of a false negative is way worse than a false positive.\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak 
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Matrix Recall \textcolor{OliveGreen}{False Negatives are worse}&
+This matrix \textbf{treats false negatives as worse}, this also means that it will have \textbf{more false positives}.\newline
+\large \textcolor{purple}{\( \text{Recall} = \dfrac{TP}{TP + FN} \)}\newline
+\normalsize \, \newline
+\includegraphics[scale=0.3]{2022-12-01:08:38:24.png}\newline
+As one can see here, the value of Recall in model 1 is 0, we have no true positives, so 0 divided by anything is 0.\newline
+And the second model has a Recall value of 0.8, so this model is better according to the recall method.\newline
+\textcolor{orange}{Note that you now have values only based on false negatives and true positives, everything else is completely disregarded,\newline
+you can bs this model by saying that you only have true positives, doesn't matter if you have and false positives, as they are not in the calculation.}\newline
+Legend:\newline
+\begin{itemize}
+\item \textcolor{black}{TP = True Positives}
+\item \textcolor{black}{FN = False Negative}
+\item -ve (simply the negative value for this case, aka false)
+\item +ve (simply the positive value for this case, aka true)\newline
+  \textcolor{red}{both of these do not define if they are true positive, false positive, etc}
+  \vspace{-3mm}
+\end{itemize} \\
+\hline
+Matrix Precision \textcolor{OliveGreen}{False Positives are worse}&
+This matrix \textbf{treats false positives as worse}, this also means that it will have \textbf{more false negatives}.\newline
+\large \textcolor{purple}{\( \text{Recall} = \dfrac{TP}{TP + FP} \)}\newline
+\normalsize \, \newline
+\includegraphics[scale=0.3]{2022-12-01:08:47:44.png}\newline
+1. Model Precision value of 0.857\newline
+2. Model Precision value of 0.777\newline
+So the first model is better for Precision here.\newline
+Legend:\newline
+\begin{itemize}
+\item \textcolor{black}{TP = True Positives}
+\item \textcolor{black}{FP = False Positives}
+\item -ve (simply the negative value for this case, aka false)
+\item +ve (simply the positive value for this case, aka true)\newline
+  \textcolor{red}{both of these do not define if they are true positive, false positive, etc}
+  \vspace{-3mm}
+\end{itemize}\\ 
+\hline
+F1 Score & 
+This is the combination of both Recall and Precision.\newline
+\large \textcolor{purple}{\( F1 = \dfrac{2PR}{P+R} \)}\newline
+\normalsize \, \newline
+If both Recall and Precision are high, then F1 is high.\newline
+If one of them is low, then F1 is low.\newline
+Legend: \newline
+\begin{itemize}
+\item \textcolor{black}{R = Recall}
+\item \textcolor{black}{P = Precision}
+\vspace{-3mm}
+\end{itemize} \\
+\hline
+\(F_\beta\) & 
+This is used to dial the bias to each method R, P or F1.\newline
+\large \textcolor{purple}{\( F_\beta = \dfrac{(1+\beta^2)* P * R}{\beta^2 * P + R} \)}\newline
+\normalsize \, \newline
+Depending on the value of beta, we can dial the intensity of each method.\newline
+For example, if we put beta to 0, we would get P, while if it would be 0, then we would get F1.\newline
+Legend: \newline
+\begin{itemize}
+\item \textcolor{black}{P = Precision}
+\item \textcolor{black}{R = Recall}
+\item \textcolor{black}{\(F_\beta\) = bias to dial}
+\item \textcolor{purple}{if \(F_\beta = 1\) then \(F_\beta \text{=>} F1 \)}
+\item \textcolor{purple}{if \(F_\beta = 0\) then \(F_\beta \text{=>} P \)}
+\item \textcolor{purple}{if \(F_\beta = \infty\) then \(F_\beta \text{=>} R \)}
+\vspace{-3mm}
+\end{itemize}\\ 
+\hline
+\end{tabular}
+\end{table}
+\pagebreak 
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Receiver Operating Characterisits (ROC) &
+This is a graph based on the occurrence of true and false positives.\newline
+Aka how many false positives in relation to true positives.\newline
+We can also look at it as an area under the curve, the bigger this area is, then the higher the ratio of true positives to false positives, and the better the quality of the model.\newline
+\includegraphics[scale=0.3]{2022-12-01:09:15:31.png}\\
+\hline
+Decision Boundary Calculation &
+\includegraphics[scale=0.3]{2022-12-01:09:27:01.png}\newline
+\large \textcolor{purple}{\(p(x) = \dfrac{1}{1 + e^{-(w_0 + w_1x_1 + w_2x_2)}}\)}\newline
+\normalsize \, \newline 
+Legend: \newline
+\begin{itemize}
+\item \textcolor{black}{p(x) = boundary}
+\item \textcolor{black}{w = parameter}
+\vspace{-3mm}
+\end{itemize}\\ 
+\hline
+Polynomial Decision Boundary & 
+Sometimes we have a model that we can't caluclate with a regular linear boundary, here we need something of higher order,\newline
+which can draw that graph that we want.\newline
+\includegraphics[scale=0.3]{2022-12-01:09:24:40.png}\newline
+\large \textcolor{purple}{\(p(x) = \dfrac{1}{1 + e^{-(w_0 + w_1x_1^2 + w_2x_2^2)}}\)}\newline
+\normalsize \, \newline 
+Legend: \newline
+\begin{itemize}
+\item \textcolor{black}{p(x) = boundary}
+\item \textcolor{black}{w = parameter}
+\vspace{-3mm}
+\end{itemize}\\ 
+\hline
+Multi Class classification & 
+Sometimes we have multiple classes that we want to classify, for example the thousands of classes of corona...\newline
+Here logistics regression has 2 methods, \textbf{One vs Rest and One vs One}.\newline
+\begin{itemize}
+\item \textcolor{Purple}{One vs Rest}:\newline
+\begin{itemize}
+\item This trains a single calssifier for each class and train data to them.
+\item Fit data to each class just like we did before with singular classes.
+\item \textcolor{orange}{The classifier that reports the highest probability P is the class that we get.}
+\end{itemize} 
+\item \textcolor{Purple}{One vs One}:\newline
+  \begin{itemize}
+  \item \textcolor{black}{Train classifiers to distinguish between each pair of classes (c1,c2)(c1,c3)(c2,c3)...}
+  \item \textcolor{black}{apply all classifiers to an unseen sample x -> training}
+  \item \textcolor{black}{Combine the results to produce final classification}
+  \end{itemize} 
+\vspace{-3mm}
+\end{itemize}\\ 
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+KNN classification & 
+This is a method to define neighbours in classes. \newline
+K stands for a number, which you can define to make a boundary that defines how many neighbours will be in the group:\newline
+\includegraphics[scale=0.3]{2022-12-01:09:38:00.png}\newline
+Then we chose a method which could be any calculation,\newline
+in other words, the \textbf{near} can be: \textbf{Euclidean, Manhatten, cosine, Minkowski, or some other algorithm}.\newline
+\includegraphics[scale=0.3]{2022-12-01:09:39:37.png}\newline
+\textcolor{orange}{For each dataset in t-test, do the following:}\newline
+\begin{itemize}
+\item \textcolor{purple}{For all training data x-train, calculate the d(x-test, x-train)}
+\item \textcolor{purple}{Sort training data in the ascending order of the distance}
+\item \textcolor{purple}{Choose the first k data ponts from the sorted training data}
+\item \textcolor{purple}{Choose the most frequent occuring class form the k data points as the classification result}
+\end{itemize} 
+\, \newline
+Legend:\newline
+\begin{itemize}
+\item \textcolor{black}{d = distance metric}
+\item \textcolor{black}{k = Neighbours}
+\vspace{-3mm}
+\end{itemize}\\ 
+\hline
+Distance Metric &
+\vspace{2mm}
+\large
+\begin{itemize}
+  \item \textcolor{purple}{Cosine Distance Metric: \( \theta = \dfrac{x_1 * x_2}{|x_1| * |x_2|} \)}\newline
+    \, \newline
+  \item \textcolor{purple}{Manhatten Distance: \( d_\text{MH}(x_1,x_2)= \sum_{i=1}^{p} | x_{i,1} - x_{i,2} | \)}\newline
+    \, \newline
+  \item \textcolor{purple}{Euclidean Distance: \( d_E(x_1,x_2) = \sqrt{\sum_{i=1}^{i=p}(x_{i,1} - x_{i,2})^2} \)}\newline
+    \textcolor{red}{Most used}
+  \item \textcolor{purple}{Minkowski Distance: \( d_{MK}(x_1,x_2) = (\sum_{i=1}^{p}(|x_{i,1} - x_{i,2}|^p))^{\dfrac{1}{p}} \)}
+\vspace{-3mm}
+\end{itemize} 
+\normalsize \, \newline
+There are special cases for manhatten at p = 1, and at eucledian for p = 2\newline
+Here a small comparison: \newline
+\includegraphics[scale=0.3]{2022-12-01:09:53:58.png}\\
+\hline
+
+\hline
 
 \hline
 
