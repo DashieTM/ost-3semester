@@ -410,19 +410,20 @@ void destroy(struct T *t) {
 \begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
 Internal Fragmentation & 
+\textcolor{purple}{This happens with fixed block size!}\newline
 \textcolor{purple}{This simply means the alloction of bigger blocks of memory than necessary, eg. 200bytes for something with the size of 5 bytes (extreme example)}\newline
 \textcolor{red}{Often this is the case because the heap implementation can't allocate this specific size, eg. we wanted 12 bytes, but the heap implementation can only allocate multiples of 8, hence it allocates 16 and we lose 4 bytes.}\newline
-Possible solutions, \textbf{runtime environments, but those cost performance}, better implementations.\\
+Possible solutions, \textbf{runtime environments, but those cost performance}, better implementations like best fit.\\
 \hline
-External Fragmentation & 
-When we allocate memory we will always search a place where we have enough space for this allocation, this, alongside the fact that not every program will immediately free memory, means that there will be many "holes" in memory that will not be used.\newline
-This memory, when added up will be big in size, but not useful for programs as the individual sizes are of unusable size to them.\newline
-This is why programs should still thrive to have proper memory management, and not just eat everyting up, \textbf{use as much as you need from the get go, but free when you can!}\newline
-\includegraphics[scale=0.4]{2022-11-29-04:01:31.png}\newline
-\textcolor{orange}{This is a fine act of balance and there is no perfect way to handle this.}\newline
+External Fragmentation &
+\textcolor{purple}{This happens with variable block size!}\newline
+When programs get killed and free the memory, or when programs repeatedly free memory during runtime, then all the allocated blocks are now available again, but these blocks are not necessarily useful.\newline
+\textcolor{orange}{One of the best solutions is to allocate memory once and then free everything, therefore not creating thousands of blocks that could fragment the memory.}\newline
+Note that this solution can only be done properly if you have a sense of how much memory your program needs, otherwise you have the issue of having allocated unused memory, or you still need to reallocate again.\newline
 Other solutions:\newline 
 \begin{itemize}
 \item \textcolor{black}{Runtimes.... performance..}
+\item \textcolor{black}{using fixed block sizes}
 \item \textcolor{black}{Better implementations of allocating memory}
 \item \textcolor{black}{using your own heaps}
 \item \textcolor{black}{Spawn objects at once and delete at once!}
@@ -512,10 +513,13 @@ Search Algorithms for free blocks &
   Take the first space that fits\newline
   This leads to many small empty spaces at the start
 \item \textcolor{purple}{Next Fit}\newline
+  Chooses first fitting space after last reserved space\newline
   Empty spaces everywhere, worse than First Fit
 \item \textcolor{purple}{Best Fit}\newline
+  Searches ALL empty spaces and chooses the smallest\newline
   Best coverage of memory, worst performance
 \item \textcolor{purple}{Worst Fit}\newline
+  Searches ALL spaces and chooses the biggest empty space\newline
   shit in general
 \item \textcolor{purple}{Quick Fit}\newline
 Fast reservation: first element of the list with the smallest fitting size\newline
@@ -541,7 +545,46 @@ At the start we have the full memory, then when we get an allocation request tha
 Since we requested 64bytes from the max of 512 bytes, we can split again, and again, we do this until the split would be smaller than the size we want, this size will then be allocated.\newline
 Each new value that should be allocated will be done in the same way.
 }[0.37,0.37] 
-\textcolor{orange}{When freeing memory, it will always be checked whether or not the "buddy" is also free, if it is, then the entire block can be combined and freed, otherwise only this block is freed.}\\
+\textcolor{orange}{When freeing memory, it will always be checked whether or not the "buddy" is also free, if it is, then the entire block can be combined and freed, otherwise only this block is freed.}\newline
+Here is an example to check whether or not 2 addresses are buddies:\newline
+Let's say we want to check if 2 addresses with the allocated size of 16KB are buddies.\newline
+This means that we first need to \textbf{figure out what power k we are at}.\newline
+This can be done by calculating 16KB, which is \(2^14\) -> 1 byte = 8 bit -> \(2^3\) bit, then multiple this by 10 and double it as 16 is 8 * 2.\newline
+So, k = 14.\newline
+\begin{lstlisting}
+#include <stddef.h>
+#include <stdio.h>
+
+void expect(int a, int b) { fputs(a == b ? "OK\n" : "ERROR\n", stdout); }
+
+int are_buddies(size_t a, size_t b, size_t level) {
+  // shift k times until we get the binary number k 
+  size_t bit_k = 1 << level; // k in binary
+
+  // xor address a and b -> results in 1 bit being different, aka 1 bit being 1
+  // example 110000000000000 and 100000000000000, the 14 bit is different
+  // if this result is the same as bitk, then you have buddies
+  // 010000000000000 and 10000000000000, note the left address has 1 leading 0!
+  // leading 0s are ignored! treated as the same number!
+  return (a ^ b) == bit_k ;
+}
+
+int main(int argc, char **argv) {
+  expect(are_buddies(0, 1, 0), 1);
+  expect(are_buddies(0, 0x40, 7), 0);
+  expect(are_buddies(0, 0x40, 6), 1);
+  expect(are_buddies(0, 0x40, 5), 0);
+  expect(are_buddies(0xabd40, 0xabd00, 6), 1);
+  expect(are_buddies(0x40, 0x40, 6), 0);
+  expect(are_buddies(0x40, 0x40, 6), 0);
+}
+\end{lstlisting}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[h!]
+\begin{tabular}{|m{0,2\linewidth}|m{0.755\linewidth}|}
 \hline
 Object-Pools & 
 \vspace{2mm}
@@ -584,12 +627,6 @@ Memory Allocation in linux &
 \vspace{-3mm}
 \end{itemize} 
 \\
-\hline
-\end{tabular}
-\end{table}
-\pagebreak
-\begin{table}[h!]
-\begin{tabular}{|m{0,2\linewidth}|m{0.755\linewidth}|}
 \hline
 Memory Allocation in Windows & 
 \vspace{2mm}

@@ -950,8 +950,31 @@ for ( let i = 0; i < parameters.length; i ++ ) {
 \end{table}
 \pagebreak
 \begin{table}[ht!]
-\section{}
+\section{Ray-Tracing}
 \begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Basics & 
+Ray-Tracing is effectively the recursive creation of traces of light. With each individual reflection being a "leaf" of the previous "node", which means that ray-tracing will create a tree structure.\newline
+\textcolor{orange}{Problem, we do not have an end to recursion, meaning that we will at some point have to manually end the trace.\newline
+I guess we will either hardcode this, or depend it on something brightness or whether or not the player still sees the trace}\newline
+\includegraphics[scale=0.4]{2022-11-30-02:17:25.png}\newline
+Here the stars are the next nodes, or leafs, depending on whether or not they too will spawn yeat another reflection.\\
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
 \hline
 
 \hline

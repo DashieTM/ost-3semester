@@ -346,6 +346,179 @@ Free Fall &
 Throw Distance & 
 
 \\
+\hline
+\end{tabular}
+\section{Impulses and Impulsretention}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Impuls & 
+\, \newline
+\Huge \textcolor{purple}{\( \vec{p} = m\vec{v} \)}\newline
+\, \newline
+\textcolor{purple}{\( \vec{F} = m\vec{d} = m * \dfrac{d\vec{v}}{dt} = \dfrac{d}{dt} * (m\vec{v}) = \dfrac{d\vec{p}}{dt} \)}\newline
+\normalsize \, \newline
+\\
+\hline
+Force Push (kekw-wars) &  
+\, \newline
+\Huge \textcolor{purple}{ \(\int^{t+\delta t}_{t} F(t) dt = \vec{F}* \delta t = \delta p\)}\newline
+\normalsize \, \newline
+\\
+\hline
+Impulsretention & 
+\, \newline
+\Huge \textcolor{purple}{ \( \vec{p} = \int \dfrac{dp}{dt} dt = c \text{ => constant}\)}\newline
+\Large \, \newline
+Note, \(\dfrac{dp}{dt}\) is 0, therefore in a completely isolated system, the impulse retention is always \textbf{constant!} \normalsize \newline
+\\
+\hline
+\end{tabular}
+\section{Center of Mass and Impulses} 
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Center of Mass in a collision &
+\vspace{2mm}
+\Huge \textcolor{purple}{\( m_1 * \vec{r_1} + m_2 * \vec{r_2} = \vec{0} \text{ <=> } m_1*\vec{v_1} + m_2 * \vec{v_2} = \vec{0} \)}\newline
+\normalsize \, \newline
+Types of collisions:\newline
+\begin{itemize}
+\item \textcolor{orange}{straight: the vectors of the center of mass are on one straight line}
+\item \textcolor{orange}{tilted: The vectos of the center of mass complete an angle}
+\item \textcolor{orange}{central: The center of mass of each collision entity is on the collision normal}
+\item \textcolor{orange}{excentric: The center of mass of each collision entity is NOT on the collision normal }
+\item \textcolor{orange}{elastic: The total kinetic energy before and ater the collision are the same}
+\item \textcolor{orange}{inelastic: The total kinetic energy before and after the collision are different}
+\item \textcolor{orange}{completely inelastic: The collision entities move at the same speed after the collision}
+\vspace{-3mm}
+\end{itemize} 
+\\
+\hline
+Deformation"Work" & 
+\vspace{2mm}
+\Huge \textcolor{purple}{\( Q = (E_1 + E_2) - (E_1' + E_2') \geq 0 \)}\newline
+\normalsize \, \newline
+Legend:\newline
+\begin{itemize}
+\item \textcolor{orange}{\( E_1 + E_2 =\) Energy before collision}
+\item \textcolor{orange}{\( E_1' + E_2' =\) Energy after collision}
+\item \textcolor{orange}{Q = DeformationWork}
+\vspace{-3mm}
+\end{itemize} 
+\\
+\hline
+Elasticity Count & 
+\vspace{2mm}
+\Huge \textcolor{purple}{\( k = \dfrac{v_2' - v_1'}{v_1 - v_2} \)}\newline
+\normalsize \, \newline
+Legend:\newline
+\begin{itemize}
+\item \textcolor{orange}{\(v_1\) = velocity of entity 1}
+\item \textcolor{orange}{\(v_2\) = velocity of entity 2}
+\item \textcolor{orange}{k = elasticity count}
+\vspace{-3mm}
+\end{itemize} 
+\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak 
+\begin{table}[ht!]
+\subsection{straight, central, completely elastic collision}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Impulse Law & 
+\vspace{2mm}
+\Huge \textcolor{purple}{\( p \overset{!}{=} p' \text{ <=> } m_1v_1 + m_2v_2 \overset{!}{=} m_1v_1' + m_2v_2' \)}\newline
+\normalsize \, \newline
+Legend:\newline
+...
+\\
+\hline
+Energy Law & 
+\vspace{2mm}
+\Huge \textcolor{purple}{\( E_{\text{kin}} \overset{!}{=} E_{\text{kin}}' \text{ <=> } \dfrac{m_1v_1^2}{2} + \dfrac{m_2v_2^2}{2} \overset{1}{=} \dfrac{m_1v_1'^2}{2} + \dfrac{m_2v_2'^2}{2} \)}\newline
+\normalsize \, \newline
+Legend:\newline
+...
+\\
+\hline
+Special case with \(m_1 = m_2\) & 
+\vspace{2mm}
+\Huge \textcolor{purple}{\( v_1' = 0 + 1 * 0 = 0 \)}\newline
+\textcolor{purple}{\( v_2' = v_1 + 0 = v_1\)}\newline
+\normalsize \, \newline
+Legend: \newline
+...
+\\
+\hline
+\end{tabular}
+\subsection{Straight, central, completely inelastic collision}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Impulse Law & 
+\vspace{2mm}
+\Huge \textcolor{purple}{\( m_1v_1 = m_2v_2 = (m_1 + m_2 )v' \text{ => } v' = \dfrac{m_1v_1 + m_2v_2}{m_1 + m_2}\)}\newline
+\textcolor{red}{\( p = p' \)!!}\newline
+\normalsize \, \newline
+Legend:\newline
+...
+\\
+\hline
+Energy Law & 
+\vspace{2mm}
+\Huge \textcolor{purple}{\( \dfrac{m_1v_1^2}{2} + \dfrac{m_2v_2^2}{2} = \dfrac{(m_1 + m_2)v'^2}{2} + Q \)}\newline
+\, \newline
+\textcolor{purple}{\(Q = \dfrac{m_1m_2}{2(m_1+m_2)}*(v_1 -v_2)^2\)}\newline
+\normalsize \, \newline
+Legend:\newline
+\begin{itemize}
+\item \textcolor{orange}{\(m_1\) = Center of mass entity 1}
+\item \textcolor{orange}{\(m_2\) = Center of mass entity 2}
+\item \textcolor{orange}{\(v_1\) = velocity entity 1}
+\item \textcolor{orange}{\(v_2\) = velocity entity 2}
+\item \textcolor{orange}{Q = DeformationWork}
+\vspace{-3mm}
+\end{itemize} \\
+\hline
+\end{tabular}
+\subsection{Reduced Mass, Relative Velocity}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+\vspace{2mm}
+\Huge \textcolor{purple}{\(v_{\text{rel}} = | v_1 - v_2|\)}\newline
+\textcolor{purple}{\(\mu = \dfrac{m_1m_2}{m_1 + m_2}\)}\newline
+\textcolor{purple}{\( Q = \dfrac{\mu v_{\text{rel}^2}}{2}\)}\newline
+\normalsize \, \newline
+Legend:\newline
+\begin{itemize}
+\item \textcolor{orange}{\(v_1\) = velocity entity 1}
+\item \textcolor{orange}{\(v_2\) = velocity entity 2}
+\item \textcolor{orange}{\(\mu\) = reduced mass}
+\item \textcolor{orange}{Q = DeformationWork}
+\item \textcolor{orange}{\(v_{\text{rel}}\) = relative velocity}
+\vspace{-3mm}
+\end{itemize} \\
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
 
 \hline
 \end{tabular}
