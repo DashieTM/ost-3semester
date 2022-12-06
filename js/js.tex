@@ -1329,9 +1329,26 @@ Best practices &
 \vspace{-3mm}
 \end{itemize}\\ 
 \hline
-
+Nielsen & 
+This is a system of things to comply with:\newline
+\begin{itemize}
+\item \textcolor{purple}{Visibility of System State}\newline
+  For example, display the steps that a program does when the user waits, instead of a generic message saying "please wait for shit to finish"
+\item \textcolor{purple}{Connection between real world and system}
+\item \textcolor{purple}{Freedom and Control for the user}
+\item \textcolor{purple}{Consistency and Standards}
+\item \textcolor{purple}{Avoiding Errors}
+\item \textcolor{purple}{Remember states instead of asking about them}
+\item \textcolor{purple}{Flexibility and efficient Usage}
+\item \textcolor{purple}{Asthetics and minimalistic Design}
+\item \textcolor{purple}{Support of Detection and Resolution of Problems}
+\item \textcolor{purple}{Support and Documentation}
+\vspace{-3mm}
+\end{itemize} \\
 \hline
-
+Suspense State & 
+In order to not annoy the user with a "suppossedly broken system", when in actuality the system just needs some time to make the request on the server, \textbf{consider imeplementing a \textcolor{red}{progress bar} inn order to communicate to the user, that we are currently working on the request.}\newline
+\includegraphics[scale=0.4]{2022-12-06-11:30:22.png}\\
 \hline
 
 \hline
