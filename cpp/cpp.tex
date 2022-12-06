@@ -2168,6 +2168,200 @@ template <typename T, auto n>
 \begin{table}[ht!]
 \begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\section{Pointers and Heap}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+When to use Heap & 
+\vspace{2mm}
+\begin{itemize}
+\item \textcolor{purple}{Stack memory isn't sufficient}
+\item \textcolor{purple}{Scope/lifetime is dynamic/unclear}
+\end{itemize} 
+\, \newline
+Note however, that you should generally try to use stack over heap, for both \textbf{performance and memory security!}\newline
+\textcolor{orange}{Generally rely on constructor and destructor!}\\
+\hline
+Legacy & 
+Eh yeah, don't, hehe, me use raw pointer, me monke:\newline
+\begin{lstlisting}
+auto ptr = new int{};
+std::cout << *ptr << '\n';
+delete ptr;
+\end{lstlisting} 
+\, \newline
+Note, not using free leads to \textbf{memory leak}, while \textbf{double freeing leads to other undefined behavior}.\\
+\hline
+std::unique\_ptr & 
+\vspace{2mm}
+\begin{itemize}
+\item \textcolor{purple}{Single Owner}
+\item \textcolor{purple}{Can wrap C style pointers to interact with legacy code}
+\item \textcolor{purple}{Not "best" for class hierarchies -> multiple parent not possible due to single owner}\newline
+  \textcolor{orange}{Use shared pointer instead}
+\item \textcolor{purple}{Can't be copied due to single owner!}
+\vspace{-3mm}
+\end{itemize} 
+\begin{lstlisting}
+auto factory(int i) -> std::unique_ptr<X> {
+  return std::make_unique<X>(i);
+}
+// or worse and only local!
+std::unique_ptr<T> const p{new T{}}; // local
+\end{lstlisting}
+\\
+\hline
+std::shared\_ptr & 
+This sounds like Ref<A> from rust, but unlike rust, you can have \textbf{multiple MUTABLE pointers!}\newline
+This means that you can get into trouble with concurrency!\newline
+Otherwise it will be alive until the last shared\_pointer goes out of scope.\newline
+\textcolor{purple}{This is more memory intensive than unique\_pointers, as it needs to store more information -> reference count etc}\newline
+\begin{lstlisting}
+struct A {
+  A(int a, std::string b, char c);
+};
+auto createA() -> std::shared_ptr<A> {
+  return std::make_shared<A>(5, "hi", 'a');
+}
+auto main() -> int {
+  auto anA = createA();
+  auto sameA = anA; //second pointer to same object
+  A copyA{*sameA}; //copy ctor.
+  auto another = std::make_shared<A>(copyA); //copy ctor on heap
+}
+\end{lstlisting}
+\\
+\hline
+std::move() & 
+This is the same as move in rust, it takes the value and pushes it into another pointer.\newline
+In other words, it invalidates one pointer and assigns a new pointer to the memory address.\newline
+\begin{lstlisting}
+#include <iostream>
+#include <memory>
+#include <utility>
+
+auto create(int i) -> std::unique_ptr<int> {
+  return std::make_unique<int>(i);
+}
+auto main() -> int {
+  auto pi = create(42); // pointer pi to address of 42
+  auto pj = std::move(pi); // 42 moved to pj
+}
+\end{lstlisting}
+\\
+\hline
+Cyclic Issues & 
+Just like with Ref<A>, shared pointers can have cyclic references that reference each other, therefore not deleting the objects as probably intended!\newline
+\begin{lstlisting}
+using HalfElfPtr = std::shared_ptr<struct HalfElf>;
+struct HalfElf {
+  explicit HalfElf(std::string name) : name{name}{}
+  std::string name{};
+  std::vector<HalfElfPtr> siblings{};
+};
+void middleEarth() {
+  auto elrond = std::make_shared<HalfElf>("Elrond");
+  auto elros = std::make_shared<HalfElf>("Elros");
+  elrond->siblings.push_back(elros); // ref count 2
+  elros->siblings.push_back(elrond); // ref count 2 
+  // oops, they now point at each other, therefore it will never be deleted!
+}
+\end{lstlisting}\\
+\hline
+std::weak\_ptr & 
+Just like in rust we also have a weak pointer that will not keep an object alive, instead it is just counted up and down, and can be casted to a proper pointer when needed:\newline
+\textcolor{orange}{Just like in rust, weak pointers are ignored when deleting! This means the object will be deleted despite weak pointers being available, making parent-child cascade deletion possible!}\newline
+\begin{lstlisting}
+struct Person {
+  std::shared_ptr<Person> child;
+  std::weak_ptr<Person> parent;
+
+  auto Person::acquireMoney() const -> void {
+  auto locked = parent.lock(); // try to aquire shared_pointer
+    if (locked) { // parent is alive
+      begForMoney(*locked);
+    } else { // not aquired, pointer invalid
+      goToTheBank();
+    }
+  }
+};
+\end{lstlisting} \\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+& 
+\includegraphics[scale=0.4]{2022-12-06-09:31:47.png}\includegraphics[scale=0.4]{2022-12-06-09:31:52.png}\\
+\hline
+Curiously Recurring Template Pattern (CRTP) & 
+This is used when you want parents to be able to spawn their own children, in other words giving us a \textbf{weak pointer to ourselves}:\newline
+\begin{lstlisting}
+struct Person : std::enable_shared_from_this<Person> {
+  std::shared_ptr<Person> child;
+  std::weak_ptr<Person> parent;
+
+  auto spawn() -> std::shared_ptr<Person> {
+    child = std::make_shared<Person>();
+    child->parent = weak_from_this(); // get new weak
+    return child;
+  }
+};
+\end{lstlisting} 
+\, \newline
+\textcolor{red}{Note, that this is only possible, if the parent \textbf{was created with a shared pointer!}}\\
+\hline
+Unique Pointer Interaction with C code & 
+\vspace{2mm}
+\begin{lstlisting}
+struct free_deleter {
+  template<typename T>
+  auto operator()(T * p) const -> void {
+    free(const_cast<std::remove_const_t<T> *>(p));
+  }
+};
+template<typename T>
+  using unique_C_ptr = std::unique_ptr<T, free_deleter>;
+auto plain_demangle(char const * name) -> std::string {
+  unique_C_ptr<char> toBeFreed{__cxxabiv1::__cxa_demangle(name, 0, 0, 0)};
+  std::string result(toBeFreed.get());
+  return result;
+}
+\end{lstlisting}\\
+\hline
+Storing smart pointers in vectors & 
+\vspace{2mm}
+\begin{lstlisting}
+using PersonPtr = std::shared_ptr<struct Person>;
+struct Person {
+private:
+  std::vector<PersonPtr> children;
+  std::weak_ptr<Person> mother;
+  std::weak_ptr<Person> father;
+};
+\end{lstlisting}\\
+\hline
+General & 
+\vspace{2mm}
+\begin{itemize}
+\item \textcolor{purple}{Avoid using raw pointers}
+\item \textcolor{purple}{Use stack whenever possible}
+\item \textcolor{purple}{Avoid circular objects like linked lists etc when handling things with shared\_pointer}
+\item \textcolor{purple}{Copying/Destroying is slow with shared\_pointer due to atomic counter}
+\vspace{-3mm}
+\end{itemize}\\ 
+\hline
+
+\hline
+
+\hline
+
+\hline
 
 \hline
 
