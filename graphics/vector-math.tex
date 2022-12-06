@@ -255,6 +255,141 @@ Transpose of Matrix &
 \hline
 \end{tabular}
 \end{table}
+\pagebreak 
+\begin{table}[ht!]
+\section{Sphere}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Regular Sphere & 
+In the regular sphere we add each point of a triangle individually, this also means that you will add points more than once.\newline
+\includegraphics[scale=0.4]{2022-12-03:11:31:59.png}\newline
+Here point 1/4 and 3/6 are added twice, this makes it hard to randomly scale the sphere later on, as the point on the right will suddenly no longer overlap with what you have on the left, even though they were on the same location before!\newline
+\textcolor{orange}{Not indexing the sphere is easier, but it will elad to problems when trying to create craters and mountains on it!}\newline
+Here code that will generate the vertices for a non-index based sphere:\newline
+\begin{lstlisting}
+var vertices = new List<float>();
+    bool xDelta = true;
+    float zBufferLow = 0;
+    float zBufferHigh = 0;
+    var deltaAngle = (float)(2 * Math.PI / sectors);
+    float xyAngle = 0;
+    float zAngle = 0;
+
+    for (int zSector = 0; zSector < sectors; zSector++) {
+      xyAngle = 0;
+      xDelta = true;                                // defines if left or right side of square
+      zBufferLow = MathF.Sin(zAngle);               // upper bound of square
+      zBufferHigh = MathF.Sin(zAngle + deltaAngle); // upper bound of square
+      // each iteration of this loop is 1 ring of the sphere
+      for (int sector = 0; sector < sectors; sector++) {
+        if (xDelta) {
+          addPoint(vertices, deltaAngle, xyAngle, zAngle, true, zBufferHigh,
+                   zBufferLow);
+          addPoint(vertices, deltaAngle, xyAngle, zAngle, false, zBufferHigh,
+                   zBufferLow);
+          addPoint(vertices, deltaAngle, xyAngle + deltaAngle, zAngle, true, zBufferHigh,
+                   zBufferLow);
+        } else {
+          addPoint(vertices, deltaAngle, xyAngle, zAngle, false, zBufferHigh,
+                   zBufferLow);
+          xyAngle += deltaAngle;
+          addPoint(vertices, deltaAngle, xyAngle, zAngle, false, zBufferHigh,
+                   zBufferLow);
+          addPoint(vertices, deltaAngle, xyAngle, zAngle, true, zBufferHigh,
+                   zBufferLow);
+        }
+        xDelta = !xDelta;
+      }
+      zAngle += deltaAngle;
+    }
+    return vertices.ToArray();
+  }
+
+  private static void addPoint(List<float> vertices, float deltaAngle,
+                               float xyAngle, float zAngle, bool zDelta,
+                               float zBufferHigh, float zBufferLow) {
+    if (zDelta) { // lower or upper bound of square
+      vertices.Add(MathF.Sin(xyAngle) * MathF.Cos(zAngle)); // z
+      vertices.Add(MathF.Cos(xyAngle) * MathF.Cos(zAngle)); // x
+      vertices.Add(zBufferLow);                             // y
+    } else {
+      vertices.Add(MathF.Sin(xyAngle) * MathF.Cos(zAngle + deltaAngle)); // z
+      vertices.Add(MathF.Cos(xyAngle) * MathF.Cos(zAngle + deltaAngle)); // x
+      vertices.Add(zBufferHigh);                                         // y
+    }
+  }
+\end{lstlisting}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Index-Based Sphere & 
+Here we only place each point only once, this means that we never have any overlap, allowing use to create a sphere that can be molded later on.\newline 
+However, this also means that we need a complicated way of creating the triangles in a seperate function, which here is called \textbf{GetTriangles}.\newline
+\begin{lstlisting}
+private static float[] GetVertices(int sectors) {
+  var vertices = new List<float>();
+  // iterations for the sphere
+  var deltaAngle = 2 * MathF.PI / sectors;
+  float xyAngle = 0;
+  float zAngle = 0;
+  // each complete iteration of the following for loop is a ring
+  // sectorcount amounts of rings will complete the sphere.
+  for (int zSector = 0; zSector < sectors; zSector++) {
+    xyAngle = 0;
+    for (int sector = 0; sector < sectors; sector++) {
+      vertices.Add(MathF.Cos(xyAngle) * MathF.Cos(zAngle)); // x
+      vertices.Add(MathF.Sin(zAngle));                      // y
+      vertices.Add(MathF.Sin(xyAngle) * MathF.Cos(zAngle)); // z
+      xyAngle += deltaAngle;
+    }
+    zAngle += deltaAngle;
+  }
+  return vertices.ToArray();
+}
+
+public static ushort[] GetTriangles(int SectorCount) {
+  ushort[] triangles = new ushort[SectorCount * SectorCount * 2 * 3];
+  int upperCapOffset = (SectorCount - 1) * (SectorCount + 1);
+
+  int i = 0;
+  for (ushort longitude = 0; longitude < SectorCount; longitude++) {
+    triangles[i++] = longitude;
+    triangles[i++] = (ushort)(longitude + SectorCount + 1);
+    triangles[i++] = (ushort)(longitude + SectorCount + 2);
+
+    for (int latitude = 1; latitude < SectorCount; latitude++) {
+      int k1 = longitude + latitude * (SectorCount + 1);
+      int k2 = k1 + SectorCount + 1;
+
+      // 2 triangles per patch
+      // k1 => k2 => k1+1
+      triangles[i++] = (ushort)k1;
+      triangles[i++] = (ushort)k2;
+      triangles[i++] = (ushort)(k1 + 1);
+
+      // k1+1 => k2 => k2+1
+      triangles[i++] = (ushort)(k1 + 1);
+      triangles[i++] = (ushort)k2;
+      triangles[i++] = (ushort)(k2 + 1);
+    }
+
+    triangles[i++] = (ushort)(upperCapOffset + longitude);
+    triangles[i++] = (ushort)(upperCapOffset + longitude + 1);
+    triangles[i++] = (ushort)(upperCapOffset + longitude + SectorCount + 1);
+  }
+
+  return triangles;
+}
+\end{lstlisting}
+\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
 \begin{table}[ht!]
 \section{Planes in Viewport}
 \begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
