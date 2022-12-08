@@ -860,6 +860,139 @@ build:
 \, \newline
 \href{docs.gitlab.com/ee/ci/yaml}{Reference for syntax}\\
 \hline
+\end{tabular}
+\section{Design by Contract}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Basics & 
+Design by contract handles how the caller of a function must handle the call, parameters, correctness etc.\newline
+Some things like parameters at least having the right type is handled by the compiler, but other things like using the function in the right way, example using greater than in a loop without mixing up the operators are not handled by the compiler, that needs to be done by the caller!\newline
+Design by Contract therefore creates a set of ideas:\newline
+\begin{itemize}
+\item \textcolor{purple}{Software = set of components}
+\item \textcolor{purple}{Component = system, subsystem or class}
+\item \textcolor{purple}{Client/Supplier relationship between components -> caller/callee}
+\item \textcolor{purple}{Regulated by contracts}
+\vspace{-3mm}
+\end{itemize} \\
+\hline
+Contracts for Classes & 
+\vspace{2mm}
+\begin{itemize}
+\item \textcolor{purple}{Guarantees always hold, before and after each method call}
+\item \textcolor{purple}{Preconditions: parameters are setup correctly etc}\newline
+  \textcolor{red}{Caller is responsible!}
+\item \textcolor{purple}{Postconditions: function returns correct result etc}\newline
+  \textcolor{red}{Callee is responsible!}
+\vspace{-3mm}
+\end{itemize}  
+\, \newline
+So why do we do this?\newline
+We do not always know what exactly we need by just looking at the function signature, you only know you need an integer, but can this be any range? Negative as well? 0 allowed?\newline
+When using something other than DBC, we \textbf{usually only have implicit contracts}, this makes it hard to follow the contract each and every time.\newline
+With DBC, we check this contract \textbf{formally!}\\
+\hline
+Pure Methods and Query Methods & 
+\vspace{2mm}
+\begin{itemize}
+\item \textcolor{purple}{Pure Methods do not have any side-effects}
+\item \textcolor{purple}{Query Methods only exist to provide information about the object}\newline
+  these methods must be pure, eg not have any side-effects!
+\item \textcolor{purple}{Contracts only contain pure methods!}
+\item \textcolor{purple}{Contracts for an interface can only express properties that are expressible using the available query methods}
+\vspace{-3mm}
+\end{itemize}\\ 
+\hline
+Limitation of Contracts & 
+Contracts \textbf{must evaluate to a boolean}, otherwise we can't easily check for a \emph{fulfilled or failed} state.\newline
+Also contracts \textbf{must be accessible}, as everyone that interacts with the contract needs to be able to see the information needed to fulfill the contract.\\
+\hline
+Precondition & 
+\textcolor{red}{This is a bug in your program! You are at fault!}\newline
+For the example of a function that returns the square root of a number, you need to make sure that: \newline
+\begin{itemize}
+\item \textcolor{black}{The type is correct}
+\item \textcolor{black}{The value is greater than 0}
+\vspace{-3mm}
+\end{itemize} 
+\\
+\hline
+Postconditions & 
+\textcolor{red}{This is a bug in the library! The library programmer is at fault!}\newline
+In the square root example, the library function must ensure that the result is \textbf{correct}.\newline
+Eg. not suddenly return a negative value, that is not possible.\newline
+\textcolor{orange}{Postcondition also means that the current state is \textbf{queriable} via query methods}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+DBC and Inheritance & 
+Inheritance can be done with contracts as contracts are \textbf{specification}, this means we can create interfaces which define how you inherit something.\newline
+\textcolor{orange}{Inheritance in DBC is done with the \textbf{Liskov Substitution Principle}}\newline
+\textbf{This defines that any subtype needs to be able to substitute the supertype without any changes in the super or subtype.}\newline
+Eg. A subtype can do anything that the supertype can do, \textbf{and more!}\newline
+In DBC the following is important: \newline
+\begin{itemize}
+\item \textcolor{purple}{Subtypes can weaken the precondition, but not strengthen them}\newline
+  for example \(x \ge 0\) instead of \(x \geq \)
+\item \textcolor{purple}{Subtypes can strengthen method postconditions, but not weaken them}\newline
+  stricter with input parameters etc
+\item \textcolor{purple}{Subtype can strengthen class invariants, but not weaken them}\newline
+  be stricter with output parameters and states
+\vspace{-3mm}
+\end{itemize}\\ 
+\hline
+Language support & 
+Basically doesn't exist, so you either need to use libraries, or, you can just use assertions and manually create preconditions and postconditions.\\
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\section{Section Name}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
 
 \hline
 

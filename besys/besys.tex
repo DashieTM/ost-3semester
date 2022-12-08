@@ -656,6 +656,320 @@ Memory Allocation in Windows &
 \end{itemize} 
 \\
 \hline
+The goal with memory and the OS/Processes & 
+The operating system protects against: \newline
+\begin{itemize}
+\item \textcolor{purple}{Access on OS memory}
+\item \textcolor{purple}{Access on memory of other processes}
+\end{itemize}
+\, \newline
+However, \textcolor{red}{it does NOT protect against:}\newline
+\begin{itemize}
+\item \textcolor{purple}{Wrong memory usage inside a process}
+\vspace{-3mm}
+\end{itemize}
+\\
+\hline 
+No protection & 
+The most basic implementation does not care about how a process accesses memory, it can do whatever it wants, and the problem with this is that, if a program accesses or even overwrites memory which it does not own, it might overwrite memory of another program, crashing said program with it!\newline
+This means that potentiall a process can crash the OS by manipulating OS memory!\newline
+Either intentionally or unintentionally.\newline
+\textcolor{red}{This approach is not used in modern systems!}\\
+\hline
+Approach OS handles memory & 
+\textcolor{orange}{Here you limit what the processor can do, this means that the operating system will have full control over what memory each process will be able to call/use.}\newline
+\textcolor{red}{As expected, this approach would be really slow, which is why it is no longer used for modern systems (other than embedded perhaps)}
+\\
+\hline
+Privilege Levels & 
+Processors have different privilege levels, \textbf{PL0, PL1, PL2, PL3}.\newline
+\textcolor{orange}{These are the ring0 to ring3 levels that everyone is always talking about!}\newline
+\includegraphics[scale=0.2]{2022-12-06-03:25:15.png}\\
+\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Sys-Call & 
+\textcolor{Orange}{This is the function that will be deposited in memory at startup, and will be called each time a program wants to interact with the operating system.}\newline
+We have already used this in assembly with the syscall command!\newline
+\begin{lstlisting}
+mov rax, ; OS code to be executed
+mox rdi, ; first argument
+syscall
+
+; this is nothing other than the following: 
+
+mov rcx, rip    ; command counter of program
+mov r11, rflags ; flags of program
+; PL0 from now on 
+mov rip, IA32_LSTAR ; OS handler
+\end{lstlisting} 
+\, \newline
+example codes, 0 for red, 1 for write, 60 for exit, \textbf{this is variable on operating systems though!}\newline
+
+\\
+\hline
+Approach Virtual Addresses & 
+\vspace{2mm}
+\begin{itemize}
+\item \textcolor{purple}{Processes will not receive proper addresses, instead they receive \textbf{virtual addresses}}\newline
+  This will then be converted to proper addresses by the \textbf{Memory Management Unit}
+\item \textcolor{purple}{OS configures Memory Management Unit}
+\item \textcolor{purple}{Memory Management Unit (MMU) checks for restrictions on memory}\newline
+  Is this process allowed to access this memory? Read? Write?
+\end{itemize} 
+\, \newline
+\includegraphics[scale=0.3]{2022-12-06-03:36:53.png}\includegraphics[scale=0.3]{2022-12-06-03:39:13.png}\newline
+\textcolor{orange}{The mapping of real addresses to virtual addresses are a \textbf{black box} to processes, it is basically impossible to "guess" a physical address and read/write to it!}\newline
+\textcolor{red}{This is the approach that is used on modern systems!}\\
+\hline
+Valid Access & 
+\minipg{
+\begin{itemize}
+\item \textcolor{black}{Process wants to access a valid address}
+\item \textcolor{black}{MMU finds mapping in mapping table}
+\item \textcolor{black}{MMU puts real address on memory bus}
+\item \textcolor{black}{processor reads/writes data from and to memory bus}
+\end{itemize}
+}{
+\includegraphics[scale=0.4]{2022-12-06-03:43:32.png}
+}[0.4,0.4]\\
+\hline
+Invalid Access &
+\minipg{
+\begin{itemize}
+\item \textcolor{black}{Process wants to access an invalid address}
+\item \textcolor{black}{MMU tries to read mapping but it fails -> invalid}
+\item \textcolor{black}{MMU signals \textbf{fault interrupt}}
+\item \textcolor{black}{CPU calls OS-Interrupt Handler }
+\item OS takes charge:\newline
+  For example kill process as answer...
+\end{itemize}
+}{
+\includegraphics[scale=0.4]{2022-12-06-03:43:38.png}
+}[0.4,0.4]\\
+\hline
+Swap & 
+In linux we need swap in order to store our memory on our storage (SSD/HDD), this makes it possible to use more RAM than we actually have by storing things we currently do not necessarily need on our storage intead.\newline
+This is also how we can achieve "sleep" mode, where we do not have any RAM loaded, instead it is stored on our storage at shutdown.\newline
+\minipg{
+\includegraphics[scale=0.4]{2022-12-06-03:50:16.png} 
+}{
+Note that the OS handles when this happens, a process will \emph{usually} not notice anything!\newline
+Effects:\newline
+\begin{itemize}
+\item \textcolor{purple}{More Memory per Process}
+\item \textcolor{purple}{Process can use entire memory}
+\item \textcolor{purple}{No regard for other processes need to be given}
+\item \textcolor{purple}{Absolut addresses}
+\end{itemize} 
+Please use this "entire memory" thing carefully, as paging will be a performance hit!!
+}[0.35,0.4]\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Page based Virtual Memory & 
+\minipg{
+\begin{itemize}
+\item \textcolor{black}{Page}\newline
+  typically 4KB\newline
+  Page is always one unit
+\item \textcolor{black}{Memory consists of Page Frames}\newline
+  each Pageframe can hold one page\newline
+  Start address: multiple of pagesize\newline
+  Page Frame Number = Sartaddress of Pageframe without Offset-Bit
+\item \textcolor{black}{Example with 32 Bit System}\newline
+  Memory address = AB789000
+  Page Frame Number = AB789
+\end{itemize} 
+}{ 
+\includegraphics[scale=0.4]{2022-12-06-04:13:15.png}
+}[0.4,0.4]\newline
+\begin{itemize}
+  \item \textcolor{purple}{Virtual Address space consist of pages}\newline
+    Page represents data
+\item \textcolor{purple}{Per Process one Virtual Address Space}
+\item \textcolor{purple}{Per Process one Page-Table (Mapping)}
+\vspace{-3mm}
+\end{itemize}
+\includegraphics[scale=0.4]{2022-12-06-04:16:25.png}\newline
+Both process A and B have their own space A1 to Am and B1 to Bn, and each has their own mapping inside the MMU, this leads to the effect, that the pages can be shuffled, without losing any functionality, as the pages are mapped!\newline
+\includegraphics[scale=0.4]{2022-12-06-04:19:35.png}\newline
+\textcolor{orange}{As seen here, pages can be in memory or in storage, meaning that it doesn't matter other than performance wise!}\newline 
+\begin{itemize}
+\item \textcolor{purple}{OS decides where page is stored}
+\item \textcolor{purple}{MMU only knows memory, no storage}
+\item \textcolor{purple}{MMU can only detect missing pages}\newline
+  Page in storage, or doesn't exist.\newline
+  \textcolor{red}{This means the OS needs to retrieve pages when not in memory!!}
+\vspace{-3mm}
+\end{itemize} 
+\\
+\hline
+Page Table & 
+\begin{itemize}
+\item \textcolor{purple}{Translates the virtual addresses to real addresses for the MMU}
+\item \textcolor{purple}{Is configured by the OS}
+\item \textcolor{purple}{The MMU needs the following from the page table:}\newline
+  \begin{itemize}
+  \item \textcolor{black}{In which Page-Frame is the page?}
+  \item \textcolor{black}{Is the address of the page valid?}
+  \end{itemize} 
+\item \textcolor{purple}{The OS needs the following from the page table:}\newline
+  \begin{itemize}
+  \item \textcolor{black}{Is the page in memory or in storage?}
+  \item \textcolor{black}{Will the page even be used?}
+  \item \textcolor{black}{Was the page used since its creation?}
+  \end{itemize} 
+\end{itemize}
+\textcolor{red}{Multiple Implementation Variants}
+\begin{itemize}
+\item \textcolor{orange}{Single-Level}
+\item \textcolor{orange}{Multi-Level}
+\item \textcolor{orange}{Inverted}
+\item \textcolor{orange}{Hashtable}
+\vspace{-3mm}
+\end{itemize} 
+\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Page-Table Single-Level & 
+\begin{itemize}
+\item \textcolor{purple}{Array with an entry per page}\newline
+\item \textcolor{purple}{very fast Lookup!}\newline
+  Index = Page Number
+\end{itemize} 
+\includegraphics[scale=0.4]{2022-12-06-04:32:58.png}\newline 
+\includegraphics[scale=0.4]{2022-12-06-04:34:46.png}\newline
+Downsides: \newline
+\begin{itemize}
+\item \textcolor{red}{Size of page-tables can be extremely big!}\newline
+  For each possible page \textbf{one entry}\newline
+  OS/MMU can limit the size of the pagetable
+\item \textcolor{red}{Page size is not dependent on usage, same size!}
+\vspace{-3mm}
+\end{itemize}\\ 
+\hline
+Two-Level Page-Table & 
+This works very much like the Two-Way cache where we have to tables, if the first table -> \textbf{Page Directory} already doesn't find an associated table \textbf{Page Table} for this process, then we don't need to search further! \newline
+Remember each process will only have 1 page table!\newline
+\includegraphics[scale=0.4]{2022-12-06-04:41:50.png}\newline
+Just like with the cache we have \textbf{an offset, here this is the \emph{last 12 bits.}}\newline
+Then we split the rest in 2, note that the results are strange since it is hex.\newline
+\textbf{Status bits define is the table is used or not!}\newline
+\includegraphics[scale=0.4]{2022-12-06-04:41:59.png} 
+\, \newline 
+\textcolor{orange}{Sometimes the second "table" is also called \textbf{Second-Level-Page-Table (SLPT)}}\\
+\hline
+\end{tabular} 
+\end{table}
+\pagebreak 
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Two-Level Page-Table Implementation in 32bit &
+\vspace{2mm}
+\begin{itemize}
+\item \textcolor{purple}{Directory Index = 10 Bit}
+\item \textcolor{purple}{Page Table Index = 10 Bit}
+\item \textcolor{purple}{Offset = 12 Bit (lowest 2 bits)}
+\item \textcolor{purple}{Entry in Directory or Table each 32-bit}
+\item \textcolor{purple}{1024 Page Tables with 1024 pages each}
+\item \textcolor{purple}{Directory size = 4kB}
+\item \textcolor{purple}{Table size = 4kB}
+\item \textcolor{purple}{Page size = 4kB}
+\item \textcolor{purple}{Mechanism for allocating and reloading for tables and pages}
+\vspace{-3mm}
+\end{itemize} 
+\\
+\hline
+Multi-Level Page-Table & 
+This is also the same as the multi-way on caches, currently the maximum amount of levels is 5!\newline
+This is because right now, noone will need more than 5 levels which is more ram than you could possibly have.\newline
+They thought the same for 256TB on level 4, but that has been reached!\newline
+\includegraphics[scale=0.4]{2022-12-06-04:46:09.png} 
+\begin{itemize}
+\item \textcolor{purple}{Size of 4kB per Page stays the same!} 
+\item \textcolor{purple}{Entries are 64bit long -> hence the 64 bit system architecture}
+\item \textcolor{purple}{Level 3 = 512 GB max}
+\item \textcolor{purple}{Level 4 = 256 TB max}
+\vspace{-3mm}
+\end{itemize}\\ 
+\hline
+Translation Lookaside Buffer & 
+This is based on the locality principle, meaning that most pages are used rarely, and only a few pages are used often, these pages can then be "cached" on a lower L cache!\newline
+\textcolor{orange}{Here we only cache the mappings, not the data! As this is only a lookup buffer!}\newline
+Here an example of i7 skylake\newline
+\includegraphics[scale=0.4]{2022-12-06-04:49:25.png}\\
+\hline
+Inverted Page Table & 
+
+\includegraphics[scale=0.4]{2022-12-06-04:49:54.png}\\
+\hline
+Hashed Page Table & 
+
+\includegraphics[scale=0.4]{2022-12-06-04:50:00.png}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak 
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+The reason for MMU & 
+\minipg{
+\begin{itemize}
+\item \textcolor{purple}{Only MMU can access memory requests}
+\item \textcolor{purple}{CPU no longer puts addresses directly to memory bus}
+\item \textcolor{purple}{MMU takes over creation of real addresses}
+\end{itemize} 
+}{
+\includegraphics[scale=0.4]{2022-12-06-04:24:32.png} 
+}[0.34,0.4] \newline
+\minipg{
+\begin{itemize}
+\item \textcolor{purple}{MMU receives virtual address from CPU}\newline
+  \begin{itemize}
+  \item \textcolor{black}{Virtual addresses are CPU specific}
+  \item \textcolor{black}{OS must set pointer on page-table on process change}
+  \end{itemize} 
+\item \textcolor{purple}{MMU translates each virtual address based on the base register}
+\item \textcolor{purple}{MMU has its own cache -> Translation lookup buffer}
+\end{itemize} 
+}{
+\includegraphics[scale=0.4]{2022-12-06-05:34:14.png}\newline
+}[0.4,0.4] \newline 
+\begin{itemize}
+\item \textcolor{purple}{Virtual address is split into:}\newline
+  \begin{itemize}
+  \item \textcolor{black}{Offset: 12 lowest bits for index like with cache}
+  \item \textcolor{black}{Page Number: all other bits}
+  \end{itemize} 
+\item \textcolor{purple}{Only the page number will be translated by the MMU}
+\item \textcolor{purple}{Offset stays the same}
+\end{itemize}
+\includegraphics[scale=0.4]{2022-12-06-05:34:21.png} 
+\includegraphics[scale=0.4]{2022-12-06-05:34:27.png}\\
+\hline
+
+\hline
+
+\hline
+
+\hline
 \end{tabular}
 \end{table}
 \pagebreak
