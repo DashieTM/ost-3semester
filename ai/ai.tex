@@ -697,8 +697,26 @@ Legend:\newline
 \begin{itemize}
 \item \textcolor{black}{d = distance metric}
 \item \textcolor{black}{k = Neighbours}
-\vspace{-3mm}
-\end{itemize}\\ 
+\end{itemize}
+\minipg{
+\textcolor{OliveGreen}{Advantages:}\newline
+\begin{itemize}
+\item \textcolor{OliveGreen}{Easy and simple machine learning model}
+\item \textcolor{OliveGreen}{Few hyperparameters needed}
+  \vspace{2mm}
+  \vspace{2mm}
+  \vspace{2mm}
+\end{itemize}
+}{
+\textcolor{red}{Disadvantages:}\newline
+\begin{itemize}
+\item \textcolor{red}{k should be wisely selected}
+\item \textcolor{red}{Large computation cost during runtime if dataset is large}
+\item \textcolor{red}{Not efficient for high dimensional datasets}
+\item \textcolor{red}{Proper scaling should be provided for fair treatment among features}
+\end{itemize} 
+}[0.3,0.4]
+\\ 
 \hline
 Distance Metric &
 \vspace{2mm}
@@ -718,21 +736,159 @@ There are special cases for manhatten at p = 1, and at eucledian for p = 2\newli
 Here a small comparison: \newline
 \includegraphics[scale=0.3]{2022-12-01:09:53:58.png}\\
 \hline
-
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
-
+K and Variance/Bias & 
+\textcolor{purple}{\textbf{The higher k} is, the \textbf{higher the variance} is, therefore the \textbf{model is more complex}, when you have \textbf{less k, the model gets simpler}, making you have \textbf{more bias}.\newline
+Therefore, the best solution is to have a sweetspot of both complexity and bias, as already covered earlier.}
+\\
 \hline
-
+Naive Bayes Classification & 
+\textcolor{purple}{Calculate the posterior probability based on the previous state.}\newline
+\includegraphics[scale=0.3]{2022-12-08:11:03:47.png}\newline
+Remember conditional probability:\newline
+\, \newline
+\large \textcolor{purple}{\( Pr(e | D) = \dfrac{Pr(D,e)}{Pr(e)} \)}\newline
+\normalsize \, \newline
+Let's say we want to see if an email is spam based on whether or not it has a word in it, let's take hurry for this:\newline
+Then we calculate it like this:\newline
+\includegraphics[scale=0.4]{2022-12-08:11:10:40.png}\newline
+\includegraphics[scale=0.4]{2022-12-08:11:12:45.png}\newline
+\begin{itemize}
+\item \textcolor{OliveGreen}{good when dataset is small}
+\item \textcolor{OliveGreen}{No training}
+\item \textcolor{OliveGreen}{No explicit training phrase}
+\item \textcolor{OliveGreen}{generative class of models}
+\item \textcolor{OliveGreen}{used extensively when data contains categorical features but not much used in numerical features}\newline
+You could theoretically convert numerical values into categorical values, making it feasible again with naive bayes.
+\vspace{-3mm}
+\end{itemize} 
+\\
 \hline
-
+\end{tabular}
+\section{Unsupervised Learning}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
-
+Basics & 
+Unsupervised learning deals with data where we do not have labels, this means that we can't manually intervene, since we do not have any hints to do so.\newline
+Remember the flower example we used for KNN, there we had 3 different labels for flowers, so we knew how to categorize, but what if we do not have the flower types? How would we categorize the data?\newline 
+\includegraphics[scale=0.3]{2022-12-08:11:22:47.png}\newline
+As you can see this is still the same example, but how do we figure out wich Y value belongs together? If we remember the flower example, we know that we have 3 groups, but here we can only clearly seperate 2 groups... The answer can be found in the next entry -> \textbf{Clustering!}
+\textcolor{orange}{This is usually used in social network analysis, astronomical data, market segmentation and more.}\\
 \hline
-
+Clustering & 
+The idea of clustering is the same as with KNN, we try to group data into seperate clusters.\newline
+\textcolor{orange}{Group \textbf{n} datapoints into \textbf{\(k_c\)} number of clusters}\newline
+\\
 \hline
-
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\subsection{Clustering}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
-
+Steps For Clustering &
+\vspace{2mm}
+\begin{enumerate}
+\item \textcolor{purple}{Choose the amount of clusters that you want/need: \(k_c\) cluster amount}
+\item \textcolor{purple}{For each cluster (\(C_1, C_2, C_{k_c}\)), choose a random center, or calculate it }\newline
+\item \textcolor{purple}{Assignment:}\newline
+  \begin{enumerate}
+  \item \textcolor{orange}{Find the \textbf{squared Euclidean distance} (or other method) between the centers and all the data points}\newline
+    \, \newline
+    \large  \textcolor{purple}{\(\sum_{i=1}^{k_c} \sum_{j=1}^{N} d_{i,j} = (x_j - C_i)^2\)}\newline
+    \normalsize \, \newline
+    x is a datapoint of N datapoints , and C is a center of \(k_c\) Centers.\newline
+  \item \textcolor{orange}{Assign each data point to the cluster of the \textbf{nearest center -> Lowest Euclidean Distance}}
+  \end{enumerate} 
+\item \textcolor{purple}{Update: Each clustern now has a potential new center(mean). we do this by \textbf{calculating the new center!}}\newline
+  \, \newline
+  \large \textcolor{purple}{\( \text{new Center} = \text{new Center X + new Center Y}\newline
+    \, \newline
+  new Center = \dfrac{x_1, x_2 , \text{...}, x_{N}}{N} \dfrac{y_1, y_2 , \text{...}, y_{N}}{N} \)}\newline
+  \normalsize \, \newline
+\item \textcolor{purple}{If some stopping criteria is met, stop}\newline
+  \begin{itemize}
+  \item \textcolor{orange}{When centers don't change}
+  \item \textcolor{orange}{Datapoints remain in the same clusters, even though centers change -> takes too much time}
+  \item \textcolor{orange}{The distance of datapoints to their centers is greater than a threshold we set}
+  \item \textcolor{orange}{Fixed number of iterations have been reached -> similar to max recursion}
+  \vspace{-3mm}
+  \end{itemize} 
+  \textcolor{orange}{Or the center didn't change from the last step!}
+\item \textcolor{purple}{Else, go to step 3}
+\end{enumerate}
+Example Assignment:\newline
+\includegraphics[scale=0.3]{2022-12-08:12:42:29.png}\newline
+Example New Center Calculation:\newline
+\includegraphics[scale=0.3]{2022-12-08:12:42:35.png}\newline
+Notes: \newline
+\begin{itemize}
+\item \textcolor{purple}{Performance}\newline
+\textcolor{orange}{Performance is heavily dependent on the initial random seed, if the random seed takes datapoints close together, then you will have many center changes, therefore you will have lots of computation that could be avoided.}\newline
+You can solve this by either \textbf{manually chosing the initial clusters}, or you can \textbf{run the initial step multiple times, until a suitable on has been found.}
+\item \textcolor{purple}{Standardization}\newline
+  Just like the first time we started using graph plots, when \textbf{a variable to consider has a large range}, then it will \textbf{overshadow all other variables}, therefore,\newline
+  We need to \textbf{downscale this variable} in order to make the other variables also have weight in this graph.
+\item \textcolor{purple}{Sklearn has implementation of this, check documentation}
+\item \textcolor{purple}{Choose \(k_c\) wisely!}\newline
+  Choosing \(k_c\) as 0,1 or N is useless, the first is no cluster, so what are we even doing, the scond 1 cluster, also useless\newline
+  then N is each datapoint in it's own cluster, also usless... \textbf{Therefore base it on the data that you have and what you expect!}
+\vspace{-3mm}
+\end{itemize} 
+\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak 
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Problems with Clustering & 
+\textcolor{red}{Clustering is only mathematical, therefore it only calculates distance. This means that sometimes you will have clusters that mathematically are indeed correct, but if a human looks at them, they make no sense, as a certain datapoint is completely isolated with a gap between other points as shown here in this example:}\newline
+\includegraphics[scale=0.3]{2022-12-08:01:07:27.png}\newline
+Here a single red dot is in the blue cluster because it is mathematically closer to the red center, but to a human this clearly doesn't make sense!!
+\\
+\hline
+Inertia OR within-cluster sum-of-squares (WCSS) & 
+This is the solution to the previous problem, here we simply \textbf{take the sum of each distance of a datapoint to the center}.\newline
+\textcolor{orange}{This sum of distances should be as low as possible!}\newline
+\includegraphics[scale=0.3]{2022-12-08:01:14:08.png}\newline
+Here also an example with python:\newline
+\includegraphics[scale=0.3]{2022-12-08:01:13:58.png}\newline
+\textcolor{purple}{For the previous example where 1 datapoint was alone in the wrong cluster, we would get a significantly lower WCSS when we remove said problematic point, getting us a better solution!}\newline
+\includegraphics[scale=0.4]{2022-12-08:01:25:03.png}\newline
+The more clusters you have, the smaller the WCSS gets, once again makes it clear that you want to have a \textbf{sweet spot}, between cluster count and WCSS 
+\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Silhouette Score & 
+\textcolor{orange}{This is an alternative method to WCSS and clustering, which also takes into account the coherency of clusters.}\newline
+\, \newline
+\large \textcolor{purple}{\( \text{Silhouette Score} = \dfrac{b - a}{max(a,b)}\)}\newline
+\normalsize \, \newline
+Legend: \newline
+\begin{itemize}
+\item \textcolor{orange}{a = intra-cluster average (average distance between each point within a cluster)}
+\item \textcolor{orange}{b = inter-cluster average (average distance from a cluster to its nearest neighbour cluster)}
+\item \textcolor{orange}{Range of the silhouette score is from -1 to 1 and the value should be closer to 1 than -1!}
+\end{itemize} 
+\includegraphics[scale=0.3]{2022-12-08:01:21:30.png}\newline
+The mean of a and b are not shown in the tables but can be calculated as any mean can -> sum over amount of datapoints\newline
+\includegraphics[scale=0.4]{2022-12-08:01:32:23.png}\newline
+\textcolor{orange}{Here the lower amount of clusters the better, since the silhouette score needs to be closer to 1 than -1!}\newline
+This is in contrast to WCSS where more would be better!
+\\
 \hline
 \end{tabular}
 \end{table}
