@@ -725,6 +725,7 @@ Approach Virtual Addresses &
 \, \newline
 \includegraphics[scale=0.3]{2022-12-06-03:36:53.png}\includegraphics[scale=0.3]{2022-12-06-03:39:13.png}\newline
 \textcolor{orange}{The mapping of real addresses to virtual addresses are a \textbf{black box} to processes, it is basically impossible to "guess" a physical address and read/write to it!}\newline
+\textcolor{purple}{The processor can either receive \textbf{a page table, a page directory, or even a higher variant!}}\newline
 \textcolor{red}{This is the approach that is used on modern systems!}\\
 \hline
 Valid Access & 
@@ -815,6 +816,7 @@ Both process A and B have their own space A1 to Am and B1 to Bn, and each has th
 \\
 \hline
 Page Table & 
+\vspace{2mm}
 \begin{itemize}
 \item \textcolor{purple}{Translates the virtual addresses to real addresses for the MMU}
 \item \textcolor{purple}{Is configured by the OS}
@@ -849,6 +851,9 @@ Page Table &
 Page-Table Single-Level & 
 \begin{itemize}
 \item \textcolor{purple}{Array with an entry per page}\newline
+\item \textcolor{purple}{\textbf{Always allocates the entire table!}}\newline
+  This means that with 1024 possible Pages inside a table, each page is allocated!\newline
+  1024 * 4KB = 1M
 \item \textcolor{purple}{very fast Lookup!}\newline
   Index = Page Number
 \end{itemize} 
@@ -871,7 +876,9 @@ Just like with the cache we have \textbf{an offset, here this is the \emph{last 
 Then we split the rest in 2, note that the results are strange since it is hex.\newline
 \textbf{Status bits define is the table is used or not!}\newline
 \includegraphics[scale=0.4]{2022-12-06-04:41:59.png} 
-\, \newline 
+\, \newline
+\textcolor{red}{IMPORTANT: With \textbf{Page Directories or higher, it does not allocate memory if the page table is unused!}
+Also, \textbf{ALL entries, no matter if page table or page directory are 32bit!, even though many of these bits aren't used in the page table or directory!}}\newline
 \textcolor{orange}{Sometimes the second "table" is also called \textbf{Second-Level-Page-Table (SLPT)}}\\
 \hline
 \end{tabular} 
@@ -964,7 +971,9 @@ The reason for MMU &
 \includegraphics[scale=0.4]{2022-12-06-05:34:21.png} 
 \includegraphics[scale=0.4]{2022-12-06-05:34:27.png}\\
 \hline
-
+Example for translating an address from virtual to read with page directories and page tables &
+\vspace{2mm}
+\includegraphics[scale=0.3]{2022-12-09-03:30:07.png}\\
 \hline
 
 \hline
