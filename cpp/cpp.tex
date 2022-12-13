@@ -2356,6 +2356,218 @@ General &
 \vspace{-3mm}
 \end{itemize}\\ 
 \hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\section{Dynamic Polymorphism}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Multi Inheritance & 
+In c++, you can inherit from multiple classes, the order in which is inherited is based on the order that we specify the inheritance on.\newline
+\begin{lstlisting}
+class Base {};
+struct MixIn {};
+struct MultipleBases : public Base, private MixIn {};
+\end{lstlisting}
+\, \newline
+\textcolor{red}{Note that in order to use pointers and interface like usecases, you need to import public, as private makes EVERYTING private, while public will keep the classification of the parent!}\\
+\hline
+Initializer List of parents & 
+\vspace{2mm}
+\begin{lstlisting}
+class DerivedWithCtor : public Base1, public Base2 {
+  int mvar;
+public:
+  DerivedWithCtor(int i, int j) :
+  Base1{i}, Base2{}, mvar{j} {}
+};
+\end{lstlisting}
+\, \newline
+Parent Constructor can be called in the initializer list of a child class, note that \textbf{the order does not matter here, it only matters in the specification of inheritance at the top.}\\
+\hline
+Constructor Order & 
+\textcolor{red}{The first constructor that will be called is the child constructor, this means that its elements will also be created first!}\newline
+For example, because of the child being created first, this following program has undefined behavior, as \textbf{mvar is not initialized!}\newline
+\begin{lstlisting}
+struct Base1 {
+  explicit Base1(int value) {
+    std::cout << "Base1 with argument " << value << "\n";
+  }
+};
+struct Base2 {
+  Base2() { std::cout << "Base2\n"; }
+};
+class DerivedWithCtor : public Base1, public Base2 {
+  int mvar;
+public:
+  DerivedWithCtor(int i, int j)
+  : mvar{j}, Base2{}, Base1{mvar} {}
+};
+auto main() -> int {
+  DerivedWithCtor dwc{1, 2};
+}
+\end{lstlisting}
+\\
+\hline
+Behavior & 
+\vspace{2mm}
+\begin{itemize}
+\item \textcolor{orange}{Operator overloading and function overloading allow polymorphic behavior at compile time }
+\item \textcolor{orange}{Dynamic polymorphism needs obect references or smart pointers to work}\newline
+  \begin{itemize}
+  \item \textcolor{black}{Syntax overhead}
+  \item \textcolor{black}{The base interface must be a good abstraction}
+  \item \textcolor{black}{Copying carries the danger of \textbf{slicing -> only partial copy}}
+  \end{itemize} 
+\item \textcolor{orange}{Allow us more flexibility at run-time}\newline
+  choose concrete implementation at run-time -> can give us more performance
+\item \textcolor{orange}{If run-time flexibility is not needed, then templates are likely the better choice!}
+\vspace{-3mm}
+\end{itemize} 
+\\
+\hline
+Shadowing &
+When both the parent and the child implement the same function or variable, then the distinction on what will be called is the \textbf{Type}, this means that when a function take a parent class as parameter, then the parent function will be called, while the child function will be called should the function take the child as a parameter.\newline
+\begin{lstlisting}
+struct Base {
+  auto sayHello() const -> void {
+    std::cout << "Hi, I'm Base\n";
+  }
+};
+struct Derived : Base {
+  auto sayHello() const -> void {
+    std::cout << "Hi, I'm Derived\n";
+  } // redefinition of sayHello, will be used instead of parent function
+};
+\end{lstlisting}
+\\
+\hline
+Overriding Parent functions & 
+In order to avoid shadowing, we need to define the parent function as \textbf{virtual}, this makes it clear, that children might override this function!\newline
+\begin{lstlisting}
+struct Base {
+  virtual auto sayHello() const -> void {
+    std::cout << "Hi, I'm Base\n";
+  }
+};
+struct Derived : Base {
+  virtual auto sayHello() const override -> void {
+    std::cout << "Hi, I'm Derived\n";
+  } 
+};
+\end{lstlisting}
+\, \newline
+\textcolor{red}{note the override is optional, but just do it as it prevents shadowing!!!}\newline
+Also note that when using override, the signature of the functions need to be identical! In other words, unlike with overloading, parameters and return types need to be the same!\newline
+\textcolor{purple}{Also, if the \textbf{base class function is virtual, then EVERY iteration of this function, no matter how many inheritances, they are ALL implicitly virtual!!}}
+\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Reference vs Value with polymorphism & 
+\textcolor{red}{Important, the entire "we check what function will be called", can only be done dynamically, if the parameter is a reference!}\newline
+\begin{lstlisting}
+// value always uses the type
+auto greet(Base base) -> void {
+  //always calls Base::sayHello
+  base.sayHello();
+}
+// reference takes the resolved type -> here child class
+auto greet(Base const & base) -> void {
+  //calls sayHello() of the actual type
+  base.sayHello();
+}
+\end{lstlisting} 
+\, \newline
+\textcolor{purple}{Obviously, dynamic type resolution also happens with pointers, both smart and "dumb".}\\
+\hline
+Pure Virtual Functions & 
+Pure virtual functions are abstract functions that are essentially not implemented.\newline
+This also means that anyone who inherits from this class needs to implement this function!\newline 
+\begin{lstlisting}
+struct AbstractBase {
+  virtual void doitnow() = 0;
+};
+AbstractBase create() {
+  return AbstractBase{};
+}
+\end{lstlisting}
+\, \newline
+\textcolor{purple}{Note, as soon as you create even 1 pure virtual function, you can no longer instantiate the class that has such a pure virtual function!}\\
+\hline
+Virtual Destructor & 
+Because things like unique pointer are extremely optimized, you need to define destructors as virtual if you want the actual resolved type to call it's destructor, otherwise all the extra mememory of the child class is ignored!!\newline
+Small hint, the same would apply to new and delete.\newline
+\begin{lstlisting}
+struct Fuel {
+  virtual auto burn() -> void = 0;
+  virtual ~Fuel() { std::cout << "put into trash\n"; }
+};
+struct Plutonium : Fuel {
+  auto burn() -> void { std::cout << "split core\n"; }
+  ~Plutonium() { std::cout << "store many years\n"; }
+};
+auto main() -> int {
+  std::unique_ptr<Fuel> surprise = std::make_unique<Plutonium>();
+}
+\end{lstlisting} 
+\, \newline
+\textcolor{purple}{The shared pointer would store the underlying type and do it correctly either way, but as said just write it, this makes it work with everything!}\\
+\hline
+General advice & 
+\vspace{2mm}
+\begin{itemize}
+\item \textcolor{purple}{Use OOP sparingly, meaning that not everything should always inherit from everything!}
+\item \textcolor{purple}{Often inheritance concepts do not work for everything}\newline
+  all birds have the function fly, but what about penguins?
+\item \textcolor{purple}{Changes in Base class need to be reverberated in every childclass}
+\item \textcolor{purple}{Interaction between different hierarchies can be painful}
+\vspace{-3mm}
+\end{itemize} 
+\\
+\hline
+Problems with copy constructor & 
+We have already noted, that sometimes we copy not the entire object, but part of it, something like this happens when trying to copy references:\newline
+\includegraphics[scale=0.3]{2022-12-13-09:44:45.png}\newline
+The easiest solution here is to simply delete the copy constructor, this prevents shallow copying a reference into another.\newline
+\begin{lstlisting}
+struct Book {
+  //...
+  auto operator=(Book const & other) -> Book & = delete;
+  Book(Book const & other) = delete;
+};
+struct EBook : Book {
+  //...
+  EBook(EBook const & other) :
+  Book{pages},
+  currentPageNumber{other.currentPageNumber}{}
+  auto operator=(EBook const & other) -> EBook & {
+    pages = other.pages;
+    currentPageNumber = other.currentPageNumber;
+    return *this;
+  }
+};
+\end{lstlisting}
+\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Using in classes to prevent hiding & 
+You can prevent hiding with a \textbf{using} statement.\newline
+This means that you would use the original function of the base class alongside the new one.\newline
+\includegraphics[scale=0.4]{2022-12-13-12:08:35.png}\\
+\hline
+
+\hline
 
 \hline
 
