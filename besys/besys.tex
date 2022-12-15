@@ -725,6 +725,7 @@ Approach Virtual Addresses &
 \, \newline
 \includegraphics[scale=0.3]{2022-12-06-03:36:53.png}\includegraphics[scale=0.3]{2022-12-06-03:39:13.png}\newline
 \textcolor{orange}{The mapping of real addresses to virtual addresses are a \textbf{black box} to processes, it is basically impossible to "guess" a physical address and read/write to it!}\newline
+\textcolor{purple}{The processor can either receive \textbf{a page table, a page directory, or even a higher variant!}}\newline
 \textcolor{red}{This is the approach that is used on modern systems!}\\
 \hline
 Valid Access & 
@@ -815,6 +816,7 @@ Both process A and B have their own space A1 to Am and B1 to Bn, and each has th
 \\
 \hline
 Page Table & 
+\vspace{2mm}
 \begin{itemize}
 \item \textcolor{purple}{Translates the virtual addresses to real addresses for the MMU}
 \item \textcolor{purple}{Is configured by the OS}
@@ -840,6 +842,10 @@ Page Table &
 \end{itemize} 
 \\
 \hline
+Page Fault & 
+\textcolor{red}{A page fault happens when a process tries to access a page that doesn't exist in the virtual memory mapping, meaning that the mapping needs to be created.}
+\\
+\hline
 \end{tabular}
 \end{table}
 \pagebreak
@@ -849,6 +855,9 @@ Page Table &
 Page-Table Single-Level & 
 \begin{itemize}
 \item \textcolor{purple}{Array with an entry per page}\newline
+\item \textcolor{purple}{\textbf{Always allocates the entire table!}}\newline
+  This means that with 1024 possible Pages inside a table, each page is allocated!\newline
+  1024 * 4KB = 1M
 \item \textcolor{purple}{very fast Lookup!}\newline
   Index = Page Number
 \end{itemize} 
@@ -871,7 +880,9 @@ Just like with the cache we have \textbf{an offset, here this is the \emph{last 
 Then we split the rest in 2, note that the results are strange since it is hex.\newline
 \textbf{Status bits define is the table is used or not!}\newline
 \includegraphics[scale=0.4]{2022-12-06-04:41:59.png} 
-\, \newline 
+\, \newline
+\textcolor{red}{IMPORTANT: With \textbf{Page Directories or higher, it does not allocate memory if the page table is unused!}
+Also, \textbf{ALL entries, no matter if page table or page directory are 32bit!, even though many of these bits aren't used in the page table or directory!}}\newline
 \textcolor{orange}{Sometimes the second "table" is also called \textbf{Second-Level-Page-Table (SLPT)}}\\
 \hline
 \end{tabular} 
@@ -916,18 +927,21 @@ Here an example of i7 skylake\newline
 \includegraphics[scale=0.4]{2022-12-06-04:49:25.png}\\
 \hline
 Inverted Page Table & 
-
+\textcolor{red}{Not used in practice.}\newline
+Instead of pages we store the frames, since the page tables can be very big. So we use the frames instead, however, the search takes too long....\newline
 \includegraphics[scale=0.4]{2022-12-06-04:49:54.png}\\
-\hline
-Hashed Page Table & 
-
-\includegraphics[scale=0.4]{2022-12-06-04:50:00.png}\\
 \hline
 \end{tabular}
 \end{table}
 \pagebreak 
 \begin{table}[ht!]
 \begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Hashed Page Table & 
+Instead of using an index, we use a hash instead.\newline
+Benefit of this is that we need less space, but it might get collisions, forcing us to use linked lists, etc.\newline
+\textcolor{red}{Nobody does this however.}\newline
+\includegraphics[scale=0.4]{2022-12-06-04:50:00.png}\\
 \hline
 The reason for MMU & 
 \minipg{
@@ -963,6 +977,281 @@ The reason for MMU &
 \end{itemize}
 \includegraphics[scale=0.4]{2022-12-06-05:34:21.png} 
 \includegraphics[scale=0.4]{2022-12-06-05:34:27.png}\\
+\hline
+Example for translating an address from virtual to read with page directories and page tables &
+\vspace{2mm}
+\includegraphics[scale=0.3]{2022-12-09-03:30:07.png}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Accessed and Dirty Bit &
+\textcolor{purple}{This case considers that the page is present -> status bit is 1}\newline
+\textcolor{red}{On each \textbf{access the MMU sets the Access-Bit -> A-Bit}, and on each \textbf{write, it writes the Dirty-Bit -> D-Bit}}\newline
+\includegraphics[scale=0.4]{2022-12-13-03:22:16.png}
+\, \newline
+\textcolor{orange}{\textbf{Only the OS can reset either of those 2 bits!}} 
+Note that, the MMU doesn't use these bits and these bits are the 12 offset bits!\\
+\hline
+Status bit 0 & 
+When the page is not in the virtual memory, the MMU will throw an \textbf{interrupt}, the OS can then check and decide what will happen -> is the access valid?.\newline
+\textcolor{red}{Should the access not be valid, then a \textbf{segmentation fault will be thrown!}\newline
+Should the access be valid, then it will try to load the page into memory, should no space be available, then it will try to throw a currently unused one out.}\newline
+The OS will then tell the MMU to recheck the virtual memory if the access was valid, meaning the process will finally get the page that it wanted.\newline
+\includegraphics[scale=0.4]{2022-12-13-03:26:16.png}\\
+\hline
+Threshing & 
+This is the case when the CPU will be forced to load pages from storage and store old ones repeatedly due to lack of free memory.\newline
+\textbf{Should this happen, then the system will no longer be able to do actual work, as it is busy loading pages instead.}\newline
+\includegraphics[scale=0.4]{2022-12-13-03:31:53.png}
+\, \newline
+The general solutions to this are: \newline
+\begin{itemize}
+\item \textcolor{black}{More RAM, kekw get rich fuckboi}
+\item \textcolor{black}{Restriction on process count}
+\item \textcolor{black}{Better paging strategies}
+\vspace{-3mm}
+\end{itemize} \\
+\hline
+Paging Strategies & 
+We differentiate 3 parts of paging strategies, namely:\newline
+\begin{itemize}
+\item \textcolor{purple}{Fetching Policies}\newline
+  load page from storage, when and how many at once?
+\item \textcolor{purple}{Cleaning Policies}\newline
+  when to store page on storage
+\item \textcolor{purple}{Page Replacement Policies}\newline
+  replace old page with new one in memory, which ones?
+\vspace{-3mm}
+\end{itemize} 
+\\
+\hline
+Fetching Policies & 
+\vspace{2mm}
+\begin{itemize}
+\item \textcolor{purple}{Demand Paging}\newline
+  \begin{itemize}
+  \item \textcolor{black}{Load on Demand}\newline
+    \textcolor{orange}{Requires an interrupt each time}
+  \item \textcolor{green}{Benefit: Minimal Effort}
+  \item \textcolor{red}{Negative: Long Loading time}\newline
+    each Page-Fault causes the process to wait
+  \end{itemize} 
+\item \textcolor{purple}{Prepaging}
+  \begin{itemize}
+  \item \textcolor{black}{Pages are loaded in early}
+  \item \textcolor{black}{System tries to guess which pages are needed}\newline
+    Via system analyses and tracking of processes
+  \item \textcolor{black}{Not used in actual implementations}
+  \end{itemize} 
+\item \textcolor{purple}{Demand Paging with Prepaging}\newline
+  \begin{itemize}
+  \item \textcolor{black}{Like Demand Paging, but neighbours are loaded as well}\newline
+    based on locality principle, loaded in clusters -> 4-8 Pages
+  \item \textcolor{green}{Benefit: less Page-Faults, Block transfer -> faster when storing to storage}
+  \item \textcolor{red}{Negative: Potentially unused pages are loaded}
+  \item \textcolor{black}{Most used in real implementations}
+  \end{itemize} 
+\item \textcolor{purple}{Increasing based on Heuristics}\newline
+\vspace{-3mm}
+\end{itemize} 
+\, \newline
+An example for \textbf{Demand Paging with Prepaging}\newline
+\includegraphics[scale=0.4]{2022-12-13-03:41:54.png}\\
+\hline
+\end{tabular}
+\end{table}
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Cleaning Policies &
+\vspace{2mm}
+\begin{itemize}
+\item \textcolor{purple}{Demand Cleaning}\newline
+  \begin{itemize}
+  \item \textcolor{black}{Cleaning on Demand}\newline
+  Page will be stored on storage if it will be used again
+  \item \textcolor{green}{Benefit: Minimal Effort}\newline
+    Page only stored when necessary
+  \item \textcolor{red}{Negative: Longer Loading Time}\newline
+  Process needs to wait for old page to be written
+  \end{itemize} 
+\item \textcolor{purple}{PreCleaning or Page Buffering}\newline
+  \begin{itemize}
+  \item \textcolor{black}{Write on Guess}\newline
+    Just like PrePaging, the system will write based on its information
+  \item \textcolor{green}{Benefit: Reduced Loading Time}\newline
+    Old page doesn't need to be written (the one to be \textbf{updated})\newline
+  \item \textcolor{red}{Negative: More Effort}\newline
+    Pages can be changed again after write...
+  \end{itemize} 
+\vspace{-3mm}
+\end{itemize}
+\, \newline
+An example with \textbf{Page Buffering, a variant of Page Cleaning}\newline
+\includegraphics[scale=0.4]{2022-12-13-03:46:39.png}\newline 
+The OS handles 2 lists, one modified and one unmodified, OS puts pages to either list in intervals.\newline
+When Page is in modified list, it has dirty bit written. OS then writes this page to storage, removes the dirty bit and puts the page in the unmodified list.\\
+\hline
+Replacement Policies & 
+\textcolor{red}{This is used when the memory space is not big enough and an old page needs to be replaced! \textbf{No thrashing yet, this would be continuous replacement}}.\newline
+\begin{itemize}
+\item \textcolor{purple}{FIFO}
+\item \textcolor{purple}{Second Chance}
+\item \textcolor{purple}{Clock}
+\item \textcolor{purple}{Least Recently Used}
+\item \textcolor{purple}{Least Frequently Used}
+\item \textcolor{purple}{Working Set}
+\item \textcolor{purple}{Working Set with Clock}
+\vspace{-3mm}
+\end{itemize}
+\, \newline
+In general this is \textbf{a massive performance factor!!} And it is an active field of research.\\
+\hline
+Basics for Replacement Strategies &
+\vspace{2mm}
+\begin{itemize}
+\item \textcolor{purple}{MMU sets \textbf{Status Bits}, OS resets them}
+\item \textcolor{purple}{Dirty Bit}\newline
+\begin{itemize}
+  \item \textcolor{black}{Meaning: Page on memory is different to page on storage}
+\item \textcolor{black}{MMU sets dirty bit on each write Operation}
+\item \textcolor{black}{OS should only reset it, when page is actually written to storage}
+\end{itemize}
+\item \textcolor{purple}{Access Bit}\newline
+\begin{itemize}
+\item \textcolor{black}{Meaning: Page has been used recently in the process}
+\item \textcolor{black}{MMU sets access bit on each read or write Operation}
+\item \textcolor{black}{OS should reset this based on an interval}
+\end{itemize} 
+\vspace{-3mm}
+\end{itemize}
+\, \newline
+List of Dirty and Access Bit combinations:\newline
+\begin{itemize}
+\item \textcolor{black}{A=1, D=0} -> recently read
+\item \textcolor{black}{A=1, D=1} -> recently written
+\item \textcolor{black}{A=0, D=1} -> written a while ago
+\item \textcolor{black}{A=0, D=0} -> there was no access for a while
+\vspace{-3mm}
+\end{itemize}
+\, \newline
+\textcolor{OliveGreen}{The OS prefers to replace "clean" Pages with both D=0 and A=0 as it is not used.}\\
+\hline
+Best (not possible) Variant & 
+The best variant is the one that will replace the page that will be accessed last. Problem, this is basically not possible to implement as we do not know the future, we can only guess it.\newline 
+\textcolor{red}{This is simply used as a best case, \textbf{since there is no other algorithm that will be faster than this!}}\\
+\hline
+FIFO & 
+The idea is simply, just replace the oldest page.\newline
+\begin{itemize}
+\item \textcolor{green}{No status bits necessary}
+\item \textcolor{green}{Easy to implement}
+\item \textcolor{black}{Linked List style}
+\item \textcolor{red}{Old pages will be deleted and might get reloaded immediately as a process needs it}
+\item \textcolor{red}{\textbf{Beladys Anomaly} -> bigger Memory can lead to more page faults}
+\end{itemize} 
+\includegraphics[scale=0.4]{2022-12-13-04:18:45.png}
+\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Second Chance & 
+\textbf{Extension of FIFO, it checks A-Bit of oldest page.}\newline
+If the A-Bit is 0, the page is \textbf{old and is not used} -> deleted\newline
+If the A-Bit is 1, the page is \textbf{old but used} -> page is kept and pushed to end of list, checks next first page instead.\newline
+\includegraphics[scale=0.4]{2022-12-13-04:23:54.png}\\
+\hline
+Clock & 
+\textbf{Efficient implementation of Second Chance.}\newline
+\textcolor{orange}{Linked List in Clock graph, Elements aren't moved, only pointer is moved}\newline
+\includegraphics[scale=0.4]{2022-12-13-04:25:15.png}\\
+\hline
+Least Recently Used & 
+\begin{itemize}
+\item \textcolor{purple}{Replace the page not used for the longest time}\newline
+  \begin{itemize}
+  \item \textcolor{black}{Time is noted on each MMU access}
+  \item \textcolor{black}{Page with oldest time is replaced}
+  \end{itemize}  
+\item \textcolor{purple}{Requires a lot of effort in Hardware}\newline
+  \begin{itemize}
+  \item \textcolor{black}{Page entries are bigger -> page tables are bigger}
+  \item \textcolor{black}{Time on access needs to be noted}
+  \end{itemize}  
+\item \textcolor{red}{Most MMUs can't use this variant}
+\vspace{-3mm}
+\end{itemize} 
+\includegraphics[scale=0.4]{2022-12-13-04:25:42.png}\\
+\hline
+Interrupt Idea for \textbf{certain variants} & 
+With the last variant we had the problem that not all MMUs can generate a timestamp, but guess what definitely can generate one, the OS.\newline
+The idea is that the OS will create a timestamp each time there is an access to a page.\newline
+\textcolor{OliveGreen}{Benefit: No fancy MMU needed, interval can be defined by the OS dynamically}\newline
+\textcolor{red}{Negative: Big interval is inaccurate, small interval creates more overhead.\newline
+Timestamp only shows that it was accessed within this timeframe, not how many times or when exactly}\\
+\hline
+Not Frequently Used & 
+This uses the \textbf{Timer Interrupt} strategy with a counter to also check \textbf{how many times a page was used}.\newline
+The downside is that you need an \textbf{additional counter table which is created for each page table.}\newline
+If page is not used within an interval counter is decremented, if it is used incremented per access.\newline
+\includegraphics[scale=0.4]{2022-12-13-04:28:40.png}\newline 
+\textcolor{red}{Problem: long pages that have not been used recently can still linger for a long time if they have a huge counter... This means it will take a long time for these pages to be cleaned up.}
+\\
+\hline
+Not Frequently Used with Aging & 
+As the name says, this solves the issue with aging, as the counter \textbf{shifted to the right each interval.}\newline
+\textbf{Note, the counter is not a real counter anymore, only the Access bit, but it does offer a number, namely used within timeframe x at least once}\newline
+\textcolor{red}{(Counter >> 1) + (A << n)} A is the access bit, n is the interval -> 0 to \(\infty\)\newline
+\includegraphics[scale=0.4]{2022-12-13-04:37:48.png}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Working Set & 
+This also uses a timer, but \textbf{instead of using a timer interrupt, it uses the page-fault interrupt instead}.\newline
+If the A-bit of a page at this time is 1, then set A to 0 and timestamp to now.\newline
+If the A-bit of a page at this time is 0:\newline
+\textcolor{orange}{T is the interval chosen, one timestamp per page Table}\newline
+\begin{itemize}
+\item \textcolor{black}{if time now - last timestamp t < T} \textcolor{red}{Page is in the working set and stays}
+\item \textcolor{black}{if time now - last timestamp t > T}\textcolor{red}{Page is not in the working set and can be cleaned}
+\item \textcolor{black}{Should no page be found to clean, oldest page is removed (clean page prefered)}
+\end{itemize}
+\, \newline
+\includegraphics[scale=0.4]{2022-12-13-04:47:06.png}\\
+\hline
+WSClock & 
+This is the same as working set, only that this \textbf{has a proper clock, and therefore doesn't need to save timestamps for each timetable, it can be checked at any time. -> iterate over clock at fault-interrupt}\newline
+\includegraphics[scale=0.4]{2022-12-13-04:47:27.png}\\
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
+\hline
+
 \hline
 
 \hline
