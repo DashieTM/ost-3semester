@@ -1778,17 +1778,15 @@ fn largest<T>(list: &[T]) -> &T {
   // then we return a reference of T
 }
 
-// struct
 struct Point<T> {
     x: T,
     y: T,
-}
+} // struct
 
-// enum 
 enum Option<T> {
     Some(T),
     None,
-}
+} // enum 
 \end{lstlisting}
 \, \newline
 \textcolor{purple}{Similar to c++, you need to specify the name of the type that you will use. This makes sure rust understands that this is meant as a type, not as a variable or function name.}\\
@@ -1806,7 +1804,6 @@ fn largest<T: std::cmp::PartialOrd>(list: &[T]) -> &T {
             largest = item;
         }
     }
-
     largest
 }
 \end{lstlisting}\\
@@ -3028,7 +3025,6 @@ Basic Information:\newline
   See RefCell<T> for workarounds.
 \item \textcolor{purple}{Single ownership of data}
 \item \textcolor{purple}{Box<T> has \textbf{NO performance overhead!}}
-\vspace{-3mm}
 \end{itemize} 
 Use Cases: \newline
 \begin{itemize}
@@ -4390,6 +4386,12 @@ Note that this is only an alias, you can mix and match these types as they are t
 type Thunk = Box<dyn Fn() + Send + 'static>;
 \end{lstlisting}\\
 \hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
 The ! operator & 
 This is essentially a fancy way of saying void.\newline
 It can be used as a return type, which specifies that it returns nothing.\newline
@@ -4401,12 +4403,6 @@ let guess: u32 = match guess.trim().parse() {
 };
 \end{lstlisting}
 \textcolor{OliveGreen}{The second match wouldn't work if we put a string or something similar there, as it expects a u32, but the type \textbf{!} can match to it as it returns nothing.}\\
-\hline
-\end{tabular}
-\end{table}
-\pagebreak
-\begin{table}[ht!]
-\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
 Dynamically Sized Types (DST)& 
 \textbf{These are types that are allocated on the heap and are allocated at runtime.}\newline
@@ -4610,9 +4606,6 @@ let sql = sql!(SELECT * FROM posts WHERE id=1);
 \\
 \hline
 \end{tabular}
-\end{table}
-\pagebreak
-\begin{table}[ht!]
 \section{Debugging}
 \begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
@@ -4624,28 +4617,6 @@ let x = dbg!(34 * 32 - 23);
 // It can also print structs and more
 // it used the stderr output for this
 \end{lstlisting}\\
-\hline
-\end{tabular}
-\end{table}
-\pagebreak 
-\begin{table}[ht!]
-\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
-\hline
-
-\hline
-
-\hline
-
-\hline
-
-\hline
-
-\hline
-
-\hline
-
-\hline
-
 \hline
 \end{tabular}
 \, \newline
