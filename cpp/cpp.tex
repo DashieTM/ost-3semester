@@ -2566,27 +2566,144 @@ You can prevent hiding with a \textbf{using} statement.\newline
 This means that you would use the original function of the base class alongside the new one.\newline
 \includegraphics[scale=0.4]{2022-12-13-12:08:35.png}\\
 \hline
-
+\end{tabular}
+\section{Initialization}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
-
+Types of Initialization & 
+\vspace{2mm}
+\begin{itemize}
+\item \textcolor{purple}{Default Initialization}
+\item \textcolor{purple}{Value Initialization}
+\item \textcolor{purple}{Direct Initialization}
+\item \textcolor{purple}{Copy Initialization}
+\item \textcolor{purple}{List Initialization}
+\item \textcolor{purple}{Aggregate Initialization}
+\vspace{-3mm}
+\end{itemize} 
+\\
 \hline
-
+Default Initialization & 
+This is the simplest form of initialization, but doesn't work for a lot of cases, such as \textbf{references}, there is also the danger of unwanted behavior, for example when using const values. Here the value needs to be valid in order for the initializtion to work, but not all values are valid, eg. null.\newline 
+Here an example:\newline 
+\begin{lstlisting}
+int global_variable; // implicitly static
+void di_function() {
+    static long local_static;
+    long local_variable;
+}
+struct di_class {
+    di_class() = default;
+    char member_variable; // not in ctor init list
+};
+\end{lstlisting}
+\, \newline
+\textbf{Note that static variables are initialized with the 0 value, and then their types default constructor is called}, this leads to issues when we don't have a default contructor, meaning that we can only explicitly initialize this type.\newline 
+\textbf{2. Note, when using local variables, only the class types are default initialized, the other variables are not initialized at all! Usually the compiler/lsp should be screaming at you over this.}
+\\
 \hline
-
+Value Initialization & 
+This is the initialization of something using either the '()' braces or the '\{\}' braces.\newline
+\textcolor{red}{Important, just use the '\{\}' braces not the '()' as the second one is a function in certain cases}
+\begin{lstlisting}
+#include <string>
+#include <vector>
+auto vi_function() -> void {
+  int number{};
+  std::vector<int> data{};
+  std::string actually_a_function(); // UNEXPECTED BEHAVIOR
+  // this is not a string, this is a function declaration! returns a string and takes no paremeters!
+}
+\end{lstlisting}
+\\
 \hline
-
+Direct Initialization & 
+This is the non-empty version of the '\{\}' initialization.\newline
+\begin{lstlisting}
+auto diri_function() -> void {
+  int number{32};
+}
+\end{lstlisting}
+\\
 \hline
-
+Most Vexing Parse & 
+\textcolor{purple}{The compiler will always prefer function declaration over initialization, this is also the reason you should not use regular braces to initialize anything!}\newline
+\begin{lstlisting}
+word vexing (std::string());
+// this is actually a function declaration, as the parameter can be interpreted as a function pointer with no name and a return type of string.
+\end{lstlisting}
+\\
 \hline
-
+Copy Initialization & 
+Simply copy the value of one variable to the other.\newline
+\begin{lstlisting}
+int a = 5;
+int b = a; // copy value of a to b
+\end{lstlisting} 
+\, \newline
+\textcolor{orange}{Note that if the value on the right hand is temporary, then "in place construction" will be used.}\newline
+And should the left and right hand type not be the same, \textbf{a suitable conversion method will be searched}, should none be found then it can't be initialized this way.
+\\
 \hline
-
+List Initialization & 
+\begin{itemize}
+  \item \textcolor{purple}{Uses nonempty \{\}}
+    \begin{itemize}
+      \item \textcolor{black}{Direct List initialization: std::string direct{"asd"};}
+      \item \textcolor{black}{Copy List initialization: std::string copy = {"asd2"};}
+    \end{itemize} 
+\item \textcolor{purple}{Constructors are selected in two phases}
+  \begin{itemize}
+  \item \textcolor{black}{If there is a suitable contructor taking std::initializer\_list, it is selected}
+  \item \textcolor{black}{Otherwise, a suitable contructor is searched}
+  \end{itemize} 
+\vspace{-3mm}
+\end{itemize} 
+\\
 \hline
-
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\section{Aggregates}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
-
-\hline
-
+General Info &
+\begin{itemize}
+\item \textcolor{purple}{Consists of simple class types}\newline
+  \begin{itemize}
+  \item \textcolor{black}{Can have other types as public base classes}
+  \item \textcolor{black}{Can have member varialbes and functions}
+  \item \textcolor{black}{Must not have virtual member functions}
+  \item \textcolor{black}{Must not have user-declared or inherited constructors}
+  \item Must not have protected or private direct non-static data members
+  \item No invariant that must be established
+  \item Example DTOs -> Data Transfer Objects
+  \end{itemize} 
+\item \textcolor{purple}{Arrays are Aggregates}
+\vspace{-3mm}
+\end{itemize}
+\, \newline
+The use of this is to get auto constructors!! \newline
+\begin{lstlisting}
+struct person {
+  std::string name;
+  int age{42};
+  auto operator<(person const & other) const -> bool {
+    return age < other.age;
+  }
+  auto write(std::ostream & out) const -> void {
+    out << name << ": " << age << '\n';
+  }
+};
+auto main() -> int {
+  person rudolf{"Rudolf", 32};
+  rudolf.write(std::cout);
+}
+\end{lstlisting}
+\, \newline
+\textcolor{purple}{When members have initializer defined, it is used unless it is overwritten by automatic constructor, otherwise they are initialized from empty lists}\newline
+\textcolor{red}{If more elements than members are given to the constructor, the program is "ill-formed"}\\
 \hline
 \end{tabular}
 \end{table}

@@ -1,0 +1,110 @@
+\documentclass[main.tex,fontsize=8pt,paper=a4,paper=portrait,DIV=calc,]{scrartcl}
+\input{../ost-summary-template.tex}
+
+\begin{document}
+\begin{table}[h!]
+\section{Nix}
+\begin{tabular}{|m{0.1\linewidth}|m{0.855\linewidth}|}
+\hline
+NixPkg & 
+This is just another repository just like the arch repo.\newline
+\textcolor{red}{The idea of nix is that if you were able to build it today, you should be able to build it 20 years from now, on any computer.}\newline
+\begin{itemize}
+\item \textcolor{purple}{Reproducible}
+\item \textcolor{purple}{Cross Platform}
+\item \textcolor{purple}{Reliability}
+\vspace{-3mm}
+\end{itemize} 
+\\
+\hline
+NixOS & 
+Linux distro based on the nix repository.\newline
+Only stores packages in the nix store directory, while config files in the /etc directory are handled with syslinks to the nix directory.\newline
+\\
+\hline
+Flakes & 
+Experimental feature that gives you a developer shell as well as a build file.\newline
+\textcolor{red}{The flake.nix file needs to be in the root directory of the project.}\newline
+\begin{enumerate}
+\item \textcolor{purple}{Download Nix}
+\item \textcolor{purple}{mkdir -p ~/.config/nix
+echo “experimental-features = nix-command flakes” > ~/.config/nix/nix.conf}
+\item \textcolor{purple}{nix run nixpkgs\#hello}
+\vspace{-3mm}
+\end{enumerate} 
+\\
+\hline
+Old default.nix and shell.nix &
+Before the way to do nix packages was with default.nix for building and shell.nix for developer shell.\newline
+Note that just like flake.nix, these files need to be in the root directory of  the project.\\
+\hline
+An example Flake & 
+\vspace{2mm}
+\begin{lstlisting}
+{
+  inputs.nixpkgs.url = github:nixos/nixpkgs;
+  outputs = inputs:
+    let system = "x86_64-linux";
+      pkgs = inputs.nixpkgs.legacyPackages.${system};
+    in {
+      devShells.${system}.default = pkgs.mkShell {
+        nativeBuildInputs = [ pkgs.fortune pkgs.cowsay ];
+      };
+    };
+}
+\end{lstlisting}
+\, \newline
+\textcolor{purple}{Cross-Platform Flake}
+\begin{lstlisting}
+{
+  inputs.nixpkgs.url = github:nixos/nixpkgs;
+  inputs.flake-utils.url = github:numtide/flake-utils;
+  outputs = inputs: inputs.flake-utils.lib.eachDefaultSystem (system:
+    let pkgs = inputs.nixpkgs.legacyPackages.${system};
+    in {
+      devShells.default = pkgs.mkShell {...};
+    }
+  );
+}
+\end{lstlisting}
+\\
+\hline
+Creating a C project & 
+\vspace{2mm}
+\begin{lstlisting}
+{
+  inputs.nixpkgs.url = github:nixos/nixpkgs;
+  inputs.flake-utils.url = github:numtide/flake-utils;
+  outputs = inputs: inputs.flake-utils.lib.eachDefaultSystem (system:
+    let pkgs = inputs.nixpkgs.legacyPackages.${system};
+    in {
+      devShells.default = pkgs.mkShell {
+        buildInputs = [ pkgs.libtensorflow ];
+      };
+      packages.default = pkgs.stdenv.mkDerivation {
+        pname = "hello";
+        version = "0.0.1";
+        src = ./.;
+        makeFlags = [ "BINDIR=$(out)/bin" ];
+        buildInputs = [ pkgs.libtensorflow ]; // this allows you to install a bunch of 
+        dependencies on the fly, making sure every system can build this project,
+        no more abando outdated fun!
+      };
+    }
+  );
+}
+\end{lstlisting}
+\, \newline
+Please note that you still need the makefile, it's at the end still C, nix can'tdo magic.
+\\
+\hline
+Nix vs Docker & 
+In comparison to docker, nix \textbf{promises reproducability}, as it stays at the version you are at, unlike docker which might change versions the next second you run it again!\newline
+Also, \textbf{docker follows the multiple desks paradigm}, which means that you have multiple spaces to work in which each have their own dependencies and tools.\newline
+Nix however, \textbf{follows the one desk paradigm}, instead of creating multiple desks, it has blueprints that will be opened whenever you want to do something, meaning that your desk is always clean, switching is fast and easy and you can always rely on it.\newline
+\textcolor{purple}{In fact, you can also create a docker image out of nix.... lel}
+\\
+\hline
+\end{tabular}
+\end{table}
+\end{document}

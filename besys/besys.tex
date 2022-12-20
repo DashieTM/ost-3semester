@@ -993,7 +993,7 @@ Accessed and Dirty Bit &
 \textcolor{red}{On each \textbf{access the MMU sets the Access-Bit -> A-Bit}, and on each \textbf{write, it writes the Dirty-Bit -> D-Bit}}\newline
 \includegraphics[scale=0.4]{2022-12-13-03:22:16.png}
 \, \newline
-\textcolor{orange}{\textbf{Only the OS can reset either of those 2 bits!}} 
+\textcolor{orange}{\textbf{Only the OS can reset either of those 2 bits! It will do so \textbf{periodically!!}}}\newline 
 Note that, the MMU doesn't use these bits and these bits are the 12 offset bits!\\
 \hline
 Status bit 0 & 
@@ -1102,7 +1102,7 @@ Replacement Policies &
 \item \textcolor{purple}{FIFO}
 \item \textcolor{purple}{Second Chance}
 \item \textcolor{purple}{Clock}
-\item \textcolor{purple}{Least Recently Used}
+\item \textcolor{purple}{Least Recently Used (LRU)}
 \item \textcolor{purple}{Least Frequently Used}
 \item \textcolor{purple}{Working Set}
 \item \textcolor{purple}{Working Set with Clock}
@@ -1166,7 +1166,7 @@ The idea is simply, just replace the oldest page.\newline
 Second Chance & 
 \textbf{Extension of FIFO, it checks A-Bit of oldest page.}\newline
 If the A-Bit is 0, the page is \textbf{old and is not used} -> deleted\newline
-If the A-Bit is 1, the page is \textbf{old but used} -> page is kept and pushed to end of list, checks next first page instead.\newline
+If the A-Bit is 1, the page is \textbf{old but used} -> page is kept and pushed to end of list \textbf{and the A bit is set to 0!!}, checks next first page instead.\newline
 \includegraphics[scale=0.4]{2022-12-13-04:23:54.png}\\
 \hline
 Clock & 
@@ -1174,7 +1174,7 @@ Clock &
 \textcolor{orange}{Linked List in Clock graph, Elements aren't moved, only pointer is moved}\newline
 \includegraphics[scale=0.4]{2022-12-13-04:25:15.png}\\
 \hline
-Least Recently Used & 
+Least Recently Used (LRU) & 
 \begin{itemize}
 \item \textcolor{purple}{Replace the page not used for the longest time}\newline
   \begin{itemize}
@@ -1198,18 +1198,18 @@ The idea is that the OS will create a timestamp each time there is an access to 
 \textcolor{red}{Negative: Big interval is inaccurate, small interval creates more overhead.\newline
 Timestamp only shows that it was accessed within this timeframe, not how many times or when exactly}\\
 \hline
-Not Frequently Used & 
-This uses the \textbf{Timer Interrupt} strategy with a counter to also check \textbf{how many times a page was used}.\newline
+Not Frequently Used (NFU) & 
+This uses the \textbf{Timer Interrupt} strategy with a counter to also check if the page was used in an interval.\newline
 The downside is that you need an \textbf{additional counter table which is created for each page table.}\newline
-If page is not used within an interval counter is decremented, if it is used incremented per access.\newline
+If page is not used within an interval counter is left as is, if it is used incremented per access.\newline
+\textcolor{red}{Likely, this is only a theoretical approach, as you can't decrement the counter, meaning that a faulty program might have a counter in the millions, which can easily crash your pc.....}\newline
 \includegraphics[scale=0.4]{2022-12-13-04:28:40.png}\newline 
-\textcolor{red}{Problem: long pages that have not been used recently can still linger for a long time if they have a huge counter... This means it will take a long time for these pages to be cleaned up.}
-\\
+\textcolor{red}{Problem: old pages that have not been used recently can still linger for a long time if they have a huge counter... This means it will take a long time for these pages to be cleaned up, hence the issue with faulty programs that intentionally or unintentionally push this counter up.}\\
 \hline
 Not Frequently Used with Aging & 
 As the name says, this solves the issue with aging, as the counter \textbf{shifted to the right each interval.}\newline
 \textbf{Note, the counter is not a real counter anymore, only the Access bit, but it does offer a number, namely used within timeframe x at least once}\newline
-\textcolor{red}{(Counter >> 1) + (A << n)} A is the access bit, n is the interval -> 0 to \(\infty\)\newline
+\textcolor{red}{(Counter >> 1) + (A << n)} A is the access bit, n is the amount of bits the counter has\newline
 \includegraphics[scale=0.4]{2022-12-13-04:37:48.png}\\
 \hline
 \end{tabular}
@@ -1226,7 +1226,7 @@ If the A-bit of a page at this time is 0:\newline
 \begin{itemize}
 \item \textcolor{black}{if time now - last timestamp t < T} \textcolor{red}{Page is in the working set and stays}
 \item \textcolor{black}{if time now - last timestamp t > T}\textcolor{red}{Page is not in the working set and can be cleaned}
-\item \textcolor{black}{Should no page be found to clean, oldest page is removed (clean page prefered)}
+\item \textcolor{black}{Should no page be found to clean, or more than one is found, choose another algorithm to refine the set, \textbf{most of the time random is actually the best choice here!}}
 \end{itemize}
 \, \newline
 \includegraphics[scale=0.4]{2022-12-13-04:47:06.png}\\
