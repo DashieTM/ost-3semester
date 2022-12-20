@@ -891,5 +891,199 @@ This is in contrast to WCSS where more would be better!
 \\
 \hline
 \end{tabular}
+\section{Ensemble Learning}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Wisdom of Crowds & 
+The idea with ensemble learning is to try to use as many models as possible and then aggregate the results, this can often lead to an answer that is just as good as one from an expert, or here the best model.\newline
+The benefit of course is that you do not have to spend any time to choose models as you simply choose all of them, with very likely an answer that will work as well!\newline
+\textcolor{purple}{In certain cases, the ensemble method will provide even better results as the "specialized model for this problem."}\\
+\hline
+When Ensemble is strong & 
+\vspace{2mm}
+\begin{itemize}
+\item \textcolor{purple}{Sufficient number of "weak learners" -> refers to simple models in ensemble learning}
+\item \textcolor{purple}{Models make different types of errors}\newline
+  Ensemble can't clean errors if the every model has the same error
+\item \textcolor{purple}{Models are not trained on the same data}\newline
+  Otherwise you risk getting the same error with different models
+\item \textcolor{purple}{Models used are better than choosing random values}
+\vspace{-3mm}
+\end{itemize} 
+\\
+\hline
+How to choose models & 
+\begin{itemize}
+\item \textcolor{purple}{Different Algorithms}\newline
+  \begin{itemize}
+  \item \textcolor{black}{KNN}
+  \item \textcolor{black}{Logistic Regression}
+  \end{itemize}  
+\item \textcolor{purple}{Different Hyperparameters}\newline
+  \begin{itemize}
+  \item \textcolor{black}{KNN with various k parameters}
+  \item \textcolor{black}{Regressin with regularization parameters}
+  \end{itemize}  
+\item \textcolor{purple}{Different training data}\newline
+\vspace{-3mm}
+\end{itemize} 
+\\
+\hline
+Ways of Ensemble & 
+\begin{itemize}
+\item \textcolor{OliveGreen}{Voting}\newline
+  \begin{itemize}
+  \item \textcolor{black}{Hard Voting}
+  \item \textcolor{black}{Hard Voting with Weights}
+  \item \textcolor{black}{Soft Voting}
+  \item \textcolor{black}{Soft Voting with Weigths}
+  \end{itemize} 
+\item \textcolor{OliveGreen}{Bagging(pasting)}\newline
+  Train classifiers on different data
+\item \textcolor{OliveGreen}{Boosting}\newline
+  Train models such that model n improves on the accuracy of model n-1 -> last model
+\item \textcolor{OliveGreen}{Stacking}
+\item \textcolor{OliveGreen}{Blending}
+\vspace{-3mm}
+\end{itemize} 
+\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\section{}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Hard Voting & 
+\textcolor{red}{Majority decides}\newline
+3 out of 4 models predict that the y value will be true, therefore the ensemble will also predict y as true for this data.
+\\
+\hline
+Hard Voting with Weights & 
+With weights, we can say that one model is preferred over another, therefore we can give it a bigger weight, essentially meaning that they have more votes, or more say in the vote.\newline
+We do this with a set of parameters, one parameter for every model.\newline
+\includegraphics[scale=0.3]{2022-12-15:11:07:38.png}\includegraphics[scale=0.3]{2022-12-15:11:07:44.png}\newline
+As you can see 2 out of 3 models said y will be spam, but the third model has more weight than both of those combined, meaning that the data will be predicted as Ham.\\
+\hline
+Soft Voting & 
+\textbf{Here we take all predictions for value y in one model}, not just the final one.\newline
+In other words, a model might predict y to be 80\% spam and 20\% ham, therefore in a regular hard vote, you would simply say the model considers y as spam, but here we take both values and add them to each respective value of the other models.\newline
+At the end you take the \textbf{average of every possible prediction}, here only spam and ham, and the highest value at the end is our prediction.\newline
+Here an example: \newline
+\includegraphics[scale=0.3]{2022-12-15:11:10:24.png} \newline
+\textcolor{red}{Important, due to the percentage being necessary, \textbf{this only works with probability}, otherwise we can't take the average of all probabilities!!}\\
+\hline
+Soft Voting with Weights & 
+\textcolor{purple}{This is the same as soft voting, just here again, we apply a weight to each percentage of each model.}
+\\
+\hline
+Voting Regressor & 
+You can also use different regression models and combine them, this essentially just applies the regression on the entire dataset and takes the average of each regressor.
+\\
+\hline
+Bagging Methods & 
+This splits the data into random sets of data, which can be used to train all the different models that we have to train.\newline
+\includegraphics[scale=0.4]{2022-12-15:11:28:43.png}\\
+\hline
+Sampling with Replacement & 
+This treats each datapoint as a singular point, of which we essentially have a pool of. From this pool, each model takes an amount of datapoints, and \textbf{we can decide whether or not to remove points chosen from the pool and only use it on this one model, or to reuse points, essentially cloning and leaving the real one inside the pool for the next model to potentially choose.}\newline
+\includegraphics[scale=0.4]{2022-12-15:11:39:41.png} \, \newline
+\textcolor{red}{Sampling with replacement is also called \textbf{Bagging, or Bootstrap Aggregating}}\newline
+\textcolor{red}{Sampling without replacement is also called \textbf{Pasting}} \newline 
+Note, Bagging works best with strong and complex models as it can \textbf{reduce overfitting} if that is the case!\\
+\hline
+
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Bagging Classifier & 
+There are different ways of choosing data, we have learned 2 by now, but you can also combine these, meaning that you choose either bagging or pasting based on features of datasets, meaning that feature 1 will be based on bagging while feature 2 will be based on pasting. \newline
+\textcolor{orange}{This would be called \textbf{Random Subspaces}}\newline
+Or you can choose both features and other random subsets of data to choose either bagging or pasting from.\newline
+\textcolor{orange}{This would be called \textbf{Random Patches}}
+\\
+\hline
+Bagging Classifiers/Regressor & 
+After the models are fitted, use \textbf{majority vote for classiciation tasks}, and \textbf{take the average for regresssion tasks}.\\
+\hline
+Out of Bag (oob) Evaluation & 
+Since we only use a small subset of data on each model, we can \textbf{use the rest of the data as testing data for this model}, as that data is considered as "unknown" to that model.\newline
+This makes it easy for us to validate each model, so that we do not need to further split data specifically for this usecase.\\
+\hline
+No free lunch theorem & 
+\textcolor{purple}{This philosophy simply states that there is \textbf{no best way to do things, eg. there is no single best algorithm.}}\\
+\hline
+Boosting & 
+This \textbf{does not split the data} like Bagging, instead it trains the models \textbf{sequentially} using a specified amount of samples -> sample = point. \newline
+This means that each model will try to improve on the mistakes that the last model made, therefore the combined training error reduces.\newline
+I can already see a problem with overfitting with this method. Therefore, \textbf{use weaker/simpler models when boosting!}\newline
+Here an example of Boosting: \newline
+\includegraphics[scale=0.3]{2022-12-15:12:10:37.png}\newline
+The big points are the samples on which the model didn't do well on, this means that for the next model, \textbf{the weight on these samples is incresed}, making sure, that the next model will likely change these samples.\newline
+Popular Boosting methods: \newline
+\begin{itemize}
+  \item \textcolor{purple}{\textbf{AdaBoost (Adaptive Boost)}}
+\item \textcolor{purple}{Gradient Boosting}
+\item \textcolor{purple}{Extreme Gradient Boosting}
+\item \textcolor{purple}{CatBoost} 
+\item \textcolor{purple}{LightGBM}
+\vspace{-3mm}
+\end{itemize} 
+\\
+\hline
+AdaBoost &
+\vspace{2mm}
+\begin{enumerate}
+\item \textcolor{purple}{assigns equal weights to each training sample (\textbf{instance weights})}
+\item \textcolor{purple}{trains a model to fit the given data}
+\item \textcolor{purple}{\textbf{increases the weight on the misclassified samples (instance weights)}}\newline
+  These are the points that will be weighted higher for the next model, so that the next model hopefully fixes these samples.\newline
+\item \textcolor{purple}{Stop if the desired number of estimators are trained}
+\item \textcolor{purple}{then trains a next classifier -> step 2}
+\item \textcolor{purple}{For the ensemble, each classifier's weight is calculated based on its accurary. \textbf{(predictor weight)}}\newline
+  \vspace{-3mm}
+\end{enumerate} 
+\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Example for step3 & 
+\vspace{2mm}
+\includegraphics[scale=0.3]{2022-12-15:12:20:01.png}\newline
+\includegraphics[scale=0.3]{2022-12-15:12:20:10.png}\newline
+As you can see you always divide the correct points over the incorrect ones and take that value to multiply the weight of each incorrect point.
+\\
+\hline
+Example for step 6& 
+For AdaBoost this is done with \textbf{log odds ratio}, making sure that we have 0 to 1 accuracy\newline
+\includegraphics[scale=0.3]{2022-12-15:12:27:56.png}
+\\
+\hline
+Adaboost in summorization &
+\vspace{2mm}
+\begin{itemize}
+\item \textcolor{purple}{Adaboost computes the predictions of the weak predictors}
+\item \textcolor{purple}{Weights the predictions using the scores of each model}
+\item \textcolor{purple}{Predicted class is the one that receives the most votes -> \textbf{Hard Voting}}
+\vspace{-3mm}
+\end{itemize} 
+\\
+\hline
+
+\hline
+
+\hline
+
+\hline
+\end{tabular}
 \end{table}
 \end{document}
