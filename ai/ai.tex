@@ -1078,11 +1078,145 @@ Adaboost in summorization &
 \end{itemize} 
 \\
 \hline
-
+\end{tabular}
+\section{Deep Neural Networks}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
-
+How we found the structure of our own brain & 
+\textbf{Camillo Golgi} found a way to essentially paint the neural structure of the brain. This allowed was the first time we saw the structure of the brain. 
+This is the foundation of deep learning as we mimmick the neurons in the brain, and perhaps because of this discover, we might be able to properly understand the brain at some point in the future.
+\\
 \hline
-
+Neuron & 
+A neuron is composed of \textbf{a nucleus (the center of the neuron), dendrites (the branches away from the nucleus), and an axon (the very long extension)}\newline
+\includegraphics[scale=0.3]{2022-12-22:03:00:13.png}\newline
+\begin{itemize}
+\item \textcolor{purple}{The dendrites interact with other neurons, meaning that they receive impulses from them}
+\item \textcolor{purple}{The cell body (called Soma) generates a spike if the collective input in the dendrites passes a threshold}
+\item \textcolor{purple}{The generated pulse by the cell body will then travel from the axon to other neurons. Meaning the axon is the output node while the dendrites are the input nodes.}
+\item \textcolor{orange}{Connections from axons to dendrites are called \textbf{synapses}}
+\end{itemize}
+\, \newline
+\textcolor{OliveGreen}{While one neuron might not be special, the vast amount that exist in a brain make the difference, meaning that the actual power comes from the \textbf{network}, not from the single neuron.}
+\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\subsection{Artificial Neural Network}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Artificial Neurons &
+\vspace{2mm}
+\begin{itemize}
+  \item \textcolor{purple}{The artificial neuron receives an input vector[x1,x2,...]}
+  \item \textcolor{purple}{Each neuron has its own input weights [w1,w2,...] and \textbf{bias b} (intercept)}
+\item \textcolor{purple}{The neuron calculates the sum of the weighted input (dot product x * w), adds a bias b, and passes it through a nonlinear \textbf{activation function}}
+\end{itemize}
+\includegraphics[scale=0.4]{2022-12-22:03:11:00.png}\newline
+As you can see here, the function looks very similar to the \textbf{sigmoid} function used in logistic regression\newline 
+\textcolor{red}{If you compare this to logistic regression or some other simpler form of training, then you see that we essentially do the same, just with a new model, and the only thing missing here is the loss function, which you can then choose and apply to your appropriate training/testing data!}\\
+\hline
+TLU (Threshold Linear Unit) & 
+This is one of the simplest forms of a neuron. Here we simply put together the weights and biases with our inputs -> cross product, apply biases and then use a binary function to determine the output -> 0 or 1. \newline
+\textcolor{purple}{\( \text{input} > 0 \text{ => } \text{output} == 1 \)}\newline
+\textcolor{purple}{\( \text{input} \leq 0 \text{ => } \text{output} == 0 \)}\newline
+\includegraphics[scale=0.4]{2022-12-22:03:18:57.png}
+\\
+\hline
+Perceptron & 
+A single layer of TLUs (multople TLU in a row) is called perceptron, here the following things must be guaranteed in order for the TLU to be a perceptron:\newline
+\begin{itemize}
+\item \textcolor{purple}{Each TLU must be connected to all inputs}
+\item \textcolor{purple}{Bias node is 1, however, the actual bias will then transform this, hence bias = 1 * b1!!!}
+\item \textcolor{purple}{Each TLU might have different weights, which make the difference}
+\item \textcolor{purple}{Mutli class classification is easily possible}
+\item \textcolor{purple}{Linear decision boundary due to 0 and 1 constraint}
+\item \textcolor{purple}{Can't learn complex patterns}
+\item \textcolor{purple}{Included in Sklearn}
+\end{itemize} 
+\, \newline
+\includegraphics[scale=0.4]{2022-12-22:03:29:14.png}
+\\
+\hline
+AND gate with Perceptron & 
+We can crate AND with weights and 2 inputs, consider the caption below with the following inputs from the table:\newline
+\begin{itemize}
+\item \textcolor{black}{x1=0, x2=0, output = (20 * 0 + 20 * 0) -30 (bias) => -30}
+\item \textcolor{black}{x1=1, x2=0, output = (20 * 1 + 20 * 0) -30 (bias) => -10}
+\item \textcolor{black}{x1=0, x2=1, output = (20 * 0 + 20 * 1) -30 (bias) => -10}
+\item \textcolor{black}{x1=1, x2=1, output = (20 * 1 + 20 * 1) -30 (bias) => 10}
+\end{itemize} 
+\includegraphics[scale=0.4]{2022-12-22:03:38:24.png}
+\\
+\hline
+OR gate with Perceptron & 
+\vspace{2mm}
+\begin{itemize}
+\item \textcolor{black}{x1=0, x2=0, output = (40 * 0 + 40 * 0) -30 (bias) => -30}
+\item \textcolor{black}{x1=1, x2=0, output = (40 * 1 + 40 * 0) -30 (bias) => 10}
+\item \textcolor{black}{x1=0, x2=1, output = (40 * 0 + 40 * 1) -30 (bias) => 10}
+\item \textcolor{black}{x1=1, x2=1, output = (40 * 1 + 40 * 1) -30 (bias) => 50}
+  \vspace{-3mm}
+\end{itemize} 
+\, \newline
+As you can see, you just needed to change the weights of the data!
+\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Multi Layer Perceptron (MLP :) ) & 
+\textcolor{purple}{A regular Perceptron can't create things such as \textbf{XOR}, when we use multiple layers we can remove some of these constraints.}\newline
+This is also called \textbf{Artificial Neural Network (ANN).}\newline
+As you can see below, each next layer treats the previous neurons as inputs, this means that you can increase the complexity of the neural network depending on the amount of layers \textbf{(depth)} and with the amount of neurons that you place in a layer.\newline
+At the end it also matters how complex your \textbf{activation function in each neuron is!}\newline
+\includegraphics[scale=0.4]{2022-12-22:03:54:40.png}\\
+\hline
+Training a neural network & 
+When trying to train a neural network, we need to represent the training in the weights, just like with gradient descent.\newline
+\includegraphics[scale=0.4]{2022-12-22:04:14:24.png}\newline
+As one can see, the we calculate the loss and apply it to the weight, problem is, we need to propagate this wo each other neuron that also has this input, how can we do this?\newline
+There are a few ways to do it:\newline
+\begin{itemize}
+\item \textcolor{purple}{Partial derivatives -> Pen and paper, very tedious, not automated}
+\item \textcolor{purple}{Numeric Differentiation, imprecise, approximated}\newline
+\includegraphics[scale=0.4]{2022-12-22:04:18:04.png}
+\item \textcolor{purple}{Symbolic Differentiation}\newline
+  \begin{itemize}
+  \item \textcolor{black}{For complicated functions, the resultant expression can be exponentially large}
+  \item \textcolor{black}{Touch to simplify and leads to suboptimal performance}
+  \item \textcolor{black}{Wasteful to keep around intermediate symbolic expressions if we only need a numeric value of the gradient in the end}
+  \item \textcolor{black}{Prone to error}
+  \end{itemize} 
+\item \textcolor{purple}{Reverse-mode autodiff}
+\vspace{-3mm}
+\end{itemize} 
+\\
+\hline
+Reverse-mode autodiff  & 
+This essentially does the same as with pen and paper, just that we use \textbf{Backwards Propagation}\newline
+\includegraphics[scale=0.4]{2022-12-22:04:22:59.png}
+\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+&
+\vspace{2mm}
+\includegraphics[scale=0.4]{2022-12-22:04:27:27.png}\\
+\hline
+Soft max function & 
+This essentially summarizes the probability of the output being of a certain class, aka the picture belonging to the class of human or of pony.\newline
+\includegraphics[scale=0.4]{2022-12-22:04:24:51.png}
+\\
 \hline
 \end{tabular}
 \end{table}
