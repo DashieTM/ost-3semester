@@ -1416,4 +1416,654 @@ In other words, see if the old boomer dude can use the app as well if they are p
 \hline
 \end{tabular}
 \end{table}
+\pagebreak
+
+\lstdefinelanguage{CSS}{
+    sensitive=true,
+    keywords={%
+    % JavaScript
+    typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break,
+    % HTML
+    html, title, meta, style, head, body, script, canvas,
+    % CSS
+    color:, border-radius:, border:, transform:, -moz-transform:, transition-duration:, transition-property:,
+    transition-timing-function, background:, background-size:, background-color:, background-image:, background-origin:, background-repeat:, background-position:, background-attachement:, border:, border-box:, border-width:, border-color:, border-bottom:, border-style:, border-radius:, border-spacing:, border-collapse:, text-transform:, text-decoration-thickness:, text-align:, text-indent:, text-shadow:, text-justify:, text-overflow:, text-decoration:, text-align-last:, text-decoration-line:, text-decoration-color:, text-decoration-style:, margin:, padding:, 
+    },
+    % http://texblog.org/tag/otherkeywords/
+    otherkeywords={<, >},   
+    ndkeywords={class, export, boolean, throw, implements, import, this},   
+    comment=[s]{/*}{*/},
+    morecomment=[l]//,
+    morecomment=[s]{<!}{>},
+    morestring=[b]',
+    morestring=[b]",    
+    alsoletter={-},
+    alsodigit={:}
+}
+\lstset{
+    language=CSS,
+    style=code,
+}
+%%%%%
+
+\begin{table}[h!]
+\section{CSS}
+\subsection{Syntax}
+\begin{tabular}{|m{0.35\linewidth}|m{0.605\linewidth}|}
+
+\hline
+%\begin{csscode}
+\begin{lstlisting}
+body { 
+    color: red;
+}
+\end{lstlisting}
+%\end{csscode}
+&
+The first part is the element you want to modify, this can be the body, header, footer, a class like .button or even everything like with *. You can also add them together like: body, header, .button. \newline
+\textbf{All selectors: \#id .class element.class * element element[ attribute ]}\\
+
+\hline
+\begin{lstlisting}
+/*inline css*/
+<p style="color:red;">
+    This is a paragraph.
+</p>
+\end{lstlisting}
+&
+You can also use css right inside html if you for some reason want to do this. But please only do this when you have a single thing that needs something simple like a color. \newline For everything else use stylesheets.
+\\
+
+\hline
+\begin{lstlisting}
+/*full css inside html*/
+<style>
+body {
+  background-color: linen;
+}
+</style>
+\end{lstlisting}
+&
+You can of course also use a stylesheet inside html, also pretty useless, just use a proper stylesheet.
+\\
+
+\hline
+\begin{lstlisting}
+/*This is a comment*/ 
+/*This is a 
+multiline comment*/
+// This is also a comment
+\end{lstlisting}
+&
+The comments are made with these /* */ or //. Multilines are also allowed.
+\\
+\hline
+\begin{lstlisting}
+color: value|initial|inherit;
+\end{lstlisting}
+&
+Besides the actual values, you can always use initial for the default values, or inherit for the value of the parent.\\
+\hline
+\begin{lstlisting}
+p {
+color: red;
+}
+
+div {
+color: blue;
+}
+
+div p {
+color: green;
+}
+\end{lstlisting} &
+\textcolor{red}{\textbf{\emph{specifity:}}} \newline
+If you have 2 rules that affect 1 element. For example color red and blue, then the most specific rule will win.\newline
+For example, consider a paragraph inside a div.\newline
+In this case div p is the most specific rule, then followed by p and div.\newline
+Aka order: \textcolor{green}{green} \textcolor{red}{red} \textcolor{blue}{blue}\\
+\hline
+\begin{lstlisting}
+h1 {
+font-weight: bold;
+font-size: 20px; !important;
+}
+h1 {
+font-size: 30px;
+}
+\end{lstlisting}
+& You can override rules with \textbf{\textcolor{red}{!important}} if you specifically want a lower case rule to take effect instead!\newline
+\textcolor{red}{Should always be avoided if you can!}\\
+\hline
+\begin{lstlisting}
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://shitgaem.online">
+\end{lstlisting} & 
+Proper link styles can be inserted with <link>. You can also embed a stylesheet from the internet!\\
+\hline
+\begin{lstlisting}
+tr.warning td:nth-child(1)::before{
+  color: red;
+  content: "\26A0";
+}
+\end{lstlisting}
+& This selects the td of a tr in class warning. Then goes to the nth-child, here 1 and before the content of said td.\newline
+Then you can add new content with content: "something";\newline
+Keep in mind that any changes with color etc are only made to this new content,\newline 
+as you specify it above!
+\\
+\hline
+\begin{lstlisting}
+some-element::before {
+  display: none;Glace
+}
+\end{lstlisting}
+& If you would like to not display something from the html files, you can do this by specifying
+display none before the content in question. \newline Keep in mind that this does not remove the content altogether, it only hides it!
+\\
+\hline
+Inheritance & 
+Inheritance in css is only applied sparsely, the reason for this is that you can still overwrite it with pretty much any selector, no matter how low the specificity is.\newline
+\textcolor{orange}{If you want something to use inheritance then you need to explicitly state this!}\\
+\hline
+\end{tabular}
+\begin{tabular}{|m{0.977\linewidth}|}
+\hline
+\textbf{Important note for CSS. If you want to affect an elements position, you will always have to change the attributes in the parent. \newline
+In other words, justify-content and similar need to be defined in the box parent, not the div that you want to center!}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[h!]
+\subsection{Colors}
+\begin{tabular}{|m{0.205\linewidth}|m{0.75\linewidth}|}
+
+\hline
+\begin{lstlisting}
+color: red;
+/* or */
+color: #55667788;
+/* #RRGGBBAA */
+\end{lstlisting}
+&
+Colors are straight forward, you can either write the name of preconfigured colors, or use the RBGA values. \newline A is opacity.
+\\
+
+\hline
+\end{tabular}
+\subsection{Background}
+\begin{tabular}{|m{0.975\linewidth}|}
+\hline
+\begin{lstlisting}
+background-color: red;
+background-image: "/path"; /* can also be an url -> url(https://...)*/
+background-size: cover|auto|length|percentage|contain;
+// cover: resizes to parent, auto: size of image, contain: resize image to fit inside parent, initial: fixed x,y value
+background-position: x-value y-value; // top right, top center, center center, ...   Can also be x% y% default 0% 0%.
+background-attachement: scroll|fixed|local; // local: scrolls with element, scroll is default.
+// this decides if the background scrolls with the page or not.
+background-origin: padding-box|content-box|border-box; 
+// Used to define where the background image starts inside a box, only works when background-attachement is not fixed.
+background-repeat: repeat|repeat-x|repeat-y|no-repeat|space|round; //useless shit
+\end{lstlisting}
+\\
+
+\hline
+\end{tabular}
+\subsection{Borders}
+\begin{tabular}{|m{0.975\linewidth}|}
+\hline
+\begin{lstlisting}
+border: 4px solid red;
+border: border-width border-style border-color;
+border-style: none|hidden|dotted|dashed|solid|double|groove|ridge|inset|outset|initial|inherit;
+//styles like ridge, groove, inset and outset use 3D effects, hard to describe.
+border-radius: 4px 4px 4px 4px; // border-radius: 5px; also possible
+//borders can be addressed individually by specifying a direction:
+border-bottom: 4px solid red;
+border-collapse: separate|collapse|initial|inherit;
+// collapse means borders will merge in boxes. seperate will draw borders for both elements.
+border-spacing: 4px; //Spacing between borders if the border-collapse is enabled!
+\end{lstlisting}\\
+\hline
+\end{tabular}
+\subsection{Margins and Paddings}
+\begin{tabular}{|m{0.355\linewidth}|m{0.6\linewidth}|}
+\hline
+\begin{lstlisting}
+margin: top right bottom left;
+margin: 10px 10px 10px 10px;
+padding: top right bottom left;
+padding: top right bottom left;
+//margin-right padding-left etc work as well.
+\end{lstlisting}
+&
+Margin is the spacing between the element itself and it's parent and or other elements in the same hierarchy.\newline
+Padding is the spacing inside the element to the contents of said element.
+\\
+
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[h!]
+\subsection{Text}
+\begin{tabular}{|m{0.975\linewidth}|}
+\hline
+\begin{lstlisting}
+text-align: left|right|center|justify; // justify is text as a block.
+text-align-last: left|right|center|justify; //The last line can be configured indiidually.
+text-justify: auto|inter-word|inter-character|none; /* only used when text-align is set to justify.
+inter-word increases spacing between words, inter-character for characters.*/
+text-decoration: text-decoration-line text-decoration-color text-decoration-style text-decoration-thickness;
+text-decoration-line: none|underline|overline|line-through;
+text-decoration-style: solid|double|dotted|dashed|wavy;
+text-decoration-thickness: auto|from-font|value;
+text-indent: value;
+text-overflow: clip|ellipsis|string; 
+//clip will just cut the string off, ellipsis ends with ..., a string will display itself.
+text-shadow: h-shadow v-shadow blur-radius color|none;
+text-transform: none|capitalize|uppercase|lowercase;
+\end{lstlisting}
+\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[h!]
+\subsubsection{Fonts}
+\begin{tabular}{|m{0.975\linewidth}|}
+\hline
+\begin{lstlisting}
+font: font-style font-variant font-weight font-size/line-height font-family
+|caption|icon|menu|message-box|small-caption|status-bar; //use the font used by this element
+font-style: normal|italic|oblique; //oblique seems to be the same as italic.
+font-variant: normal|small-caps;
+font-weight: normal|bold|bolder|lighter|number; //number in 100 steps -> 100,200,300,...,900
+font-size: medium|xx-small|x-small|small|large|x-large|xx-large|smaller|larger|length;
+line-height: normal|number|length;
+font-family: family-name|generic-family; //generic-family example: Isoveka
+\end{lstlisting}
+\\
+
+\hline
+\end{tabular}
+\subsection{Display, justify and align}
+\begin{tabular}{|m{0.975\linewidth}|}
+\hline
+\begin{lstlisting}
+display: none|inline|block|contents|flex|grid|inline-block|inline-flex|inline-grid|inline-table|list-item|run-in|table|
+         table-caption|table-column-group|table-footer-group|table-row-group|table-cell|table-column|table-row;
+\end{lstlisting}\\
+\hline
+Center Div or other HORIZONTALLY \newline 
+You can center a box horizontally by using the \textbf{display: flex or display: grid} on the parent box, as well as \textbf{justify-content: center} on the parent box\\
+\hline
+Center Div or other VERTICALLY \newline 
+You can center a box vertically by using the \textbf{display: table} on the \emph{parent of the parent} and using \textbf{display: table-cell} on the parent. \\
+\hline
+\end{tabular}
+\subsection{Selectors and Combinators}
+\begin{tabular}{|m{0.3\linewidth}|m{0.655\linewidth}|}
+\hline
+\textbf{Selectors}\newline
+\begin{lstlisting}
+selector::pseudo-element {
+property: value;
+}
+\end{lstlisting}
+& Pseudo selectors can be used to select only a specific part of an element.\newline
+\pic{2022-10-04-10:58:46.png}\\
+\hline
+\textbf{Combinators and selectors} & 
+\minipg{\pic{2022-10-04-11:03:12.png}}{\pic{2022-10-04-11:03:26.png}}[0.35,0.5]\\
+\hline
+\begin{lstlisting}
+:is (box, button, something) p:hover {
+background-color: red;
+something-else: value;
+}
+\end{lstlisting}
+& This applies a rule to all button box and something elements if hovered.\\
+\hline
+Selectors in JS & 
+\textbf{You can't use the CSS selectors in JS without some weird hacks, therefore, JS has some specific elements inbuilt like first-child, last-child and more.}\\
+\hline
+\begin{lstlisting}
+
+\end{lstlisting}\\
+\hline
+\end{tabular}
+\section{boxes}
+\begin{tabular}{|m{0.3\linewidth}|m{0.655\linewidth}|}
+\hline
+\textbf{\emph{content-box and border box}} & \minipg{
+  \textbf{content-box} increases the box size to ensure the child \textbf{element has the set size}.\newline
+  \textbf{border-box} decreases the element size to ensure \textbf{the box itself has the set size}.
+}{\includegraphics[scale=0.3]{2022-10-04-11:35:35.png}}[0.3,0.5]\\
+\hline
+\end{tabular}
+\end{table}
+\begin{table}[h!]
+\begin{tabular}{|m{0,205\linewidth}|m{0.75\linewidth}|}
+\hline
+\mc{}\\
+\hline
+\end{tabular}
+\end{table}
+\begin{table}[h!]
+\begin{tabular}{|m{0,205\linewidth}|m{0.75\linewidth}|}
+\hline
+\mc{}\\
+\hline
+\end{tabular}
+\end{table}
+\begin{table}[h!]
+\begin{tabular}{|m{0,205\linewidth}|m{0.75\linewidth}|}
+\hline
+\mc{}\\
+\hline
+\mc{display: flex} & \mc{dynamically allocates spaces for elements inside this element.
+usually combined with justify-content to adjust element position.} \\
+\hline
+\mc{min-height and min-width} & \mc{This should be used instead of width and height because an object might grow bigger than the max size. This will eventually break the look of the page, or break the application -> see eww.} \\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+
+\lstdefinelanguage{HTML}{
+    sensitive=true,
+    keywords={%
+    % JavaScript
+    typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break,
+    % HTML
+    html, title, meta, style, head, body, script, canvas,
+    % CSS
+    color:, border-radius:, border:, transform:, -moz-transform:, transition-duration:, transition-property:,
+    transition-timing-function, background:, background-size:, background-color:, background-image:, background-origin:, background-repeat:, background-position:, background-attachement:, border:, border-box:, border-width:, border-color:, border-bottom:, border-style:, border-radius:, border-spacing:, border-collapse:, text-transform:, text-decoration-thickness:, text-align:, text-indent:, text-shadow:, text-justify:, text-overflow:, text-decoration:, text-align-last:, text-decoration-line:, text-decoration-color:, text-decoration-style:, margin:, padding:, 
+    },
+    % http://texblog.org/tag/otherkeywords/
+    ndkeywords={class, export, boolean, throw, implements, import, this},   
+    comment=[s]{/*}{*/},
+    morecomment=[l]//,
+    morecomment=[s]{<!--}{-->},
+    morestring=[b]',
+    morestring=[b]",    
+    alsoletter={-},
+    %otherkeywords={<, >},   
+    alsodigit={:}
+}
+\lstset{
+    language=HTML,
+    style=code,
+}
+%%%%%
+
+\begin{table}[h!]
+\section{HTML Hypertext Markup Lanugage}
+\begin{tabular}{|m{0.975\linewidth}|}
+\hline
+\textbf{\emph{HTML is not a programming lanugage}}, it is a markup language. It doesn't have logical operations, just as css does't have it. If you want more than a few pictures and a bit of text, then you need javascript or some other actual language to do the work!\newline
+HTML simply defines \textbf{content} and \textbf{structure}.\\
+\hline
+\end{tabular}
+\section{Basic Syntax and Information}
+\begin{tabular}{|m{0.4\linewidth}|m{0.555\linewidth}|}
+\hline
+\begin{lstlisting}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>hello</title>
+</head>
+<body>
+    Hello World
+</body>
+</html>
+\end{lstlisting}
+&
+A Simple html page doesn't need even a header or a body, however it is typical of a page to have it.\newline
+In the header you can specify title page, encoding languages and more.\newline
+Content is typically shown inside the body, while addresses and Information is usually found in the footer.\newline
+the <> </> open and close a tag, usually tags need both, but some may only need an opening tag.
+\\
+\hline
+\begin{lstlisting}
+<!--This is an html comment!-->
+<!--This is a 
+multiline comment!-->
+\end{lstlisting}
+&
+Comments are made with <!-- -->.
+\\
+\hline
+\begin{lstlisting}
+<input type="text" placeholder"enter something">
+\end{lstlisting}
+&
+This is an empty tag, no closing </> is allowed. \newline
+The optional / at the end is \textbf{strongly discouraged} -> <input type="text"/>
+\\
+\hline
+\begin{lstlisting}
+<div>Some text!<div>
+\end{lstlisting}
+&
+Tags are opened with <> and closed with </>.
+\\
+\hline
+\vspace{1.5mm}
+\pic{2022-09-27-10:53:50.png}
+&
+Certain elements like <title> are only allowed in the header, others like <h> are only allowed in the body.\newline
+You can technically just use these tags without specifying the body and header.\newline
+However this might be confusing to some people.
+\\
+\hline
+Semantic Markup
+&
+-- In order to provide better support for people with accessibility issues, use proper html,\newline \,\,\, this means use proper lists and don't use divs that you force-convert to lists.\newline
+-- It also helps with recognition in search engines.\newline
+-- Mobile support is also likely to be better with proper html.
+\\
+\hline
+\end{tabular}
+\section{Base Elements}
+\begin{tabular}{|m{0.755\linewidth}|m{0.2\linewidth}|}
+\hline
+\begin{lstlisting}
+<img src="path to source" alt="alternative text">
+\end{lstlisting}
+& Inserts an image in html.\\
+\hline
+\begin{lstlisting}
+<input type="text" placeholder="something">
+\end{lstlisting}
+& Input with placeholder\\
+\hline
+\begin{lstlisting}
+<form onsubmit={() => handleSubmit() }><!--Inputs and buttons.--> </form>
+\end{lstlisting}
+& Form with js function\\
+\hline
+\begin{lstlisting}
+<h1>Some text to use as header</h1> <!--h1,h2,h3,h4,h5,h6-->
+\end{lstlisting}
+& Header-text, from 1 to 6.\\
+\hline
+\begin{lstlisting}
+<p>Some text to display</p>
+\end{lstlisting}
+& Paragraph\\
+\hline
+\begin{lstlisting}
+<ol>
+    <li>element1</li>
+    <li>element2</li>
+    <li>element3</li>
+</ol>
+\end{lstlisting}
+& Ordered List.\\
+\hline
+\begin{lstlisting}
+<ul>
+    <li>element1</li>
+    <li>element2</li>
+    <li>element3</li>
+</ul>
+\end{lstlisting}
+& Unordered List.\\
+\hline
+\begin{lstlisting}
+<a href="https://shitgaem.online">Shitgaem</a>
+\end{lstlisting}
+& Hyperlink\\
+\hline
+\begin{lstlisting}
+<code>std::cout << "Henlo Birb!\n"</code>
+\end{lstlisting}
+& Did someone say minted?\\
+\hline
+\begin{lstlisting}
+<b>this text is bold, or maybe not.</b>
+\end{lstlisting}
+& \textbf{bold text}\\
+\hline
+\begin{lstlisting}
+<em>This text is italic, or maybe not</em>
+\end{lstlisting}
+& \emph{italic text}\\
+\hline
+\begin{lstlisting}
+<div>This is the standard div container, try centering it!</div>
+\end{lstlisting}
+&
+div
+\\
+\hline
+\begin{lstlisting}
+ <nav>
+  <a href="/html/">HTML</a> |
+  <a href="/css/">CSS</a> |
+  <a href="/js/">JavaScript</a> |
+  <a href="/cpp/">C++</a>
+</nav>
+\end{lstlisting}
+&
+Navigation Bar
+\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[h!]
+\begin{tabular}{|m{0.755\linewidth}|m{0.2\linewidth}|}
+\hline
+\begin{lstlisting}
+<aside>Something to display on the side</aside>
+\end{lstlisting}
+& Implements a bar on the side.\\
+
+\hline
+\end{tabular}
+\subsection{Semantic Element, what to choose?}
+\includegraphics[scale=0.4]{2022-09-27-11:45:58.png}
+\section{Global Attritubes}
+\begin{tabular}{|p{0,2\linewidth}|p{0.755\linewidth}|}
+\hline
+accesskey & Specifies a shortcut key to activate/focus an element\\
+\hline
+class & Specifies one or more classnames for an element (refers to a class in a style sheet)\\
+\hline
+contenteditable & Specifies whether the content of an element is editable or not\\
+\hline
+data-* & Used to store custom data private to the page or application\newline
+\textcolor{orange}{These (for example) used to handle event bubbling\newline 
+data-event= add -> handle add in parent node to rerender, etc\newline
+In the parent node you can then perform a check on this by using target.class == add\newline
+\textbf{This makes sure you don't use the same function for every single bubbling event!}}\newline
+\begin{lstlisting}
+document.querySelector("pingpang").addEventListener("click", (event) => { 
+  if (event.target.getAttribute("data-eventtype") == "add") {
+   rerender();
+  } else {
+    console.log("pingpang!");
+  }
+})
+\end{lstlisting}
+\\
+\hline
+dir & Specifies the text direction for the content in an element\\
+\hline
+draggable & Specifies whether an element is draggable or not\\
+\hline
+hidden &	Specifies that an element is not yet, or is no longer, relevant\\
+\hline
+id & Specifies a unique id for an element\\
+\hline
+lang & Specifies the language of the element's content\\
+\hline
+spellcheck & Specifies whether the element is to have its spelling and grammar checked or not\\
+\hline
+style & Specifies an inline CSS style for an element\\
+\hline
+tabindex & Specifies the tabbing order of an element\\
+\hline
+title & Specifies extra information about an element\\
+\hline
+translate & Specifies whether the content of an element should be translated or not\\
+\hline
+\textbf{\emph{Tag Omission}} & You can omit certain tags. Namely the following: <html>, <body>, <head>, <p>, <li>.\newline
+It is generally recommended to do this for stylistic reasons.\\
+\hline
+\end{tabular}
+\section{Script in HTML}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+<script> & 
+\textcolor{orange}{To use js inside html you need to be sure that the DOM is already loaded}\newline
+\begin{lstlisting}
+<head>
+<!-- the button can't be accessed here! -->
+</head>
+<body>
+<button>clickme</button>
+<script> 
+// some js script for the button
+// make sure to place it here
+</script>
+</body>
+\end{lstlisting}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\section{Web Server}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Https Request & 
+Https uses requests to both get and push data.\newline
+We call them \textbf{GET request} and \textbf{POST request}.\newline
+Usually we only use GET requests in combination with js like this:\newline
+\begin{lstlisting}
+async function fetchFromURL() {
+  try {
+    const response = await fetch('result.json', { method: 'GET'});
+    if(response.ok) {
+      const content = await response.text();
+      console.log(content);
+    }
+  } catch(e) {
+    // erroreroni
+  }
+}
+\end{lstlisting}\\
+\hline
+\end{tabular}
+\end{table}
 \end{document}
+
