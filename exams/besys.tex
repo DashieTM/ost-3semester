@@ -131,15 +131,105 @@ syscall // OS executes instruction from rax
 \end{lstlisting}
 \vspace{2mm}
 
-
-
 \lstset{
     language=c,
     style=code,
 }
-
 \section{C}
+Preprocessor -> Compiler -> Assembler -> Linker
 
+\subsection{Precprocessor Tokens}
+\begin{itemize}
+\item \textcolor{purple}{Identifier}\newline
+starts with a-z, A-Z followed by letters, digits or \_
+\item \textcolor{purple}{Precrocessor Number}\newline
+  starts with a digits followed by digits, numbers, \_, ., or exponents
+\item \textcolor{purple}{String or Character literals}\newline
+  string starts with ", char with ', escape \textbackslash 
+\item \textcolor{purple}{Operations and punctuators}\newline
+  \includegraphics[scale=0.24]{2022-10-11-03:40:12.png}
+\item \textcolor{purple}{others}
+\end{itemize} 
+
+\textbf{1. Iteration, removes all comments, 2. iteration, converts code to tokens, 3.iteration replaces macros with code}
+
+\subsection{sizeof(t)}
+\begin{lstlisting}
+// size of types, architecture dependent!
+int a = 5;
+printf("&d",sizeof(a)); // 16 for intel x86
+\end{lstlisting}
+\vspace{2mm}
+\textcolor{red}{Note the return type is \textbf{size\_t} which is big enough to hold any type}
+
+\subsection{Pointers}
+\begin{lstlisting}
+int a = 5;
+int *b = &a; // b pointer to a 
+a = *b + 5; // a = dereference b and add 5
+\end{lstlisting}
+\vspace{2mm}
+\textcolor{teal}{Incrementing a pointer will skip \textbf{sizeof(t) bytes!}}
+Note, C has no references, that is a c++ thing
+
+\subsection{Numbers in C}
+\begin{itemize}
+\item \textcolor{teal}{Decimal: 0..9 with \textbf{NO 0 at the start}}
+\item \textcolor{teal}{Octal: 0..7 with a \textbf{leading 0}}
+\item \textcolor{teal}{Hex: 0..F with \textbf{leading 0x}}
+\item \textcolor{teal}{Suffix: the suffic specifies a type:}\newline
+  l: long, ll: long long, u: unsigned, ul: unsigned long, ull ....
+\end{itemize} 
+
+\subsection{Bitwise Operators}
+\textcolor{teal}{not: \(\tilde{} \) q} | \textcolor{teal}{and: q \& p} | \textcolor{teal}{or: q | p} \newline
+\textcolor{teal}{left shift: q << p} | \textcolor{teal}{right shift: q >> p}
+
+\subsection{Arithmic Operators}
+like c++, \textcolor{red}{BUT RETURN TYPE IS INTEGER!!!!!}
+
+\subsection{Parameters in Functions}
+In C, you can pass any amount of parameters to a function, as long as the parameter type is not void:
+\begin{lstlisting}
+void f () ;
+void b ( void ) ;
+// formatting to keep the lines shorter
+void f() { printf("pangping!"); } // ok
+void f(1, 2, 3, 4) { ... } // ok LMAO
+void b() { ... } // ok
+void b(1, 2, 3, 4) { ... } // !! ERROR !!
+\end{lstlisting}
+\vspace{2mm}
+
+\subsection{Global vs Local}
+Global variables are allocated on the heap, therefore they receive a default value -> int to 0, local variables are on stack -> undefined behavior by default
+
+\subsection{printf Identifiers -> Strings! "\%d"}
+\begin{itemize}
+\item \textcolor{teal}{sizeof(Integer) as signed decimal = \%d}
+\item \textcolor{teal}{sizeof(Integer) as unsigned decimal = \%u}
+\item \textcolor{teal}{sizeof(Integer) as hexadecimal = \%x or \%U}
+\item \textcolor{teal}{sizeof(long) as signed decimal = \%li}
+\item \textcolor{teal}{sizeof(long long) as signed decimal = \%lli}
+\item \textcolor{teal}{sizeof(void *) as pointer = \%p}
+\item \textcolor{teal}{sizeof(char *) as pointer (null terminated) = \%s}
+\item \textcolor{teal}{sizeof(double) as floating point = \%f}
+\end{itemize}
+
+\subsection{typedef}
+\begin{lstlisting}
+typedef int int32_t // int as 32 bit int 
+typedef int (* func) ( param )
+// function as integer type
+\end{lstlisting}
+\vspace{2mm}
+
+\subsection{Strings in C}
+Strings in C are not 0 terminated, meaning you have to do it yourself!
+They are just \textbf{char arrays!!}
+
+\subsection{Const}
+There is no proper const in C, there is only the let equivalent in rust, where the underlying variable is not mutable, but other fucntion can mutate the said value of the variable!!
 
 \section{Cache}
 
