@@ -142,6 +142,20 @@ syscall // OS executes instruction from rax
 \end{lstlisting}
 \vspace{2mm}
 
+\subsection{Frame Pointer}
+This is used to get a static point from where you can get your parameters from, as the stack pointer moves around!
+
+\begin{lstlisting}
+; Prolog: create frame pointer
+push rpb ;push base pointer to stack
+mov rbp, rsp ;rsp into rpb
+; Epilog: remove frame pointer
+mov rsp, rpb ; move rpb into rsp 
+pop rbp ; pop rbp from stack
+\end{lstlisting}
+\vspace{2mm}
+
+
 \lstset{
     language=c,
     style=code,
@@ -244,7 +258,7 @@ They are just \textbf{char arrays!!}
 There is no proper const in C, there is only the let equivalent in rust, where the underlying variable is not mutable, but other fucntion can mutate the said value of the variable!!
 
 \subsection{extern}
-The extern symbol in C are meant for variables that are defined in another file, they are not default initialized!
+The extern symbol in C are meant for variables that are defined in another file, it is therefore not a declaration nor an initialization!
 
 \subsection{static}
 Static variables are essentially hidden global variables, meaning that they will never go out of scope until the program ends, but they can't be accessed outside of the scope!These values are default initialized, as they are syntactic sugar for global variables!
