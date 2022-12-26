@@ -94,10 +94,21 @@ RDX <-- RDX:RAX mod RBX
 \item ror z,   i  \textcolor{teal}{// Right-Rotate i Bits }
 \item and rax, rbx\textcolor{teal}{// AND}
 \item not rax     \textcolor{teal}{// NOT}
-\item cmp rax, 3 \textcolor{teal}{// compare rax and 3, set flag if not}
+\item test rax, rax \textcolor{teal}{// set ZF = 1 if rax == 0}
+\item jmp S       \textcolor{teal}{// Jump to S > GOTO}
+\item cmp rax, 3 \textcolor{teal}{// compare rax and 3, set ZF = 1 if not}
 \item cmov rax, 5 \textcolor{teal}{// move 5 into rax if condition met}
 \item je 230 \textcolor{teal}{// move 230 down if condition met}
+\item push rax \textcolor{teal}{// push rax to the stack}\newline
+  sub rsp, 8 AND mov [rsp], rax \textcolor{teal}{stack pointer down}
+\item pop rax \textcolor{teal}{// pop rax from the stack}\newline
+  mov rax, [rsp] AND add rsp, 8 \textcolor{teal}{stack pointer up}
+\item call S \textcolor{teal}{// push rax and jmp S > function call}
+\item ret    \textcolor{teal}{// pop rax and jmp rax > return}
 \end{itemize}
+
+\subsubsection{Stack}
+Note that the stack has the highest address from the bottom, meaning that adding to the stack decreases the stack pointer (rsp)!!
 
 \subsubsection{Flags}
 \textcolor{purple}{Carry Flag (CF) == overflow with unsigned intergers}\newline
@@ -170,6 +181,7 @@ a = *b + 5; // a = dereference b and add 5
 \end{lstlisting}
 \vspace{2mm}
 \textcolor{teal}{Incrementing a pointer will skip \textbf{sizeof(t) bytes!}}
+\textcolor{orange}{Check for nullptr with ptr == 0 as c has no nullptr!}
 Note, C has no references, that is a c++ thing
 
 \subsection{Numbers in C}
@@ -231,8 +243,63 @@ They are just \textbf{char arrays!!}
 \subsection{Const}
 There is no proper const in C, there is only the let equivalent in rust, where the underlying variable is not mutable, but other fucntion can mutate the said value of the variable!!
 
+\subsection{extern}
+The extern symbol in C are meant for variables that are defined in another file, they are not default initialized!
+
+\subsection{static}
+Static variables are essentially hidden global variables, meaning that they will never go out of scope until the program ends, but they can't be accessed outside of the scope!These values are default initialized, as they are syntactic sugar for global variables!
+
+\subsection{Structs}
+\begin{lstlisting}
+struct something { int q; // ... };
+struct something fun = {5};
+// struct keyword + struct name + variable name
+// or nameless with struct { int q; } fun;
+// access with fun.q or with pointers fun->q
+\end{lstlisting}
+\vspace{2mm}
+
+\subsection{Unions}
+\textcolor{red}{Unions point to the same memory, meaning that you can have multiple members that will point to a certain memory location and you can interpret them all at once! The size is determined by the biggest member}
+\begin{lstlisting}
+typedef union U { int_64 first; char bytes[8]; } U;
+U test;
+test.first = 17;
+// bytes == 11 00 00 00 00 00 00 00 == 17!!
+\end{lstlisting}
+\vspace{2mm}
+
+\subsection{Complete vs Incomplete}
+Complete types are of known size at compile time, incomplete types are not, they are therefore heap allocated!
+
+\subsection{Malloc and free}
+\begin{lstlisting}
+some_type *pointer = 0;
+void initialize() {
+  size_t count = 5;
+  pointer = malloc(count * sizeof(some_type));
+  // rest of the program 
+  free(pointer);
+  pointer = 0; // reset to prevent segfault
+}
+\end{lstlisting}
+
 \section{Cache}
 
+\subsection{Locality Principle}
+This is the reason for L1,L2,L3 cache, the closer the cache is to the cpu, the less the data needs to travel, this can affect latency in todays hardware!
+
+\subsection{Median Access Time}
+\textcolor{red}{\(E(T) = P_C * T_C + (1 - P_C )* T_M\)}\newline
+\(T_C\): Access time on Cache |
+\(T_M\): Access time on Memory |
+\(P_C\): Probability of Cache-Hit, likely above 0.9
+
+\subsection{Fully Associative Cache}
+Every Entry is mapped to 1 address on the cache. 
+\textcolor{red}{Costs a lot}, \textcolor{green}{Really fast}
+
+\subsection{}
 
 \section{RAM}
 
