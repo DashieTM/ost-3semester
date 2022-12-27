@@ -116,6 +116,20 @@ Similar to 2D projection. \newline
 \textcolor{purple}{normalized coordinates (between -1 and 1)}\newline
 \textbf{No Z dimension!}
 
+\section{GPU Pipeline}
+\begin{itemize}
+\item \textcolor{purple}{Vertex Processor} Programmable\newline
+  Turns raw vertices into primitives
+\item \textcolor{purple}{Rasterizer} primitives into fragments
+\item \textcolor{purple}{Fragment Processor} Programmable \newline
+  processes fragments -> ex. color
+\item \textcolor{purple}{Output Merging} Fragments to pixels
+\end{itemize}
+Note a shader would program both the vertex and the fragment processor!
+
+\subsection{Double Buffering}
+This seperates the writing and reading of frames, making sure there are no artifacts when displaying the frame, see tearing!
+
 \section{Lighting}
 \subsection{Subtractive Light on Remission}
 When an object remits light, it will only show colors that are both in the light AND on the object itself:\newline
