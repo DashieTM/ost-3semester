@@ -131,12 +131,16 @@ Note a shader would program both the vertex and the fragment processor!
 This seperates the writing and reading of frames, making sure there are no artifacts when displaying the frame, see tearing!
 
 \section{Lighting}
-\subsection{Subtractive Light on Remission}
+\subsection{Subtractive Light (CMYK) on Remission}
+\textcolor{purple}{Start with white, then remove colors}\newline
 When an object remits light, it will only show colors that are both in the light AND on the object itself:\newline
 \textcolor{purple}{\(C = C_L^T * C_0\)}\newline
-\(C_0\) is the original color
+\(C_0\) is the original color\newline
+\textcolor{red}{The base Cyan, Magenta, Yellow are stored in RGB vectors!}
 
 \subsection{Additive Lighting}
+\textcolor{purple}{Start with black, then add colors}\newline
+\textcolor{purple}{\(C = 1 - (1 - C_{L1} )^T (1 - C_{L2} )\)}
 
 \subsection{Ambient Lighting}
 \textcolor{purple}{Diffuse Lighting from all direcitons, Remission in all directions}
