@@ -1,4 +1,4 @@
-besys.pdf: besys.tex ../ost-summary-template.tex
+besys.pdf: besys.tex comgra.tex phys.tex ../ost-summary-template.tex
 	latexmk -pdf -shell-escape besys.tex comgra.tex phys.tex
 
 clean:

@@ -1,8 +1,131 @@
-\documentclass[main.tex,fontsize=8pt,paper=a4,paper=landscape,DIV=calc,]{scrartcl}
-\input{../ost-summary-template.tex}
+\documentclass[main.tex,fontsize=12pt,paper=a4,paper=landscape,DIV=calc,]{scrartcl}
+\input{../template-exam.tex}
+
+
+\lstset{
+    language=[Sharp]C,
+    style=code,
+}
 
 \begin{document}
 \begin{multicols*}{4}
+
+\section{vector geometry}
+Point: P (5,2)\newline
+vector: \(\vec{v} \left(\dfrac{5}{2}\right)\) \footnotesize not used here to save space
+\normalsize
+
+\subsection{Translation | linear}
+P + \(\vec{v} \) = (1,2,3) + (4,5,6) = (5,6,9) 
+
+\subsection{Scaling | linear}
+P * s = (s * 1, s * 2, s * 3)
+
+\subsection{Rotation | NOT linear}
+\(R_\theta \left(\dfrac{x}{0}\right) = \left(\dfrac{cos \theta}{sin \theta} x\right)\)\newline
+\(R_\theta \left(\dfrac{0}{y}\right) = \left(\dfrac{-sin \theta}{cos \theta} y\right)\)\newline
+\(R_\theta \left(\dfrac{x}{y}\right) = \left(\dfrac{x * cos \theta - y * sin \theta}{x * sin \theta + y * cos \theta} x\right)\)
+
+\subsection{Multiplication of Vectors}
+\textbf{Multiplication of vectors is not communitative!}\newline
+\(\left[\begin{smallmatrix}\textcolor{blue}{x_{11} \, x_{12} \, x_{13}} \\ x_{21} \, x_{22} \, x_{23} \end{smallmatrix}\right] *
+\left[\begin{smallmatrix} \textcolor{green}{y_{11}} \, y_{12} \\ \textcolor{green}{y_{21}} \, y_{22} \\ 
+\textcolor{green}{y_{31}} \, y_{32}\end{smallmatrix}\right] =
+\left[\begin{smallmatrix} \textcolor{red}{c_{11}} \, c_{12} \\ c_{21} \, c_{22} \end{smallmatrix}\right]\)\newline
+\textbf{\textcolor{red}{!! each row * each column !!}}\newline
+\textbf{This also means that the row of the first matrix needs to be as long as the column of the second matrix!}\\
+
+\subsection{Matrix Transpose}
+\(\left[\begin{smallmatrix} 1  5 \\ 6  7 \end{smallmatrix}\right]^T == \left[ \begin{smallmatrix} 1  6 \\ 5  7 \end{smallmatrix}\right]\)\newline
+\textcolor{purple}{Just swap row and columns}
+
+\subsection{Inverse of a Matrix}
+\(A^{-1}A = I\)\newline
+\includegraphics[scale=0.2]{2022-10-05-05:07:54.png}
+
+\subsection{Linear Dependence}
+if the addition of 2 vectors with a scalar of NOT 0 is not the null-vector, then they are linearly \textbf{independent}.\newline
+They are also linearly independent if \textbf{the determinant is NOT 0, or the gauss algorithm ends in unitmatrix}.
+
+\subsection{Length of a vector}
+\textcolor{purple}{\( |\vec{v}| = \sqrt{x^2 + y^2 + z^2} \)}
+
+\subsection{Dotproduct}
+\textbf{\textcolor{red}{\( \vec{a} * \vec{b} = |\vec{a}| * |\vec{b}| * cos(\alpha) \)}}\newline
+returns 0 when angle is 90
+
+\subsection{Crossproduct}
+\textbf{\textcolor{red}{\( \vec{a} \text{ x } \vec{b} = |\vec{a}| * |\vec{b}| * sin(\alpha) * n\)}}\newline
+This is usually used to get the unit vector of the resulting vector, or to\newline
+calculate the area of a parallelogram\newline
+\(\alpha\) = angle between the vector \(\vec{a}\) and \(\vec{b}\)\newline
+\includegraphics[scale=0.4]{2022-12-27:07:39:36.png}
+
+\subsection{Coordinate systems and spaces}
+right handed: positive x to right\newline
+left handed: positive x to left\newline
+\textcolor{orange}{Local: world without transforms}\newline
+\textcolor{orange}{World:} actual 3D representation \newline
+Coord: engine defined: ex right handed\newline 
+\textcolor{orange}{View:} view transformation for 2D \newline
+Coord: engine, 180 rotated\newline
+\textcolor{orange}{Clip:} creates 3D illusion\newline
+\textcolor{orange}{Screen:} endresult for the human\newline
+Coord: without near-far axis (z)
+
+\section{Basics}
+\subsection{2D Projection}
+camera: (\(e_y, e_z\)), P: (y,z)\newline
+\textcolor{purple}{\(\dfrac{c = e_y z - e_z y}{z - e_z}\)}
+\includegraphics[scale=0.3]{2022-09-21-03:39:39.png}\newline
+For a 3D projection you just repeat these steps for each point.\newline
+Note, 2D is usually done with \textcolor{red}{\textbf{homogenous coordinates}}, which are just 3D coordinates with a fixed z axis, eg. 1
+
+\subsection{Bresenham Line Algorithm}
+\textcolor{purple}{\(y = \dfrac{\delta y}{\delta x}x + c = mx + c\) ==> \(m = \dfrac{\delta y}{\delta x}\)}\newline
+\(x = x_0 + \delta x\) \(y = y_0 + m\delta x\) \newline \(\delta x = x - x_0\) \(\delta y = y - y_0 \)
+
+\section{OpenGL}
+ \textcolor{purple}{State Machine, Context with ID, \newline Method based, Originally for c++}
+
+\subsection{Meshes}
+\textcolor{purple}{Points(x,y,z), Edges, Faces(areas), consisting of triangles}
+Vertices can either be indexed, or non-indexed.\newline
+\textcolor{orange}{non-indexed vertices will write each point of each triangle, meaning you will have duplicates, indexed vertices will not write each point twice.}\newline
+\begin{lstlisting}
+// snipped getVertices
+for(int j=0; j < sect; j++) {
+vert[i++] = Cos(angle);
+vert[i++] = Sin(angle);
+vert[i++] = 0;
+angle += deltaAngle; }
+// snipped getTriangles
+for(int j=0; j < sect; j++) {
+tria[i++] = 0;
+tria[i++] = 1 + j;
+tria[i++] = 1+(j+1) % sect);}
+\end{lstlisting}
+
+\subsection{Perspective Projection}
+Similar to 2D projection. \newline
+\textcolor{orange}{View Frustum}: \newline
+\textbf{fov(y), aspectratio, near and far plane}\newline
+\textcolor{OliveGreen}{If the fov is small, then shapes appear big, if the fov is big, the shapes appear small}
+
+\subsection{Orthographic Projection / Parallel Projection}
+\textcolor{purple}{normalized coordinates (between -1 and 1)}\newline
+\textbf{No Z dimension!}
+
+\section{Lighting}
+\subsection{Subtractive Light on Remission}
+When an object remits light, it will only show colors that are both in the light AND on the object itself:\newline
+\textcolor{purple}{\(C = C_L^T * C_0\)}\newline
+\(C_0\) is the original color
+
+\subsection{Additive Lighting}
+
+\subsection{Ambient Lighting}
+\textcolor{purple}{Diffuse Lighting from all direcitons, Remission in all directions}
 
 \end{multicols*}
 \end{document}
