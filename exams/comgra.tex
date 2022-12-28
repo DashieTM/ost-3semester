@@ -142,8 +142,96 @@ When an object remits light, it will only show colors that are both in the light
 \textcolor{purple}{Start with black, then add colors}\newline
 \textcolor{purple}{\(C = 1 - (1 - C_{L1} )^T (1 - C_{L2} )\)}
 
-\subsection{Ambient Lighting}
-\textcolor{purple}{Diffuse Lighting from all direcitons, Remission in all directions}
+\subsection{Lighting}
+\begin{itemize}
+\item \textcolor{orange}{Ambient Lighting}\newline
+\textcolor{purple}{Diffuse Lighting from all direcitons, Remission in all directions}\newline
+\item \textcolor{orange}{Diffuse Lighting}\newline
+\textcolor{purple}{point light, remission in all directions}\newline
+Remission proportional to cosine between normal and light vector\newline
+\textcolor{OliveGreen}{For matt surfaces}\newline
+\includegraphics[scale=0.2]{2022-12-28:11:46:29.png}
+\item \textcolor{orange}{Specular Lighting}\newline
+\textcolor{purple}{point light, remission in \textbf{one} direction}\newline
+Intensity dependent on angle between reflection vector and camera angle\newline
+\textcolor{OliveGreen}{for reflective surfaces}\newline
+\includegraphics[scale=0.2]{2022-12-28:11:46:39.png}
+\item \textcolor{orange}{Blinn-Shading}\newline
+  \textcolor{purple}{Combination of ambient, diffuse and specular}\newline
+  if angle over 90degrees, can't display reflections
+\item \textcolor{orange}{Blinn-Phong-Shading}\newline
+  \textcolor{purple}{Modification of Blinn, angle between halfway vector and normals}\newline
+  \includegraphics[scale=0.2]{2022-12-28:11:52:11.png}
+\end{itemize} 
+
+\subsection{Representation}
+\begin{itemize}
+\item \textcolor{purple}{Quantity of primitives} polygons
+\item \textcolor{purple}{approximation} splines, NURBS
+\item \textcolor{purple}{constructed} subdivision surfaces
+\end{itemize} 
+
+\subsection{Sweep Triangulation}
+\includegraphics[scale=0.3]{2022-10-19-03:21:54.png}\includegraphics[scale=0.3]{2022-10-19-03:22:00.png}\newline
+
+\subsection{Insert Triangulation}
+\includegraphics[scale=0.25]{2022-10-19-03:28:11.png}
+\includegraphics[scale=0.25]{2022-10-19-03:36:45.png}\newline
+After Insert or sweep, swap long edge with shorter edge for better performance\newline
+
+\subsection{Subdivision Surfaces}
+\begin{itemize}
+\item \textcolor{purple}{Recursive refinement}\newline
+starts blocky, gets smooth over iterations\newline
+\textcolor{OliveGreen}{Combination of meshes and splines}
+\item \textcolor{purple}{Chaikings Algorithm}\newline
+\minipg{
+\includegraphics[scale=0.35]{2022-12-28:02:16:51.png}
+}{
+Replace point in the middle with 2 new points, with 3/4 of previous and 1/4 of next point}[0.135,0.1]
+\item \textcolor{purple}{Triangle Algorithms}\newline
+  Loop, \(\sqrt{3}\) Subdivision
+\item \textcolor{purple}{Rectangle Algorithms}\newline
+  Catmul-Clark, Doo-Sabin
+\end{itemize}
+
+\subsection{Model Correction}
+Rugular nodes: 6 edges for inner nodes, 4 or 3 edges for outer nodes\newline
+\textcolor{red}{irregular edges are "corrected"}
+\minipg{
+\textcolor{teal}{Area based:}\newline
+\textcolor{green}{ Surface characteristics stay}\newline 
+\textcolor{red}{ inferior detection and solving of errors }\newline 
+\, \newline
+\, \newline
+}{
+\textcolor{teal}{Volume based:}\newline
+\textcolor{green}{ Good detection and solving of errors}\newline 
+\textcolor{red}{ often too detailed, with subpar triangulation quality\newline
+Therefore surface characteristics are lost} 
+}[0.1,0.15]\\
+
+\subsection{Methods to check Quality of Meshes}
+\textcolor{purple}{Inspection of Reflectionlines}\newline
+\textcolor{purple}{Triangle Form}
+
+\subsection{Mesh reduction}
+Recude the amount of vertices while still getting the same model
+\begin{itemize}
+\item \textcolor{purple}{Vertex Clustering (least squares)}
+\item \textcolor{purple}{Incremental mesh reduction}\newline
+\includegraphics[scale=0.2]{2022-12-28:04:47:14.png}
+\includegraphics[scale=0.2]{2022-12-28:04:47:17.png}
+\includegraphics[scale=0.2]{2022-12-28:04:49:44.png}
+\includegraphics[scale=0.2]{2022-12-28:04:49:47.png}
+\item \textcolor{purple}{Remeshing}\newline
+new mesh with less triangles
+\end{itemize} 
+
+\subsection{Rasterization}
+
+
+
 
 \end{multicols*}
 \end{document}
