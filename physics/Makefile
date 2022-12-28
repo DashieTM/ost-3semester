@@ -1,4 +1,4 @@
-Physics.pdf: physics.tex ../ost-summary-template.tex
+physics.pdf: physics.tex ../ost-summary-template.tex
 	latexmk -pdf -shell-escape physics.tex
 
 clean:
