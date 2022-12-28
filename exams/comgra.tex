@@ -61,7 +61,7 @@ calculate the area of a parallelogram\newline
 \(\alpha\) = angle between the vector \(\vec{a}\) and \(\vec{b}\)\newline
 \includegraphics[scale=0.4]{2022-12-27:07:39:36.png}
 
-\subsection{Coordinate systems and spaces}
+\subsection{Coordinate systems/spaces}
 right handed: positive x to right\newline
 left handed: positive x to left\newline
 \textcolor{orange}{Local: world without transforms}\newline
@@ -73,7 +73,6 @@ Coord: engine, 180 rotated\newline
 \textcolor{orange}{Screen:} endresult for the human\newline
 Coord: without near-far axis (z)
 
-\section{Basics}
 \subsection{2D Projection}
 camera: (\(e_y, e_z\)), P: (y,z)\newline
 \textcolor{purple}{\(\dfrac{c = e_y z - e_z y}{z - e_z}\)}
@@ -110,11 +109,10 @@ tria[i++] = 1+(j+1) % sect);}
 Similar to 2D projection. \newline
 \textcolor{orange}{View Frustum}: \newline
 \textbf{fov(y), aspectratio, near and far plane}\newline
-\textcolor{OliveGreen}{If the fov is small, then shapes appear big, if the fov is big, the shapes appear small}
+\textcolor{OliveGreen}{If the fov is small, then shapes appear big -> fov is big, shapes appear small}
 
-\subsection{Orthographic Projection / Parallel Projection}
-\textcolor{purple}{normalized coordinates (between -1 and 1)}\newline
-\textbf{No Z dimension!}
+\subsection{Orthographic Projection}
+\textcolor{purple}{normalized coordinates (between -1 and 1)} \textbf{No Z dimension!}
 
 \section{GPU Pipeline}
 \begin{itemize}
@@ -131,18 +129,6 @@ Note a shader would program both the vertex and the fragment processor!
 This seperates the writing and reading of frames, making sure there are no artifacts when displaying the frame, see tearing!
 
 \section{Lighting}
-\subsection{Subtractive Light (CMYK) on Remission}
-\textcolor{purple}{Start with white, then remove colors}\newline
-When an object remits light, it will only show colors that are both in the light AND on the object itself:\newline
-\textcolor{purple}{\(C = C_L^T * C_0\)}\newline
-\(C_0\) is the original color\newline
-\textcolor{red}{The base Cyan, Magenta, Yellow are stored in RGB vectors!}
-
-\subsection{Additive Lighting}
-\textcolor{purple}{Start with black, then add colors}\newline
-\textcolor{purple}{\(C = 1 - (1 - C_{L1} )^T (1 - C_{L2} )\)}
-
-\subsection{Lighting}
 \begin{itemize}
 \item \textcolor{orange}{Ambient Lighting}\newline
 \textcolor{purple}{Diffuse Lighting from all direcitons, Remission in all directions}\newline
@@ -164,15 +150,24 @@ Intensity dependent on angle between reflection vector and camera angle\newline
   \includegraphics[scale=0.2]{2022-12-28:11:52:11.png}
 \end{itemize} 
 
+\subsection{Subtractive Light (CMYK)}
+\textcolor{purple}{Start with white, then remove colors}\newline
+When an object remits light, it will only show colors that are both in the light AND on the object itself:\newline
+\textcolor{purple}{\(C = C_L^T * C_0\)}\newline
+\(C_0\) is the original color\newline
+\textcolor{red}{The base Cyan, Magenta, Yellow are stored in RGB vectors!}
+
+\subsection{Additive Lighting}
+\textcolor{purple}{Start with black, then add colors}\newline
+\textcolor{purple}{\(C = 1 - (1 - C_{L1} )^T (1 - C_{L2} )\)}
+
 \subsection{Representation}
-\begin{itemize}
-\item \textcolor{purple}{Quantity of primitives} polygons
-\item \textcolor{purple}{approximation} splines, NURBS
-\item \textcolor{purple}{constructed} subdivision surfaces
-\end{itemize} 
+\textcolor{purple}{Quantity of primitives} polygons\newline
+\textcolor{purple}{approximation} splines, NURBS\newline
+\textcolor{purple}{constructed} subdivision surfaces
 
 \subsection{Sweep Triangulation}
-\includegraphics[scale=0.3]{2022-10-19-03:21:54.png}\includegraphics[scale=0.3]{2022-10-19-03:22:00.png}\newline
+\includegraphics[scale=0.25]{2022-10-19-03:21:54.png}\includegraphics[scale=0.25]{2022-10-19-03:22:00.png}\newline
 
 \subsection{Insert Triangulation}
 \includegraphics[scale=0.25]{2022-10-19-03:28:11.png}
@@ -202,16 +197,14 @@ Rugular nodes: 6 edges for inner nodes, 4 or 3 edges for outer nodes\newline
 \textcolor{teal}{Area based:}\newline
 \textcolor{green}{ Surface characteristics stay}\newline 
 \textcolor{red}{ inferior detection and solving of errors }\newline 
-\, \newline
-\, \newline
 }{
 \textcolor{teal}{Volume based:}\newline
 \textcolor{green}{ Good detection and solving of errors}\newline 
-\textcolor{red}{ often too detailed, with subpar triangulation quality\newline
-Therefore surface characteristics are lost} 
-}[0.1,0.15]\\
+\textcolor{red}{ often too detailed, subpar triangulation quality\newline
+surface characteristics are lost} 
+}[0.1,0.15]
 
-\subsection{Methods to check Quality of Meshes}
+\subsection{Check Quality of Meshes}
 \textcolor{purple}{Inspection of Reflectionlines}\newline
 \textcolor{purple}{Triangle Form}
 
@@ -228,9 +221,67 @@ Recude the amount of vertices while still getting the same model
 new mesh with less triangles
 \end{itemize} 
 
-\subsection{Rasterization}
+\subsection{Rasterization/Aliasing}
+\minipg{
+\textbf{Z-Buffer}\newline
+higher values: further away\newline
+lower values: closer\newline
+}{
+\includegraphics[scale=0.3]{2022-12-28:04:54:31.png}
+}[0.1,0.1]
+\textcolor{purple}{Z-Fighting}: \newline
+Objects with same z value fight over who is infront -> flickering
 
+\subsection{Anti-Aliasing/Super-sampling}
+\minipg{
+simple variant, more points -> less transparent\newline
+\textcolor{red}{Not for textures, as it only runs once}
+}{
+\includegraphics[scale=0.3]{2022-12-28:04:59:42.png}
+}[0.12,0.1]
 
+\subsection{Mipmaps}
+texture resolution dynamic to distance to camera.\newline
+removes aliasing and solves textures with too little detail
+
+\section{Reflections}
+static boundary | texture boundary\newline
+\includegraphics[scale=0.3]{2022-12-28:05:47:49.png}\includegraphics[scale=0.3]{2022-12-28:05:47:55.png}
+
+\section{Shadow mapping}
+Projection of light to surface with depth as the "color" -> Z buffer\newline
+\textcolor{red}{For textures it is better to save the position and color to make shadows easier}
+
+\subsection{HDRI}
+\textcolor{purple}{Take 3 different pictures with differnt lighting and put them together\newline
+\textbf{day, night, sunset}}
+
+\section{Ray Tracing}
+\includegraphics[scale=0.15]{2022-12-28:06:03:43.png}
+
+\subsection{Acceleration Structures}
+\minipg{
+\textcolor{purple}{Bounding Volumes Hierarchy}\newline
+These are simple volumes around a texture that will \textbf{hierachically} be checked to see which texture will be hit by ray.\newline
+}{
+\includegraphics[scale=0.3]{2022-12-28:06:25:23.png}
+}[0.1,0.12]
+
+\subsection{Quad-Tree}
+\minipg{
+\textcolor{purple}{Recursively divide square if more than 1 point in square}\newline
+Oct-tree -> same for 3D
+}{
+  \includegraphics[scale=0.2]{2022-12-28:06:14:23.png}
+}[0.1,0.12]
+
+\section{webGL}
+\begin{itemize}
+\item \textcolor{purple}{Scene graph treejs}
+\item \textcolor{purple}{Canvas in html}
+\item \textcolor{purple}{Single threaded!}
+\item \textcolor{purple}{many primitives predefined}
+\end{itemize} 
 
 
 \end{multicols*}
