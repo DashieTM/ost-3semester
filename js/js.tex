@@ -38,7 +38,8 @@ debugger;
 \, \newline
 \textcolor{teal}{This simply makes the browser stop at this line if the dev tools are open!}\\
 \hline
-Facts about javascript & 
+Facts about javascript &
+\vspace{2mm}
 \begin{itemize}
   \item \textcolor{teal}{It's dynamic}
   \item \textcolor{teal}{It's dynamically typed! (like python)}
@@ -87,7 +88,7 @@ Boolean Checks &
 \end{itemize}
 \, \newline
 \minipg{
-True Values:\newline
+False Values:\newline
 \begin{itemize}
   \item false
   \item 0 
@@ -103,6 +104,9 @@ True Values:\newline
   \item "false"
   \item \char`\[ \char`\]
   \item \char`\{ \char`\}
+  \, \newline
+  \, \newline
+  \, \newline
 \end{itemize}}\\
 \hline 
 NaN &
@@ -126,7 +130,8 @@ Numbers &
   \item Number(true) = 1
   \item Number(null) = 0
   \item Number("abc") = NaN \textcolor{teal}{remember NaN is of type number!}
-  \item one exception -> symbol, this is not a number
+  \item one exception -> symbol, this is not a number\newline
+    Error would be: Uncaught TypeError: Cannot convert a Symbol value to a number
   \vspace{-3mm}
 \end{itemize}\\
 \hline
@@ -144,7 +149,7 @@ Typical Methods:\newline
 \end{itemize}
 }
 {
-  Special Operations:
+  Special Operations:\newline
   \textcolor{red}{Number + String = String}\newline
   \textcolor{red}{String + Number = String}\newline
 }\\
@@ -458,9 +463,14 @@ target.addEventListener(type, listener[, options]);
 \, \newline
 options:\newline
 \begin{itemize}
-  \item capture
-  \item once
-  \item 
+  \item capture \newline
+    Whether or not the element in question should catch the event during capture phase
+  \item once \newline
+    Whether or not the eventhandler should function \textbf{only once}
+  \item passive \newline
+    Specifies that the function in question \textbf{will not call PreventDefault()}
+  \item signal \newline 
+    Specifies that the eventlistener will be removed if the \textbf{AbortSignals associated abort() method is called}
   \vspace{-3mm}
 \end{itemize}\\
 \hline
@@ -950,7 +960,7 @@ function something(a,b,c) {
   return a + b + c;
 }
 const arr = [1,2,3,4,5,6,7,8,9];
-something(...arr); // this works -> a=1,b=2,c=3,a2=4,b2=5....
+something(...arr); // this works -> a=1,b=2,c=3, rest ignored
 \end{lstlisting}\\
 \hline
 Destructuring & 
@@ -1083,14 +1093,16 @@ Model View Controller (MVC) &
 \hline
 Example for MVC & 
 \vspace{2mm}
-\includegraphics[scale=0.4]{2022-11-08-11:42:52.png} \textcolor{orange}{App-states}\newline
-\includegraphics[scale=0.4]{2022-11-08-11:42:58.png}\textcolor{orange}{Display of data}\newline
-\includegraphics[scale=0.4]{2022-11-08-11:43:08.png}\textcolor{orange}{Reaction to input}\\
+\includegraphics[scale=0.4]{2022-11-08-11:42:52.png}\newline
+\includegraphics[scale=0.4]{2022-11-08-11:42:58.png}
+\includegraphics[scale=0.4]{2022-11-08-11:43:08.png}\\
 \hline
 \end{tabular}
 \section{npm}
 \begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
+Basics Commands & 
+\vspace{2mm}
 \begin{itemize}
 \item \textcolor{purple}{npm init} -> create a new project
 \item \textcolor{purple}{npm install} -> install all packages needed for this project
@@ -1136,7 +1148,6 @@ const server = http.createServer((req, res) => {
 server.listen(port, hostname, () => {
   console.log(
   `Server running at http://${hostname}:${port}/`)
-  Server starten
 })
 \end{lstlisting}\\
 \hline
@@ -1187,6 +1198,7 @@ new Promise((resolve, reject) =>
   }
 })
 \end{lstlisting}
+\, \newline
 As you can see a promise has 2 functions as parameters that will handle the 2 possible end states reject -> rejected and resolve -> fulfilled.\\
 \hline
 Using promises & 
@@ -1250,11 +1262,11 @@ Each request is sent to the \textbf{same endpoint}.
 \\
 \hline
 Level 1: Ressources & 
-With this level we can data from different endpoints, this essentially allows \textbf{divide and conquer} -> "multithreading".\newline 
+With this level we can receive data from different endpoints, this essentially allows \textbf{divide and conquer} -> "multithreading".\newline 
 \includegraphics[scale=0.35]{2022-11-29-11:14:57.png}\\
 \hline
 Level 2 HTTP-Verbs & 
-Now we can use different html methods like \textbf{GET or POST}, this distiguises the idea of pushing or getting data, making it easier to handle data apropriately. \newline
+Now we can use different html methods like \textbf{GET or POST}, this distinguishes the idea of pushing or getting data, making it easier to handle data apropriately. \newline
 \includegraphics[scale=0.35]{2022-11-29-11:17:08.png}\\
 \hline
 Level 3: Hypermedia Controls & 
