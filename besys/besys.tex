@@ -2053,21 +2053,25 @@ if (pointer == 0) {
 }
 \end{lstlisting}\\
 \hline
-Union & 
-Unions are essentially enums from rust without the ability to create methods or use traits.\newline
-\textcolor{OliveGreen}{Members of unions therefore always start at the same address as the union and each union has the same size, just like in c++ and rust, it is equal to the biggest possible union member.}\newline
+Union &
+Members in a union all access the same memory, therefore, you could potentially interpret the same memory in different ways. For example you might want to print the data of a long long as bytes, you could put both a long long and a char array in a union and then initialize this union with the long long. After that you simply iterate over the char array and you will get the underlying data of the long long, as both access the same memory, and a char is just a one byte integer!!\newline
 \begin{lstlisting}
-union U {
-  int kind ;
-  struct { int kind; char value [256]; } str;
-  struct { int kind; long long value ; } ll;
-};
-union U u1 = {.ll = {.kind = 27, .value = 0x12345}};
-union U u2 = {.str = {.kind = 15, .value = "Hello"}};
-union U *pu = &u2;
-if (pu - > kind == 15) { puts ( pu - > str . value);}
-if (pu->kind == 27) {printf("%llX", pu->ll.value);}
-\end{lstlisting}\\
+typedef union U {
+  long long number;
+  char bytes[8];
+} U;
+
+U myUnion;
+myUnion.number = 17;
+printf("%lld\n", myUnion.number); // prints 17
+for (int i = 0; i < 8; i++) {
+  printf("%02hhx ", myUnion.bytes[i]); // simply print the bytes in pairs of 2, with the missing values being 0
+  // will print 11 00 00 00 00 00 00 00
+  // which is nothing else other than 17 in hex with a lot of empty data, remember LITTLE ENDIAN!
+}
+\end{lstlisting} 
+\, \newline
+\textcolor{red}{Note that the size of the union is based on the biggest member!!}\\
 \hline
 \end{tabular}
 \section{Bits}
@@ -2343,8 +2347,8 @@ Parameters on Stack &
 This means that the parameters will be on the stack until you return from the function.}\\
 \hline
 Frame Pointer & 
-\textcolor{orange}{With each function call, the \textbf{frame pointer} will move back and forth,\newline
-this requires a stable register for the frame pointer, this is the register \textbf{RBP (Base Pointer) on inte64}}\newline
+\textcolor{orange}{With each function call, the \textbf{stack pointer} will move back and forth,\newline
+Therefore we need a way to have a static pointer that doesn't move relatively to our parameters etc when we want to access them}\newline
 \textcolor{teal}{Prolog}\newline
 \begin{lstlisting}
 push rpb ;push base pointer to stack

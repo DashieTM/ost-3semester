@@ -1,0 +1,288 @@
+\documentclass[main.tex,fontsize=12pt,paper=a4,paper=landscape,DIV=calc,]{scrartcl}
+\input{../template-exam.tex}
+
+
+\lstset{
+    language=[Sharp]C,
+    style=code,
+}
+
+\begin{document}
+\begin{multicols*}{4}
+
+\section{vector geometry}
+Point: P (5,2)\newline
+vector: \(\vec{v} \left(\dfrac{5}{2}\right)\) \footnotesize not used here to save space
+\normalsize
+
+\subsection{Translation | linear}
+P + \(\vec{v} \) = (1,2,3) + (4,5,6) = (5,6,9) 
+
+\subsection{Scaling | linear}
+P * s = (s * 1, s * 2, s * 3)
+
+\subsection{Rotation | NOT linear}
+\(R_\theta \left(\dfrac{x}{0}\right) = \left(\dfrac{cos \theta}{sin \theta} x\right)\)\newline
+\(R_\theta \left(\dfrac{0}{y}\right) = \left(\dfrac{-sin \theta}{cos \theta} y\right)\)\newline
+\(R_\theta \left(\dfrac{x}{y}\right) = \left(\dfrac{x * cos \theta - y * sin \theta}{x * sin \theta + y * cos \theta} x\right)\)
+
+\subsection{Multiplication of Vectors}
+\textbf{Multiplication of vectors is not communitative!}\newline
+\(\left[\begin{smallmatrix}\textcolor{blue}{x_{11} \, x_{12} \, x_{13}} \\ x_{21} \, x_{22} \, x_{23} \end{smallmatrix}\right] *
+\left[\begin{smallmatrix} \textcolor{green}{y_{11}} \, y_{12} \\ \textcolor{green}{y_{21}} \, y_{22} \\ 
+\textcolor{green}{y_{31}} \, y_{32}\end{smallmatrix}\right] =
+\left[\begin{smallmatrix} \textcolor{red}{c_{11}} \, c_{12} \\ c_{21} \, c_{22} \end{smallmatrix}\right]\)\newline
+\textbf{\textcolor{red}{!! each row * each column !!}}\newline
+\textbf{This also means that the row of the first matrix needs to be as long as the column of the second matrix!}\\
+
+\subsection{Matrix Transpose}
+\(\left[\begin{smallmatrix} 1  5 \\ 6  7 \end{smallmatrix}\right]^T == \left[ \begin{smallmatrix} 1  6 \\ 5  7 \end{smallmatrix}\right]\)\newline
+\textcolor{purple}{Just swap row and columns}
+
+\subsection{Inverse of a Matrix}
+\(A^{-1}A = I\)\newline
+\includegraphics[scale=0.2]{2022-10-05-05:07:54.png}
+
+\subsection{Linear Dependence}
+if the addition of 2 vectors with a scalar of NOT 0 is not the null-vector, then they are linearly \textbf{independent}.\newline
+They are also linearly independent if \textbf{the determinant is NOT 0, or the gauss algorithm ends in unitmatrix}.
+
+\subsection{Length of a vector}
+\textcolor{purple}{\( |\vec{v}| = \sqrt{x^2 + y^2 + z^2} \)}
+
+\subsection{Dotproduct}
+\textbf{\textcolor{red}{\( \vec{a} * \vec{b} = |\vec{a}| * |\vec{b}| * cos(\alpha) \)}}\newline
+returns 0 when angle is 90
+
+\subsection{Crossproduct}
+\textbf{\textcolor{red}{\( \vec{a} \text{ x } \vec{b} = |\vec{a}| * |\vec{b}| * sin(\alpha) * n\)}}\newline
+This is usually used to get the unit vector of the resulting vector, or to\newline
+calculate the area of a parallelogram\newline
+\(\alpha\) = angle between the vector \(\vec{a}\) and \(\vec{b}\)\newline
+\includegraphics[scale=0.4]{2022-12-27:07:39:36.png}
+
+\subsection{Coordinate systems/spaces}
+right handed: positive x to right\newline
+left handed: positive x to left\newline
+\textcolor{orange}{Local: world without transforms}\newline
+\textcolor{orange}{World:} actual 3D representation \newline
+Coord: engine defined: ex right handed\newline 
+\textcolor{orange}{View:} view transformation for 2D \newline
+Coord: engine, 180 rotated\newline
+\textcolor{orange}{Clip:} creates 3D illusion\newline
+\textcolor{orange}{Screen:} endresult for the human\newline
+Coord: without near-far axis (z)
+
+\subsection{2D Projection}
+camera: (\(e_y, e_z\)), P: (y,z)\newline
+\textcolor{purple}{\(\dfrac{c = e_y z - e_z y}{z - e_z}\)}
+\includegraphics[scale=0.3]{2022-09-21-03:39:39.png}\newline
+For a 3D projection you just repeat these steps for each point.\newline
+Note, 2D is usually done with \textcolor{red}{\textbf{homogenous coordinates}}, which are just 3D coordinates with a fixed z axis, eg. 1
+
+\subsection{Bresenham Line Algorithm}
+\textcolor{purple}{\(y = \dfrac{\delta y}{\delta x}x + c = mx + c\) ==> \(m = \dfrac{\delta y}{\delta x}\)}\newline
+\(x = x_0 + \delta x\) \(y = y_0 + m\delta x\) \newline \(\delta x = x - x_0\) \(\delta y = y - y_0 \)
+
+\section{OpenGL}
+ \textcolor{purple}{State Machine, Context with ID, \newline Method based, Originally for c++}
+
+\subsection{Meshes}
+\textcolor{purple}{Points(x,y,z), Edges, Faces(areas), consisting of triangles}
+Vertices can either be indexed, or non-indexed.\newline
+\textcolor{orange}{non-indexed vertices will write each point of each triangle, meaning you will have duplicates, indexed vertices will not write each point twice.}\newline
+\begin{lstlisting}
+// snipped getVertices
+for(int j=0; j < sect; j++) {
+vert[i++] = Cos(angle);
+vert[i++] = Sin(angle);
+vert[i++] = 0;
+angle += deltaAngle; }
+// snipped getTriangles
+for(int j=0; j < sect; j++) {
+tria[i++] = 0;
+tria[i++] = 1 + j;
+tria[i++] = 1+(j+1) % sect);}
+\end{lstlisting}
+
+\subsection{Perspective Projection}
+Similar to 2D projection. \newline
+\textcolor{orange}{View Frustum}: \newline
+\textbf{fov(y), aspectratio, near and far plane}\newline
+\textcolor{OliveGreen}{If the fov is small, then shapes appear big -> fov is big, shapes appear small}
+
+\subsection{Orthographic Projection}
+\textcolor{purple}{normalized coordinates (between -1 and 1)} \textbf{No Z dimension!}
+
+\section{GPU Pipeline}
+\begin{itemize}
+\item \textcolor{purple}{Vertex Processor} Programmable\newline
+  Turns raw vertices into primitives
+\item \textcolor{purple}{Rasterizer} primitives into fragments
+\item \textcolor{purple}{Fragment Processor} Programmable \newline
+  processes fragments -> ex. color
+\item \textcolor{purple}{Output Merging} Fragments to pixels
+\end{itemize}
+Note a shader would program both the vertex and the fragment processor!
+
+\subsection{Double Buffering}
+This seperates the writing and reading of frames, making sure there are no artifacts when displaying the frame, see tearing!
+
+\section{Lighting}
+\begin{itemize}
+\item \textcolor{orange}{Ambient Lighting}\newline
+\textcolor{purple}{Diffuse Lighting from all direcitons, Remission in all directions}\newline
+\item \textcolor{orange}{Diffuse Lighting}\newline
+\textcolor{purple}{point light, remission in all directions}\newline
+Remission proportional to cosine between normal and light vector\newline
+\textcolor{OliveGreen}{For matt surfaces}\newline
+\includegraphics[scale=0.2]{2022-12-28:11:46:29.png}
+\item \textcolor{orange}{Specular Lighting}\newline
+\textcolor{purple}{point light, remission in \textbf{one} direction}\newline
+Intensity dependent on angle between reflection vector and camera angle\newline
+\textcolor{OliveGreen}{for reflective surfaces}\newline
+\includegraphics[scale=0.2]{2022-12-28:11:46:39.png}
+\item \textcolor{orange}{Blinn-Shading}\newline
+  \textcolor{purple}{Combination of ambient, diffuse and specular}\newline
+  if angle over 90degrees, can't display reflections
+\item \textcolor{orange}{Blinn-Phong-Shading}\newline
+  \textcolor{purple}{Modification of Blinn, angle between halfway vector and normals}\newline
+  \includegraphics[scale=0.2]{2022-12-28:11:52:11.png}
+\end{itemize} 
+
+\subsection{Subtractive Light (CMYK)}
+\textcolor{purple}{Start with white, then remove colors}\newline
+When an object remits light, it will only show colors that are both in the light AND on the object itself:\newline
+\textcolor{purple}{\(C = C_L^T * C_0\)}\newline
+\(C_0\) is the original color\newline
+\textcolor{red}{The base Cyan, Magenta, Yellow are stored in RGB vectors!}
+
+\subsection{Additive Lighting}
+\textcolor{purple}{Start with black, then add colors}\newline
+\textcolor{purple}{\(C = 1 - (1 - C_{L1} )^T (1 - C_{L2} )\)}
+
+\subsection{Representation}
+\textcolor{purple}{Quantity of primitives} polygons\newline
+\textcolor{purple}{approximation} splines, NURBS\newline
+\textcolor{purple}{constructed} subdivision surfaces
+
+\subsection{Sweep Triangulation}
+\includegraphics[scale=0.25]{2022-10-19-03:21:54.png}\includegraphics[scale=0.25]{2022-10-19-03:22:00.png}\newline
+
+\subsection{Insert Triangulation}
+\includegraphics[scale=0.25]{2022-10-19-03:28:11.png}
+\includegraphics[scale=0.25]{2022-10-19-03:36:45.png}\newline
+After Insert or sweep, swap long edge with shorter edge for better performance\newline
+
+\subsection{Subdivision Surfaces}
+\begin{itemize}
+\item \textcolor{purple}{Recursive refinement}\newline
+starts blocky, gets smooth over iterations\newline
+\textcolor{OliveGreen}{Combination of meshes and splines}
+\item \textcolor{purple}{Chaikings Algorithm}\newline
+\minipg{
+\includegraphics[scale=0.35]{2022-12-28:02:16:51.png}
+}{
+Replace point in the middle with 2 new points, with 3/4 of previous and 1/4 of next point}[0.135,0.1]
+\item \textcolor{purple}{Triangle Algorithms}\newline
+  Loop, \(\sqrt{3}\) Subdivision
+\item \textcolor{purple}{Rectangle Algorithms}\newline
+  Catmul-Clark, Doo-Sabin
+\end{itemize}
+
+\subsection{Model Correction}
+Rugular nodes: 6 edges for inner nodes, 4 or 3 edges for outer nodes\newline
+\textcolor{red}{irregular edges are "corrected"}
+\minipg{
+\textcolor{teal}{Area based:}\newline
+\textcolor{green}{ Surface characteristics stay}\newline 
+\textcolor{red}{ inferior detection and solving of errors }\newline 
+}{
+\textcolor{teal}{Volume based:}\newline
+\textcolor{green}{ Good detection and solving of errors}\newline 
+\textcolor{red}{ often too detailed, subpar triangulation quality\newline
+surface characteristics are lost} 
+}[0.1,0.15]
+
+\subsection{Check Quality of Meshes}
+\textcolor{purple}{Inspection of Reflectionlines}\newline
+\textcolor{purple}{Triangle Form}
+
+\subsection{Mesh reduction}
+Recude the amount of vertices while still getting the same model
+\begin{itemize}
+\item \textcolor{purple}{Vertex Clustering (least squares)}
+\item \textcolor{purple}{Incremental mesh reduction}\newline
+\includegraphics[scale=0.2]{2022-12-28:04:47:14.png}
+\includegraphics[scale=0.2]{2022-12-28:04:47:17.png}
+\includegraphics[scale=0.2]{2022-12-28:04:49:44.png}
+\includegraphics[scale=0.2]{2022-12-28:04:49:47.png}
+\item \textcolor{purple}{Remeshing}\newline
+new mesh with less triangles
+\end{itemize} 
+
+\subsection{Rasterization/Aliasing}
+\minipg{
+\textbf{Z-Buffer}\newline
+higher values: further away\newline
+lower values: closer\newline
+}{
+\includegraphics[scale=0.3]{2022-12-28:04:54:31.png}
+}[0.1,0.1]
+\textcolor{purple}{Z-Fighting}: \newline
+Objects with same z value fight over who is infront -> flickering
+
+\subsection{Anti-Aliasing/Super-sampling}
+\minipg{
+simple variant, more points -> less transparent\newline
+\textcolor{red}{Not for textures, as it only runs once}
+}{
+\includegraphics[scale=0.3]{2022-12-28:04:59:42.png}
+}[0.12,0.1]
+
+\subsection{Mipmaps}
+texture resolution dynamic to distance to camera.\newline
+removes aliasing and solves textures with too little detail
+
+\section{Reflections}
+static boundary | texture boundary\newline
+\includegraphics[scale=0.3]{2022-12-28:05:47:49.png}\includegraphics[scale=0.3]{2022-12-28:05:47:55.png}
+
+\section{Shadow mapping}
+Projection of light to surface with depth as the "color" -> Z buffer\newline
+\textcolor{red}{For textures it is better to save the position and color to make shadows easier}
+
+\subsection{HDRI}
+\textcolor{purple}{Take 3 different pictures with differnt lighting and put them together\newline
+\textbf{day, night, sunset}}
+
+\section{Ray Tracing}
+\includegraphics[scale=0.15]{2022-12-28:06:03:43.png}
+
+\subsection{Acceleration Structures}
+\minipg{
+\textcolor{purple}{Bounding Volumes Hierarchy}\newline
+These are simple volumes around a texture that will \textbf{hierachically} be checked to see which texture will be hit by ray.\newline
+}{
+\includegraphics[scale=0.3]{2022-12-28:06:25:23.png}
+}[0.1,0.12]
+
+\subsection{Quad-Tree}
+\minipg{
+\textcolor{purple}{Recursively divide square if more than 1 point in square}\newline
+Oct-tree -> same for 3D
+}{
+  \includegraphics[scale=0.2]{2022-12-28:06:14:23.png}
+}[0.1,0.12]
+
+\section{webGL}
+\begin{itemize}
+\item \textcolor{purple}{Scene graph treejs}
+\item \textcolor{purple}{Canvas in html}
+\item \textcolor{purple}{Single threaded!}
+\item \textcolor{purple}{many primitives predefined}
+\end{itemize} 
+
+
+\end{multicols*}
+\end{document}

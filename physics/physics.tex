@@ -1,31 +1,39 @@
 \documentclass[main.tex,fontsize=8pt,paper=a4,paper=portrait,DIV=calc,]{scrartcl}
-\input{../ost-summary-template.tex}
-\begin{document}
-\section{Terms and Definitions}
-\begin{table}[h!]
-\begin{tabular}{|p{0.2\linewidth}|p{0.755\linewidth}|}
-\hline
+\input{../template-exam.tex}
 
-\hline
-\hline
-\hline
-\end{tabular}
-\end{table}
+\title{Physics}
+\author{Fabio Lenherr}
+
+\begin{document}
+
+\tableofcontents
+
+\section{Terms and Definitions}
+
+\begin{multicols*}{2}
+
 \section{General Rules}
-All physical rules are universal, this means there is no space in the universe where these rules do not apply. \\ In other words, shit like equestria is sadly not possible according to physics, what a surprise!
+All physical rules are universal, this means there is no space in the universe where these rules do not apply.\newline
+In other words, shit like equestria is sadly not possible according to physics, what a surprise!
+
 \section{Vectors}
-\textbf{Notation} \( \vec{A} = \begin{bmatrix}x_{1} \\ x_{2} \end{bmatrix} \) OR \(\vec{A} = (x1 | x2)\)
-\,   \,As you have learned in vocational school, use the first for vectors, the second for points.\\
-\pictext{2022-09-23-10:41:26.png}
-{A vector is nothing but a projection in the X,Y,Z planes \\ 
-It has both a direction and a value\\
-This value is usually modified by a scalar aka a factor. Then the vector can be something more universal \\
-We call this universal vector a unit vector. A directional vector with the value 1.}[0.6,0.35,0.3]\\
-\pictext{2022-09-23-10:41:32.png}{}[0.6,0.35,0.3]\\
-\pictext{2022-09-23-10:41:37.png}{If the direction and the value is the same, then there is nothing that differentiates this vector from another.}[0.6,0.35,0.3]\\
-\pictext{2022-09-23-10:41:44.png}{A vector is identical if both the value and the direction is the same.}[0.6,0.35,0.3]\\
-\pictext{2022-09-23-10:41:48.png}{Similar, if the value is identical but the direction is negated, then you have the inverse vector.}[0.6,0.35,0.3]\\
-\pictext{2022-09-23-10:41:53.png}{simple vector math}[0.6,0.35,0.3]\\
+\textbf{Notation} \( \vec{A} = \begin{bmatrix}x_{1} \\ x_{2} \end{bmatrix} \) OR \(\vec{A} = (x1 | x2)\)\newline
+As you have learned in vocational school, use the first for vectors, the second for points.\newline
+
+\includegraphics[scale=0.3]{2022-09-23-10:41:26.png}
+{A vector is nothing but a projection in the X,Y,Z planes \newline 
+It has both a direction and a value \newline
+This value is usually modified by a scalar aka a factor. Then the vector can be something more universal \newline
+We call this universal vector a unit vector. A directional vector with the value 1.}[0.3,0.3,0.2]\newline
+\includegraphics[scale=0.3]{2022-09-23-10:41:32.png}
+\includegraphics[scale=0.3]{2022-09-23-10:41:37.png}\newline
+If the direction and the value is the same, then there is nothing that differentiates this vector from another.\newline
+\includegraphics[scale=0.3]{2022-09-23-10:41:44.png}\newline
+A vector is identical if both the value and the direction is the same.\newline
+\includegraphics[scale=0.3]{2022-09-23-10:41:48.png}\newline 
+Similar, if the value is identical but the direction is negated, then you have the inverse vector.\newline
+\includegraphics[scale=0.3]{2022-09-23-10:41:53.png}\newline 
+simple vector math \newline
 \subsection{Dotproduct}
 \Large{\textbf{\textcolor{red}{\( \vec{a} * \vec{b} = |\vec{a}| * |\vec{b}| * sin(\alpha) * n \)}}}\newline
 \normalsize This returns a scalar, aka a number that you can use.\newline
@@ -35,65 +43,88 @@ This will return 0 when used in a right angle as \(cos(90)\) is 0!\\
 \normalsize This is usually used to get the unit vector of the resulting vector.\newline
 \(\alpha\) is the angle between the vector \(\vec{a}\) and \(\vec{b}\)\newline
 \emph{\textcolor{teal}{For more information and proof, check the dedicated vector Document from vocational school.}}\\
-\begin{table}[h!]
-\begin{tabular}{|m{0,2\linewidth}|m{0.755\linewidth}|}
-\hline
-\hline
-\end{tabular}
-\end{table}
-\pagebreak
-\begin{table}
-\section{friction}
-\begin{tabular}{|m{0,2\linewidth}|m{0.755\linewidth}|}
-\hline
-\textbf{regular friction} & \minipg{
+
+\subsection{SohCahToa}
+\minipg{
+\, \newline
+\large \textcolor{purple}{\( sine(\alpha) = \dfrac{\text{opposite}}{\text{hypotenus}} \)}\newline
+\large \textcolor{purple}{\( cos(\alpha) = \dfrac{\text{adjacent}}{\text{hypotenus}} \)}\newline
+\large \textcolor{purple}{\( tan(\alpha) = \dfrac{\text{opposite}}{\text{adjacent}} \)}\newline
+\large \textcolor{purple}{\( \text{adjacent} = sin(\alpha) * \text{hypotenus} \)}\newline
+\large \textcolor{purple}{\( \text{adjacent} = \dfrac{\text{opposite}}{tan(\alpha)}\)}\newline
+\large \textcolor{purple}{\( \text{opposite} = cos(\alpha) * \text{hypotenus} \)}\newline
+\large \textcolor{purple}{\( \text{opposite} = tan(\alpha) * \text{adjacent} \)}\newline
+\, \newline
+}{
+\includegraphics[scale=0.3]{2022-12-29:03:23:18.png}
+}[0.25,0.25]
+
+\section{Static}
+\subsection{Forces}
+\subsubsection{Types}
+\vspace{2mm}
+\begin{itemize}
+\item \textcolor{purple}{movement -> acceleration and braking}
+\item \textcolor{purple}{deformation}
+
+\end{itemize}
+
+\subsubsection{Gravity}
+\textcolor{purple}{\( |\vec{F_G}| = G * \dfrac{m_1 * m_2}{r^2} \)} | 
+G = \(6.67 * 10^{-11}\dfrac{m^3}{kgs^2}\)\vspace{2mm}
+
+\subsubsection{Fall acceleration}
+\textcolor{purple}{\(|\vec{F_G}| = m * g\)} | with \(g = 9.81\dfrac{m}{s^2}\)
+
+\subsubsection{Newton}
+\textcolor{purple}{\(1N = 1kg * \dfrac{m}{s^2}\)}\vspace{2mm}
+
+\subsection{MassPoint}
+\subsubsection{Term Definition} 
+A Masspoint is simply a weight without a volume, aka it is the center of mass itself.
+
+\subsubsection{regular friction}
 regular friction has 2 formulas. \newline
 standing friction = standing coefficient * force of mass \newline
 \large \textcolor{red}{\(F_{s} = \gamma_s * F_G\)}\newline 
 \normalsize friction = moving coefficient * force of mass \newline 
-\large\textcolor{red}{\(F_{m} = \gamma_m * F_G\)} \normalsize
-}{\pic{2022-09-30-11:13:56.png}}[0.4,0.5]\\
-\hline
-\textbf{viscose friction} &
+\large\textcolor{red}{\(F_{m} = \gamma_m * F_G\)} \normalsize\newline
+\pic{2022-09-30-11:13:56.png}
+
+\subsubsection{viscose friction}
 Viscose friction happens when you do not have a rigid/dry body.\newline
 A good example for this are tires. They act as a "lubricant" in proper conditions -> see F1.\newline
 In this case the more contact you have to the floor, the less friction you will have.\newline
 Interestingly this also means that it is very unlikely that you get stuck in mud/snow with small tires,\newline
-but very much likely that you do get stuck with big slick tires -> also see f1 kekw\\
-\hline 
-\end{tabular}
-\section{Actio \& Reactio}
-\begin{tabular}{|m{0.977\linewidth}|}
-\hline
-\minipg{
+but very much likely that you do get stuck with big slick tires -> also see f1 kekw
+
+\subsubsection{Actio \& Reactio}
 A force being inflicted upon a body will be met with the same force by said body.\newline
 The only difference here is that the body with more mass has more "lag". \newline
 In other words, more force is needed to accelerate that body.\newline
 This means that the only reason why the earth doesn't follow you when you jump,\newline
-is that the earth is by magnitudes heavier than you!
-}{\pic{2022-09-30-11:28:18.png}}[0.6,0.3]\\
-\hline
-\end{tabular}
+is that the earth is by magnitudes heavier than you!\newline
+\pic{2022-09-30-11:28:18.png}
+
 \section{torque}
-\begin{tabular}{|m{0,2\linewidth}|m{0.755\linewidth}|}
-\hline
-\textbf{line of effect} & \minipg{
+\subsubsection{line of effect}
 A vector of a force can be used anywhere on that vector.\newline
 This means that the point of effect can be moved infinitely in the vector line.\newline
-}{\pic{2022-09-30-11:37:46.png}}[0.4,0.55]\\
-\hline
-\textbf{lever} & \minipg{
-}{\pic{2022-09-30-11:44:32.png}}[0.3,0.4]\\
-\hline
-  \textbf{Force and Acceleration} & 
+\includegraphics[scale=0.2]{2022-09-30-11:37:46.png}
+
+\subsubsection{lever} 
+\minipg{
+}{\includegraphics[scale=0.2]{2022-09-30-11:44:32.png}}[0.2,0.2]
+
+\subsubsection{Force and Acceleration} 
 \textcolor{teal}{A force will always result in an acceleration, this can either be positive or negative(braking).\newline
-However remember that an acceleration of 0 does not mean braking, it means constant speed!}\\
-\hline
-  \textbf{torque} & 
- \Large \( |\vec{M}| = a * |\vec{F}| \)\newline
- \, \newline
- \textcolor{teal}{ \normalsize \textbf{The value of Torque is always the length * force.}\newline
-   And it does not matter what constellation of force and length you use\newline
+However remember that an acceleration of 0 does not mean braking, it means constant speed!}
+
+\subsubsection{torque}
+\Large \( |\vec{M}| = a * |\vec{F}| \) | Unit: Nm\newline
+\, \newline
+\textcolor{teal}{ \normalsize \textbf{The value of Torque is always the length * force.}\newline
+And it does not matter what constellation of force and length you use\newline
 It will always be the same result as when the force increases with a new constellation the length decreases!}\newline
 \, \newline
 \textbf{Torque in vector format}\newline
@@ -104,187 +135,338 @@ It is simply the cross product of 2 vectors!\newline
 \normalsize \textcolor{teal}{Notice the length and the force F, they have a 90 degree angle as is needed.\newline
 \textbf{However the same calculation can be achieved by using the value of the cross product between r and F.\newline
 This can be done as long as we have a reference point, here R!.}}\newline
-\, \newline
-\Large \( \text{if reference point available: } |\vec{M}| = | \vec{r} \text{x} \vec{F} | = a * | \vec{F} | \ \)}
-{\pic{2022-10-07-10:50:19.png}}[0.5,0.4]\\
-\hline
-\end{tabular}
-\end{table}
-\pagebreak 
-\begin{table}[ht!]
+\, \newline}
+{\pic{2022-10-07-10:50:19.png}}[0.3,0.2]
+\Large if reference point available:\newline \( |\vec{M}| = | \vec{r} \text{x} \vec{F} | = a * | \vec{F} | \ \)
+
 \section{Mass and Equilibrium}
-\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
-\hline 
-\textbf{Center of Mass} & \minipg{
-  \textbf{\textcolor{teal}{ The sum of a mass * length -> level over the sum of all masses will result in either the center of mass,\newline
-  or an axis of it -> x, y, z.}}
+
+\subsubsection{Center of Mass} 
+\minipg{
+\textbf{\textcolor{teal}{ The sum of a mass * length -> level over the sum of all masses will result in either the center of mass,\newline
+or an axis of it -> x, y, z.}}
 }
 {
 \, \newline
-\Huge \( x_s = \dfrac{\sum_i x_i * m_i }{\sum_i m_i} \)\newline
+\Large \( x_s = \dfrac{\sum_i x_i * m_i }{\sum_i m_i} \)\newline
 \, \newline
-\Huge \( y_s = \dfrac{\sum_i y_i * m_i }{\sum_i m_i} \)\newline
+\Large \( y_s = \dfrac{\sum_i y_i * m_i }{\sum_i m_i} \)\newline
 \, \newline
-\Huge \( z_s = \dfrac{\sum_i z_i * m_i }{\sum_i m_i} \)\newline}[0.4,0.4]\\
-\hline
-\textbf{Equilibrium} &
+\Large \( z_s = \dfrac{\sum_i z_i * m_i }{\sum_i m_i} \)\newline}[0.3,0.2]
+
+\subsubsection{Equilibrium}
 If you want an equilibrium, then all forces need to combine into 0!\newline
 \, \newline
 \Large \textcolor{teal}{\( \displaystyle\sum_{n}^{i=1}\vec{F_i} = \vec{0} \) AND \( \displaystyle\sum_{m}^{i=1} \vec{M_i} = \vec{0} \)}\newline
-\normalsize \\
-\hline
-\textbf{stable equilibrium} &
+\normalsize 
+
+\subsubsection{Types of Equilibriums}
+\begin{itemize}
+\item \textcolor{purple}{stable equilibrium}\newline
 pushing an item in this state will cause the item to return to the original form.
-\\
-\textbf{unstable equilibrium} & 
+\item \textcolor{purple}{unstable equilibrium}\newline
 Pushing an item in this state will destroy the equilibrium.
-\\
-\textbf{indifferent equilibrium} &
+\item \textcolor{purple}{indifferent equilibrium}\newline
 Pushing an item in this state will create a new equilibrium.
-\\
-\hline
-\end{tabular}
-\section{Pressure and Stretching}
-\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
-\hline
-\textbf{Pullpressure} & 
+
+\end{itemize} 
+
+\subsection{Tension, Tortion, Contraction, Compression}
+\subsubsection{Pullpressure} 
 \textcolor{teal}{The pullpressure is the vertical pressure per area.}\newline
 \, \newline
-\large \( \sigma = \dfrac{F}{A} \)\newline
-\normalsize \\
-\hline
-\textbf{Pushpressure} & 
+\large \( \sigma = \dfrac{F_v}{A} \) | v for vertical\newline
+\normalsize 
+
+\subsubsection{Pushpressure} 
 \textcolor{teal}{the pushpressure is the parallel pressure per area.}\newline
 \, \newline
-\large \( \tau = \dfrac{F}{A} \)\newline
-\normalsize \\
-\hline
-\textbf{Stretching} & 
+\large \( \tau = \dfrac{F_p}{A} \) | p for parallel\newline
+\normalsize 
+
+\subsubsection{Stretching}
+\minipg{
 \, \newline
+\textcolor{red}{Hook's law}\newline
+\textcolor{purple}{This is only applicable if the forces are not too big!}\newline
 The stretching is \textbf{similar} to the pullpressure.\newline
 This can be visualized via this formula:\newline
 \, \newline
-\large \( \epsilon = \dfrac{\Delta l}{l} \approx \dfrac{F}{A} = \sigma \)\newline
+\large \( \epsilon = \dfrac{\Delta l}{l} \approx \dfrac{F}{A} = \sigma \) | | | \large \( \epsilon = \dfrac{1}{E} * \sigma \)
 \, \newline
-\large \( \epsilon = \dfrac{1}{E} * \sigma \)
-\, \newline
-\normalsize \\
-\hline
-\textbf{crosscontraction} &
-\, \newline
-\large \( \epsilon_q = \dfrac{\Delta d}{d} \)
-\, \newline
-\normalsize \\
-\hline
-\textbf{crosscontraction as Poisson-Number} &
-\, \newline
-\large \( \epsilon_q = -\gamma \epsilon \)
-\, \newline
-\normalsize \\
-\hline
-\textbf{\textcolor{orange}{Compressability}} &
+\normalsize  Legend:\newline
+\begin{itemize}
+\item \textcolor{black}{\(\epsilon\) = strain/stretching -> (Dehnung)}
+\item \textcolor{black}{E = elastic modulus [\(\dfrac{N}{m^2}\)]}
+\item \textcolor{black}{F = Force}
+\item \textcolor{black}{\(\sigma\) OR \(\tau\) pressure, see above}
+\item l and \(\delta\) l = length and change in length 
+\item A = Area
+\end{itemize}
+}{
+  Hook's law only applies for forces that are small enough to be withing the proportionality limit, after that the effects are no longer linear!\newline
+\includegraphics[scale=0.4]{2022-12-29:12:45:07.png}\newline
+Point A = Proportionality limit\newline
+Point B = Elasticity limit\newline
+Point C = Failure Point
+}[0.3,0.2]
+
+\subsubsection{Compressability}
 \, \newline
 \large \( \dfrac{\Delta V}{V} = - \kappa * \Delta p  \)
 \, \newline
 \, \newline
-\large \( \kappa = 0 \text{ or } \infty \text{ -> } \gamma = 0.5  \)
+\large \( \kappa = 0 \text{ or } \text{ -> } \mu = 0.5  \) for a completely rigid body!!
 \, \newline
-\normalsize \\
-\hline
-\end{tabular}
-\end{table}
-\pagebreak
-\begin{table}[ht!]
-\section{Acceleration, Velocity and Distance}
-\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
-\hline
-Median Acceleration & 
+\normalsize Legend:\newline
+\begin{itemize}
+\item \textcolor{black}{\(\kappa \) = Compressibility Constant}
+\item \textcolor{black}{V = Volume}
+\item \textcolor{black}{\(\delta V \) = change in Volume}
+\item \textcolor{black}{\(\delta p \) = change in Pressure}
+\end{itemize} 
+
+\subsubsection{crosscontraction}
+\minipg{
+\, \newline
+\large \( \epsilon_q = \dfrac{\Delta d}{d} \)\newline
+\, \newline
+\normalsize Legend:\newline
+\begin{itemize}
+\item \textcolor{black}{d and \(\Delta\)d = diameter and change in diameter}
+\item \textcolor{black}{\(\epsilon_d\) = crosscontraction}
+\end{itemize} 
+}{
+This defines that when stretching something like a rod, not only will it grow longer when stretching, it will also be thinner!
+}[0.2,0.3]
+
+\subsubsection{crosscontraction as Poisson-Number}
+\minipg{
+\, \newline
+\large \( \epsilon_q = -\mu \epsilon \)\newline
+\, \newline
+\normalsize Legend: \newline
+\begin{itemize}
+\item \textcolor{black}{\(\mu\) = Poisson number}
+\item \textcolor{black}{\(\epsilon\) = stretching}
+\item \textcolor{black}{\(\epsilon_d\) = crosscontraction}
+\end{itemize} 
+}{
+The poisson number \(\mu\) is a unitless property of materials, and usually has a value between 0.15 and 0.5.\newline
+It essentially defines how "elastic" a material is.
+}[0.18,0.3]
+
+\subsubsection{Torsionmodel}
+\minipg{
+\, \newline
+\large \textcolor{purple}{\( G = \dfrac{E}{2 (1+\mu)} \)}\newline
+\, \newline
+\normalsize Legend: \newline
+\begin{itemize}
+\item G = Materialconstant torsion modulo
+\item E = elastic modulus
+\item \(\mu\) = Poisson Number 
+\end{itemize} 
+}{
+Due to the poisson number being withing 0 to 0.5, the following are the limits for G:\newline
+\, \newline
+\large \textcolor{purple}{\( \dfrac{E}{3} \le G \le \dfrac{E}{2} \)}\newline
+\, \newline
+}[0.22,0.25]
+
+\subsubsection{Torsion-Spring}
+\, \newline
+\large \textcolor{purple}{\( \phi = \dfrac{M}{c} = \dfrac{M * 2l}{\pi * G * r^4} = \dfrac{M * 2l}{\pi * \dfrac{E}{2 (1 + \mu)} * r^4} = \dfrac{M * 4l * (1 + \mu)}{\pi * E * r^4}\)}\newline
+\, \newline
+\normalsize 
+\minipg{
+Legend: \newline
+\begin{itemize}
+\item M = torque
+\item c = ??
+\item \(\phi\) = turning angle 
+\item l = length
+\end{itemize} 
+}{
+\includegraphics[scale=0.4]{2022-12-29:01:16:07.png}
+}[0.25,0.25]\newline
+for a completely rigid body: \(\mu = 0.5\) | \(G = \dfrac{E}{3}\) | \(E = \infty\)\newline
+something over infinity will be 0 when considering the limit
+
+\subsubsection{Screw-Spring}
+\, \newline
+\large \textcolor{purple}{\( \Delta l = \dfrac{F}{c} = \dfrac{F * 4nR^3}{G * r^4} = \dfrac{F * 8nR^3 (1 + \mu)}{E * r^4}\)}\newline
+\, \newline
+\normalsize 
+\minipg{
+Legend: \newline
+\begin{itemize}
+\item F = force
+\item c = ??
+\item l = length
+\item n = amount of coils
+\item R = radius of coil
+\end{itemize} 
+}{
+\includegraphics[scale=0.4]{2022-12-29:01:30:58.png}
+}[0.25,0.25]\newline
+for a completely rigid body: \(\mu = 0.5\) | \(G = \dfrac{E}{3}\) | \(E = \infty\)\newline
+something over infinity will be 0 when considering the limit
+
+\subsubsection{Plankdeformation}
+\minipg{
+\, \newline
+\large \textcolor{purple}{\( z = \dfrac{4 * l^3}{E * b * h^3} \)}\newline
+\, \newline
+\normalsize Legend: \newline
+\begin{itemize}
+\item z = change in height
+\item b = ??
+\item h = height 
+\item E = elastic modulo
+\end{itemize} 
+}{
+\includegraphics[scale=0.2]{2022-12-29:01:32:42.png}\newline
+This picture simply states that we can scale this from 1m to 100m
+}[0.20,0.25]\newline
+\(z = \frac{5\cdot 7800\,\mathrm{kg}/\mathrm{m}^3\cdot 9.81\,\mathrm{m}/\mathrm{s}^2\cdot 1\,\mathrm{m}^4}{32\cdot 2\cdot 10^{11}\,\mathrm{N}/\mathrm{m}^2 \cdot \left(0.01\,\mathrm{m}\right)^2} \approx 5.98\cdot10^{-4}\,\mathrm{m} = 0.598\,\mathrm{mm}\quad\)\newline
+100m -> 5.98m | only the \((1m)^4\) changes to \((100m)^4\)
+
+
+\section{kinematic}
+\subsection{Median acceleration}
 \textcolor{orange}{The median acceleration is the end velocity - the start velocity over the end time - the start time:}\newline
 \, \newline
-\huge \( \overset{\_}{a} = \dfrac{v_2 - v_1}{t_2 - t_1} = \dfrac{v(t_2) - v(t_1)}{t_2 - t_1} \) \newline
-\normalsize \\
-\hline
-Current Acceleration & 
+\large \( \overset{\_}{a} = \dfrac{v_2 - v_1}{t_2 - t_1} = \dfrac{v(t_2) - v(t_1)}{t_2 - t_1} \) \newline
+\normalsize 
+
+\subsubsection{Current Acceleration}
 \textcolor{orange}{The current acceleration is the limit of the current velocity - the velocity of current time - delta time over delta time. \newline
 Or easier, the derivation of current velocity:}\newline
 \, \newline
-\huge \( a(t) = \underset{\Delta t -> 0}{\lim} \dfrac{v(t) - v(t - \Delta t)}{\Delta t} = \dfrac{d}{dx}v(t)\) \newline
-\normalsize \\
-\hline
-Derivatives &
+\large \( a(t) = \underset{\Delta t -> 0}{\lim} \dfrac{v(t) - v(t - \Delta t)}{\Delta t} = \dfrac{d}{dx}v(t)\) \newline
+\normalsize
+
+\subsubsection{Derivatives}
 \, \newline
-\huge \(\dfrac{d}{dt}a(t) = v(t) = \int{s(t)} \)\newline
+\large \(\dfrac{d}{dt}a(t) = v(t) = \int{s(t)} \)\newline
 \, \newline
-\huge \(\dfrac{d}{dt}v(t) = s(t)\)\newline
+\large \(\dfrac{d}{dt}v(t) = s(t)\)\newline
 \, \newline
 \normalsize \textcolor{orange}{Also note that when you integrate, you get a constant c -> hence the following:}\newline
 \, \newline
-\huge \( v(t) = \int{a(t) dt} = \int{0 dt} = c \text{ --> if a(t) == 0}\) \newline
+\large \( v(t) = \int{a(t) dt} = \int{0 dt} = c \text{ --> if a(t) == 0}\) \newline
 \, \newline
-\normalsize \textcolor{red}{This is why the acceleration on earth -> gravity is constant!! HOLY FUCK}\\
-\hline
-Derivative of a Vector & 
+\normalsize \textcolor{red}{This is why the acceleration on earth -> gravity is constant!! HOLY FUCK}
+
+\subsubsection{Derivative of a Vector}
 \textcolor{orange}{The derivative of a vector is the derivative of each component, meaning the following:}\newline
 \large \(\dfrac{d}{dx} \vec{r}(t) = (\dfrac{d}{dx} x(t), \dfrac{d}{dx} y(t), \dfrac{d}{dx} z(t) ) \)\newline
-\, \newline \normalsize \\
-\hline
-Current Velocity with Vectors & 
+\, \newline \normalsize
+
+\subsubsection{Current Velocity with Vectors}
 \textcolor{orange}{This specifies the current velocity of a vector:}\newline
 \, \newline
-\huge \( \vec{v}(t) = \underset{\Delta t -> 0}{\lim} \dfrac{\Delta \vec{r}}{\Delta t} = \dfrac{d}{dx} \vec{r} = \overset{.}{\vec{r}} \) \newline 
-\, \newline \normalsize \\
-\hline
-Radial Acceleration & 
+\large \( \vec{v}(t) = \underset{\Delta t -> 0}{\lim} \dfrac{\Delta \vec{r}}{\Delta t} = \dfrac{d}{dx} \vec{r} = \overset{.}{\vec{r}} \) \newline 
+\, \newline \normalsize
+
+\subsubsection{Equal accellerated translation}
 \, \newline
-\huge \( a_{tan} = \underset{\Delta t -> 0}{lim} \dfrac{\Delta v_{tan}}{\Delta t} = \dfrac{dv}{dt} = \overset{.}{v} \) \newline
+\large \textcolor{purple}{\( a(t) = a_0 \) OR \(a = \dfrac{\Delta v}{\Delta t} [\dfrac{m}{s^2}]\) }\newline
 \, \newline
-\huge \( \dfrac{\Delta v_{rad}}{v} = \dfrac{\Delta r}{r}\)
+\large \textcolor{purple}{\( v(t) = \int{a_0 dt} = a_0 * t + c_1 \) OR \(v(t) = v_0 + a * t\)}\newline
 \, \newline
-\huge \( a_{rad} = \underset{\Delta t -> 0}{\lim} \dfrac{\Delta v_{rad}}{\Delta t} = \dfrac{v}{r}\underset{\Delta t -> 0}{\lim} \dfrac{\Delta v}{\Delta t} = \textcolor{red}{\dfrac{v^2}{r}} \) \newline
+\large \textcolor{purple}{\( x(t) = \int{\int{ a_0 dt }} = \int{a_0 * t + c_1 dt} = \dfrac{1}{2}* a_0 * t^2 + c_1 * t + c_2\)}\newline
 \, \newline
-\huge \( v(t) = a_{tan} * t + v_0 \) \newline
-\huge \( s(t) = \dfrac{a_{tan} * t^2}{2} + v_0 * t + s_0\) \newline
+\large \textcolor{purple}{\( x(t) = v_0 * t + \dfrac{a * t^2}{2} \)}\newline
+\, \newline
+\normalsize 
+
+\subsubsection{extreme values}
+In order to get the maximum of a parabel, you have 2 possibilities, either set the acceleration to 0 which can be calculated by getting the initial acceleration and then reducing it with gravity until you find the proper time:\newline
+\, \newline
+\Large \textcolor{purple}{\(t_{\text{max}} = \dfrac{\dfrac{sin(\alpha) F}{m} - g}{g}\) | \(a_{\text{vertical}} = \dfrac{sin(\alpha) * F}{m}\)}
+\, \newline
+\textcolor{purple}{\( v_0 = a_{\text{vertical}} - g \) | \( 0 = v_0 - t_{max} * g \)} 
+\newline
+Or you can set the slop of x to 0 with derivations:\newline
+\, \newline
+\large \textcolor{purple}{\( x(tmax) = -\dfrac{1}{2}g * t^2_{max} + v_0 * t_{max} + h_0\)}\newline
+\, \newline
+
+\subsubsection{osculating circle (Schmieg)}
+This is a circle that in respect to 3 points will go through all of them in the trajectory of an object.\newline
+It is used to get a radius that is needed in order to calculate the speed, acceleration etc.\newline
+\minipg{
+\, \newline
+\large \textcolor{purple}{\(  
+			\vec{a} = \frac{\mathrm{d}}{\mathrm{d}t}\vec{v} = \lim\limits_{\Delta t \rightarrow 0}\frac{\vec{v}\left(t+\Delta t\right)-\vec{v}\left(t-\Delta t\right)}{\Delta t} \quad\) \newline
+		where \(t_1 = t-\Delta t\) und \(t_2 = t+\Delta t\)}\newline
+\, \newline
+\normalsize 
+}{
+\includegraphics[scale=0.2]{2022-12-29:04:06:04.png}
+}[0.3,0.25]
+
+\subsubsection{Radial and Tangential Acceleration}
+\textcolor{red}{Tangential Acceleration is the speed of the object -> \(|\vec{v}|\)}\newline
+\textcolor{red}{Radial Acceleration is the direction of the object -> \(\vec{v}\)}\newline
+\includegraphics[scale=0.2]{2022-12-29:04:15:14.png}\newline
+\, \newline
+\large \( a_{tan} = \underset{\Delta t -> 0}{lim} \dfrac{\Delta v_{tan}}{\Delta t} = \dfrac{dv}{dt} = \overset{.}{v} \) \newline
+\, \newline
+\large \( \dfrac{\Delta v_{rad}}{v} = \dfrac{\Delta r}{r}\) ==> \( a_{rad} = \underset{\Delta t -> 0}{\lim} \dfrac{\Delta v_{rad}}{\Delta t} = \dfrac{v}{r}\underset{\Delta t -> 0}{\lim} \dfrac{\Delta v}{\Delta t} = \textcolor{red}{\dfrac{v^2}{r}} \) \newline
+\, \newline \normalsize
+
+\subsubsection{Equally accelerated tangential translation}
+\, \newline
+\large \textcolor{purple}{\( v(t) = a_{tan} * t + v_0 \)}\newline
+\large \textcolor{purple}{\( s(t) = \dfrac{a_{tan} * t^2}{2} + v_0 * t + s_0\)} \newline
 \, \newline \normalsize \
 \textcolor{orange}{In case that \(a_{tan}\) is 0, you obviously only evaluate \(v_0 * t + s_0\) , this is because the first part would evaluate to 0.}
-\\
-\hline
-Angle Velocity & 
+
+\subsubsection{Coordinates}
+\(\text{Kartesian Coordinates:} \quad\vec{P}= \begin{pmatrix}x\\y \end{pmatrix} = \begin{pmatrix}r\cdot \cos\phi\\ r\cdot \sin\phi\end{pmatrix}\quad \newline
+\text{Polar Coordinates:} \quad\vec{P}= \begin{pmatrix}r\\ \phi \end{pmatrix} = \begin{pmatrix}\left|\sqrt{x^2+y^2}\right|\\ \tan\frac{y}{x}\end{pmatrix}\quad\)
+
+\subsubsection{Angle Velocity}
 \, \newline
-\huge \( \omega = \underset{\Delta t -> 0}{\lim} \dfrac{\phi(t + \Delta t - \phi(t))}{\Delta t} = \dfrac{d\phi}{dt} = \overset{.}{\phi} \) \newline
+\large \textcolor{purple}{\( \omega = \underset{\Delta t -> 0}{\lim} \dfrac{\phi(t + \Delta t) - \phi(t)}{\Delta t} = \dfrac{d\phi}{dt} = \overset{.}{\phi} \)} | 
+\large \textcolor{purple}{\( \phi = \dfrac{s}{r} \)}\newline
+\large \textcolor{purple}{\( v = \frac{\mathrm{d}s}{\mathrm{d}t} = \frac{\mathrm{d}s}{\mathrm{d}t} = \underbrace{\frac{\mathrm{d}r}{\mathrm{d}t}}_{=0} \phi + r\frac{\mathrm{d}\phi}{\mathrm{d}t} = r\omega\quad\)}
 \, \newline \normalsize
 \begin{itemize}
 \item \textcolor{orange}{\(\phi\) == angle}
 \item \textcolor{orange}{\(\omega\) == angle acceleration}
 \item \textcolor{orange}{ t == time}
-\vspace{-3mm}
+\item \textcolor{orange}{s == distance}
+
 \end{itemize}
-\\ 
-\hline
-\end{tabular}
-\end{table}
-\pagebreak
-\begin{table}[ht!]
-\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
-\hline
-Frequency and Circulation &
+
+\subsubsection{Frequency and Circulation}
+\minipg{
 \, \newline
-\huge \( f = \dfrac{1}{T} <=> T = \dfrac{1}{f} \)\newline
+\large \textcolor{purple}{\( f = \dfrac{1}{T} <=> T = \dfrac{1}{f} \)}\newline
 \, \newline
-\huge \( \omega = \dfrac{2\pi}{T} <=> T = \dfrac{2\pi}{\omega} \)\newline
+\large \textcolor{purple}{\( \omega = \dfrac{2\pi}{T} <=> T = \dfrac{2\pi}{\omega} \)}\newline
+\, \newline \normalsize
+}{
+\includegraphics[scale=0.3]{2022-12-29:04:36:50.png}
+}[0.25,0.25]
 \, \newline
-\huge \( \omega = 2\pi f <=> f = \dfrac{\omega}{2\pi} \)\newline
+\large \textcolor{purple}{\( \omega = 2\pi f <=> f = \dfrac{\omega}{2\pi} \)}\newline
 \, \newline
-\huge \textcolor{orange}{\( r \omega = \dfrac{2\pi r}{T} = v \)}\newline
+\large \textcolor{orange}{\( r \omega = \dfrac{2\pi r}{T} = v \)}\newline
 \, \newline
-\huge \textcolor{orange}{\( \alpha = \underset{\Delta t -> 0}{\lim} \dfrac{\omega (t + \Delta t) - \omega (t)}{\Delta t} = \dfrac{d\omega}{dt} \)}\newline 
+\large \textcolor{orange}{\( \alpha = \underset{\Delta t -> 0}{\lim} \dfrac{\omega (t + \Delta t) - \omega (t)}{\Delta t} = \dfrac{d\omega}{dt} \)}\newline 
 \, \newline
-\huge \textcolor{orange}{\( \alpha_{tan} = \dfrac{dv}{dt} = \dfrac{d}{dt}r * \omega = r * \alpha \)}\newline 
+\large \textcolor{orange}{\( \alpha_{tan} = \dfrac{dv}{dt} = \dfrac{d}{dt}r * \omega = r * \alpha \)}\newline 
 \, \newline
 \textcolor{purple}{constant angle-motion (no acceleration)}\newline
-\huge \textcolor{orange}{\( \Phi(t) = \omega_0 * t + \Phi_0 \)  | given \(\alpha == 0 \) and \( \omega = \omega_0 == \text{ constant} \)}\newline
+\large \textcolor{orange}{\( \Phi(t) = \omega_0 * t + \Phi_0 \)  | given \(\alpha == 0 \) and \( \omega = \omega_0 == \text{ constant} \)}\newline
 \, \newline
 \textcolor{purple}{constant accelerated angle-motion}\newline
-\huge \textcolor{orange}{\( \Phi(t) = \dfrac{\alpha_0 t^2}{2} + \omega_0 * t + \Phi_0 \) \newline given \( \alpha == \alpha_0 == \text{ constant} \) and \(\omega == \alpha_0 * t + \omega_0 \) }\newline
+\large \textcolor{orange}{\( \Phi(t) = \dfrac{\alpha_0 t^2}{2} + \omega_0 * t + \Phi_0 \) \newline given \( \alpha == \alpha_0 == \text{ constant} \) and \(\omega == \alpha_0 * t + \omega_0 \) }\newline
 \, \newline \normalsize
 \begin{itemize}
 \item \textcolor{orange}{T = Time per Circulation}
@@ -293,92 +475,256 @@ Frequency and Circulation &
 \item \textcolor{orange}{v == velocity}
 \item \textcolor{orange}{\(\Phi\) == angle}
 \item \textcolor{orange}{\(2\pi\) == 1 Circulation}
-\end{itemize}\\
-\hline
-\end{tabular}
-\section{Free Fall and Parables}
-\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
-\hline
-Vertical Throw & 
-\, \newline
-\huge \textcolor{orange}{\( \alpha = -g == \text{ constant}  \)}\newline
-\, \newline
-\huge \textcolor{orange}{\( v(t) = -g * t + v_0 \)}\newline
-\, \newline
-\huge \textcolor{orange}{\( h(t) = \dfrac{-g * t^2}{2} + v_o * t + h_0  \)}\newline
-\, \newline
-\huge \textcolor{purple}{\( t_{max} = \dfrac{v_0}{g} \)}\newline
-\, \newline
-\huge \textcolor{purple}{\( h_{max} = h(t_{max}) = \dfrac{-g * v^{2}_{0}}{2 g^2 } + \dfrac{v_{0}^{2}}{g} + h_0 = \dfrac{v_{0}^{2}}{2g} + h_0 \)}\newline
-\, \newline \normalsize
-\begin{itemize}
-\item \textcolor{orange}{a == acceleration}
-\item \textcolor{orange}{v = velocity}
-\item \textcolor{orange}{h = height}
-\item \textcolor{orange}{t = time}
-\item \textcolor{orange}{g = gravity -> 9.81}
-\end{itemize} 
-\\
-\hline
-\end{tabular}
-\end{table}
-\pagebreak
-\begin{table}[ht!]
-\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
-\hline
-Free Fall & 
-\, \newline
-\huge \textcolor{orange}{\( a = -g == \text{ constant} \)}\newline
-\, \newline
-\huge \textcolor{orange}{\(v(t) = -g * t\)}\newline
-\, \newline
-\huge \textcolor{orange}{\(h(t) = \dfrac{-g * t^2}{2} + h_0\)}\newline
-\, \newline \normalsize
-\begin{itemize}
-\item \textcolor{orange}{a == acceleration}
-\item \textcolor{orange}{v = velocity}
-\item \textcolor{orange}{h = height}
-\item \textcolor{orange}{t = time}
-\item \textcolor{orange}{g = gravity -> 9.81}
-\end{itemize} 
-\\
-\hline
-Throw Distance & 
+\end{itemize}
 
-\\
-\hline
-\end{tabular}
-\section{Impulses and Impulsretention}
-\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
-\hline
-Impuls & 
+\subsection{Free Fall and Parables}
+\subsubsection{Vertical Throw}
 \, \newline
-\Huge \textcolor{purple}{\( \vec{p} = m\vec{v} \)}\newline
+\large \textcolor{orange}{\( \alpha = -g == \text{ constant}  \)}\newline
+\, \newline
+\large \textcolor{orange}{\( v(t) = -g * t + v_0 \)}\newline
+\, \newline
+\large \textcolor{orange}{\( h(t) = \dfrac{-g * t^2}{2} + v_o * t + h_0  \)}\newline
+\, \newline
+\large \textcolor{purple}{\( t_{max} = \dfrac{v_0}{g} \)}\newline
+\, \newline
+\large \textcolor{purple}{\( h_{max} = h(t_{max}) = \dfrac{-g * v^{2}_{0}}{2 g^2 } + \dfrac{v_{0}^{2}}{g} + h_0 = \dfrac{v_{0}^{2}}{2g} + h_0 \)}\newline
+\, \newline \normalsize
+\begin{itemize}
+\item \textcolor{orange}{a == acceleration}
+\item \textcolor{orange}{v = velocity}
+\item \textcolor{orange}{h = height}
+\item \textcolor{orange}{t = time}
+\item \textcolor{orange}{g = gravity -> 9.81}
+\end{itemize} 
+
+\subsubsection{Free Fall}
+\, \newline
+\large \textcolor{orange}{\( a = -g == \text{ constant} \)}\newline
+\, \newline
+\large \textcolor{orange}{\(v(t) = -g * t\)}\newline
+\, \newline
+\large \textcolor{orange}{\(h(t) = \dfrac{-g * t^2}{2} + h_0\)}\newline
+\, \newline \normalsize
+\begin{itemize}
+\item \textcolor{orange}{a == acceleration}
+\item \textcolor{orange}{v = velocity}
+\item \textcolor{orange}{h = height}
+\item \textcolor{orange}{t = time}
+\item \textcolor{orange}{g = gravity -> 9.81}
+\end{itemize} 
+
+\subsubsection{Diagonal Throw}
+Remember that the y-axis is sine * angle, and the x-axis is cos * angle\newline
+\minipg{
+\large \textcolor{purple}{\( v_x = v_0 * cos(\alpha) \)}\newline
+\large \textcolor{purple}{\( v_y = v_0 * sin(\alpha) \)}\newline
+\large \textcolor{purple}{\( v_0 = a_0 - g \)}\newline
+\large \textcolor{purple}{\( a_0 = \dfrac{F}{m}\)}\newline
+\, \newline
+\normalsize Legend: \newline
+\begin{itemize}
+\item \(v_x\) = \(v_0\) in x direction
+\item \(v_y\) = \(v_0\) in y direction
+\item \(a_0\) =  initial acceleration of throw
+\item \(\alpha\) = angle of throw
+\end{itemize} 
+}{
+\includegraphics[scale=0.4]{2022-12-29:04:46:12.png}
+}[0.25,0.25]
+\, \newline
+
+\subsubsection{Maximal Throwdistance}
+We evaluate the angle via settings the slope of the derivative to 0. :)\newline
+\minipg{
+\, \newline
+\large \textcolor{purple}{\( 0\overset{!}{=}\frac{\mathrm{d}x_\text{max}}{\mathrm{d}\alpha} = \frac{v_0^2}{g}\cos\left(2\alpha\right)\cdot 2 \) \newline \(\alpha \in\{45^\circ,135^\circ\}\quad \)}\newline
+\, \newline
+\normalsize 
+}{
+\includegraphics[scale=0.4]{2022-12-29:04:55:07.png}
+}[0.25,0.25]
+
+\subsubsection{Angle given explicit Throwdistance}
+\, \newline
+\large \textcolor{purple}{\(
+\alpha = \frac{1}{2}\arcsin\frac{g\cdot d}{v_0^2}
+  \)}\newline
+\, \newline
+
+\section{Dynamic}
+
+\subsection{Newtons Laws}
+\begin{enumerate}
+\item \textcolor{purple}{Law of Inertia}\newline 
+All mass is inert, meaning that it will keep the same velocity unless a force is acted upon it
+\item \textcolor{purple}{Law of Action}\newline
+  \(\vec{F} = m * \vec{a}\)
+\item \textcolor{purple}{ExchangeForce}\newline
+  If two bodies exert forces on each other, these forces have the same magnitutde but opposite directions
+\end{enumerate} 
+
+\subsection{Friction Forces}
+\subsubsection{Gliding Friction}
+\textcolor{red}{This Force is opposite to the propelling force!}\newline
+\, \newline
+\large \textcolor{purple}{\( F_R = \mu_G * F_N \)}\newline
+\, \newline
+\normalsize Legend: \newline
+\begin{itemize}
+\item \(F_R\) = Force to exceed with Gliding
+\item \(F_N\) = Normal Force -> 90 degree to surface -> not always equal to gravity
+\item \(\mu_G\) = Gliding friction coefficient
+\end{itemize} 
+
+\subsubsection{RollFriction}
+\textcolor{red}{This Force is opposite to the propelling force!}\newline
+\minipg{
+\, \newline
+\large \textcolor{purple}{\( F_R = \mu_R * F_N \)}\newline
+\, \newline
+\normalsize Legend: \newline
+\begin{itemize}
+\item \(F_R\) = Force to exceed with Gliding
+\item \(F_N\) = Normal Force -> 90 degree to surface -> not always equal to gravity
+\item \(\mu_R\) = Rolling friction coefficient
+\end{itemize} 
+}{
+  \includegraphics[scale=0.2]{2022-12-29:05:25:34.png}
+}[0.25,0.25]
+
+\subsubsection{RollFriction Length}
+Due to the deformation of a wheel, there is a small length of the wheel that touches the ground. \newline
+In other words more than 0mm :) \newline
+Hence the normalforce \(F_N\) will be slightly offset.\newline
+In order for the wheel to still have a balance, the following must be given:\newline
+\, \newline
+\large \textcolor{purple}{\( e * F_N - r * F \overset{!}{=} 0 \)}\newline
+\, \newline \normalsize
+0 would indicate no movement.\newline
+\, \newline
+\large \textcolor{purple}{\( e = \dfrac{r * F}{F_N} = \dfrac{r * F_R}{F_N} = \dfrac{r * \mu_R * F_N}{F_N} = \mu_R * r \)}
+\, \newline \normalsize
+
+\subsection{Work, potential and kinetic Energy}
+
+\subsubsection{Unit of Work}
+The unit of work is \(Nm\), but because of the potential confusion, we use the unit \(J\) for \textbf{Joule} instead!
+
+\subsubsection{Work with constant Force}
+\minipg{
+\, \newline
+\large \textcolor{purple}{\( W = F_s * s_{AB} \)}\newline
+\, \newline
+\normalsize
+}{
+Legend: \newline
+\begin{itemize}
+\item W = Work
+\item \(F_s\) = Force for this specific length
+\item \(s_AB\) = part of the whole distance
+\end{itemize} 
+}[0.25,0.25]
+
+\subsubsection{Work with non constant Force}
+\minipg{
+\, \newline
+\large \textcolor{purple}{\( W = \int^B_A{dW} = \int^B_A{\vec{F} * d\vec{s}} \)}\newline
+\, \newline
+\normalsize Legend: \newline
+\begin{itemize}
+\item W = Work 
+\item F = Force
+\item s = distance
+\end{itemize} 
+}{
+\includegraphics[scale=0.2]{2022-12-29:05:45:58.png}
+}[0.20,0.25]\newline
+\textcolor{purple}{The problem here is that we have different forces depending on where on s we are located}
+
+\subsubsection{Potential Energy}
+\textcolor{purple}{These are energies that are essentially "stored", ex. a book that I hold can fall down, which is "work".\newline
+Or a spring that I compressed has the potential to jump into it's original shape -> which is "work"}\newline
+\, \newline
+\large \textcolor{purple}{\( W = m * g * h \)}\newline
+\, \newline
+\normalsize Legend: \newline
+\begin{itemize}
+\item W = Work (here potential Work)
+\item m = mass
+\item g = gravity 
+\item h = height
+\end{itemize}
+
+\subsubsection{Potential Energy with Springs}
+\minipg{
+\, \newline
+\large \textcolor{purple}{\( F = -k * x \)}\newline
+\large \textcolor{purple}{\( W = \int^{x_0}_0{-F * dx} = \int^{x_0}_0{k * x * dx} = \dfrac{k * x^2_0}{2}\)}\newline
+\, \newline
+\normalsize Legend: \newline
+\begin{itemize}
+\item F = Force used to prepare spring
+\item k = Springconstant
+\item x = length that was stretched or compressed 
+\item W = potential Energy
+\end{itemize} 
+}{
+  \includegraphics[scale=0.25]{2022-12-29:06:12:50.png}
+}[0.25,0.25]
+
+\subsubsection{Conservation Law}
+\textcolor{purple}{When working within a closed system, ALL energy is preserved, it is simply transformed.\newline
+For example when picking up a stone and then letting it fall, the entire energy is the same, aka E total is always the sum of E potential and E kinetic!}\newline
+\, \newline
+\large \textcolor{purple}{\( E_{\text{pot}} + E_{\text{kin}} = E_{\text{tot}} = \text{constant}\)}\newline
+\, \newline
+\normalsize 
+
+\subsection{Power and Power coefficient}
+\minipg{
+\, \newline
+\large \textcolor{purple}{\( P = \dfrac{\Delta W}{\Delta t} = \dfrac{\vec{F}*\Delta\vec{s}}{\Delta t}  = \vec{F}*\vec{v} \)}\newline
+\, \newline
+\large \textcolor{purple}{\( \eta = \dfrac{P_{\text{in}}}{P_{\text{out}}} \)}
+\, \newline
+\normalsize 
+}{
+Legend: \newline
+\begin{itemize}
+\item W = Work
+\item P = Power
+\item s = distance 
+\item v = velocity
+\item \(\eta\) = power coefficient 
+\end{itemize} 
+}[0.25,0.25]
+
+%%%%%%%%%%%
+\subsection{Impulses and Impulsretention}
+\subsubsection{Impulse}
+\, \newline
+\large \textcolor{purple}{\( \vec{p} = m\vec{v} \)}\newline
 \, \newline
 \textcolor{purple}{\( \vec{F} = m\vec{d} = m * \dfrac{d\vec{v}}{dt} = \dfrac{d}{dt} * (m\vec{v}) = \dfrac{d\vec{p}}{dt} \)}\newline
 \normalsize \, \newline
-\\
-\hline
-Force Push (kekw-wars) &  
+
+\subsubsection{Force Push (kekw-wars)}
 \, \newline
-\Huge \textcolor{purple}{ \(\int^{t+\delta t}_{t} F(t) dt = \vec{F}* \delta t = \delta p\)}\newline
+\large \textcolor{purple}{ \(\int^{t+\delta t}_{t} F(t) dt = \vec{F}* \delta t = \delta p\)}\newline
 \normalsize \, \newline
-\\
-\hline
-Impulsretention & 
+
+\subsubsection{Impulsretention}
 \, \newline
-\Huge \textcolor{purple}{ \( \vec{p} = \int \dfrac{dp}{dt} dt = c \text{ => constant}\)}\newline
+\large \textcolor{purple}{ \( \vec{p} = \int \dfrac{dp}{dt} dt = c \text{ => constant}\)}\newline
 \Large \, \newline
 Note, \(\dfrac{dp}{dt}\) is 0, therefore in a completely isolated system, the impulse retention is always \textbf{constant!} \normalsize \newline
-\\
-\hline
-\end{tabular}
-\section{Center of Mass and Impulses} 
-\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
-\hline
-Center of Mass in a collision &
+
+
+\subsection{Center of Mass and Impulses} 
+\subsubsection{Center of Mass in a collision}
 \vspace{2mm}
-\Huge \textcolor{purple}{\( m_1 * \vec{r_1} + m_2 * \vec{r_2} = \vec{0} \text{ <=> } m_1*\vec{v_1} + m_2 * \vec{v_2} = \vec{0} \)}\newline
+\large \textcolor{purple}{\( m_1 * \vec{r_1} + m_2 * \vec{r_2} = \vec{0} \text{ <=> } m_1*\vec{v_1} + m_2 * \vec{v_2} = \vec{0} \)}\newline
 \normalsize \, \newline
 Types of collisions:\newline
 \begin{itemize}
@@ -389,84 +735,69 @@ Types of collisions:\newline
 \item \textcolor{orange}{elastic: The total kinetic energy before and ater the collision are the same}
 \item \textcolor{orange}{inelastic: The total kinetic energy before and after the collision are different}
 \item \textcolor{orange}{completely inelastic: The collision entities move at the same speed after the collision}
-\vspace{-3mm}
 \end{itemize} 
-\\
-\hline
-Deformation"Work" & 
+
+\subsubsection{Deformation"Work"}
 \vspace{2mm}
-\Huge \textcolor{purple}{\( Q = (E_1 + E_2) - (E_1' + E_2') \geq 0 \)}\newline
+\large \textcolor{purple}{\( Q = (E_1 + E_2) - (E_1' + E_2') \geq 0 \)}\newline
 \normalsize \, \newline
 Legend:\newline
 \begin{itemize}
 \item \textcolor{orange}{\( E_1 + E_2 =\) Energy before collision}
 \item \textcolor{orange}{\( E_1' + E_2' =\) Energy after collision}
 \item \textcolor{orange}{Q = DeformationWork}
-\vspace{-3mm}
 \end{itemize} 
-\\
-\hline
-Elasticity Count & 
+
+\subsubsection{Elasticity Count}
 \vspace{2mm}
-\Huge \textcolor{purple}{\( k = \dfrac{v_2' - v_1'}{v_1 - v_2} \)}\newline
+\large \textcolor{purple}{\( k = \dfrac{v_2' - v_1'}{v_1 - v_2} \)}\newline
 \normalsize \, \newline
 Legend:\newline
 \begin{itemize}
 \item \textcolor{orange}{\(v_1\) = velocity of entity 1}
 \item \textcolor{orange}{\(v_2\) = velocity of entity 2}
 \item \textcolor{orange}{k = elasticity count}
-\vspace{-3mm}
 \end{itemize} 
-\\
-\hline
-\end{tabular}
-\end{table}
-\pagebreak 
-\begin{table}[ht!]
+
+
 \subsection{straight, central, completely elastic collision}
-\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
-\hline
-Impulse Law & 
+
+\subsubsection{Impulse Law}
 \vspace{2mm}
-\Huge \textcolor{purple}{\( p \overset{!}{=} p' \text{ <=> } m_1v_1 + m_2v_2 \overset{!}{=} m_1v_1' + m_2v_2' \)}\newline
+\large \textcolor{purple}{\( p \overset{!}{=} p' \text{ <=> } m_1v_1 + m_2v_2 \overset{!}{=} m_1v_1' + m_2v_2' \)}\newline
 \normalsize \, \newline
 Legend:\newline
 ...
-\\
-\hline
-Energy Law & 
+
+\subsubsection{Energy Law}
 \vspace{2mm}
-\Huge \textcolor{purple}{\( E_{\text{kin}} \overset{!}{=} E_{\text{kin}}' \text{ <=> } \dfrac{m_1v_1^2}{2} + \dfrac{m_2v_2^2}{2} \overset{1}{=} \dfrac{m_1v_1'^2}{2} + \dfrac{m_2v_2'^2}{2} \)}\newline
+\large \textcolor{purple}{\( E_{\text{kin}} \overset{!}{=} E_{\text{kin}}' \text{ <=> } \dfrac{m_1v_1^2}{2} + \dfrac{m_2v_2^2}{2} \overset{1}{=} \dfrac{m_1v_1'^2}{2} + \dfrac{m_2v_2'^2}{2} \)}\newline
 \normalsize \, \newline
 Legend:\newline
 ...
-\\
-\hline
-Special case with \(m_1 = m_2\) & 
+
+\subsubsection{Special case with \(m_1 = m_2\)}
 \vspace{2mm}
-\Huge \textcolor{purple}{\( v_1' = 0 + 1 * 0 = 0 \)}\newline
+\large \textcolor{purple}{\( v_1' = 0 + 1 * 0 = 0 \)}\newline
 \textcolor{purple}{\( v_2' = v_1 + 0 = v_1\)}\newline
 \normalsize \, \newline
 Legend: \newline
 ...
-\\
-\hline
-\end{tabular}
+
+
 \subsection{Straight, central, completely inelastic collision}
-\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
-\hline
-Impulse Law & 
+
+\subsubsection{Impulse Law}
 \vspace{2mm}
-\Huge \textcolor{purple}{\( m_1v_1 = m_2v_2 = (m_1 + m_2 )v' \text{ => } v' = \dfrac{m_1v_1 + m_2v_2}{m_1 + m_2}\)}\newline
+\large \textcolor{purple}{\( m_1v_1 = m_2v_2 = (m_1 + m_2 )v' \text{ => } v' = \dfrac{m_1v_1 + m_2v_2}{m_1 + m_2}\)}\newline
 \textcolor{red}{\( p = p' \)!!}\newline
 \normalsize \, \newline
 Legend:\newline
 ...
-\\
-\hline
-Energy Law & 
+
+\subsubsection{Energy Law}
 \vspace{2mm}
-\Huge \textcolor{purple}{\( \dfrac{m_1v_1^2}{2} + \dfrac{m_2v_2^2}{2} = \dfrac{(m_1 + m_2)v'^2}{2} + Q \)}\newline
+\large \textcolor{purple}{\( \dfrac{m_1v_1^2}{2} + \dfrac{m_2v_2^2}{2} = \dfrac{(m_1 + m_2)v'^2}{2} + Q \)}\newline
 \, \newline
 \textcolor{purple}{\(Q = \dfrac{m_1m_2}{2(m_1+m_2)}*(v_1 -v_2)^2\)}\newline
 \normalsize \, \newline
@@ -477,15 +808,13 @@ Legend:\newline
 \item \textcolor{orange}{\(v_1\) = velocity entity 1}
 \item \textcolor{orange}{\(v_2\) = velocity entity 2}
 \item \textcolor{orange}{Q = DeformationWork}
-\vspace{-3mm}
-\end{itemize} \\
-\hline
-\end{tabular}
+\end{itemize}
+
+
 \subsection{Reduced Mass, Relative Velocity}
-\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
-\hline
+\subsubsection{}
 \vspace{2mm}
-\Huge \textcolor{purple}{\(v_{\text{rel}} = | v_1 - v_2|\)}\newline
+\large \textcolor{purple}{\(v_{\text{rel}} = | v_1 - v_2|\)}\newline
 \textcolor{purple}{\(\mu = \dfrac{m_1m_2}{m_1 + m_2}\)}\newline
 \textcolor{purple}{\( Q = \dfrac{\mu v_{\text{rel}^2}}{2}\)}\newline
 \normalsize \, \newline
@@ -496,31 +825,10 @@ Legend:\newline
 \item \textcolor{orange}{\(\mu\) = reduced mass}
 \item \textcolor{orange}{Q = DeformationWork}
 \item \textcolor{orange}{\(v_{\text{rel}}\) = relative velocity}
-\vspace{-3mm}
-\end{itemize} \\
-\hline
+\end{itemize}
 
-\hline
 
-\hline
 
-\hline
-
-\hline
-
-\hline
-
-\hline
-
-\hline
-
-\hline
-
-\hline
-
-\hline
-
-\hline
-\end{tabular}
-\end{table}
+\end{multicols*}
 \end{document}
+

@@ -12,3 +12,9 @@ clean:
 	    fi; \
 	done;
 
+move:
+	@for a in $$(ls); do \
+	    if [ -d $$a ]; then \
+	        $(MAKE) -C $$a move; \
+	    fi; \
+	done;
