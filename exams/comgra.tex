@@ -32,8 +32,7 @@ P * s = (s * 1, s * 2, s * 3)
 \left[\begin{smallmatrix} \textcolor{green}{y_{11}} \, y_{12} \\ \textcolor{green}{y_{21}} \, y_{22} \\ 
 \textcolor{green}{y_{31}} \, y_{32}\end{smallmatrix}\right] =
 \left[\begin{smallmatrix} \textcolor{red}{c_{11}} \, c_{12} \\ c_{21} \, c_{22} \end{smallmatrix}\right]\)\newline
-\textbf{\textcolor{red}{!! each row * each column !!}}\newline
-\textbf{This also means that the row of the first matrix needs to be as long as the column of the second matrix!}\\
+\textbf{\textcolor{red}{!! each row * each column -> length must be the same}}\newline
 
 \subsection{Matrix Transpose}
 \(\left[\begin{smallmatrix} 1  5 \\ 6  7 \end{smallmatrix}\right]^T == \left[ \begin{smallmatrix} 1  6 \\ 5  7 \end{smallmatrix}\right]\)\newline
@@ -74,10 +73,14 @@ Coord: engine, 180 rotated\newline
 Coord: without near-far axis (z)
 
 \subsection{2D Projection}
-camera: (\(e_y, e_z\)), P: (y,z)\newline
-\textcolor{purple}{\(\dfrac{c = e_y z - e_z y}{z - e_z}\)}
+camera: (\(e_x, e_y, e_z\)), P: (x,y,z)\newline
+\minipg{
+  \textcolor{purple}{\(y_{\text{new}} = \dfrac{e_y z - e_z y}{z - e_z}\)}\newline
+  \textcolor{purple}{\(x_{\text{new}} = \dfrac{e_x z - e_z x}{z - e_z}\)}\newline
+  \textcolor{purple}{\( y = \dfrac{\Delta y}{\Delta z} z + c\)}\newline
+}{
 \includegraphics[scale=0.3]{2022-09-21-03:39:39.png}\newline
-For a 3D projection you just repeat these steps for each point.\newline
+}[0.12,0.1]\newline
 Note, 2D is usually done with \textcolor{red}{\textbf{homogenous coordinates}}, which are just 3D coordinates with a fixed z axis, eg. 1
 
 \subsection{Bresenham Line Algorithm}
@@ -86,11 +89,17 @@ Note, 2D is usually done with \textcolor{red}{\textbf{homogenous coordinates}}, 
 
 \section{OpenGL}
  \textcolor{purple}{State Machine, Context with ID, \newline Method based, Originally for c++}
+\begin{itemize}
+\item \textcolor{orange}{uniform:} available everywhere
+\item \textcolor{orange}{in:} input to shader
+\item \textcolor{orange}{out: } output from shader
+\end{itemize} 
 
 \subsection{Meshes}
 \textcolor{purple}{Points(x,y,z), Edges, Faces(areas), consisting of triangles}
 Vertices can either be indexed, or non-indexed.\newline
-\textcolor{orange}{non-indexed vertices will write each point of each triangle, meaning you will have duplicates, indexed vertices will not write each point twice.}\newline
+\textcolor{orange}{Non-index: 1 array, duplicate points}\newline
+\textcolor{orange}{Indexed: 2 arrays(vertices and triangles), no duplicates!}\newline
 \begin{lstlisting}
 // snipped getVertices
 for(int j=0; j < sect; j++) {
@@ -106,7 +115,7 @@ tria[i++] = 1+(j+1) % sect);}
 \end{lstlisting}
 
 \subsection{Perspective Projection}
-Similar to 2D projection. \newline
+Similar to 2D Projection. \newline
 \textcolor{orange}{View Frustum}: \newline
 \textbf{fov(y), aspectratio, near and far plane}\newline
 \textcolor{OliveGreen}{If the fov is small, then shapes appear big -> fov is big, shapes appear small}
@@ -114,13 +123,13 @@ Similar to 2D projection. \newline
 \subsection{Orthographic Projection}
 \textcolor{purple}{normalized coordinates (between -1 and 1)} \textbf{No Z dimension!}
 
-\section{GPU Pipeline}
+\section{GPU Pipeline | Shaders}
 \begin{itemize}
 \item \textcolor{purple}{Vertex Processor} Programmable\newline
-  Turns raw vertices into primitives
+  Turns \textbf{raw vertices} into primitives
 \item \textcolor{purple}{Rasterizer} primitives into fragments
 \item \textcolor{purple}{Fragment Processor} Programmable \newline
-  processes fragments -> ex. color
+  processes fragments -> ex. \textbf{pixels}
 \item \textcolor{purple}{Output Merging} Fragments to pixels
 \end{itemize}
 Note a shader would program both the vertex and the fragment processor!
@@ -131,12 +140,16 @@ This seperates the writing and reading of frames, making sure there are no artif
 \section{Lighting}
 \begin{itemize}
 \item \textcolor{orange}{Ambient Lighting}\newline
-\textcolor{purple}{Diffuse Lighting from all direcitons, Remission in all directions}\newline
+\textcolor{purple}{From all directions, Remission in all directions, camera independent}\newline
 \item \textcolor{orange}{Diffuse Lighting}\newline
 \textcolor{purple}{point light, remission in all directions}\newline
 Remission proportional to cosine between normal and light vector\newline
+\minipg{
 \textcolor{OliveGreen}{For matt surfaces}\newline
+Depends: Camera, normals, lightpos
+}{
 \includegraphics[scale=0.2]{2022-12-28:11:46:29.png}
+}[0.12,0.1]
 \item \textcolor{orange}{Specular Lighting}\newline
 \textcolor{purple}{point light, remission in \textbf{one} direction}\newline
 Intensity dependent on angle between reflection vector and camera angle\newline
@@ -147,7 +160,11 @@ Intensity dependent on angle between reflection vector and camera angle\newline
   if angle over 90degrees, can't display reflections
 \item \textcolor{orange}{Blinn-Phong-Shading}\newline
   \textcolor{purple}{Modification of Blinn, angle between halfway vector and normals}\newline
+  \minipg{
+    Depends: Camera, lightpos, normals, fragmentpos 
+  }{ 
   \includegraphics[scale=0.2]{2022-12-28:11:52:11.png}
+  }[0.12,0.1]
 \end{itemize} 
 
 \subsection{Subtractive Light (CMYK)}
@@ -257,7 +274,11 @@ Projection of light to surface with depth as the "color" -> Z buffer\newline
 \textbf{day, night, sunset}}
 
 \section{Ray Tracing}
+\minipg{
 \includegraphics[scale=0.15]{2022-12-28:06:03:43.png}
+}{
+\textcolor{red}{Denoising: Enables Real-time Ray Tracing with deep-learning}
+}[0.17,0.08]
 
 \subsection{Acceleration Structures}
 \minipg{
