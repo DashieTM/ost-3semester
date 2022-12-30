@@ -81,8 +81,8 @@ For a 3D projection you just repeat these steps for each point.\newline
 Note, 2D is usually done with \textcolor{red}{\textbf{homogenous coordinates}}, which are just 3D coordinates with a fixed z axis, eg. 1
 
 \subsection{Bresenham Line Algorithm}
-\textcolor{purple}{\(y = \dfrac{\delta y}{\delta x}x + c = mx + c\) ==> \(m = \dfrac{\delta y}{\delta x}\)}\newline
-\(x = x_0 + \delta x\) \(y = y_0 + m\delta x\) \newline \(\delta x = x - x_0\) \(\delta y = y - y_0 \)
+\textcolor{purple}{\(y = \dfrac{\Delta y}{\Delta x}x + c = mx + c\) ==> \(m = \dfrac{\Delta y}{\Delta x}\)}\newline
+\(x = x_0 + \Delta x\) \(y = y_0 + m\Delta x\) \newline \(\Delta x = x - x_0\) \(\Delta y = y - y_0 \)
 
 \section{OpenGL}
  \textcolor{purple}{State Machine, Context with ID, \newline Method based, Originally for c++}
@@ -97,7 +97,7 @@ for(int j=0; j < sect; j++) {
 vert[i++] = Cos(angle);
 vert[i++] = Sin(angle);
 vert[i++] = 0;
-angle += deltaAngle; }
+angle += DeltaAngle; }
 // snipped getTriangles
 for(int j=0; j < sect; j++) {
 tria[i++] = 0;
