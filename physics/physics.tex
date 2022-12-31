@@ -700,19 +700,22 @@ Legend: \newline
 \end{itemize} 
 }[0.25,0.25]
 
-%%%%%%%%%%%
 \subsection{Impulses and Impulsretention}
 \subsubsection{Impulse}
 \, \newline
-\large \textcolor{purple}{\( \vec{p} = m\vec{v} \)}\newline
+\large \textcolor{purple}{\( \vec{p} = m * \vec{v} \)}\newline
 \, \newline
 \textcolor{purple}{\( \vec{F} = m\vec{d} = m * \dfrac{d\vec{v}}{dt} = \dfrac{d}{dt} * (m\vec{v}) = \dfrac{d\vec{p}}{dt} \)}\newline
 \normalsize \, \newline
 
 \subsubsection{Force Push (kekw-wars)}
+\minipg{
 \, \newline
 \large \textcolor{purple}{ \(\int^{t+\delta t}_{t} F(t) dt = \vec{F}* \delta t = \delta p\)}\newline
 \normalsize \, \newline
+}{
+  \includegraphics[scale=0.3]{2022_12_31_03_16_05.png}
+}[0.25,0.25]
 
 \subsubsection{Impulsretention}
 \, \newline
@@ -773,8 +776,12 @@ Legend:\newline
 \vspace{2mm}
 \large \textcolor{purple}{\( E_{\text{kin}} \overset{!}{=} E_{\text{kin}}' \text{ <=> } \dfrac{m_1v_1^2}{2} + \dfrac{m_2v_2^2}{2} \overset{1}{=} \dfrac{m_1v_1'^2}{2} + \dfrac{m_2v_2'^2}{2} \)}\newline
 \normalsize \, \newline
+\minipg{
 Legend:\newline
 ...
+}{
+  \includegraphics[scale=0.265]{2022_12_31_03_28_29.png}
+}[0.05,0.25]
 
 \subsubsection{Special case with \(m_1 = m_2\)}
 \vspace{2mm}
@@ -795,7 +802,7 @@ Legend: \newline
 Legend:\newline
 ...
 
-\subsubsection{Energy Law}
+\subsubsection{Energy Law and Deformation-Work}
 \vspace{2mm}
 \large \textcolor{purple}{\( \dfrac{m_1v_1^2}{2} + \dfrac{m_2v_2^2}{2} = \dfrac{(m_1 + m_2)v'^2}{2} + Q \)}\newline
 \, \newline
@@ -807,17 +814,21 @@ Legend:\newline
 \item \textcolor{orange}{\(m_2\) = Center of mass entity 2}
 \item \textcolor{orange}{\(v_1\) = velocity entity 1}
 \item \textcolor{orange}{\(v_2\) = velocity entity 2}
-\item \textcolor{orange}{Q = DeformationWork}
+\item \textcolor{orange}{Q = Deformation-Work}
 \end{itemize}
 
 
-\subsection{Reduced Mass, Relative Velocity}
-\subsubsection{}
-\vspace{2mm}
+\subsubsection{Reduced Mass, Relative Velocity}
+\minipg{
+\, \newline
 \large \textcolor{purple}{\(v_{\text{rel}} = | v_1 - v_2|\)}\newline
+\, \newline
 \textcolor{purple}{\(\mu = \dfrac{m_1m_2}{m_1 + m_2}\)}\newline
+\, \newline
 \textcolor{purple}{\( Q = \dfrac{\mu v_{\text{rel}^2}}{2}\)}\newline
-\normalsize \, \newline
+\, \newline
+\normalsize 
+}{
 Legend:\newline
 \begin{itemize}
 \item \textcolor{orange}{\(v_1\) = velocity entity 1}
@@ -826,7 +837,97 @@ Legend:\newline
 \item \textcolor{orange}{Q = DeformationWork}
 \item \textcolor{orange}{\(v_{\text{rel}}\) = relative velocity}
 \end{itemize}
+}[0.25,0.25]
 
+\subsubsection{Trace Speed}
+\, \newline
+\large \textcolor{purple}{\( mv = mv + dm * v + m * dv + dm * dv + dm * u - dm * v \)}\newline
+\, \newline
+\large \textcolor{purple}{\( 0 = m * dv + dm * u =+ dm * dv \)}\newline
+\, \newline
+\large \textcolor{purple}{\(	\mathrm{d}v = -u \frac{1}{m}\mathrm{d}m \quad\Rightarrow\quad v = \int\mathrm{d}v = -u\int\frac{1}{m}\mathrm{d}m = -u\ln\left(m\right)+c\)}\newline
+\, \newline
+\(	t=0\): \(v=v_0\), \(m=m_0\) ==> \(  	c = v_0+u\ln\left(m_0\right) \)\newline
+\minipg{
+\, \newline
+\large \textcolor{purple}{\( 0 \approx dm * dv \)}\newline
+\, \newline
+\large \textcolor{purple}{\( m * dv = -u * dm \)}\newline
+\, \newline
+\large \textcolor{purple}{\( \dfrac{dv}{dm} = - \dfrac{u}{m} \)}\newline
+\, \newline
+}{
+\normalsize Legend: \newline
+\begin{itemize}
+\item u = Trace speed
+\item dt = Time interval
+\item dm = mass of fuel
+\item dv = velocity at interval -> v(dt)
+\item m = rest of mass
+\end{itemize} 
+}[0.25,0.25]
+\, \newline
+\includegraphics[scale=0.3]{2022_12_31_04_23_57.png}
+
+\subsubsection{Rocket Equation}
+\, \newline
+\large \textcolor{purple}{\( v(t) = -u * ln(m) + v_0 + u * ln(m_0) = v_0 + u * ln\left(\dfrac{m_0}{m}\right) \)}\newline
+\, \newline
+\normalsize Legend: \newline
+\begin{itemize}
+\item \(m_0\) = mass at start
+\end{itemize} 
+
+\subsection{Gravity}
+\subsubsection{Keplers Laws}
+\begin{enumerate}
+\item \textcolor{purple}{Planets move on ellipses which surround the sun}\newline
+  an ellipses has two \textbf{foci} which are the 2 centers of the ellipses, the sun will be situated in one of these foci!
+\item \textcolor{purple}{Each area that the view from the sun to the planet that moves creates, is the same on each point on the orbit}\newline
+  \minipg{
+  \includegraphics[scale=0.2]{2022_12_31_04_35_35.png}\newline
+  }{
+  \textcolor{red}{This means that when on the point that is further away from the sun, the planet \textbf{travels slower} than when on the side that is closer!}
+  }[0.25,0.25]
+\item \textcolor{purple}{the cube of the \textbf{semi-major axis a} is proportional to the square of the \textbf{orbital period} P}\newline
+  \minipg{
+  \includegraphics[scale=0.08]{2022_12_31_04_42_59.png}
+  }{
+  the smaller side of the major axis is the semi-major axis\newline
+  Distance measured in AE Astronimical Unit \newline
+  \textcolor{purple}{\(1AE == 149.6 * 10^6 \)km}
+  \textcolor{purple}{\(a_1 = \left(\dfrac{P_1}{P_2}\right)^\frac{2}{3} * a_2\)}\newline
+  \(a_1\) = semi-major axis planet 1\newline
+  \(a_2\) = semi-major axis planet 2\newline
+  \(P_1\) = Orbit-interval planet 1\newline
+  \(P_2\) = Orbit-interval planet 2\newline
+  }[0.28,0.20]
+\end{enumerate} 
+
+\subsubsection{Gravitational Constant}
+\, \newline
+\large \textcolor{purple}{\( G = 6.67 * 10^{-11}*\dfrac{m^3}{kg * s^2} \)}\newline
+\, \newline
+\normalsize 
+
+
+\subsubsection{Newtons Law of Gravity}
+\, \newline
+\large \textcolor{purple}{\( F_G = G * \dfrac{m_1m_2}{r^2} \)}\newline
+\, \newline
+\normalsize Legend: \newline
+\begin{itemize}
+\item G = Gravitational Constant
+\item \(m_1\) = first mass
+\item \(m_2\) = second mass
+\item r = radius of second object 
+\end{itemize} 
+
+
+\subsubsection{Gravitational Pull within a ball}
+
+
+\subsubsection{Gravitational Pull outside a ball}
 
 
 \end{multicols*}
