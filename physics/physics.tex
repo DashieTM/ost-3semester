@@ -888,7 +888,7 @@ Legend:\newline
   \includegraphics[scale=0.2]{2022_12_31_04_35_35.png}\newline
   }{
   \textcolor{red}{This means that when on the point that is further away from the sun, the planet \textbf{travels slower} than when on the side that is closer!}
-  }[0.25,0.25]
+  }[0.20,0.25]
 \item \textcolor{purple}{the cube of the \textbf{semi-major axis a} is proportional to the square of the \textbf{orbital period} P}\newline
   \minipg{
   \includegraphics[scale=0.08]{2022_12_31_04_42_59.png}
@@ -924,11 +924,356 @@ Legend:\newline
 \end{itemize} 
 
 
-\subsubsection{Gravitational Pull within a ball}
+\subsubsection{Gravitational Pull -> a ball}
+\, \newline
+\textcolor{orange}{Within a ball}\newline
+\, \newline
+\large \textcolor{purple}{\( F_G = G * \dfrac{4 \pi * r^3 * \rho * m}{3r^2} = \dfrac{4 \pi}{3}G \rho m r \)}\newline
+\, \newline
+\textcolor{orange}{Outside a ball}\newline
+\, \newline
+\large \textcolor{purple}{\( F_G = G \dfrac{M * m}{r^2} \)}\newline
+\, \newline
+\normalsize 
+\minipg{
+Legend: \newline
+\begin{itemize}
+\item G = gravitational constant
+\item r = radius
+\item \(\rho\) = density (material based) 
+\item m = masspoint of ball
+\item M = total mass
+\end{itemize} 
+}{
+  \includegraphics[scale=0.3]{2023_01_01_02_52_53.png}
+}[0.25,0.25]
 
+\subsubsection{Gravitational Work}
+\, \newline
+\large \textcolor{purple}{\( W_{12} = \int_{r_1}^{r_2} G \dfrac{Mm}{r^2}dr = -G\dfrac{Mm}{r}|^{r_2}_{r_1} = GMm\left( \dfrac{1}{r_2} - \dfrac{1}{r_1} \right) \)}\newline
+\, \newline
+\normalsize
 
-\subsubsection{Gravitational Pull outside a ball}
+\subsubsection{Gravitational Potential}
+\minipg{
+\, \newline
+\large \textcolor{purple}{\( \phi = \dfrac{E_{pot}}{m} = -\dfrac{GM}{r} \)}\newline
+\, \newline
+\normalsize Legend: \newline
+\begin{itemize}
+  \item \(\phi\) = gravitational potential \newline 
+    \(\phi = [1\dfrac{1}{kg}]\)
+\end{itemize} 
+}{
+  \includegraphics[scale=0.3]{2023_01_01_03_07_59.png}
+}[0.20,0.25]
 
+\subsubsection{Gravitational Potential within a homogenous zentral object}
+\, \newline
+\large \textcolor{purple}{\( F_G = \dfrac{4 \phi G \rho m}{3} * r \)}\newline
+\, \newline
+\large \textcolor{purple}{\( E_{pot} = -\dfrac{2\phi G \rho m}{3}* r^2 + c' \)}\newline
+\, \newline
+\large \textcolor{purple}{\( \phi = -\dfrac{2\phi G \rho}{3}* r^2 + c = - \dfrac{GM(r)}{2r} + c\)}\newline
+\, \newline
+\large \textcolor{orange}{\(
+  c = -\frac{GM}{2R} \text{ | } \phi\left(0\right) = \underbrace{-\frac{GM}{R}}_{\text{Potential on ball surface}}\) \newline \(\underbrace{-\frac{GM}{2R}}_{\text{Integrationconstant}}= -\frac{3GM}{2R}
+ \)}
+\normalsize
+
+\subsection{Context Systems}
+
+\subsubsection{Inertialsystems}
+\minipg{
+If the newtons laws apply to context system s then it will also apply to context system s' if the new system isn't changed in terms of acceleration. (Centrifugal force for example is considered Acceleration )\newline
+\textcolor{orange}{Train with constant velocity is inertial, train with curve -> centrifugal force is not inertial!}
+}{
+\includegraphics[scale=0.3]{2023_01_01_03_34_46.png}
+}[0.23,0.25]
+
+\subsection{Accelerated Context systems}
+\subsubsection{InertiaForce}
+Within an accelerated context system, the mass of your own body will be used in combination with the acceleration of the context system to append the other acceleration that is applied.
+\, \newline
+\large \textcolor{purple}{\( \vec{F} = \vec{F} - m\vec{a_0} = \vec{F} + \vec{F_{\text{inertia}}} \text{ => } \vec{F_{\text{inertia}}} = m\vec{a_0} \)}\newline
+\, \newline
+\normalsize Legend: \newline
+\begin{itemize}
+\item \(a_0\) = acceleration
+\item F = force
+\item \(\vec{F_{\text{inertia}}}\) (for example the force of an elevator -> inertia when jumping etc) 
+\end{itemize} 
+\includegraphics[scale=0.3]{2023_01_01_04_27_36.png}
+
+\subsubsection{Centrifugal Force within context}
+\, \newline
+\large \textcolor{purple}{\( \vec{F_{ce}} = -m\vec{a_{ce}} = -m * \omega^2 * \vec{r} \)}\newline
+\, \newline
+\normalsize 
+\minipg{
+Legend: \newline
+\begin{itemize}
+  \item \(\vec{F_{ce}}\) = Centrifugal Force == \(\vec{F_z}\)
+  \item \(\vec{a_{ce}}\) = Centrifugal acceleration
+\item \(\omega\) = angle velocity 
+\item r = radius
+\item m = mass
+\end{itemize} 
+}{
+  \includegraphics[scale=0.3]{2023_01_01_04_34_43.png}
+}[0.25,0.25]
+
+\subsubsection{Coriolis}
+\, \newline
+\large \textcolor{purple}{\( \vec{a_c} = 2* (\vec{\omega} \text{ x } \vec{v_R}) \)}\newline
+\, \newline
+\large \textcolor{purple}{\( \vec{F_c} = -m * \vec{a_c} = -m * 2 * (\vec{\omega} \text{ x } \vec{v_R} ) \)}
+\, \newline
+\normalsize 
+\minipg{
+Legend: \newline
+\begin{itemize}
+  \item \(\vec{F_c}\) = coriolis force
+  \item \(\vec{a_c}\) = coriolis acceleration
+  \item \(\vec{\omega}\) = angle velocity
+\item m = mass
+\item \(\vec{v_R}\) = angle velocity
+\end{itemize} 
+}{
+  \includegraphics[scale=0.3]{2023_01_01_04_34_50.png}
+}[0.25,0.25]
+
+\subsubsection{Lambert}
+The applied force, the centrifugal force and the coriolis force will negate each other if the object is in balance!! -> zero vector!
+\, \newline
+\large \textcolor{purple}{\( \vec{F} + \vec{F_{ce}} + \vec{F_c} = \vec{0} \)}\newline
+\, \newline
+\normalsize
+
+\subsection{Rotation of rigid bodies}
+
+\subsubsection{Rotation vs Turning}
+Rotation is done over a fixed axis -> x,y,z \newline
+While turning is done over a fixed point -> see bayblade kekw
+
+\subsubsection{Dynamic Base Rule of Rotation}
+\, \newline
+\large \textcolor{purple}{\( dM = r * dF_t = r * dm * a_t \)}\newline
+\, \newline
+\normalsize 
+\minipg{
+Legend: \newline
+\begin{itemize}
+\item dM = torque over axis
+\item \(d\vec{F}\) = Force
+\item dm = mass
+\item \(dF_a\) = force over axis
+\item \(dF_r\) = force over radius 
+\item \(dF_t\) = force over tangent
+\end{itemize}
+\, \newline
+\textcolor{orange}{
+In this case we only have a tangential rotation, hence the only axis that matters it the tangential one!!}
+}{
+  \includegraphics[scale=0.2]{2023_01_01_05_03_12.png}
+}[0.25,0.25]
+
+\subsubsection{Moment of Inertia (Trägheitsmoment)}
+\, \newline
+\large \textcolor{purple}{\( J = \int{r^2 * dm} \)}\newline
+\, \newline
+\large \textcolor{purple}{\( M = J * a \)}
+\, \newline
+\normalsize Legend: \newline
+\begin{itemize}
+\item Moment of Inertia = J
+\item \( \alpha \) = angle
+\end{itemize}
+
+\subsubsection{Moment of Inertia with different forms}
+\begin{itemize}
+  \item \textcolor{orange}{Cylinder} \newline
+    \includegraphics[scale=0.3]{2023_01_01_05_13_04.png}\textcolor{purple}{\( \dfrac{m * r^2}{2} \)}
+  \item \textcolor{orange}{Tube} \newline
+    \includegraphics[scale=0.3]{2023_01_01_05_13_11.png}\textcolor{purple}{\( \dfrac{m(r^2_a) + r^2_i}{2} \)}
+  \item \textcolor{orange}{Sphere} \newline
+    \includegraphics[scale=0.3]{2023_01_01_05_13_13.png}\textcolor{purple}{\( \dfrac{2}{5} m * r^2 \)}
+  \item \textcolor{orange}{Block} \newline
+    \includegraphics[scale=0.3]{2023_01_01_05_13_16.png}\textcolor{purple}{\( \dfrac{m(a^2 + b^2)}{12} \)}
+\end{itemize} 
+
+\subsubsection{Inertia radius}
+\, \newline
+\large \textcolor{purple}{\( r_0 = \sqrt{\dfrac{J}{M}} \)}\newline
+\, \newline
+\normalsize Legend: \newline
+\begin{itemize}
+\item \(r_0\) = inertia radius
+\item J = Inertia moment
+\item M = torque 
+\end{itemize} 
+
+\subsubsection{Moment of Inertia on any axis}
+\, \newline
+\large \textcolor{purple}{\( J_A = J_x cos^2 \alpha + J_y cos^2 \beta + J_z cos^2 \gamma \)}\newline
+\, \newline
+\normalsize Legend: \newline
+\begin{itemize}
+\item The angles are from each axis
+\item \(J_A\) = Total moment of inertia
+\end{itemize} 
+
+\subsubsection{Steiners Rule}
+When you have 2 axes, you can calculate the second inertia moment by adding the mass multiplied with the square of the distance between the 2 axes.\newline
+\minipg{
+\, \newline
+\large \textcolor{purple}{\( J_A = J_s + m * d^2 \)}\newline
+\, \newline
+\normalsize Legend: \newline
+\begin{itemize}
+\item \(J_A\) = inertia moment of axis A
+\item \(J_S\) = Inertia moment of axis \(A_S\)
+\item m = mass
+\item d = distance between axes
+\end{itemize} 
+}{
+  \includegraphics[scale=0.2]{2023_01_01_05_19_52.png}
+}[0.25,0.25]
+
+\subsubsection{Work on Rotation}
+\, \newline
+\large \textcolor{purple}{\( dW = \vec{F}d\vec{s} = F_t ds = F_t * r * d\phi = Md\phi \)}\newline
+\, \newline
+\normalsize Legend: \newline
+\begin{itemize}
+\item dW = Work
+\item \(\vec{F_t}\) = force of rotation
+\item ds = distance 
+\item \(\phi\) = angle of rotation (angle between start and end)
+\end{itemize} 
+
+\subsubsection{Power of Rotation}
+\, \newline
+\large \textcolor{purple}{\( P = \dfrac{dW}{dt} = M \dfrac{d\phi}{dt} = M\omega \)}\newline
+\, \newline
+\normalsize Legend: \newline
+\begin{itemize}
+\item P = power
+\item dW = Work
+\item dt = time  
+\item M = torque
+\item \(\phi\) = angle between start and end 
+\item \(\omega\) = angle velocity
+\end{itemize} 
+
+\subsubsection{Energies}
+\large \textcolor{orange}{Translation-Energy}\newline
+\, \newline
+\large \textcolor{purple}{\( E_{\text{trans}} = \dfrac{1}{2}mv^2_s \)}\newline
+\, \newline
+\large \textcolor{orange}{Rotation-Energy}\newline
+\, \newline
+\large \textcolor{purple}{\( E_{\text{rot}} = \dfrac{1}{2}J_s\omega^2 \)}
+\, \newline
+\large \textcolor{orange}{Total}\newline
+\, \newline
+\large \textcolor{purple}{\(E_{\text{tot}} = E_{\text{trans}} +  E_{\text{rot}}\)}
+\normalsize
+
+\subsubsection{Turning Impulse}
+\, \newline
+\large \textcolor{purple}{\( \vec{L} = \vec{r} \text{ x } \vec{p} \)}\newline
+\, \newline
+\large \textcolor{purple}{\( \vec{L} = \int{d\vec{L}} = \int{\vec{r} \text{ x } \vec{v} * dm} \)}\newline
+\, \newline
+\normalsize Legend: \newline
+\begin{itemize}
+  \item \(\vec{L}\) = Turning Impulse
+  \item \(\vec{r}\) = radius as vector
+  \item \(\vec{v}\) = velocity as vector 
+\item dm = mass
+\item \(d\vec{p}\) = impulse force = \(\vec{F}\)
+\end{itemize} 
+\includegraphics[scale=0.2]{2023_01_01_07_14_44.png}
+
+\subsubsection{torque vs Turning impulse}
+\, \newline
+\large \textcolor{purple}{\( \vec{F} = m * \vec{a} = m * \dfrac{d\vec{v}}{dt}  = \dfrac{d\vec{p}}{dt}\)}\newline
+\, \newline
+\large \textcolor{purple}{\( \vec{M} = \vec{r} \text{ x } \vec{F} = \dfrac{d}{dt} (\vec{r} \text{ x } \vec{p}) = \dfrac{d}{dt} \vec{L} = \vec{L_2} \)}\newline
+\, \newline
+\large \textcolor{purple}{\( \dfrac{d\vec{L}}{dt} = 0 \)} within a closed system!!\newline
+\, \newline
+\normalsize Legend: \newline
+\begin{itemize}
+  \item \(\vec{L}\) = turning impulse
+  \item \(\vec{M}\) = torque
+  \item \(\vec{L_2}\) = new turning impulse  
+\item dt = time
+\end{itemize}
+\textcolor{red}{Withing a closed system, the impulse is never lost!!}
+
+\subsubsection{Turning impulse vs angle velocity}
+\, \newline
+\large \textcolor{purple}{\( M = J\dfrac{d\omega}{dt} = \dfrac{d\vec{L}}{dt} \)}\newline
+\, \newline
+\large \textcolor{purple}{\( \vec{L} = J \vec{\omega} \)}
+\, \newline
+\normalsize Legend: \newline
+\begin{itemize}
+\item M = torque
+\item J = Moment of inertia
+\item \(\vec{L}\) = Turning impulse 
+\item \(\vec{\omega}\) = angle velocity
+\item dt = time
+\end{itemize} 
+
+\subsection{gyroscope}
+\subsubsection{Force free gyroscope}
+\, \newline
+\large \textcolor{purple}{\( \vec{M} = \vec{0} \) and \( \vec{L} = \text{constant} \)}\newline
+\, \newline
+\large \textcolor{orange}{When a symmetric gyroscope spins:}
+\, \newline
+\large \textcolor{purple}{\( \vec{L} = J\vec{\omega} \)}\newline
+therefore \(\omega\) and J are also constant!\newline
+\, \newline
+\normalsize Legend: \newline
+\begin{itemize}
+  \item \(\vec{M}\) = torque
+  \item \(\vec{L}\) = Turning impulse
+\item \(\omega\) = angle velocity 
+\item J = moment of inertia
+\end{itemize} 
+
+\subsubsection{Forces on gyroscope}
+\, \newline
+\large \textcolor{purple}{\( d\vec{L} = \vec{M}dt \)}\newline
+\(\omega dt >> d\phi\) fast rotation!\newline
+\, \newline
+\normalsize Legend: \newline
+\begin{itemize}
+  \item \(\vec{L}\) = Turning impulse
+  \item \(\vec{M}\) = torque
+\item dt = time  
+\item \(d\phi\) = angle 
+\item \(\omega\) = angle velocity
+\end{itemize} 
+
+\subsubsection{Precision gyroscope}
+\, \newline
+\large \textcolor{purple}{\( \Omega = \dfrac{d\phi}{dt} = \dfrac{1}{L sin(\beta)} * \underset{M}{\dfrac{dL}{dt}} \)}\newline
+\, \newline
+\normalsize Legend: \newline
+\begin{itemize}
+\item \(\Omega\) = Precision angle velocit
+\item d\(\phi\) = angle between current pos and next pos
+\item dt = time  
+\item L = Turning impulse
+\item dL = second impulse 
+\item \(\beta\) = angle between original starting orientation and current orientation
+\end{itemize}
+\includegraphics[scale=0.2]{2023_01_01_07_32_08.png}
 
 \end{multicols*}
 \end{document}
