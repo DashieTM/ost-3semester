@@ -16,6 +16,155 @@
 All physical rules are universal, this means there is no space in the universe where these rules do not apply.\newline
 In other words, shit like equestria is sadly not possible according to physics, what a surprise!
 
+\section{Shape Formulas}
+\subsection{Circle}
+\minipg{
+\, \newline
+\large \textcolor{purple}{\( C = \pi * 2 r \)}\newline
+\, \newline
+\large \textcolor{purple}{\( A = \pi * r^2 \)}\newline
+\, \newline
+\normalsize 
+Legend: \newline
+\begin{itemize}
+\item r = radius
+\item C = circumference
+\item A = area 
+\end{itemize}
+}{
+  \includegraphics[scale=0.4]{2023_01_02_03_55_56.png}
+}[0.25,0.25]
+
+\subsection{Triangle}
+\minipg{
+\, \newline
+\large \textcolor{purple}{\( C = a + b + c \)}\newline
+\, \newline
+\large \textcolor{purple}{\( A = \dfrac{1}{2} * b * h \)}\newline
+\, \newline
+\large \textcolor{purple}{\( c = \sqrt{a^2 + b^2} \)}\newline
+(if 90 degree angle triangle) -> otherwise use trigonometry (SohCahToa)\newline
+\normalsize 
+Legend: \newline
+\begin{itemize}
+\item C = circumference
+\item a,b,c = all sides of triangle\newline
+b bottom side with 90 degree angle to height
+\item h = height 
+\item A = area
+\end{itemize}
+}{
+  \includegraphics[scale=0.3]{2023_01_02_03_56_02.png}
+}[0.25,0.25]
+
+\subsection{Parallelogram}
+\minipg{
+\, \newline
+\large \textcolor{purple}{\( A = b * h \)}\newline
+\, \newline
+\normalsize 
+Legend: \newline
+\begin{itemize}
+\item A = area
+\item b = bottom line
+\item h = height 
+\end{itemize} 
+}{
+  \includegraphics[scale=0.4]{2023_01_02_03_56_07.png}
+}[0.25,0.25]
+
+\subsection{Trapezoid}
+\minipg{
+\, \newline
+\large \textcolor{purple}{\( A = \dfrac{1}{2} * (a + b) * h \)}\newline
+\, \newline
+\normalsize 
+Legend: \newline
+\begin{itemize}
+\item A = area
+\item a = top line
+\item b = bottom line 
+\item h = height
+\end{itemize} 
+}{
+  \includegraphics[scale=0.4]{2023_01_02_03_56_15.png}
+}[0.25,0.25]
+
+\subsection{Circular Sector}
+\minipg{
+\, \newline
+\large \textcolor{purple}{\( A = \dfrac{1}{2} * r^2 * \alpha \)}\newline
+\, \newline
+\large \textcolor{purple}{\( s = r * \alpha \)}
+\, \newline
+\normalsize 
+Legend: \newline
+\begin{itemize}
+\item s = Arclength -> length of sector
+\item \(\alpha\) = angle 
+\item r = radius 
+\item A = area 
+\end{itemize} 
+}{
+  \includegraphics[scale=0.4]{2023_01_02_03_56_19.png}
+}[0.25,0.25]
+
+\subsection{Sphere}
+\minipg{
+\, \newline
+\large \textcolor{purple}{\( V = \dfrac{4}{3} * \pi * r^3 \)}\newline
+\, \newline
+\large \textcolor{purple}{\( SA = 4 * \pi * r^2 \)}\newline
+\, \newline
+\normalsize 
+Legend: \newline
+\begin{itemize}
+\item V = volume
+\item SA = surface area
+\item r = radius 
+\end{itemize} 
+}{
+  \includegraphics[scale=0.4]{2023_01_02_03_56_24.png}
+}[0.25,0.25]
+
+\subsection{Cylinder}
+\minipg{
+\, \newline
+\large \textcolor{purple}{\( V = \pi * r^2 * h \)}\newline
+\, \newline
+\large \textcolor{purple}{\( SA = 2 * \pi * r * h + 2 * \pi * r^2 \)}
+\, \newline
+\normalsize 
+Legend: \newline
+\begin{itemize}
+\item V = volume
+\item SA = surface area
+\item r = radius 
+\item h = height of cylinder
+\end{itemize} 
+}{
+  \includegraphics[scale=0.4]{2023_01_02_03_56_27.png}
+}[0.25,0.25]
+
+\subsection{Circular Cone}
+\minipg{
+\, \newline
+\large \textcolor{purple}{\( V = \dfrac{1}{3} * \pi * r^2 * h \)}\newline
+\, \newline
+\large \textcolor{purple}{\( SA = \pi * r * \sqrt{r^2 + h^2} \)}\newline
+\, \newline
+\normalsize 
+Legend: \newline
+\begin{itemize}
+\item V = volume
+\item SA = surface area
+\item r = radius 
+\item h = height
+\end{itemize} 
+}{
+  \includegraphics[scale=0.4]{2023_01_02_03_56_30.png}
+}[0.25,0.25]
+
 \section{Vectors}
 \textbf{Notation} \( \vec{A} = \begin{bmatrix}x_{1} \\ x_{2} \end{bmatrix} \) OR \(\vec{A} = (x1 | x2)\)\newline
 As you have learned in vocational school, use the first for vectors, the second for points.\newline
@@ -35,11 +184,11 @@ Similar, if the value is identical but the direction is negated, then you have t
 \includegraphics[scale=0.3]{2022-09-23-10:41:53.png}\newline 
 simple vector math \newline
 \subsection{Dotproduct}
-\Large{\textbf{\textcolor{red}{\( \vec{a} * \vec{b} = |\vec{a}| * |\vec{b}| * sin(\alpha) * n \)}}}\newline
+\Large{\textbf{\textcolor{red}{\( \vec{a} * \vec{b} = |\vec{a}| * |\vec{b}| * cos(\alpha) \)}}}\newline
 \normalsize This returns a scalar, aka a number that you can use.\newline
 This will return 0 when used in a right angle as \(cos(90)\) is 0!\\
 \subsection{Crossproduct}
-\Large{\textbf{\textcolor{red}{\( \vec{a} \text{ x } \vec{b} = |\vec{a}| * |\vec{b}| * cos(\alpha) \)}}}\newline
+\Large{\textbf{\textcolor{red}{\( \vec{a} \text{ x } \vec{b} = |\vec{a}| * |\vec{b}| * sin(\alpha) * n \)}}}\newline
 \normalsize This is usually used to get the unit vector of the resulting vector.\newline
 \(\alpha\) is the angle between the vector \(\vec{a}\) and \(\vec{b}\)\newline
 \emph{\textcolor{teal}{For more information and proof, check the dedicated vector Document from vocational school.}}\\
@@ -72,6 +221,24 @@ This will return 0 when used in a right angle as \(cos(90)\) is 0!\\
 \subsubsection{Gravity}
 \textcolor{purple}{\( |\vec{F_G}| = G * \dfrac{m_1 * m_2}{r^2} \)} | 
 G = \(6.67 * 10^{-11}\dfrac{m^3}{kgs^2}\)\vspace{2mm}
+
+\subsubsection{Gravity change}
+Difference in some height to surface earth for gravity.\newline
+\, \newline
+\large \textcolor{purple}{\( \dfrac{F_G}{F_{G0}} = \dfrac{G*\dfrac{m_1 * m_2}{(r_E + h)^2}}{G*\dfrac{m_1 * m_2}{r_E^2}} = \dfrac{\dfrac{G}{(r_E + h)^2}}{\dfrac{G}{r_E^2}}  = \dfrac{r_E^2}{(r_E + h)^2} \)}\newline
+\, \newline
+\textcolor{orange}{Because the masses appear twice, they can be ignored!}\newline
+\, \newline
+\normalsize The result is a factor by which the second gravity is lower than the one on earth itself.\newline
+Legend: \newline
+\begin{itemize}
+  \item \(F_G\) = Gravity at new height
+  \item \(F_{G0}\) = regular gravity at surface
+\item h = height difference
+\item \(m_1\) = mass of object 
+\item \(m_2\) = mass of earth 
+\item G = gravitational constant
+\end{itemize} 
 
 \subsubsection{Fall acceleration}
 \textcolor{purple}{\(|\vec{F_G}| = m * g\)} | with \(g = 9.81\dfrac{m}{s^2}\)
@@ -382,6 +549,22 @@ Or easier, the derivation of current velocity:}\newline
 \, \newline
 \normalsize 
 
+\subsubsection{Equally de-accelerated Translation}
+\, \newline
+\large \textcolor{purple}{\( a = \dfrac{v^2}{2s} \)}\newline
+\, \newline
+\large \textcolor{purple}{\( s = \dfrac{v^2}{2 * \mu * G} \)}
+\, \newline
+\normalsize Legend: \newline
+\begin{itemize}
+\item s = distance to v == 0 (braking)
+\item a = deacceleration\newline
+\textcolor{red}{Keep in mind this needs to be negative compared to the velocity!}
+\item \(\mu\) = friction coefficient
+\item G = gravitational constant
+\item v = velocity
+\end{itemize} 
+
 \subsubsection{extreme values}
 In order to get the maximum of a parabel, you have 2 possibilities, either set the acceleration to 0 which can be calculated by getting the initial acceleration and then reducing it with gravity until you find the proper time:\newline
 \, \newline
@@ -534,7 +717,7 @@ Remember that the y-axis is sine * angle, and the x-axis is cos * angle\newline
 }[0.25,0.25]
 \, \newline
 
-\subsubsection{Maximal Throwdistance}
+\subsubsection{Maximal Throw Gravity at new heightdistance}
 We evaluate the angle via settings the slope of the derivative to 0. :)\newline
 \minipg{
 \, \newline
