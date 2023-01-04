@@ -7,7 +7,12 @@
 }
 %%%%%
 
+\title{Physics}
+\author{Fabio Lenherr}
+
+
 \begin{document}
+\tableofcontents
 \begin{table}[h!]
 \section{Basic Terms and Information}
 \begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
@@ -2209,8 +2214,8 @@ std::unique\_ptr &
 auto factory(int i) -> std::unique_ptr<X> {
   return std::make_unique<X>(i);
 }
-// or worse and only local!
-std::unique_ptr<T> const p{new T{}}; // local
+// or only local!
+std::unique_ptr<T> ptr = std::make_unique<T>(); // local
 \end{lstlisting}
 \\
 \hline
