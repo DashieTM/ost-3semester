@@ -27,7 +27,7 @@ It converts instructions into binary -> machine code. Most compiled language wil
 \item \textcolor{orange}{10001000b or 1000\_1000b -> b/y for binary}
 \end{itemize}
 \subsection{Length Calculation}
-\includegraphics[scale=0.2]{2022-09-27-04:27:52.png}
+\includegraphics[scale=0.2]{2022-09-27-04_27_52.png}
 first define a quadword with 2 unknown labels, then define my\_text with 'Besys',
 after define aftermytext and recude the current instruction pointer with the instruction pointer at my\_text
 \subsection{Default Registers}
@@ -168,7 +168,7 @@ starts with a-z, A-Z followed by letters, digits or \_
 \item \textcolor{purple}{String or Character literals}\newline
   string starts with ", char with ', escape \textbackslash 
 \item \textcolor{purple}{Operations and punctuators}\newline
-  \includegraphics[scale=0.24]{2022-10-11-03:40:12.png}
+  \includegraphics[scale=0.24]{2022-10-11-03_40_12.png}
 \item \textcolor{purple}{others}
 \end{itemize} 
 
@@ -333,7 +333,7 @@ For the next example, consider the amount of cachelines to be 8.
 \subsection{k-Way Set-Associative-Cache SAC}
 \textcolor{purple}{One DMC per "Way". Best compromise between both.}\newline
 k defines the amount of DMC used. 
-\includegraphics[scale=0.2]{2022-12-27:01:42:01.png} 
+\includegraphics[scale=0.2]{2022-12-27_01_42_01.png} 
 \textcolor{red}{Solves the issue of collisions from the DMC!}
 
 \section{Fragmentation}
@@ -353,7 +353,7 @@ k defines the amount of DMC used.
 
 \subsection{Buddy System}
 Starts with the entire memory and splits down to smalles possible size.\newline
-\includegraphics[scale=0.15]{2022-11-29-05:19:44.png}
+\includegraphics[scale=0.15]{2022-11-29-05_19_44.png}
 
 \subsection{Object-Pools}
 \begin{itemize}
@@ -397,7 +397,7 @@ The MMU maps physical RAM to virtual RAM via \textbf{Page-Table}.\newline
 \subsubsection{Page-Tables}
 Page Tables can have multiple levels just like k-Way SAC.\newline
 The root part of this is associated with a process.\newline
-\includegraphics[scale=0.27]{2022-12-06-04:46:09.png}\newline
+\includegraphics[scale=0.27]{2022-12-06-04_46_09.png}\newline
 \textcolor{red}{Page-Tables always allocate the entire list! Page Directories only allocate the entries when they exist!}\newline
 This is because you always need the space for the actual entry, but you don't need the space for an abstraction!
 \textcolor{teal}{There are other implementations like Inverted Page Table or Hash Page Table, but they are not used}
@@ -414,7 +414,7 @@ For example when an address is not in physical memory!\newline
 \item \textcolor{black}{A=0, D=1} -> written a while ago
 \item \textcolor{black}{A=0, D=0} -> there was no access for a while
 \end{itemize}
-\includegraphics[scale=0.27]{2022-12-13-03:22:16.png}
+\includegraphics[scale=0.27]{2022-12-13-03_22_16.png}
 
 \subsection{Paging Strategies}
 Consists of \textcolor{purple}{Fetching Policies, Cleaning Policies and Replacement Policies} 
@@ -448,7 +448,7 @@ Replace page that has not been used for the longest time.\newline
 \subsubsection{Not Frequently Used with Aging NFU}
 OS creates interval, if MMU accesses page within interval, counter increases.\newline
 \textcolor{red}{Counter is binary! With each iteration, counter is shifted to right (aging!)}\newline
-\includegraphics[scale=0.2]{2022-12-13-04:37:48.png}
+\includegraphics[scale=0.2]{2022-12-13-04_37_48.png}
 
 \subsubsection{Working Set}
 \textcolor{purple}{Uses page-fault interrupt. Chooses an interval T.}\newline

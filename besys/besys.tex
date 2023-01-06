@@ -42,12 +42,12 @@
   7. Processor moves pointer according to operation size.\\
 } \\
 \hline
-\mc{Encoding of Operations} & \mc{\pictext{2022-09-23-03:58:36.png}{The left side is a chain consisting of the Operation code and the register code. For example: the operation code \(1B_h\) will be combined with the register \(02_h\). This will combine like this in binary: \(011011_b\) append \(01\) -> \(01101101\) which is \(6D_h\) }[0.2,0.3,0.55]} \\
+\mc{Encoding of Operations} & \mc{\pictext{2022-09-23-03_58_36.png}{The left side is a chain consisting of the Operation code and the register code. For example: the operation code \(1B_h\) will be combined with the register \(02_h\). This will combine like this in binary: \(011011_b\) append \(01\) -> \(01101101\) which is \(6D_h\) }[0.2,0.3,0.55]} \\
 \hline
 Little Endian Intel & Intel uses Little Endian due to certain benefits with this mode. \newline
 \textbf{\emph{The biggest benefit is the fact that byte, word, dword all have the same address!}}\newline
 \textbf{\emph{Remember from digicode, little endian is. \( s_1s_0\) \(s_3s_2\)}}\newline
-\pic{2022-09-27-03:35:55.png}\\
+\pic{2022-09-27-03_35_55.png}\\
 \hline
 Bit Byte and Word & Byte 8 Bit \newline 
 Word 2 Byte / 16 Bit \newline
@@ -63,7 +63,7 @@ In 16 bit architecture we have AH and AL registers, both being 8 bit.\newline
 These accumulate to the \textbf{AX} Register.\newline
 With 32 bit we get to \textbf{EAX} which extends the 16 bit by another 16 to the left.\newline
 64 bit extends this further with another 32 and the name \textbf{RAX}.\newline
-}{\pic{2022-10-04-03:34:45.png}}[0.5,0.5]\\
+}{\pic{2022-10-04-03_34_45.png}}[0.5,0.5]\\
 \hline
 \end{tabular}
 \end{table}
@@ -83,7 +83,7 @@ With 32 bit we get to \textbf{EAX} which extends the 16 bit by another 16 to the
   \item  \textbf{RBP} Basepointer, address outside of stack, base for operation
   \item  \textbf{R8-R15} additional registers
 \end{itemize}}
-{\pic{2022-10-04-03:42:25.png}}[0.5,0.5]\\
+{\pic{2022-10-04-03_42_25.png}}[0.5,0.5]\\
 \hline
 \textbf{Length of Instruction} & 
 \vspace{2mm}
@@ -138,7 +138,7 @@ Cpus have 3 main functions:\newline
 Early PCs and Memory & 
 In early PCs, we used to directly access the main memory, which today would be extremely slow, today we rather access cache which handles the flow of data from the main memory to cache and back.\newline
 \textcolor{OliveGreen}{The idea is basically that the cpu doesn't need to worry about the low level operation of handling the dataflow, it just takes the data and leaves it at that. This allows the CPU to significantly speed up, as it doesn't have to worry about this operation.}\newline
-\includegraphics[scale=0.3]{2022-11-22-03:35:41.png}\\
+\includegraphics[scale=0.3]{2022-11-22-03_35_41.png}\\
 \hline
 Physical limiations of CPUs & 
 The maximum speed of our signals in the cpu(latency) is light speed, but even this is only really theoretical, as most materials have a maximum speed of about a third of light speed.\newline
@@ -160,7 +160,7 @@ s = s + a[i];
 m = s / n; 
 \end{lstlisting}
 \, \newline
-\includegraphics[scale=0.4]{2022-11-22-03:53:06.png}\\
+\includegraphics[scale=0.4]{2022-11-22-03_53_06.png}\\
 \hline
 \end{tabular}
 \end{table}
@@ -205,10 +205,10 @@ Calculation for median access time &
 \hline
 Fully-Associative Cache & 
 This cache stores an address for each byte, this is really fast, meaning that each individual address is cached, however it will leave a lot on the table in the sense that you need more cache to store things, and considering the fact that cache is expensive and small, this is likely not a good solution for everything:\newline
-\includegraphics[scale=0.35]{2022-11-22-04:18:26.png}\newline
+\includegraphics[scale=0.35]{2022-11-22-04_18_26.png}\newline
 \textcolor{red}{Note the a is the address and d the value!}\newline
 Lookup:\newline
-\includegraphics[scale=0.35]{2022-11-22-04:20:02.png}\\
+\includegraphics[scale=0.35]{2022-11-22-04_20_02.png}\\
 \hline
 CacheLines & 
 This essentially is a block of memory that will be stored in the cache instead of each byte itself. This means we can store more data with less memory addresses.\newline
@@ -217,17 +217,17 @@ The size of the block is therefore the same as the size of the line, otherwise t
   \textcolor{red}{Because of these 6 bit, we also need to divide the address taht we want to use by \(2^6\) which is \(4_h\)!\newline
   address in 64 cacheline = address in hex / 4 in hex}\newline
 Then we can use this to encode each offset, which can then be used to get the actual address of the data via this offset:}\newline
-\includegraphics[scale=0.35]{2022-11-22-04:30:41.png}\newline
+\includegraphics[scale=0.35]{2022-11-22-04_30_41.png}\newline
 It will \textbf{always check \(\text{t*} == \text{t}_\text{i}\) at the same time !}\newline
 Here address = 84480801h -> divide by 4h -> 2112020h\newline
 With the lower 6 bits being the offset j -> here 1\newline
-\includegraphics[scale=0.35]{2022-11-22-04:34:35.png}\newline
+\includegraphics[scale=0.35]{2022-11-22-04_34_35.png}\newline
 Fully asociative cache are really good for async but are hard to implement.\newline
 They often cost a lot of hardware when used in async mode, and otherwise would take longer when running in iterative mode!\\
 \hline
 Direct Mapping & 
 With direct mapping we have all blocks being mapped to a line, while not every line is currently "active", the active part here is referring to the part of the cache that is actually filled with data.\newline
-\includegraphics[scale=0.25]{2022-11-25-04:23:28.png}\\
+\includegraphics[scale=0.25]{2022-11-25-04_23_28.png}\\
 \hline
 \end{tabular}
 \end{table}
@@ -245,21 +245,21 @@ The calculation is as follows:\newline
   \item \textcolor{purple}{Bits for cell numbers: \( log_2(\text{cell count per block}) \)}
 \end{itemize} 
 \, \newline
-\includegraphics[scale=0.3]{2022-11-25-04:30:25.png}\newline
+\includegraphics[scale=0.3]{2022-11-25-04_30_25.png}\newline
 Here we split the blocks into each line, meaning that one line will have multiple blocks assigned to it.\newline
 However, this doesn't mean that we have multiple data from other blocks in the cache, it only means that they will be in that line should they be in the cache.\newline
-\includegraphics[scale=0.3]{2022-11-25-04:35:20.png}\newline
+\includegraphics[scale=0.3]{2022-11-25-04_35_20.png}\newline
 Now we split the Block numbers into yet 2 more categories, \textbf{tag bits} and \textbf{line numbers}\newline
 this can be done as all line numbers will map to the line, the \textbf{the first 2 bits are not necessary for this! See above!}\newline
 This means that we can use the first two for something else, and we use them to indicate which block is actually in the cache currently:\newline
-\includegraphics[scale=0.3]{2022-11-25-04:33:15.png}\newline
+\includegraphics[scale=0.3]{2022-11-25-04_33_15.png}\newline
 If the first 2 bits are both 0 and the second 2 are both 1, then it would map to 3.\newline
 So it is important to know, that the first 2 bits will define a section of a line, 0, 1, 2 and 3 or 4, 5, 6 and 7 ... etc. While the next 2 bits define the actual line, 1 1 for the third line, 1 0 for the second line, etc.\\
 \hline
 Comparison Fully Associative Cache (FAC)\newline and Direct Mapped Cache (DMC) & 
 The fully associative cache will only have tags and offsets, this is easier to map, but also requieres a bigger tag and more comparators!\newline
 \textbf{In fact, per "way" we need one comparator!}\newline
-\includegraphics[scale=0.25]{2022-11-25-04:43:36.png}\newline
+\includegraphics[scale=0.25]{2022-11-25-04_43_36.png}\newline
 Other differences: \newline
 DMC has collisions, while the FAC will not, in other words 53 must be stored in the same address with direct mapping as 63, this is a collision! You can only overwrite in this case!
 \\
@@ -381,7 +381,7 @@ How does the OS allocate memory ? &
 When we call for 4 integers to be allocated, which would be 16bytes, how much would the OS allocate?
 It will allocate one more \textbf{size\_t} in order to save the size of the allocated space.\newline
 In other words, when called for 16 bytes, it will allocate 20 bytes, while 4 bytes are without data, they only serve as a representation of how much to free.\newline
-\includegraphics[scale=0.4]{2022-11-29-03:48:59.png}\newline
+\includegraphics[scale=0.4]{2022-11-29-03_48_59.png}\newline
 \textcolor{orange}{Note, the pointer will always direct to the start of the 16 bytes that we wanted to allocate!}\\
 \hline
 Freeing & 
@@ -465,7 +465,7 @@ There are many implementations, some practial, some optimized..\newline
 Fixed Blocksize & 
 The easiest heap implementation is to just define a \textbf{base block size}, then you will only allocate multiples of that block size.\newline
 \textcolor{green}{The benefit of this is that you can store the metedata for the heap allocation for cheap should you allocate a lot of memory}, on the other hand, should you allocate only a small chunk, then you might have a ratio of metadata to actual data of 50\%, which is shite.\newline
-\includegraphics[scale=0.4]{2022-11-29-04:14:43.png} \newline
+\includegraphics[scale=0.4]{2022-11-29-04_14_43.png} \newline
 \\
 \hline
 Decentralized vs Centralized Metadata & 
@@ -486,7 +486,7 @@ We define the following metadata:\newline
 \item \textcolor{purple}{Next: Address of next Listelement}
 \end{itemize} 
 \, \newline
-\includegraphics[scale=0.4]{2022-11-29-04:18:03.png}\newline
+\includegraphics[scale=0.4]{2022-11-29-04_18_03.png}\newline
 Since we use a linked list, we need to \textbf{iterate over the elements to see where we have enough space free!}\\
 \hline
 \end{tabular}
@@ -539,7 +539,7 @@ Buddy-System &
 \end{itemize} 
 \, \newline
 \minipg{
-\includegraphics[scale=0.3]{2022-11-29-05:19:44.png}
+\includegraphics[scale=0.3]{2022-11-29-05_19_44.png}
 }{ 
 At the start we have the full memory, then when we get an allocation request that is smaller than this size divided by 2, we split the memory into 2 sections, these 2 sections are now considered "buddies", as the merge into the bigger part together.\newline
 Since we requested 64bytes from the max of 512 bytes, we can split again, and again, we do this until the split would be smaller than the size we want, this size will then be allocated.\newline
@@ -684,7 +684,7 @@ Approach OS handles memory &
 Privilege Levels & 
 Processors have different privilege levels, \textbf{PL0, PL1, PL2, PL3}.\newline
 \textcolor{orange}{These are the ring0 to ring3 levels that everyone is always talking about!}\newline
-\includegraphics[scale=0.2]{2022-12-06-03:25:15.png}\\
+\includegraphics[scale=0.2]{2022-12-06-03_25_15.png}\\
 \\
 \hline
 \end{tabular}
@@ -723,7 +723,7 @@ Approach Virtual Addresses &
   Is this process allowed to access this memory? Read? Write?
 \end{itemize} 
 \, \newline
-\includegraphics[scale=0.3]{2022-12-06-03:36:53.png}\includegraphics[scale=0.3]{2022-12-06-03:39:13.png}\newline
+\includegraphics[scale=0.3]{2022-12-06-03_36_53.png}\includegraphics[scale=0.3]{2022-12-06-03_39_13.png}\newline
 \textcolor{orange}{The mapping of real addresses to virtual addresses are a \textbf{black box} to processes, it is basically impossible to "guess" a physical address and read/write to it!}\newline
 \textcolor{purple}{The processor can either receive \textbf{a page table, a page directory, or even a higher variant!}}\newline
 \textcolor{red}{This is the approach that is used on modern systems!}\\
@@ -737,7 +737,7 @@ Valid Access &
 \item \textcolor{black}{processor reads/writes data from and to memory bus}
 \end{itemize}
 }{
-\includegraphics[scale=0.4]{2022-12-06-03:43:32.png}
+\includegraphics[scale=0.4]{2022-12-06-03_43_32.png}
 }[0.4,0.4]\\
 \hline
 Invalid Access &
@@ -751,14 +751,14 @@ Invalid Access &
   For example kill process as answer...
 \end{itemize}
 }{
-\includegraphics[scale=0.4]{2022-12-06-03:43:38.png}
+\includegraphics[scale=0.4]{2022-12-06-03_43_38.png}
 }[0.4,0.4]\\
 \hline
 Swap & 
 In linux we need swap in order to store our memory on our storage (SSD/HDD), this makes it possible to use more RAM than we actually have by storing things we currently do not necessarily need on our storage intead.\newline
 This is also how we can achieve "sleep" mode, where we do not have any RAM loaded, instead it is stored on our storage at shutdown.\newline
 \minipg{
-\includegraphics[scale=0.4]{2022-12-06-03:50:16.png} 
+\includegraphics[scale=0.4]{2022-12-06-03_50_16.png} 
 }{
 Note that the OS handles when this happens, a process will \emph{usually} not notice anything!\newline
 Effects:\newline
@@ -792,7 +792,7 @@ Page based Virtual Memory &
   Page Frame Number = AB789
 \end{itemize} 
 }{ 
-\includegraphics[scale=0.4]{2022-12-06-04:13:15.png}
+\includegraphics[scale=0.4]{2022-12-06-04_13_15.png}
 }[0.4,0.4]\newline
 \begin{itemize}
   \item \textcolor{purple}{Virtual Address space consist of pages}\newline
@@ -801,9 +801,9 @@ Page based Virtual Memory &
 \item \textcolor{purple}{Per Process one Page-Table (Mapping)}
 \vspace{-3mm}
 \end{itemize}
-\includegraphics[scale=0.4]{2022-12-06-04:16:25.png}\newline
+\includegraphics[scale=0.4]{2022-12-06-04_16_25.png}\newline
 Both process A and B have their own space A1 to Am and B1 to Bn, and each has their own mapping inside the MMU, this leads to the effect, that the pages can be shuffled, without losing any functionality, as the pages are mapped!\newline
-\includegraphics[scale=0.4]{2022-12-06-04:19:35.png}\newline
+\includegraphics[scale=0.4]{2022-12-06-04_19_35.png}\newline
 \textcolor{orange}{As seen here, pages can be in memory or in storage, meaning that it doesn't matter other than performance wise!}\newline 
 \begin{itemize}
 \item \textcolor{purple}{OS decides where page is stored}
@@ -861,8 +861,8 @@ Page-Table Single-Level &
 \item \textcolor{purple}{very fast Lookup!}\newline
   Index = Page Number
 \end{itemize} 
-\includegraphics[scale=0.4]{2022-12-06-04:32:58.png}\newline 
-\includegraphics[scale=0.4]{2022-12-06-04:34:46.png}\newline
+\includegraphics[scale=0.4]{2022-12-06-04_32_58.png}\newline 
+\includegraphics[scale=0.4]{2022-12-06-04_34_46.png}\newline
 Downsides: \newline
 \begin{itemize}
 \item \textcolor{red}{Size of page-tables can be extremely big!}\newline
@@ -875,11 +875,11 @@ Downsides: \newline
 Two-Level Page-Table & 
 This works very much like the Two-Way cache where we have to tables, if the first table -> \textbf{Page Directory} already doesn't find an associated table \textbf{Page Table} for this process, then we don't need to search further! \newline
 Remember each process will only have 1 page table!\newline
-\includegraphics[scale=0.4]{2022-12-06-04:41:50.png}\newline
+\includegraphics[scale=0.4]{2022-12-06-04_41_50.png}\newline
 Just like with the cache we have \textbf{an offset, here this is the \emph{last 12 bits.}}\newline
 Then we split the rest in 2, note that the results are strange since it is hex.\newline
 \textbf{Status bits define is the table is used or not!}\newline
-\includegraphics[scale=0.4]{2022-12-06-04:41:59.png} 
+\includegraphics[scale=0.4]{2022-12-06-04_41_59.png} 
 \, \newline
 \textcolor{red}{IMPORTANT: With \textbf{Page Directories or higher, it does not allocate memory if the page table is unused!}
 Also, \textbf{ALL entries, no matter if page table or page directory are 32bit!, even though many of these bits aren't used in the page table or directory!}}\newline
@@ -911,7 +911,7 @@ Multi-Level Page-Table &
 This is also the same as the multi-way on caches, currently the maximum amount of levels is 5!\newline
 This is because right now, noone will need more than 5 levels which is more ram than you could possibly have.\newline
 They thought the same for 256TB on level 4, but that has been reached!\newline
-\includegraphics[scale=0.4]{2022-12-06-04:46:09.png} 
+\includegraphics[scale=0.4]{2022-12-06-04_46_09.png} 
 \begin{itemize}
 \item \textcolor{purple}{Size of 4kB per Page stays the same!} 
 \item \textcolor{purple}{Entries are 64bit long -> hence the 64 bit system architecture}
@@ -924,12 +924,12 @@ Translation Lookaside Buffer &
 This is based on the locality principle, meaning that most pages are used rarely, and only a few pages are used often, these pages can then be "cached" on a lower L cache!\newline
 \textcolor{orange}{Here we only cache the mappings, not the data! As this is only a lookup buffer!}\newline
 Here an example of i7 skylake\newline
-\includegraphics[scale=0.4]{2022-12-06-04:49:25.png}\\
+\includegraphics[scale=0.4]{2022-12-06-04_49_25.png}\\
 \hline
 Inverted Page Table & 
 \textcolor{red}{Not used in practice.}\newline
 Instead of pages we store the frames, since the page tables can be very big. So we use the frames instead, however, the search takes too long....\newline
-\includegraphics[scale=0.4]{2022-12-06-04:49:54.png}\\
+\includegraphics[scale=0.4]{2022-12-06-04_49_54.png}\\
 \hline
 \end{tabular}
 \end{table}
@@ -941,7 +941,7 @@ Hashed Page Table &
 Instead of using an index, we use a hash instead.\newline
 Benefit of this is that we need less space, but it might get collisions, forcing us to use linked lists, etc.\newline
 \textcolor{red}{Nobody does this however.}\newline
-\includegraphics[scale=0.4]{2022-12-06-04:50:00.png}\\
+\includegraphics[scale=0.4]{2022-12-06-04_50_00.png}\\
 \hline
 The reason for MMU & 
 \minipg{
@@ -951,7 +951,7 @@ The reason for MMU &
 \item \textcolor{purple}{MMU takes over creation of real addresses}
 \end{itemize} 
 }{
-\includegraphics[scale=0.4]{2022-12-06-04:24:32.png} 
+\includegraphics[scale=0.4]{2022-12-06-04_24_32.png} 
 }[0.34,0.4] \newline
 \minipg{
 \begin{itemize}
@@ -964,7 +964,7 @@ The reason for MMU &
 \item \textcolor{purple}{MMU has its own cache -> Translation lookup buffer}
 \end{itemize} 
 }{
-\includegraphics[scale=0.4]{2022-12-06-05:34:14.png}\newline
+\includegraphics[scale=0.4]{2022-12-06-05_34_14.png}\newline
 }[0.4,0.4] \newline 
 \begin{itemize}
 \item \textcolor{purple}{Virtual address is split into:}\newline
@@ -975,12 +975,12 @@ The reason for MMU &
 \item \textcolor{purple}{Only the page number will be translated by the MMU}
 \item \textcolor{purple}{Offset stays the same}
 \end{itemize}
-\includegraphics[scale=0.4]{2022-12-06-05:34:21.png} 
-\includegraphics[scale=0.4]{2022-12-06-05:34:27.png}\\
+\includegraphics[scale=0.4]{2022-12-06-05_34_21.png} 
+\includegraphics[scale=0.4]{2022-12-06-05_34_27.png}\\
 \hline
 Example for translating an address from virtual to read with page directories and page tables &
 \vspace{2mm}
-\includegraphics[scale=0.3]{2022-12-09-03:30:07.png}\\
+\includegraphics[scale=0.3]{2022-12-09-03_30_07.png}\\
 \hline
 \end{tabular}
 \end{table}
@@ -991,7 +991,7 @@ Example for translating an address from virtual to read with page directories an
 Accessed and Dirty Bit &
 \textcolor{purple}{This case considers that the page is present -> status bit is 1}\newline
 \textcolor{red}{On each \textbf{access the MMU sets the Access-Bit -> A-Bit}, and on each \textbf{write, it writes the Dirty-Bit -> D-Bit}}\newline
-\includegraphics[scale=0.4]{2022-12-13-03:22:16.png}
+\includegraphics[scale=0.4]{2022-12-13-03_22_16.png}
 \, \newline
 \textcolor{orange}{\textbf{Only the OS can reset either of those 2 bits! It will do so \textbf{periodically!!}}}\newline 
 Note that, the MMU doesn't use these bits and these bits are the 12 offset bits!\\
@@ -1001,12 +1001,12 @@ When the page is not in the virtual memory, the MMU will throw an \textbf{interr
 \textcolor{red}{Should the access not be valid, then a \textbf{segmentation fault will be thrown!}\newline
 Should the access be valid, then it will try to load the page into memory, should no space be available, then it will try to throw a currently unused one out.}\newline
 The OS will then tell the MMU to recheck the virtual memory if the access was valid, meaning the process will finally get the page that it wanted.\newline
-\includegraphics[scale=0.4]{2022-12-13-03:26:16.png}\\
+\includegraphics[scale=0.4]{2022-12-13-03_26_16.png}\\
 \hline
 Threshing & 
 This is the case when the CPU will be forced to load pages from storage and store old ones repeatedly due to lack of free memory.\newline
 \textbf{Should this happen, then the system will no longer be able to do actual work, as it is busy loading pages instead.}\newline
-\includegraphics[scale=0.4]{2022-12-13-03:31:53.png}
+\includegraphics[scale=0.4]{2022-12-13-03_31_53.png}
 \, \newline
 The general solutions to this are: \newline
 \begin{itemize}
@@ -1060,7 +1060,7 @@ Fetching Policies &
 \end{itemize} 
 \, \newline
 An example for \textbf{Demand Paging with Prepaging}\newline
-\includegraphics[scale=0.4]{2022-12-13-03:41:54.png}\\
+\includegraphics[scale=0.4]{2022-12-13-03_41_54.png}\\
 \hline
 \end{tabular}
 \end{table}
@@ -1092,7 +1092,7 @@ Cleaning Policies &
 \end{itemize}
 \, \newline
 An example with \textbf{Page Buffering, a variant of Page Cleaning}\newline
-\includegraphics[scale=0.4]{2022-12-13-03:46:39.png}\newline 
+\includegraphics[scale=0.4]{2022-12-13-03_46_39.png}\newline 
 The OS handles 2 lists, one modified and one unmodified, OS puts pages to either list in intervals.\newline
 When Page is in modified list, it has dirty bit written. OS then writes this page to storage, removes the dirty bit and puts the page in the unmodified list.\\
 \hline
@@ -1154,7 +1154,7 @@ The idea is simply, just replace the oldest page.\newline
 \item \textcolor{red}{Old pages will be deleted and might get reloaded immediately as a process needs it}
 \item \textcolor{red}{\textbf{Beladys Anomaly} -> bigger Memory can lead to more page faults}
 \end{itemize} 
-\includegraphics[scale=0.4]{2022-12-13-04:18:45.png}
+\includegraphics[scale=0.4]{2022-12-13-04_18_45.png}
 \\
 \hline
 \end{tabular}
@@ -1167,12 +1167,12 @@ Second Chance &
 \textbf{Extension of FIFO, it checks A-Bit of oldest page.}\newline
 If the A-Bit is 0, the page is \textbf{old and is not used} -> deleted\newline
 If the A-Bit is 1, the page is \textbf{old but used} -> page is kept and pushed to end of list \textbf{and the A bit is set to 0!!}, checks next first page instead.\newline
-\includegraphics[scale=0.4]{2022-12-13-04:23:54.png}\\
+\includegraphics[scale=0.4]{2022-12-13-04_23_54.png}\\
 \hline
 Clock & 
 \textbf{Efficient implementation of Second Chance.}\newline
 \textcolor{orange}{Linked List in Clock graph, Elements aren't moved, only pointer is moved}\newline
-\includegraphics[scale=0.4]{2022-12-13-04:25:15.png}\\
+\includegraphics[scale=0.4]{2022-12-13-04_25_15.png}\\
 \hline
 Least Recently Used (LRU) & 
 \begin{itemize}
@@ -1189,7 +1189,7 @@ Least Recently Used (LRU) &
 \item \textcolor{red}{Most MMUs can't use this variant}
 \vspace{-3mm}
 \end{itemize} 
-\includegraphics[scale=0.4]{2022-12-13-04:25:42.png}\\
+\includegraphics[scale=0.4]{2022-12-13-04_25_42.png}\\
 \hline
 Interrupt Idea for \textbf{certain variants} & 
 With the last variant we had the problem that not all MMUs can generate a timestamp, but guess what definitely can generate one, the OS.\newline
@@ -1203,14 +1203,14 @@ This uses the \textbf{Timer Interrupt} strategy with a counter to also check if 
 The downside is that you need an \textbf{additional counter table which is created for each page table.}\newline
 If page is not used within an interval counter is left as is, if it is used incremented per access.\newline
 \textcolor{red}{Likely, this is only a theoretical approach, as you can't decrement the counter, meaning that a faulty program might have a counter in the millions, which can easily crash your pc.....}\newline
-\includegraphics[scale=0.3]{2022-12-13-04:28:40.png}\newline 
+\includegraphics[scale=0.3]{2022-12-13-04_28_40.png}\newline 
 \textcolor{red}{Problem: old pages that have not been used recently can still linger for a long time if they have a huge counter... This means it will take a long time for these pages to be cleaned up, hence the issue with faulty programs that intentionally or unintentionally push this counter up.}\\
 \hline
 Not Frequently Used with Aging & 
 As the name says, this solves the issue with aging, as the counter \textbf{shifted to the right each interval.}\newline
 \textbf{Note, the counter is not a real counter anymore, only the Access bit, but it does offer a number, namely used within timeframe x at least once}\newline
 \textcolor{red}{(Counter >> 1) + (A << n)} A is the access bit, n is the amount of bits the counter has\newline
-\includegraphics[scale=0.4]{2022-12-13-04:37:48.png}\\
+\includegraphics[scale=0.4]{2022-12-13-04_37_48.png}\\
 \hline
 \end{tabular}
 \end{table}
@@ -1229,11 +1229,11 @@ If the A-bit of a page at this time is 0:\newline
 \item \textcolor{black}{Should no page be found to clean, or more than one is found, choose another algorithm to refine the set, \textbf{most of the time random is actually the best choice here!}}
 \end{itemize}
 \, \newline
-\includegraphics[scale=0.4]{2022-12-13-04:47:06.png}\\
+\includegraphics[scale=0.4]{2022-12-13-04_47_06.png}\\
 \hline
 WSClock & 
 This is the same as working set, only that this \textbf{has a proper clock, and therefore doesn't need to save timestamps for each timetable, it can be checked at any time. -> iterate over clock at fault-interrupt}\newline
-\includegraphics[scale=0.4]{2022-12-13-04:47:27.png}\\
+\includegraphics[scale=0.4]{2022-12-13-04_47_27.png}\\
 \hline
 \end{tabular}
 \end{table}
@@ -1257,13 +1257,13 @@ Numbers in assembly & 200 | 0200d | 0d200 | 0c8h | \$0c8h | 0xc8 | 0hc8 \newline
 11001000b | 1100\_1000b | 1100\_1000y | 0b1100\_1000 | 0y1100\_1000
 \\
 \hline
-Pointers in Assembly & \vspace{2mm}\includegraphics[scale=0.2]{2022-09-27-04:12:53.png} \newline
+Pointers in Assembly & \vspace{2mm}\includegraphics[scale=0.2]{2022-09-27-04_12_53.png} \newline
 1AF8 now has a pointer in another place. \newline
-\includegraphics[scale=0.2]{2022-09-27-04:17:16.png}\newline
+\includegraphics[scale=0.2]{2022-09-27-04_17_16.png}\newline
 This would also produce the same result. Aka you can use labels before the operation.\newline
-\includegraphics[scale=0.2]{2022-09-27-04:24:38.png}\\
+\includegraphics[scale=0.2]{2022-09-27-04_24_38.png}\\
 \hline
-A simple length calculation in assembly & \vspace{2mm} \includegraphics[scale=0.2]{2022-09-27-04:27:52.png}\newline 
+A simple length calculation in assembly & \vspace{2mm} \includegraphics[scale=0.2]{2022-09-27-04_27_52.png}\newline 
 First we define a label called length, but we can't calculate this yet as my\_text and after\_my\_text aren't defined yet.\newline
 So we continue to the next line, here we write BSys 1?! and set the value of my\_text to 08 00 00 00 00 00 00.\newline
 Then we define after\_my\_text with the value of the offset at this point, which is 0F 00 00 00 00 00 00 00.\newline
@@ -1279,7 +1279,7 @@ At last the length will have the value of 08 00 00 00 00 00 00 00, which is the 
 -d disassemble\newline
 -Mintel dissasemble code in intel format, aka show NASM format instead of GCC.\\
 \hline
-Assembly dumps in action & \vspace{2mm} \includegraphics[scale=0.2]{2022-09-27-04:45:55.png} \includegraphics[scale=0.2]{2022-09-27-04:46:02.png}\newline
+Assembly dumps in action & \vspace{2mm} \includegraphics[scale=0.2]{2022-09-27-04_45_55.png} \includegraphics[scale=0.2]{2022-09-27-04_46_02.png}\newline
 write 2 bytes aka a word to file. offset is now at 16, or 10 in hex.\newline
 Now we use label w, which is at offset 10h, then we write 0x12345678 size 8h.\newline
 label x, offset 18h, write 0xCAFEFACE size 8h.\newline
@@ -1328,9 +1328,9 @@ Operand size with memory &
 \end{itemize}\\
 \hline 
 \textbf{\textcolor{teal}{Displacement and Base}}&\minipg{
-\pic{2022-10-04-04:29:18.png}\newline
+\pic{2022-10-04-04_29_18.png}\newline
 \textcolor{red}{\textbf{Displacement is the use of an address directly -> [0x8000]}}}
-{\pic{2022-10-04-04:29:27.png}\newline
+{\pic{2022-10-04-04_29_27.png}\newline
 \textcolor{green}{\textbf{Base is the use of an address with a variable -> [rbx]}}}[0.4,0.4]\\
 \hline
 \textbf{\textcolor{teal}{Scaled Index}} &
@@ -1433,14 +1433,14 @@ Movation &
 \end{itemize}\\
 \hline
 Unlinked files in C C++ and assembly & \textcolor{red}{The UND is means that there is a not yet linked symbol!}\newline 
-\pic{2022-10-04-04:41:27.png}\\
+\pic{2022-10-04-04_41_27.png}\\
 \hline
 Partial Linking & 
 \textbf{ld -r prog.o prog2.o -o prog3.o}  | This links our missing symbol from above!\newline
-\pic{2022-10-04-04:44:56.png}\\
+\pic{2022-10-04-04_44_56.png}\\
 \hline
 \textbf{Creation an executable} & 
-\pic{2022-10-04-04:49:23.png}\newline
+\pic{2022-10-04-04_49_23.png}\newline
 \begin{itemize}
   \item ld //the tool
   \item -e // flag for executable
@@ -1458,7 +1458,7 @@ Partial Linking &
   \item syscall | \textcolor{red}{execute rax code -> exit!}
 \vspace{-3mm}
 \end{itemize}}
-{\pic{2022-10-04-04:52:29.png}}[0.39,0.4]\\
+{\pic{2022-10-04-04_52_29.png}}[0.39,0.4]\\
 \hline
 \end{tabular}
 \end{table}
@@ -1505,14 +1505,14 @@ The preprocessor tokenizes the code, so the compiler has an easier time later on
     Character starts with ''\newline
     Escape character is \textbackslash
   \item \textcolor{teal}{Operations and punctuators}\newline
-    \pic{2022-10-11-03:40:12.png}\newline
+    \pic{2022-10-11-03_40_12.png}\newline
     \textcolor{orange}{The C preprocessor is greedy, it means that it will always take the biggest possible token}
   \item \textcolor{teal}{others}
 
 \end{itemize}
 \, \newline
 \textcolor{orange}{The whitespaces, tabs and newlines seperate the tokens, however not all tokens need to be seperated, such as a+b.}\newline
-\pic{2022-10-11-03:35:25.png}\\
+\pic{2022-10-11-03_35_25.png}\\
 \hline
 3. Iteration & 
 Here the C preprocessor simply \textbf{executes preprocessor directives} and \textbf{replaces macros} with code.\\
@@ -1584,7 +1584,7 @@ int a{5};
 \begin{table}[ht!]
 \begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
-Translation example from C to Assembly &\pic{2022-10-11-04:26:03.png}\\
+Translation example from C to Assembly &\pic{2022-10-11-04_26_03.png}\\
 \hline
 \end{tabular}
 \begin{tabular}{|m{0.2\linewidth}|m{0.3665\linewidth}|m{0.3665\linewidth}|}
@@ -1622,7 +1622,7 @@ This means that the variable can't be exported!!}\newline
 static int c = 5;
 \end{lstlisting}
 \, \newline
-\pic{2022-10-11-11:12:14.png}\\
+\pic{2022-10-11-11_12_14.png}\\
 \hline
 \textbf{Identifiers} & 
 Identifiers are needed to format the output of \textcolor{teal}{printf} as a certain number/type.\newline
@@ -2218,7 +2218,7 @@ condition:
 \end{lstlisting}\\
 \hline
 Pointer-Addition in assembly & 
-\pic{2022-10-25-04:40:00.png}\newline
+\pic{2022-10-25-04_40_00.png}\newline
 \textcolor{teal}{We can add additional bytes to a pointer. \newline
 in C: int *p = 0x20; -> p+1 == 0x24 -> p+2 == 0x28\newline
 or simply use the ++p for the same as p+1}
@@ -2287,13 +2287,13 @@ after2:
 \, \newline
 \textcolor{orange}{So what we would like to have is something like a stack:}\newline
 \textcolor{orange}{Stack Push}\newline
-\includegraphics[scale=0.4]{2022-11-08-03:34:38.png}
-\includegraphics[scale=0.4]{2022-11-08-03:34:50.png}
-\includegraphics[scale=0.4]{2022-11-08-03:34:43.png}\newline
+\includegraphics[scale=0.4]{2022-11-08-03_34_38.png}
+\includegraphics[scale=0.4]{2022-11-08-03_34_50.png}
+\includegraphics[scale=0.4]{2022-11-08-03_34_43.png}\newline
 \textcolor{orange}{Stack Pop}\newline
-\includegraphics[scale=0.4]{2022-11-08-03:35:28.png}
-\includegraphics[scale=0.4]{2022-11-08-03:35:38.png}
-\includegraphics[scale=0.4]{2022-11-08-03:35:33.png}\newline
+\includegraphics[scale=0.4]{2022-11-08-03_35_28.png}
+\includegraphics[scale=0.4]{2022-11-08-03_35_38.png}
+\includegraphics[scale=0.4]{2022-11-08-03_35_33.png}\newline
 \textcolor{red}{IMPORTANT: The stack memory address decreases from top to bottom!!}\newline
 \begin{lstlisting}
 S: 

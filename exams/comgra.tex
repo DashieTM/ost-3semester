@@ -40,7 +40,7 @@ P * s = (s * 1, s * 2, s * 3)
 
 \subsection{Inverse of a Matrix}
 \(A^{-1}A = I\)\newline
-\includegraphics[scale=0.2]{2022-10-05-05:07:54.png}
+\includegraphics[scale=0.2]{2022-10-05-05_07_54.png}
 
 \subsection{Linear Dependence}
 if the addition of 2 vectors with a scalar of NOT 0 is not the null-vector, then they are linearly \textbf{independent}.\newline
@@ -58,7 +58,7 @@ returns 0 when angle is 90
 This is usually used to get the unit vector of the resulting vector, or to\newline
 calculate the area of a parallelogram\newline
 \(\alpha\) = angle between the vector \(\vec{a}\) and \(\vec{b}\)\newline
-\includegraphics[scale=0.4]{2022-12-27:07:39:36.png}
+\includegraphics[scale=0.4]{2022-12-27_07_39_36.png}
 
 \subsection{Coordinate systems/spaces}
 right handed: positive x to right\newline
@@ -79,7 +79,7 @@ camera: (\(e_x, e_y, e_z\)), P: (x,y,z)\newline
   \textcolor{purple}{\(x_{\text{new}} = \dfrac{e_x z - e_z x}{z - e_z}\)}\newline
   \textcolor{purple}{\( y = \dfrac{\Delta y}{\Delta z} z + c\)}\newline
 }{
-\includegraphics[scale=0.3]{2022-09-21-03:39:39.png}\newline
+\includegraphics[scale=0.3]{2022-09-21-03_39_39.png}\newline
 }[0.12,0.1]\newline
 Note, 2D is usually done with \textcolor{red}{\textbf{homogenous coordinates}}, which are just 3D coordinates with a fixed z axis, eg. 1
 
@@ -148,13 +148,13 @@ Remission proportional to cosine between normal and light vector\newline
 \textcolor{OliveGreen}{For matt surfaces}\newline
 Depends: Camera, normals, lightpos
 }{
-\includegraphics[scale=0.2]{2022-12-28:11:46:29.png}
+\includegraphics[scale=0.2]{2022-12-28_11_46_29.png}
 }[0.12,0.1]
 \item \textcolor{orange}{Specular Lighting}\newline
 \textcolor{purple}{point light, remission in \textbf{one} direction}\newline
 Intensity dependent on angle between reflection vector and camera angle\newline
 \textcolor{OliveGreen}{for reflective surfaces}\newline
-\includegraphics[scale=0.2]{2022-12-28:11:46:39.png}
+\includegraphics[scale=0.2]{2022-12-28_11_46_39.png}
 \item \textcolor{orange}{Blinn-Shading}\newline
   \textcolor{purple}{Combination of ambient, diffuse and specular}\newline
   if angle over 90degrees, can't display reflections
@@ -163,7 +163,7 @@ Intensity dependent on angle between reflection vector and camera angle\newline
   \minipg{
     Depends: Camera, lightpos, normals, fragmentpos 
   }{ 
-  \includegraphics[scale=0.2]{2022-12-28:11:52:11.png}
+  \includegraphics[scale=0.2]{2022-12-28_11_52_11.png}
   }[0.12,0.1]
 \end{itemize} 
 
@@ -184,11 +184,11 @@ When an object remits light, it will only show colors that are both in the light
 \textcolor{purple}{constructed} subdivision surfaces
 
 \subsection{Sweep Triangulation}
-\includegraphics[scale=0.25]{2022-10-19-03:21:54.png}\includegraphics[scale=0.25]{2022-10-19-03:22:00.png}\newline
+\includegraphics[scale=0.25]{2022-10-19-03_21_54.png}\includegraphics[scale=0.25]{2022-10-19-03_22_00.png}\newline
 
 \subsection{Insert Triangulation}
-\includegraphics[scale=0.25]{2022-10-19-03:28:11.png}
-\includegraphics[scale=0.25]{2022-10-19-03:36:45.png}\newline
+\includegraphics[scale=0.25]{2022-10-19-03_28_11.png}
+\includegraphics[scale=0.25]{2022-10-19-03_36_45.png}\newline
 After Insert or sweep, swap long edge with shorter edge for better performance\newline
 
 \subsection{Subdivision Surfaces}
@@ -198,7 +198,7 @@ starts blocky, gets smooth over iterations\newline
 \textcolor{OliveGreen}{Combination of meshes and splines}
 \item \textcolor{purple}{Chaikings Algorithm}\newline
 \minipg{
-\includegraphics[scale=0.35]{2022-12-28:02:16:51.png}
+\includegraphics[scale=0.35]{2022-12-28_02_16_51.png}
 }{
 Replace point in the middle with 2 new points, with 3/4 of previous and 1/4 of next point}[0.135,0.1]
 \item \textcolor{purple}{Triangle Algorithms}\newline
@@ -230,10 +230,10 @@ Recude the amount of vertices while still getting the same model
 \begin{itemize}
 \item \textcolor{purple}{Vertex Clustering (least squares)}
 \item \textcolor{purple}{Incremental mesh reduction}\newline
-\includegraphics[scale=0.2]{2022-12-28:04:47:14.png}
-\includegraphics[scale=0.2]{2022-12-28:04:47:17.png}
-\includegraphics[scale=0.2]{2022-12-28:04:49:44.png}
-\includegraphics[scale=0.2]{2022-12-28:04:49:47.png}
+\includegraphics[scale=0.2]{2022-12-28_04_47_14.png}
+\includegraphics[scale=0.2]{2022-12-28_04_47_17.png}
+\includegraphics[scale=0.2]{2022-12-28_04_49_44.png}
+\includegraphics[scale=0.2]{2022-12-28_04_49_47.png}
 \item \textcolor{purple}{Remeshing}\newline
 new mesh with less triangles
 \end{itemize} 
@@ -244,7 +244,7 @@ new mesh with less triangles
 higher values: further away\newline
 lower values: closer\newline
 }{
-\includegraphics[scale=0.3]{2022-12-28:04:54:31.png}
+\includegraphics[scale=0.3]{2022-12-28_04_54_31.png}
 }[0.1,0.1]
 \textcolor{purple}{Z-Fighting}: \newline
 Objects with same z value fight over who is infront -> flickering
@@ -254,7 +254,7 @@ Objects with same z value fight over who is infront -> flickering
 simple variant, more points -> less transparent\newline
 \textcolor{red}{Not for textures, as it only runs once}
 }{
-\includegraphics[scale=0.3]{2022-12-28:04:59:42.png}
+\includegraphics[scale=0.3]{2022-12-28_04_59_42.png}
 }[0.12,0.1]
 
 \subsection{Mipmaps}
@@ -263,7 +263,7 @@ removes aliasing and solves textures with too little detail
 
 \section{Reflections}
 static boundary | texture boundary\newline
-\includegraphics[scale=0.3]{2022-12-28:05:47:49.png}\includegraphics[scale=0.3]{2022-12-28:05:47:55.png}
+\includegraphics[scale=0.3]{2022-12-28_05_47_49.png}\includegraphics[scale=0.3]{2022-12-28_05_47_55.png}
 
 \section{Shadow mapping}
 Projection of light to surface with depth as the "color" -> Z buffer\newline
@@ -275,7 +275,7 @@ Projection of light to surface with depth as the "color" -> Z buffer\newline
 
 \section{Ray Tracing}
 \minipg{
-\includegraphics[scale=0.15]{2022-12-28:06:03:43.png}
+\includegraphics[scale=0.15]{2022-12-28_06_03_43.png}
 }{
 \textcolor{red}{Denoising: Enables Real-time Ray Tracing with deep-learning}
 }[0.17,0.08]
@@ -285,7 +285,7 @@ Projection of light to surface with depth as the "color" -> Z buffer\newline
 \textcolor{purple}{Bounding Volumes Hierarchy}\newline
 These are simple volumes around a texture that will \textbf{hierachically} be checked to see which texture will be hit by ray.\newline
 }{
-\includegraphics[scale=0.3]{2022-12-28:06:25:23.png}
+\includegraphics[scale=0.3]{2022-12-28_06_25_23.png}
 }[0.1,0.12]
 
 \subsection{Quad-Tree}
@@ -293,7 +293,7 @@ These are simple volumes around a texture that will \textbf{hierachically} be ch
 \textcolor{purple}{Recursively divide square if more than 1 point in square}\newline
 Oct-tree -> same for 3D
 }{
-  \includegraphics[scale=0.2]{2022-12-28:06:14:23.png}
+  \includegraphics[scale=0.2]{2022-12-28_06_14_23.png}
 }[0.1,0.12]
 
 \section{webGL}

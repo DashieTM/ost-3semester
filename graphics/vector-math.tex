@@ -11,11 +11,11 @@
 \begin{table}[!ht]
 \begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
-The idea of 2d graphics & \vspace{2mm} \pic{2022-09-21-03:34:05.png} \\
+The idea of 2d graphics & \vspace{2mm} \pic{2022-09-21-03_34_05.png} \\
 \hline
-2D projection & \parbox{0pt} Camera(\(e_{x},e_{y}\)) | Point(x,y) | c(x,y) = Transformed view | Equation: \( y = \dfrac{\Delta y}{\Delta z}z + c \) \,\,\,\ \raisebox{-.5\height}{\pic{2022-09-21-03:39:39.png}} \\
+2D projection & \parbox{0pt} Camera(\(e_{x},e_{y}\)) | Point(x,y) | c(x,y) = Transformed view | Equation: \( y = \dfrac{\Delta y}{\Delta z}z + c \) \,\,\,\ \raisebox{-.5\height}{\pic{2022-09-21-03_39_39.png}} \\
 \hline
-3D Model projection to 2D & \minipg{Camera(\( e_{x} , e_{y} , e_{z} \) | Point(x,y,z) \newline c(x,y,z) = transformed view \newline Equation:(\(c_{y}=\dfrac{e_{y}z-e_{z}y}{z-e{z}}\)) \newline Note this transformation must be done for ALL points!} {\pic{2022-09-21-04:28:04.png}}[0.4,0.6] \\
+3D Model projection to 2D & \minipg{Camera(\( e_{x} , e_{y} , e_{z} \) | Point(x,y,z) \newline c(x,y,z) = transformed view \newline Equation:(\(c_{y}=\dfrac{e_{y}z-e_{z}y}{z-e{z}}\)) \newline Note this transformation must be done for ALL points!} {\pic{2022-09-21-04_28_04.png}}[0.4,0.6] \\
 \hline
 \textbf{How to draw a circle} & 
 \begin{lstlisting}
@@ -57,18 +57,18 @@ float[] vertices = GetVertices(4);
 \minipg{
 The local space is the simple object inside an x,y,z system.\newline
 Here x is to the right, y to the top, and z coming towards you.}
-{\pic{2022-09-30-08:35:56.png}}[0.5,0.3]\\
+{\pic{2022-09-30-08_35_56.png}}[0.5,0.3]\\
 \hline
 \textbf{world space} & \minipg{
 This is the actual representation inside the 3D world.\newline
 It includes scaling and transformations.
-}{\pic{2022-09-30-08:50:32.png}}[0.5,0.3]\\
+}{\pic{2022-09-30-08_50_32.png}}[0.5,0.3]\\
 \hline
 \textbf{view space} & \minipg{
 This view has it's z axis flipped. It now faces away from you.\newline
 This is needed to properly handle the z axis that can't be seen in 2D\newline
 but still needs to be there if you want the illusion of 3D.
-}{\pic{2022-09-30-08:36:01.png}}[0.5,0.3]\\
+}{\pic{2022-09-30-08_36_01.png}}[0.5,0.3]\\
 \hline
 \textbf{clip space} &
 The clip space handles the above mentioned 3D illusion with a z-buffer.\\
@@ -77,7 +77,7 @@ The clip space handles the above mentioned 3D illusion with a z-buffer.\\
 The actual view you will see on the screen, which obviously is 2D.\newline
 It is the entire reason we are doing these shenanigans.\\
 \hline
-&\vspace{2mm} \pic{2022-09-30-08:37:05.png}\\
+&\vspace{2mm} \pic{2022-09-30-08_37_05.png}\\
 \hline
 \end{tabular}
 \end{table}
@@ -91,7 +91,7 @@ It is the entire reason we are doing these shenanigans.\\
 & \minipg{
 A simple move of positions to another with a vector.\newline
 \(\vec{a} + (x,y,z)\)(Point)
-}{\pic{2022-09-30-09:31:39.png}}[0.5,0.4]\\
+}{\pic{2022-09-30-09_31_39.png}}[0.5,0.4]\\
 \hline
 \textbf{\emph{Scaling}}\newline
 \textcolor{teal}{\emph{This is always linear!}}
@@ -101,30 +101,30 @@ A multiplication with a vector.\newline
 \textbf{Homogenous scaling}\newline
 The homogenous scaling is simply 2D scaling with the z axis always being 1...\newline
 \( \begin{bmatrix} a_1 \\ a_2 \\ 1 \end{bmatrix}  * \begin{bmatrix} x_{1} \, x_{12} \\ x_{21} \, x_{22} \\ 1 \end{bmatrix} \) 
-}{\pic{2022-09-30-09:31:45.png}}[0.5,0.4]\\
+}{\pic{2022-09-30-09_31_45.png}}[0.5,0.4]\\
 \hline
 \textbf{\emph{Rotation}} \newline
 \textcolor{teal}{\emph{This is always linear!}}
 & \minipg{
 a rotation based on an angle that will be calculated\newline
 based on cosine and sine. This will be applied to the x and y values.\newline
-\pic{2022-09-30-09:32:13.png}
-}{\pic{2022-09-30-09:32:04.png}}[0.5,0.4]\\
+\pic{2022-09-30-09_32_13.png}
+}{\pic{2022-09-30-09_32_04.png}}[0.5,0.4]\\
 \hline
 \end{tabular}
 \section{Vectors}
 \textbf{Notation} \( \vec{A} = \begin{bmatrix}x_{1} \\ x_{2} \end{bmatrix} \) OR \(\vec{A} = (x1 | x2)\)
 \,   \,As you have learned in vocational school, use the first for vectors, the second for points.\\
-\pictext{2022-09-23-10:41:26.png}
+\pictext{2022-09-23-10_41_26.png}
 {A vector is nothing but a projection in the X,Y,Z planes \\ 
 It has both a direction and a value\\
 This value is usually modified by a scalar aka a factor. Then the vector can be something more universal \\
 We call this universal vector a unit vector. A directional vector with the value 1.}[0.6,0.35,0.3]\\
-\pictext{2022-09-23-10:41:32.png}{}[0.6,0.35,0.3]\\
-\pictext{2022-09-23-10:41:37.png}{If the direction and the value is the same, then there is nothing that differentiates this vector from another.}[0.6,0.35,0.3]\\
-\pictext{2022-09-23-10:41:44.png}{A vector is identical if both the value and the direction is the same.}[0.6,0.35,0.3]\\
-\pictext{2022-09-23-10:41:48.png}{Similar, if the value is identical but the direction is negated, then you have the inverse vector.}[0.6,0.35,0.3]\\
-\pictext{2022-09-23-10:41:53.png}{simple vector math}[0.6,0.35,0.3]\\
+\pictext{2022-09-23-10_41_32.png}{}[0.6,0.35,0.3]\\
+\pictext{2022-09-23-10_41_37.png}{If the direction and the value is the same, then there is nothing that differentiates this vector from another.}[0.6,0.35,0.3]\\
+\pictext{2022-09-23-10_41_44.png}{A vector is identical if both the value and the direction is the same.}[0.6,0.35,0.3]\\
+\pictext{2022-09-23-10_41_48.png}{Similar, if the value is identical but the direction is negated, then you have the inverse vector.}[0.6,0.35,0.3]\\
+\pictext{2022-09-23-10_41_53.png}{simple vector math}[0.6,0.35,0.3]\\
 \subsection{Dotproduct}
 \Large{\textbf{\textcolor{red}{\( \vec{a} * \vec{b} = |\vec{a}| * |\vec{b}| * sin(\alpha) * n \)}}}\newline
 \normalsize This returns a scalar, aka a number that you can use.\newline
@@ -165,7 +165,7 @@ Determinant >> \(det(a) = a * d - b * c  = ad - bc\)\\
 \hline 
   \textbf{Determinant of any square matrix} &
   \textcolor{red}{\textbf{\underline{!! This is only possible for square matrices !!}}}\newline
-  \pic{2022-10-05-04:07:24.png} \pic{2022-10-05-04:09:33.png}\newline
+  \pic{2022-10-05-04_07_24.png} \pic{2022-10-05-04_09_33.png}\newline
   \textcolor{teal}{We take the first character, then exclude the row and column of that character and instead multiply the character with the matrix of the remaining characters.\newline
   Continue this until you have 2x2 matrices which you can instantly solve.\newline} 
   \textbf{\textcolor{red}{Note: the determinants are added together in a fluctuating way. \newline
@@ -173,7 +173,7 @@ Determinant >> \(det(a) = a * d - b * c  = ad - bc\)\\
 \hline
 \textbf{linear dependency} & \minipg{
 A vector is linearly dependent to another if the addition of 2 vectors, each multiplied by a scalar, can be equal to the NULL vector.\newline \textcolor{teal}{The only restriction is that at least 1 scalar needs to be \textbf{non-zero}}} 
-{\pic{2022-10-05-04:19:15.png}\pic{2022-10-05-04:22:25.png}}[0.45,0.5]\newline
+{\pic{2022-10-05-04_19_15.png}\pic{2022-10-05-04_22_25.png}}[0.45,0.5]\newline
 In this case the vectors are indeed linearly independent as the only solution of \(x * \vec{A} + y * \vec{B} = 0\) was \(x=0 \,\,\, y=0\).\newline
 \, \newline
 \textbf{Second method: Determinant}\newline
@@ -189,7 +189,7 @@ The third method requires the \textcolor{teal}{GAUSS algorithm}.\newline
 With this we can merge any number of vectors into a matrix and then add/subtract lines from them.\newline
 It is the same thing you do when calculating the result of a linear set of equations.\newline
 In other words simply add or subtract rows to or from other rows with any scalar applied to it.\newline
-\pic{2022-10-05-04:36:11.png} \pic{2022-10-05-04:36:25.png}\newline
+\pic{2022-10-05-04_36_11.png} \pic{2022-10-05-04_36_25.png}\newline
 \textcolor{teal}{If the result gets a unit matrix, then the vectors are linearly independent,\newline
 as further calulation would result in all scalars being 0 to get to the NULL vector!\newline
 If the result does not match the unit matrix, aka the diagonal line is not made of 1's, \newline
@@ -199,7 +199,7 @@ the vectors are linearly dependent.}\\
 The inverse of a 2x2 matrix is easy just like the determinant.\newline
 Simply swap a with d, and invert both b and c.\newline
 Then multiply this with the inverse of the determinant of the original matrix.}
-{\pic{2022-10-05-05:07:54.png}}[0.4,0.5]
+{\pic{2022-10-05-05_07_54.png}}[0.4,0.5]
 \\
 \hline
 \textcolor{teal}{Linearity} &
@@ -222,7 +222,7 @@ OR\newline
 In the first step we calculate all the different determinants into a new matrix.\newline
 In other words, for each element in the matrix we calculate the determinant of the matrix not in the row or column of that element, just like determinants before!.
 }
-{\pic{2022-10-05-05:07:54.png}}[0.4,0.5] \newline
+{\pic{2022-10-05-05_07_54.png}}[0.4,0.5] \newline
 \, \newline
 \minipg{
 Here we invert some of the elements in the matrix with a checkerboard of + an -.\newline
@@ -230,18 +230,18 @@ Here we invert some of the elements in the matrix with a checkerboard of + an -.
 - + -\newline
 + - +
 }
-{\pic{2022-10-05-05:05:57.png}}[0.4,0.5] \newline
+{\pic{2022-10-05-05_05_57.png}}[0.4,0.5] \newline
 \, \newline
 \minipg{
 Now we swap the right top side with the bottom left side.\newline
 The diagonal line in the middle will stay untouched.
 }
-{\pic{2022-10-05-05:06:33.png}}[0.4,0.5] \newline
+{\pic{2022-10-05-05_06_33.png}}[0.4,0.5] \newline
 \, \newline
 \minipg{
 Now divide your resulting matrix with the determinant of the original matrix. haha fun....
 }
-{\pic{2022-10-05-05:07:21.png}}[0.4,0.5] \\
+{\pic{2022-10-05-05_07_21.png}}[0.4,0.5] \\
 \hline
 Inverse of Orthogonal Matrix & 
 \textcolor{red}{\textbf{If a matrix is orthogonal, meaning that all 3 vectors are 90degrees apart from each other,\newline
@@ -262,7 +262,7 @@ Transpose of Matrix &
 \hline
 Regular Sphere & 
 In the regular sphere we add each point of a triangle individually, this also means that you will add points more than once.\newline
-\includegraphics[scale=0.4]{2022-12-03:11:31:59.png}\newline
+\includegraphics[scale=0.4]{2022-12-03_11_31_59.png}\newline
 Here point 1/4 and 3/6 are added twice, this makes it hard to randomly scale the sphere later on, as the point on the right will suddenly no longer overlap with what you have on the left, even though they were on the same location before!\newline
 \textcolor{orange}{Not indexing the sphere is easier, but it will elad to problems when trying to create craters and mountains on it!}\newline
 Here code that will generate the vertices for a non-index based sphere:\newline
@@ -408,7 +408,7 @@ Fov &
   \vspace{-3mm}
 \end{itemize}
 }
-{\includegraphics[scale=0.4]{2022-10-12-03:18:06.png}}[0.4,0.5]\\
+{\includegraphics[scale=0.4]{2022-10-12-03_18_06.png}}[0.4,0.5]\\
 \hline
 Colors & 
 \minipg{
@@ -417,7 +417,7 @@ Colors are also represented as a vector:\newline
 \textcolor{green}{\( \vec{green} = \begin{bmatrix} 0 & 1 & 0 \end{bmatrix} \)}\newline
 \textcolor{blue}{\( \vec{blue} = \begin{bmatrix} 0 & 0 & 1 \end{bmatrix} \)}
 }
-{\includegraphics[scale=0.4]{2022-10-12-03:50:36.png}}\\
+{\includegraphics[scale=0.4]{2022-10-12-03_50_36.png}}\\
 \hline
 Colors from multiple sources & 
 If you have more than 1 light source for a color, then these result in an additive colormix.\newline
@@ -445,8 +445,8 @@ The pipeline consists of:\newline
     Processed Fragments\newline
     Handles output merging
 \end{itemize}
-}{\includegraphics[scale=0.45]{2022-10-12-04:02:08.png}\newline
-\includegraphics[scale=0.45]{2022-10-12-04:02:16.png}}[0.4,0.4]\\
+}{\includegraphics[scale=0.45]{2022-10-12-04_02_08.png}\newline
+\includegraphics[scale=0.45]{2022-10-12-04_02_16.png}}[0.4,0.4]\\
 \hline
   Double Buffering & 
   \textcolor{orange}{Instead of updating the frame that we show on the screen directly, we update a buffer first in order to avoid artifacts on the screen.\newline
@@ -469,23 +469,23 @@ The pipeline consists of:\newline
   \textcolor{orange}{Diffusion is the reflection of light based on the angle of the surface.\newline
   This should only be done with matte surfaces, as glossy would reflect differently.}
   }
-  {\pic{2022-10-19-02:15:57.png}}[0.5,0.4]\\
+  {\pic{2022-10-19-02_15_57.png}}[0.5,0.4]\\
 \hline 
   Specular Lighting & \minipg{
   \textcolor{orange}{Reflection of light on a glossy surface.\newline
   Instead of diffusing the light, a glossy surface simply returns the light at another angle, \newline
 with likely a bit less power!}}
-  {\pic{2022-10-19-02:20:34.png}}[0.5,0.4]\\
+  {\pic{2022-10-19-02_20_34.png}}[0.5,0.4]\\
 \hline 
 Phong Shading & \minipg{
 \textcolor{orange}{\textbf{A combination of ambient, diffusion and specular lighting}}\newline
 \textcolor{red}{After 90 degrees, there is no more reflection! \newline 
 Unless the surface is not smooth -> some parts don't have above 90 degree angle}}
-{\pic{2022-10-19-02:44:07.png}}[0.5,0.4] \\
+{\pic{2022-10-19-02_44_07.png}}[0.5,0.4] \\
 \hline
 Blinn-Phong Shading & \minipg{
 \textcolor{orange}{Solves the issue from Phong shading with the 90 degree angle, by using a halfway vector.}}
-{\pic{2022-10-19-02:44:13.png}}[0.5,0.4]\\
+{\pic{2022-10-19-02_44_13.png}}[0.5,0.4]\\
 \hline 
 \end{tabular}
 \end{table}
@@ -519,18 +519,18 @@ Polygon Mesh & \minipg{
 \hline
 Triangulation & 
 \textcolor{orange}{Triangulation means the creation of triangles from dots to form a shape}\newline
-\includegraphics[scale=0.45]{2022-10-19-03:19:55.png}\includegraphics[scale=0.45]{2022-10-19-03:19:58.png}\\
+\includegraphics[scale=0.45]{2022-10-19-03_19_55.png}\includegraphics[scale=0.45]{2022-10-19-03_19_58.png}\\
 \hline
 Sweep Strategy \newline in Triangulation & 
 \vspace{2mm}
-\includegraphics[scale=0.45]{2022-10-19-03:21:54.png}\includegraphics[scale=0.45]{2022-10-19-03:22:00.png}\newline
+\includegraphics[scale=0.45]{2022-10-19-03_21_54.png}\includegraphics[scale=0.45]{2022-10-19-03_22_00.png}\newline
 \textcolor{orange}{The idea is to always move from left to right and connect the closest 3 triangles,\newline
 \textbf{where no edge crosses another!}\newline
 This means that we will get at least 3 lines on each point!}\\
 \hline
 Insert Strategy \newline in Triangulation & 
 \vspace{2mm}
-\includegraphics[scale=0.45]{2022-10-19-03:28:11.png}\newline
+\includegraphics[scale=0.45]{2022-10-19-03_28_11.png}\newline
 \textcolor{orange}{1. We start with triangles around the points, these are here the green triangles.\newline
 2. Then we choose a random point within one of these triangles.\newline
 3. We go to each edge of the triangle from that point\newline
@@ -541,7 +541,7 @@ Delaunay Triangulation \newline Edge Flip &
 Inside of these triangles, there might be a shorter edge than the current chosen one, in this case, \newline
 We would lose performance, this is why we use \textbf{edge flip}, this essentially means using the shorter,\newline
 and therefore faster edge instead.}\newline
-\includegraphics[scale=0.45]{2022-10-19-03:36:45.png}\\
+\includegraphics[scale=0.45]{2022-10-19-03_36_45.png}\\
 \hline
 Heat Maps & \minipg{
 \textcolor{orange}{A simple projection of a function: }\newline
@@ -549,7 +549,7 @@ Heat Maps & \minipg{
 \huge \textcolor{teal}{\( p = f(x,y,z) \)}
 \normalsize
 }{
-\includegraphics[scale=0.45]{2022-10-19-03:40:57.png}}[0.3,0.4]\\ 
+\includegraphics[scale=0.45]{2022-10-19-03_40_57.png}}[0.3,0.4]\\ 
 \hline
 \end{tabular}
 \end{table}
@@ -560,16 +560,16 @@ Heat Maps & \minipg{
 Interpolation & 
 \begin{tabular}{m{0.3\linewidth}m{0.3\linewidth}m{0.3\linewidth}}
 \textcolor{orange}{Polynomial Interpolation}\newline
-\includegraphics[scale=0.4]{2022-10-19-03:46:45.png}\newline
+\includegraphics[scale=0.4]{2022-10-19-03_46_45.png}\newline
 \textcolor{teal}{Polynomials of grade n can interpolate n+1 points}
 &
 \textcolor{orange}{Quadratic Interpolation -> Polynomial power 2}\newline
-\includegraphics[scale=0.4]{2022-10-19-03:46:49.png}\newline
+\includegraphics[scale=0.4]{2022-10-19-03_46_49.png}\newline
 \textcolor{teal}{Since we can only interpolate 3 points here,\newline
 We have to add rules -> see analysis 1 in order to make this work}
 &
 \textcolor{orange}{Cubic Interpolation -> Polynomial power 3}\newline
-\includegraphics[scale=0.4]{2022-10-19-03:46:53.png}\newline
+\includegraphics[scale=0.4]{2022-10-19-03_46_53.png}\newline
 \textcolor{teal}{The same thing with power 3 -> just with less rules}
 \\
 \end{tabular}\\
@@ -583,20 +583,20 @@ Lindenmayer &
 \textcolor{teal}{Lindenmayer is a strange system to draw graphics by using forward movement:\newline
 for example f+f+f+ angle=90 means 3 times forward in positive and then doing a 90 degree turn.\newline
 This is essentially what people do in highschool, lmao}\newline
-\includegraphics[scale=0.4]{2022-10-26-02:14:35.png}\\
+\includegraphics[scale=0.4]{2022-10-26-02_14_35.png}\\
 \hline
 Koch Snowflake & 
 \textcolor{orange}{The idea here is that an infinite amount of added bends will create a finite area, but an infinite line.}\newline
-\includegraphics[scale=0.4]{2022-10-26-02:21:43.png}\newline
+\includegraphics[scale=0.4]{2022-10-26-02_21_43.png}\newline
 \textcolor{teal}{The triangles are the bends, the area is the are between the full and dashed line.}\\
 \hline
 Hilbert Curve & 
 \textcolor{teal}{Essentially procedural filling of a figure:}\newline 
-\includegraphics[scale=0.4]{2022-10-26-02:22:50.png}\\
+\includegraphics[scale=0.4]{2022-10-26-02_22_50.png}\\
 \hline
 Fractals & 
 \textcolor{orange}{Fractals are the idea of recursively creating a 3D structure, usually a tree:}\newline
-\includegraphics[scale=0.35]{2022-10-26-02:26:27.png}\newline
+\includegraphics[scale=0.35]{2022-10-26-02_26_27.png}\newline
 \textcolor{teal}{Usually these do not look as natural as this one, but this is of course the goal}\\
 \hline
 \end{tabular}
@@ -607,9 +607,9 @@ Fractals &
 \hline
 Recursive flattening & 
 \textcolor{orange}{This is nothing else other than the smoothing of a structure by recursively exchanging hard surfaces with smaller ones to make them look more smooth:}\newline
-\includegraphics[scale=0.4]{2022-10-26-02:32:46.png}\newline
+\includegraphics[scale=0.4]{2022-10-26-02_32_46.png}\newline
 \textcolor{teal}{This is essentially similar to what you do with the sphere, where you can define how many vertices you want to build.}\newline
-\includegraphics[scale=0.4]{2022-10-26-02:37:46.png}\newline
+\includegraphics[scale=0.4]{2022-10-26-02_37_46.png}\newline
 \textcolor{teal}{Here we split the splines in the middle of each line and create another point.}\\
 \hline
 \end{tabular}
@@ -651,7 +651,7 @@ Model Repair &
 \hline
 Vertex Clustering & 
 \textcolor{orange}{This is the gradual reduction of trianges, while keeping the shape of the mesh.}\newline
-\includegraphics[scale=0.4]{2022-10-26-03:37:42.png}\newline
+\includegraphics[scale=0.4]{2022-10-26-03_37_42.png}\newline
 \textcolor{teal}{Each triangle that has 2 nodes in one square gets eliminated, based on how big, or how small these squares are the clustering leads to a worse approximation of the structure!}\\
 \hline
 \end{tabular}
@@ -664,14 +664,14 @@ Vertex Clustering &
 Rasterization & 
 \textcolor{orange}{This is the projection of pixels in a triangle.}\newline
 \textcolor{red}{\textbf{Here only the pixels are colorized -> shown, that have their center inside the triangle!}}\newline
-\includegraphics[scale=0.4]{2022-11-02-04:24:11.png}\\
+\includegraphics[scale=0.4]{2022-11-02-04_24_11.png}\\
 \hline
 Z-Buffer in Rasterization & 
 \textcolor{orange}{In order to specify which object is closer to the camera, we can use the z buffer with different color values to represent this axis.}\newline
 \, \newline
-\includegraphics[scale=0.45]{2022-11-02-04:24:20.png}
-\includegraphics[scale=0.45]{2022-11-02-04:24:29.png}
-\includegraphics[scale=0.45]{2022-11-02-04:24:35.png}\\
+\includegraphics[scale=0.45]{2022-11-02-04_24_20.png}
+\includegraphics[scale=0.45]{2022-11-02-04_24_29.png}
+\includegraphics[scale=0.45]{2022-11-02-04_24_35.png}\\
 \hline
 \end{tabular}
 \end{table}
@@ -689,20 +689,20 @@ Aliasing &
 Anti-Aliasing & 
 \textcolor{orange}{This is the counter to the staircase problem that smoothes the edges.}\newline
 \textcolor{purple}{It essentially uses the same trick as the Z-Buffer to generate values that then have colorization based on the value:}\newline
-\includegraphics[scale=0.45]{2022-11-02-04:45:00.png} \includegraphics[scale=0.45]{2022-11-02-04:45:06.png}\\
+\includegraphics[scale=0.45]{2022-11-02-04_45_00.png} \includegraphics[scale=0.45]{2022-11-02-04_45_06.png}\\
 \hline
 Super-Sampling & 
 \textcolor{purple}{This is essentially the little brother of anti aliasing, it calculates the same thing as the aliasing does with 4 points instead of one.\newline
 Then it will pick the color strength based on how many points are inside the triangle, if none are inside the triangle, then it will not be colorized}\newline
 \, \newline
-\includegraphics[scale=0.45]{2022-11-02-04:48:13.png}\\
+\includegraphics[scale=0.45]{2022-11-02-04_48_13.png}\\
 \hline
 Mipmaps & 
 \textcolor{orange}{The super sampling method doesn't work for textures as it is only done once per pixel.\newline
 Here we can solve this issue by creating multiple textures that will be applied when needed.\newline
 In other words, the system will take another texture as soon as you are either too close or too far away form the polygon.}\newline
 \, \newline
-\includegraphics[scale=0.45]{2022-11-02-05:05:00.png}\\
+\includegraphics[scale=0.45]{2022-11-02-05_05_00.png}\\
 \hline
 \end{tabular}
 \section{Reflections and Shadows}
@@ -710,12 +710,12 @@ In other words, the system will take another texture as soon as you are either t
 \hline 
 Reflection on surfaces & 
 \textcolor{orange}{The idea is that you have a mirror and you want to show the reflection of that object in a mirror. Here you would create a virtual reflection camera that will project this object onto this surface.}\newline
-\includegraphics[scale=0.45]{2022-11-02-05:17:03.png}\\
+\includegraphics[scale=0.45]{2022-11-02-05_17_03.png}\\
 \hline
 Shadow Mapping & 
 \textcolor{orange}{The idea is very simple, use the original light source as vector source and then project the object that should throw a shadow to the surface in question. \newline
 Here instead of using the same colors, we only use the same depth, the color will be the shadow color!}\newline
-\includegraphics[scale=0.36]{2022-11-02-05:12:34.png}\\
+\includegraphics[scale=0.36]{2022-11-02-05_12_34.png}\\
 \hline
 \end{tabular}
 \end{table}
@@ -744,11 +744,11 @@ var shadow = Device.TakeDepthPicture(
 \hline
 General Reflections & 
 \textcolor{orange}{General reflections are done by reflecting an object against a texture, this can of course als be an object:}\newline
-\includegraphics[scale=0.4]{2022-11-02-05:17:03.png}\\
+\includegraphics[scale=0.4]{2022-11-02-05_17_03.png}\\
 \hline
 Projection of different objects & 
 \textcolor{orange}{You can project a texture for a different type of object to another by essentially cutting it into pieces. For example you might take a texture for a sphere and use it on a cube:}\newline
-\includegraphics[scale=0.4]{2022-11-02-05:27:46.png}\\
+\includegraphics[scale=0.4]{2022-11-02-05_27_46.png}\\
 \hline
 Depth-Map&
 \textcolor{orange}{This is simply a visualization of the Z-Buffer:}\newline
@@ -901,7 +901,7 @@ Javascript has a bunch of helper functions for that, but typescript strguggles w
 \hline
 Scene graph & 
 This resembles a tree structure with every object that will be displayed by WebGL:\newline
-\includegraphics[scale=0.4]{2022-11-09-02:30:04.png}\newline
+\includegraphics[scale=0.4]{2022-11-09-02_30_04.png}\newline
 \textcolor{orange}{An example for the scene graph can be found in the basic rendering part.}\\
 \hline
 \end{tabular}
@@ -981,7 +981,7 @@ Different lights in treejs &
 \hline
 Mesh & 
 \textcolor{orange}{A mesh can be metal-like, non-metal-like, rough, or soft on a scale:}\newline
-\includegraphics[scale=0.4]{2022-11-09-05:18:51.png}\newline
+\includegraphics[scale=0.4]{2022-11-09-05_18_51.png}\newline
 \textcolor{purple}{There are 2 more materials used, but usually only for debugging purposes:\newline
 \textbf{DepthMaterial and NormalMaterial}}\\
 \hline
@@ -1043,7 +1043,7 @@ composer.addPass(new ClearMaskPass());
 composer.addPass(new ShaderPass(CopyShader));
 \end{lstlisting}
 \, \newline
-\includegraphics[scale=0.4]{2022-11-09-05:28:15.png}\\
+\includegraphics[scale=0.4]{2022-11-09-05_28_15.png}\\
 \hline
 Sprites & 
 \textcolor{orange}{Sprites are efficient cheap 2D geometry that will always be directed towards the camera, therefore giving a cheap imitation of 3D:}\newline
@@ -1092,7 +1092,7 @@ Basics &
 Ray-Tracing is effectively the recursive creation of traces of light. With each individual reflection being a "leaf" of the previous "node", which means that ray-tracing will create a tree structure.\newline
 \textcolor{orange}{Problem, we do not have an end to recursion, meaning that we will at some point have to manually end the trace.\newline
 I guess we will either hardcode this, or depend it on something brightness or whether or not the player still sees the trace}\newline
-\includegraphics[scale=0.4]{2022-11-30-02:17:25.png}\newline
+\includegraphics[scale=0.4]{2022-11-30-02_17_25.png}\newline
 Here the stars are the next nodes, or leafs, depending on whether or not they too will spawn yeat another reflection.\\
 \hline
 

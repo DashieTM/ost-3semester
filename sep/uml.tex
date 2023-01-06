@@ -12,7 +12,7 @@ It does this by first broadly defining the scope of the project and creating Dom
 These usecases will then be implemented, tested and given to people for feedback.\newline
 Based on this feedback the phase 2 Domain Model will be created with new features that will be implemented.\newline We still focus only the most important ones.\newline
 We do this until the project reaches a releasable state. \\}
-{\includegraphics[scale=0.4]{2022-09-26-05:56:36.png}}[0.45,0.45]\\
+{\includegraphics[scale=0.4]{2022-09-26-05_56_36.png}}[0.45,0.45]\\
 \hline
 \end{tabular}
 \subsection{Phases of UP}
@@ -20,8 +20,8 @@ We do this until the project reaches a releasable state. \\}
 \hline
 \textbf{\emph{Inception}} & Ceate a vision, scope, vague estimates and use cases.\\
 \textbf{\emph{Elaboration}} & Create a refined vision, domain models, iterative implementation of core architecture, resolution of high risks, identification of most requirements and scope and more realistic estimates.\\
-\textbf{\emph{Construction}} & Iterative implementation of remaining lower risk and easier elements, as well as preparation for deplyoment.\\
-\textbf{\emph{Transition}} &beta tests and deplyoment \\
+\textbf{\emph{Construction}} & Iterative implementation of remaining lower risk and easier elements, as well as preparation for deployment.\\
+\textbf{\emph{Transition}} &beta tests and deployment \\
 \hline
 \end{tabular}
 \section{Domain Models}
@@ -33,10 +33,10 @@ We do this until the project reaches a releasable state. \\}
 \textbf{\emph{Domain Analysis (OOA)}} & This is the first specification on how a program will accomplish something. It doesn't say anything about which functions to use etc, but what components are going to be used and how actors interact with each other. \newline For example, an online shop needs a shopping cart, some items to buy, an order list etc.\newline \textbf{This is done in UML} \newline \textbf{\color{red}{A Domain Model must be correct, complete and easy to understand \newline A Domain Model uses the conceptual model.}}\\
 \hline
 \textbf{Static View | Domain Model} & \minipg{The standard class UML diagram. \newline
-Here we will have only the following three things:\newline \textbf{\color{red}{Attributes, classes and Associations}}}{\pic{2022-09-26:07:27:01.png}}[0.4,0.2]\\
+Here we will have only the following three things:\newline \textbf{\color{red}{Attributes, classes and Associations}}}{\pic{2022-09-26_07_27_01.png}}[0.4,0.2]\\
 \hline
 \textbf{Dynamic View | Design Model} &  \minipg{Black-box Interaction Diagram or System Sequence Diagram for system operations.
-\newline Contracts for system operations}{\pic{2022-09-26:07:39:58.png}}[0.4,0.2]\\
+\newline Contracts for system operations}{\pic{2022-09-26_07_39_58.png}}[0.4,0.2]\\
 \hline
 \end{tabular}
 \subsection{Domain Model and Design Model}
@@ -55,7 +55,7 @@ In general, this is about the problem, not the solution. \textbf{What, not how.}
 \begin{tabular}{|m{0.975\linewidth}|}
 \hline
 \textbf{This is derived from the Domain Model, it will be used to actually implement functions and specific interactions between the classes.}\\
-\pic{2022-09-26:07:53:46.png}\\
+\pic{2022-09-26_07_53_46.png}\\
 \hline
 \end{tabular}
 \subsection{Steps for a Domain Model}
@@ -86,7 +86,7 @@ In general, this is about the problem, not the solution. \textbf{What, not how.}
 \begin{tabular}{|m{0.975\linewidth}|}
 \hline
 Often the actual Item is different from the description of said Item. For example, a Product has a description, however the item itself is independent of that description and can be used differently. For this reason we use description classes to explicitly state what is being affected.\\
-\pic{2022-09-26:08:15:37.png}\\
+\pic{2022-09-26_08_15_37.png}\\
 \hline
 \end{tabular}
 \subsection{Transaction Classes}
@@ -94,7 +94,7 @@ Often the actual Item is different from the description of said Item. For exampl
 \hline
 Similar to Description Classes, transactions and interactions are also implemented better with proper dedicated classes.\newline
 Think of a bank account, it makes no sense to conceptualize a transaction only with an association. \newline It would be much better to create a class for this transaction. \newline A major beneficial sideffect is the traceability of these transactions.\\
-\pic{2022-09-26:08:18:34.png}\\
+\pic{2022-09-26_08_18_34.png}\\
 \hline
 \end{tabular}
 \end{table}
@@ -111,12 +111,12 @@ Think of a bank account, it makes no sense to conceptualize a transaction only w
 -- Associations are always bidirectional, only the name can indicate a direction like: flies to ->.\newline
 \color{teal}{if there is no direction specified, use default direction, top to bottom, left to right.} \newline
 \textbf{Multiplicities: * zero or more, 1..* 1 or more, 1..40 one to 40, 5 exactly 5, 5,7,8 5 7 or 8}}
-{\pic{2022-09-26:08:23:07.png}}[0.7,0.2]\\
+{\pic{2022-09-26_08_23_07.png}}[0.7,0.2]\\
 \hline
 \textbf{\textcolor{red}{Higher multiplicities should always be on top of lower multiplicities.}}\\
 \hline
 \minipg{\textbf{\textcolor{red}{Avoid * to * associations, often there is a missing class in the middle.}}}
-{\includegraphics[scale=0.2]{2022-09-26-09:13:17.png}}[0.47,0.2]\\
+{\includegraphics[scale=0.2]{2022-09-26-09_13_17.png}}[0.47,0.2]\\
 \hline
 \end{tabular}
 \subsection{Attributes}
@@ -126,7 +126,7 @@ Think of a bank account, it makes no sense to conceptualize a transaction only w
 -- \textcolor{red}{Types are optional!} \newline
 -- Attributes are simple datatypes \newline
 -- Attributes are compared to each other by instance not by value. (even if values are the same!) \newline
-}{\pic{2022-09-26-09:24:59.png}}[0.7,0.2]\\
+}{\pic{2022-09-26-09_24_59.png}}[0.7,0.2]\\
 \hline
 \end{tabular}
 \subsection{Generalization}
@@ -135,12 +135,12 @@ Think of a bank account, it makes no sense to conceptualize a transaction only w
 \minipg{
 -- Generalization is simply the creation of superclasses. \newline
 -- \textcolor{teal}{Superclasses can be abstract, in this case they are written in \emph{italics!}}\newline
-}{\includegraphics[scale=0.35]{2022-09-26-09:29:13.png}}[0.45,0.5]\\
+}{\includegraphics[scale=0.35]{2022-09-26-09_29_13.png}}[0.45,0.5]\\
 \hline
 \minipg{
 -- \textcolor{teal}{Abstract superclasses can have attributes, \newline \,\,\,\,\,they will simply exist in the subclasses!}\newline
 -- In this case subclasses will inherit all attributes from the superclass!
-}{\pic{2022-09-26-09:29:23.png}}[0.5,0.4]\\
+}{\pic{2022-09-26-09_29_23.png}}[0.5,0.4]\\
 \hline
 \end{tabular}
 \section{States}
@@ -150,7 +150,7 @@ Think of a bank account, it makes no sense to conceptualize a transaction only w
 -- States should be implemented as it's own classes not as subclasses.\newline
 -- If you have many states, using sublasses would make the model cluttered. \newline
 -- It makes no sense either way, A transaction is not a different kind of transaction just because someone rejected it.
-}{\pic{2022-09-26-09:38:53.png}}[0.6,0.3]\\
+}{\pic{2022-09-26-09_38_53.png}}[0.6,0.3]\\
 \hline
 \end{tabular}
 \begin{tabular}{|m{0,205\linewidth}|m{0.75\linewidth}|}
@@ -190,7 +190,7 @@ Project however deals with timelines, dates, costs, allocation, management, etc.
 \textbf{UseCases} & \minipg{
 A usecase is a scenario that yields an \emph{observable result that is of value to an actor}.\newline
 Each usecase is a \emph{sequence of actions} that a system executes.}
-{\pic{2022-10-03-09:20:50.png}}[0.5,0.3]\\
+{\pic{2022-10-03-09_20_50.png}}[0.5,0.3]\\
 \hline
 \textbf{Actor} & \minipg{ 
 Actors are not part of the System under Development (SuD)\newline
@@ -202,7 +202,7 @@ A list of actors:\newline
   \item Offstage Actors (Has an interest in the usecase but doesn't support it)
   \vspace{-3mm}
 \end{itemize}}
-{\pic{2022-10-03-09:20:57.png}
+{\pic{2022-10-03-09_20_57.png}
 \vspace{10mm}
 }[0.5,0.3]\\
 \hline
@@ -256,7 +256,7 @@ E.g. "ReturnCar", "CancelOrder"\newline
 Recommendation: Use CamelCase to distinguish from natural language
 \vspace{-3mm}
 \end{enumerate}}
-{\pic{2022-10-03-09:30:21.png}}[0.5,0.3]\\
+{\pic{2022-10-03-09_30_21.png}}[0.5,0.3]\\
 \hline
 \end{tabular}
 \subsection{include and external}
@@ -264,10 +264,10 @@ Recommendation: Use CamelCase to distinguish from natural language
 \hline
 \textbf{\emph{Include}} & \minipg{
 These are sub-usecases when the usecase would otherwise be bloated.}
-{\pic{2022-10-03-02:42:39.png}}[0.4,0.5]\\
+{\pic{2022-10-03-02_42_39.png}}[0.4,0.5]\\
 \textbf{\emph{Extend}} & \minipg{
 \,
-}{\pic{2022-10-03-02:45:00.png}}[0.4,0.5]\\
+}{\pic{2022-10-03-02_45_00.png}}[0.4,0.5]\\
 \hline
 \end{tabular}
 \end{table}
@@ -330,7 +330,7 @@ There can be different versions of graphs:\newline
 \end{itemize}
 Graphs specially handle \textbf{Dependencies and Causality} well \newline
 Trees and lists are \emph{special cases of Directed Acyclic Graphs, DAG}.}
-{\pic{2022-10-10:07:45:45.png}}[0.5,0.4]\\
+{\pic{2022-10-10_07_45_45.png}}[0.5,0.4]\\
 \hline
 \end{tabular}
 \section{Version Control / Git}
@@ -341,7 +341,7 @@ Git uses distributed style, \newline
 since you can create branches on your own pc locally,\newline
 but then also push this to a server!
 }
-{\pic{2022-10-10:08:02:03.png}}[0.25,0.5]\\
+{\pic{2022-10-10_08_02_03.png}}[0.25,0.5]\\
 \hline
 Git standard facts &
 developed by torvalds in 2005.\newline
@@ -371,7 +371,7 @@ There are different sections in a git project:
   \item \textcolor{yellow}{Staging area} aka. index
   \item \textcolor{green}{Repository} aka. Git directory
 \end{itemize}
-\, \newline}{\pic{2022-10-10:08:16:11.png}}[0.4,0.5]\\
+\, \newline}{\pic{2022-10-10_08_16_11.png}}[0.4,0.5]\\
 \hline
   \textbf{Semantic Commit Messages} & \textcolor{teal}{ 
 feat: add hat wobble\newline
@@ -439,7 +439,7 @@ The reason for this is that with a two way merge, we do not have a common ancest
 Three way merge & 
 \textcolor{orange}{Three way merges are what we do in reality, it has a base branch and 2 newer branches that will update the base branch.\newline
 Here we can update automatically as long as the 2 new branches will not work on the same line!}\newline
-\pic{2022-10-24:07:52:34.png}\\
+\pic{2022-10-24_07_52_34.png}\\
 \hline
 Development Branches vs Feature Branches & 
 \textcolor{orange}{The difference between dev branches and feature branches are simply the fact that features branches usually do not get merged, instead they will stand as their independent branch for people who want to use this said feature. \newline
@@ -496,12 +496,12 @@ This could be something like a light switch, a bug report, etc.\\
 Notation & 
 \textcolor{orange}{There are different notations to state machines, for example DFAs and NFAs from Automata\newline
 However for this module, we will use UML notation}\newline
-\minipg{\includegraphics[scale=0.4]{2022-10-31-08:31:35.png}\newline
-}{\includegraphics[scale=0.4]{2022-10-31-08:40:28.png}}[0.4,0.4]\\
+\minipg{\includegraphics[scale=0.4]{2022-10-31-08_31_35.png}\newline
+}{\includegraphics[scale=0.4]{2022-10-31-08_40_28.png}}[0.4,0.4]\\
 \hline
 Transition &
 \vspace{2mm}
-\includegraphics[scale=0.4]{2022-10-31-08:52:11.png}\newline
+\includegraphics[scale=0.4]{2022-10-31-08_52_11.png}\newline
 \textcolor{red}{Legend:}\newline
 \begin{itemize}
 \item \textcolor{teal}{event: The event that has triggered the transition}
@@ -524,13 +524,13 @@ Extended state variables or some internal or external state.}
 Actions & 
 \textcolor{orange}{Actions are \textbf{atomic and can't be interrupted}.\newline
 Typically an \textbf{imperative command}, that involves sending a message or updating an extended state variable.}\newline
-\textcolor{purple}{We define entry \textbf{entry actions} and \textbf{exit actions} in order for us to have more flexibility when writing and reading the state diagram.\newline
+\textcolor{purple}{We define entry:\textbf{entry actions} and \textbf{exit actions} in order for us to have more flexibility when writing and reading the state diagram.\newline
 Actions can be composed/chained with a \textbf{\textit{;}} -> count := count + 1; something else;}\\
 \hline
 Nested State Machines & 
 \textcolor{orange}{You can always create a state machine inside another state machine in order to have even more modularity.\newline
 For example you might have an on-off state, then inside the on state you have an entire new system that does something else when on and things happen.}\newline
-\includegraphics[scale=0.45]{2022-10-31-09:24:04.png}\newline
+\includegraphics[scale=0.45]{2022-10-31-09_24_04.png}\newline
 \textcolor{purple}{Here you can see the phone statemachine and another one inside it.\newline
 Should you be inside the right statemachine, you can always exit from this and go back to the outside state machine, aka from connecting to idle by pressing cancel or something similar.}\\
 \hline
@@ -641,7 +641,7 @@ We differentiate \textbf{functional testing}, \textbf{perfromance testing} and \
 \hline
 Levels of testing &
 \vspace{2mm}
-\includegraphics[scale=0.4]{2022-11-14-08:38:52.png}\newline
+\includegraphics[scale=0.4]{2022-11-14-08_38_52.png}\newline
 The base idea is that you need to want to test each "functionality" \textbf{at the lowest level possible!}\newline
 Therefore prefer unit tests if possible, but move up through the levels if these aren't enough!
 \\
@@ -677,15 +677,15 @@ Black-Box vs White-Box &
 The black box method \textbf{hides the internal structure}, this means that tests can't directly call random functions from the interal structure, instead it has to work with the proper API that any user would.\newline
 On the other hand the white box approach is the opposite, where \textbf{the entire internal structure is free game to use.}\newline
 Usually \textbf{black box approaches are used with system tests} and \textbf{white box approaches are used for unit tests} and lower level testing.\newline
-\includegraphics[scale=0.4]{2022-11-14-09:40:32.png}\\
+\includegraphics[scale=0.4]{2022-11-14-09_40_32.png}\\
 \hline
 Black Box techniques & 
 \textcolor{OliveGreen}{Equivalence Class Partitioning}\newline
 A set of inputs that should show similar behavior.\newline
-\includegraphics[scale=0.4]{2022-11-14-09:43:48.png}\newline
+\includegraphics[scale=0.4]{2022-11-14-09_43_48.png}\newline
 \textcolor{OliveGreen}{Boundary Value Analysis}\newline
 This tests the edges of the classes, making sure that the proper turning point has been chosen.\newline
-\includegraphics[scale=0.4]{2022-11-14-09:45:41.png}\newline
+\includegraphics[scale=0.4]{2022-11-14-09_45_41.png}\newline
 \textcolor{OliveGreen}{State based testing}\newline
 \begin{itemize}
 \item \textcolor{purple}{current state is considered an input parameter}
@@ -703,7 +703,7 @@ White Box techniques &
 \textbf{Control Flow Graph (CFG)}\newline
 This simply tests if each node has been reached, \textbf{a good value would be roughly 100\%, but this depends on the code. }
 }{
-\includegraphics[scale=0.4]{2022-11-21-08:31:57.png} 
+\includegraphics[scale=0.4]{2022-11-21-08_31_57.png} 
 }[0.4,0.4]\\
 \hline
 \end{tabular}
@@ -785,7 +785,7 @@ Pros:\newline
 \hline
 Build Automation with DAG & 
 You can visualize the dependencies of building as a DAG, this means that you have nodes that will depend on each other, for example before you can test you need to compile etc.\newline
-\includegraphics[scale=0.4]{2022-11-28-08:42:40.png}\newline 
+\includegraphics[scale=0.4]{2022-11-28-08_42_40.png}\newline 
 A lot of build tools like \textbf{GNU make} are DAG based build tools!\\
 \hline
 Make & 

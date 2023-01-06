@@ -40,7 +40,7 @@ visualization and validation though.\\
 \textbf{\emph{One-hot vector}} & \minipg{ 
 This is a vector with 1 value set to 1, this represents the word.\newline
 If you now iterate over a sentence, you will end up with a matrix.\newline}
-{\pic{2022-09-29:08:51:08.png}}[0.3,0.7]\newline
+{\pic{2022-09-29_08_51_08.png}}[0.3,0.7]\newline
 Problems with this approach\newline
 \begin{itemize}
 \item high dimensionality\newline
@@ -63,11 +63,11 @@ but it does not solve the problem of not having context, a mango still has no bo
 This finally solves the issue of context to a certain extend.\newline
 We represent a context with a color, if 2 words have the same color in their graph, then there is overlap with these words.\newline
 In the following figure the context male is represented in the words man and king, while the context female is represented in the words queen and woman.}
-{\pic{2022-09-29:09:14:13.png}}[0.4,0.4]\newline
+{\pic{2022-09-29_09_14_13.png}}[0.4,0.4]\newline
 \minipg{
 The way this is done is with a vector that is dense,\newline
 this means that this vector has data in multiple dimensions to show context.
-}{\pic{2022-09-29:09:19:18.png}}[0.28,0.4]\newline
+}{\pic{2022-09-29_09_19_18.png}}[0.28,0.4]\newline
 Important other things to remember:\newline
 \begin{itemize}
 \item The dot product of 2 vectors becomes 1 if the vectors are parallel.
@@ -85,7 +85,7 @@ Important other things to remember:\newline
 \minipg{
 Just like with a regular vector you can calculate the distance between a vector.\newline
 Similarly you can also calculate the angle between 2 vectors instead.\newline
-}{\pic{2022-09-29:09:34:08.png}}[0.28,0.6]\\
+}{\pic{2022-09-29_09_34_08.png}}[0.28,0.6]\\
 \hline
 \textbf{\emph{Finding vector representations}} & 
 The obvious question is how do we get the representation of vectors?\newline
@@ -104,11 +104,11 @@ Important tool for creating classes for embedding layers: \textcolor{red}{\textb
 \textbf{Discrete and continuous} & \minipg{
 Discrete variables are a set of finite numbers.\newline
 \large \( X = { 1.5 , 2.678 , 5 , 6.3 , 10 } \)\newline}
-{\pic{2022-10-06:08:25:05.png}}[0.3,0.4]\newline
+{\pic{2022-10-06_08_25_05.png}}[0.3,0.4]\newline
 \minipg{
 \normalsize Continuous variables are a range of numbers.\newline
 \large \( X = (2, 7 ) \) 2 to 7\newline\normalsize}
-{\pic{2022-10-06:08:25:08.png}}[0.3,0.4]\\
+{\pic{2022-10-06_08_25_08.png}}[0.3,0.4]\\
 \hline
 Likelyhood and Base information &
 The maximum amount of information we can have about a random variable is \textbf{the possible value it can have}, see the set above.\newline
@@ -116,13 +116,13 @@ And \textbf{the likelyhood of a specific value appearing}.\\
 \hline
 \textbf{Notations} & \minipg{
   \emph{\textcolor{teal}{Pr(X=x) is often written in the more compact form P(x) or p(x), or sometimes as PX(x) (there's no formal rule)}}}
-{\pic{2022-10-06:08:38:46.png}}[0.3,0.5]\\
+{\pic{2022-10-06_08_38_46.png}}[0.3,0.5]\\
 \hline
 Dice example &
-\pic{2022-10-06:08:49:14.png} \pic{2022-10-06:08:49:26.png}\\
+\pic{2022-10-06_08_49_14.png} \pic{2022-10-06_08_49_26.png}\\
 \hline
 \textbf{Probability Mass Function (PMF)} &
-\pic{2022-10-06:08:51:23.png} \pic{2022-10-06:08:52:19.png}\\
+\pic{2022-10-06_08_51_23.png} \pic{2022-10-06_08_52_19.png}\\
 \hline
 \textbf{Joint Probability} & 
 Joint probability is simply the probability of more than 1 thing, in this case 2.\newline
@@ -142,9 +142,9 @@ This is the \textbf{opposite of Joint Probability with dependence}.\newline
 \textbf{Bayes Rule} & \minipg{
   Bayes rule uses the fact that we can substitute variables,\newline 
   here we substitute the conditional probability of 2 variables.\newline
-  \pic{2022-10-06:09:44:53.png}
+  \pic{2022-10-06_09_44_53.png}
 }
-{\pic{2022-10-06:09:18:12.png}}[0.4,0.4]
+{\pic{2022-10-06_09_18_12.png}}[0.4,0.4]
 \\
 \hline
 \end{tabular}
@@ -158,7 +158,7 @@ This is simply a matrix that shows correlation of 2 things in a row.\newline
 Theoretically, since they are dependent, they should only provide either both true or both false.\newline
 However, this is not always the case.\newline
 \textcolor{orange}{The general rule: True Positives and True Negatives should always be higher than the other 2!}\newline
-\pic{2022-10-20:08:33:25.png}\\
+\pic{2022-10-20_08_33_25.png}\\
 \hline
 \end{tabular}
 \section{Linear Regression}
@@ -196,7 +196,7 @@ We then square the difference and do this for every point in the dataset.\newlin
 Our final calculation will be the \textbf{Mean Squared Error}}
 }[0.33,0.4]
 \, \newline
-\pic{2022-10-27:09:04:09.png}\newline
+\pic{2022-10-27_09_04_09.png}\newline
 \textcolor{orange}{You need to first decide what the line is for yourself, this means manual fitting!\newline
 Then you can see the Residual Error which would be \textbf{E} in the formula!}\newline
 \textcolor{red}{The ultimate goal is to \textbf{MINIMIZE E -> MINIMIZE ERROR!}}\newline
@@ -206,7 +206,7 @@ aka the sum of (training y - calculation y) squared.}
 \hline
 Least Squares &
 \textcolor{orange}{This term simply explains the improvement of fitting a function by calculating them via derivates of slopes:}\newline
-\includegraphics[scale=0.2]{2022-11-10:04:16:23.png}\newline
+\includegraphics[scale=0.2]{2022-11-10_04_16_23.png}\newline
 \textcolor{purple}{As you can see you take the derivate of MSE and slope with respect to slope and try to find a 0 value -> a local minimum or maximum.\newline
 And considering we didn't use a fucked up line in the first place, we can be sure that it is indeed a \textbf{local minimum}!}\newline
 \minipg{
@@ -232,7 +232,7 @@ For example you might find that the increase in cats is correlated with stormy w
 \hline
 Parson Correlation Coefficient & 
 \vspace{2mm}
-\includegraphics[scale=0.25]{2022-10-27:09:11:27.png}\newline
+\includegraphics[scale=0.25]{2022-10-27_09_11_27.png}\newline
 \begin{itemize}
 \item \textcolor{orange}{The correlation is 1 if \textbf{m is positive}, and \textbf{E is 0}.}
 \item \textcolor{orange}{The correlation then gradually gets less if there is a deviation between x and y.}
@@ -258,7 +258,7 @@ However, \textbf{not all function will have a derivate equal to 0 -> min or max}
 \textcolor{red}{INSTEAD: with gradient descent, we choose a \textbf{Learning Rate}, which will determine our \textbf{step size} in order to skip the part, where we are far away from the optimal 0.\newline
 As soon as we approach derivate 0, we take smaller and smaller steps, until we can't improve the value anymore, either we are at 0 now, or 0 is not reachable and we have reached the nearest possible value instead.}\newline
 \textcolor{purple}{But where do we take these 2 values from? The \textbf{Learning Rate is a user choice}, while the \textbf{step size is the previous derivate * the learning rate}.}\newline
-\includegraphics[scale=0.2]{2022-11-10:05:04:33.png}\newline
+\includegraphics[scale=0.2]{2022-11-10_05_04_33.png}\newline
 \textcolor{orange}{Note, the -5.7 is the derivate, therefore we multiply it with the learning rate, which is 0.1 and then we have the next step size.\newline
 We can then \textbf{apply the stepsize to the slope or intercept}, whichever we want to calculate.\newline
 Then we simply redo this until the derivate will be 0 or close to 0!}\newline
@@ -283,13 +283,13 @@ Also, guess what, another performance increase as you need fewer calculations ag
 \hline
 Annealed SGD & 
 \textcolor{black}{The obvious consequence of the \textbf{learning rate} is that \textbf{the learning effect decays over time,}}\textcolor{red}{this is called \textbf{annealing}.}\newline
-\includegraphics[scale=0.4]{2022-11-04-01:43:27.png}\\
+\includegraphics[scale=0.4]{2022-11-04-01_43_27.png}\\
 \hline
 Limitations & 
 \textcolor{purple}{The limitations of this method is that you only use 1 datum -> 1 batch of datapoints for each model. This means that you will have to calculate this over, and over, and over again.\newline
 \textbf{In the industry this is usually done in batches of size 32,64,128!}}\newline
 \textcolor{orange}{Also, in order to use the SGD the loss function needs to be a \textbf{differentiable function}, this simply means that you can take the derivative of this function at \textbf{every point}. }\newline
-\includegraphics[scale=0.4]{2022-11-04-01:56:28.png}\newline
+\includegraphics[scale=0.4]{2022-11-04-01_56_28.png}\newline
 \textcolor{orange}{On the right side there is the top point where you have 2 interpretations of a derivation, this of course can't be done, so here you would need to define the point manually, or simply use a different function in the first place.}\\
 \hline
 Generalization Error & 
@@ -301,7 +301,7 @@ We call this problem the \textbf{Generalization Error}, where we generalize some
 Training Error & 
 \textcolor{orange}{When you try to fit a model to the data that you have, then you will always have to deal with the problem of potential \textbf{"noisy" data}, it essentially means inaccurate data.\newline
 Should you try to perfectly fit a model with this data, then you will likely not achieve a good model as the data is as said not accurate.}\newline
-\includegraphics[scale=0.35]{2022-11-10:09:09:47.png}\newline
+\includegraphics[scale=0.35]{2022-11-10_09_09_47.png}\newline
 \textcolor{purple}{As you can see in the image, the left model with less MSE is actually the more accurate model!}\\
 \hline
 Reducing Generalization Error and Trainign Error with more data & 
@@ -334,7 +334,7 @@ Bias-Variance &
 \textbf{bias indicates a preference towards a certain model}\newline
 \textbf{variance indicates the spread of the data}}\newline
 \textcolor{purple}{\textbf{A simple model for example has low variance and high bias.}}\newline
-\includegraphics[scale=0.4]{2022-11-10:09:27:19.png}\includegraphics[scale=0.4]{2022-11-10:09:30:46.png}\\
+\includegraphics[scale=0.4]{2022-11-10_09_27_19.png}\includegraphics[scale=0.4]{2022-11-10_09_30_46.png}\\
 \hline
 Goal of Bias and Variance & 
 \textcolor{orange}{In the end we want to have the cake and eat it too, aka we want \textbf{low Variance} and \textbf{low Bias}, \newline
@@ -343,7 +343,7 @@ the problem is that a complex model gives us low bias, but also gives high varia
 Regularization & 
 \textcolor{orange}{In order to try to achieve low variance and low bias we introduce another function: \textbf{cost function for training/optimization}\newline
 This means we now have 2 functions, the MSE and the optimization function.}\newline
-\includegraphics[scale=0.35]{2022-11-10:09:43:03.png}\newline
+\includegraphics[scale=0.35]{2022-11-10_09_43_03.png}\newline
 Regularization tries to introduce a way to \textbf{avoid underfitting or overfitting to the training data}. \newline
 This means that we will need to modify our MSE to not do either of these problematic behaviors.\newline
 \textbf{Rigde Regularization achieves this by taking the sum of the "corrected paramters by the MSE"}, for example you might have slope and intercept in linear regression, this means that you will have to calculate the \textbf{optimization loss function}, which is the sum of squares of each parameter multiplied by a positive number hat you choose -> \(\lambda\). \newline You then add this function to the base MSE and you have successfully implemted Ridge Regularization:\newline
@@ -406,13 +406,13 @@ This is yet another reason why we want to use scaling in order to reduce the eff
 \hline
 2-way Holdout & 
 2-way Holdout is the model that we have been using until now with the 20-80 split in data to train and test your model:\newline
-\includegraphics[scale=0.3]{2022-11-17:08:44:33.png}\\
+\includegraphics[scale=0.3]{2022-11-17_08_44_33.png}\\
 \hline
 3-way Holdout & 
 \minipg{
-\includegraphics[scale=0.3]{2022-11-17:08:47:18.png}
-\includegraphics[scale=0.3]{2022-11-17:08:47:22.png}
-\includegraphics[scale=0.3]{2022-11-17:08:47:31.png}
+\includegraphics[scale=0.3]{2022-11-17_08_47_18.png}
+\includegraphics[scale=0.3]{2022-11-17_08_47_22.png}
+\includegraphics[scale=0.3]{2022-11-17_08_47_31.png}
 }{
 The idea here is to always have different possibilities of each step, meaning \textbf{multiple parameters to train multiple models}, then \textbf{test each model on the test data}.\newline
 Then you \textbf{use the best parameters, meaning the ones that are the closest to both the training data AND the test data.}\newline
@@ -428,7 +428,7 @@ At the end you have your test error just like with the 2-way holdout.\\
 \hline
 Final Model & 
 In both 2-way and 3-way holdout, you can have a final model calculation: \newline
-\includegraphics[scale=0.3]{2022-11-17:08:54:03.png}\\
+\includegraphics[scale=0.3]{2022-11-17_08_54_03.png}\\
 \hline
 Problems with Holdout& 
 In general, the test data will only be a subset of the entire dataset, and if we get unlucky, the test data might be shit.\newline
@@ -438,16 +438,16 @@ The solution would be splitting the data further, but how? Find out below kekw\\
 k-fold Cross Validation & 
 \textbf{k-fold Cross Validation is just one variant of cross validation, you can theoretically implement your own, but this one if the most used.}\newline
 \textcolor{OliveGreen}{In k-fold cross validation, we split the data multiple times until we have had each split as validation data once, while the rest servers as the training data during that time:}\newline
-\includegraphics[scale=0.3]{2022-11-17:09:07:59.png}\newline
+\includegraphics[scale=0.3]{2022-11-17_09_07_59.png}\newline
 At the end you can calculate the \textbf{mean and variance of k validation errors}. \textbf{This mean will now be your Validation Error!}\newline
-\includegraphics[scale=0.3]{2022-11-17:09:12:34.png}\newline
+\includegraphics[scale=0.3]{2022-11-17_09_12_34.png}\newline
 \textcolor{red}{Note, \textbf{the test data is not included in the fold, it is NOT touched until you want to test your models.}}\\
 \hline
 Binary Probability & 
 In many cases we want to know a yes or no answer, based on a prediction, for example is group A applicable for this study  based on their height. You can't just measure everyon so you have to take predictions based on the groups other specifications, eg. you might know their age range, sex, etc. From this data you can get a predicition for the height, which then leads you to your answer, but, this answer is not binary, so what do we do? \newline
 \textcolor{OliveGreen}{Simple, we use a treshold on where we simply say that there we will consider the answer as yes, and everything below is a no.}\newline
 \minipg{
-\includegraphics[scale=0.4]{2022-11-24:08:45:49.png}
+\includegraphics[scale=0.4]{2022-11-24_08_45_49.png}
 }{
   There is however a problem with this, you can't use this in combination with linear regression, as we only have either 0 -> false, or 1 -> true. \newline
   However, we can use what is called \textbf{Logistic Regression}, this will work on the probability instead of the outcome data, which again in our case is 0 or 1 because of our threshold!
@@ -462,7 +462,7 @@ In many cases we want to know a yes or no answer, based on a prediction, for exa
 Logistic Regression & 
 As already described before, we now need something that will work on the probability to regress on, how about the signum function, which would turn pretty much any number to 1 or 0?\newline
 \minipg{
-\includegraphics[scale=0.25]{2022-11-24:09:04:16.png}\newline
+\includegraphics[scale=0.25]{2022-11-24_09_04_16.png}\newline
 }{
   \large \textcolor{purple}{\( sigmoid(z) = \dfrac{1}{1 + e^{-z}}\)}\newline
   \large \textcolor{purple}{\( z = h(w,x) = w_1x_1 + w_2x_2 + \text{...} + w_nx_n \)}\newline
@@ -474,7 +474,7 @@ Log(odds) &
 Because of the division on odds, \textbf{the values that indicate odds in favor of the quotient have a higher magnitude}, in other words, \textbf{should the odds not be in "our" favor, then the number will be between 0 and 1}, however, \textbf{should the odds be in "our" favor, then the number will be between 1 and infinity!!}\newline
 In order to solve this issue, we can take the log of the odds with base e.\newline
 This will make the calculation perfectly symetrical again, with both sides of the odds being represented properly.\newline
-\includegraphics[scale=0.25]{2022-11-24:12:32:32.png} \includegraphics[scale=0.25]{2022-11-24:12:32:39.png}
+\includegraphics[scale=0.25]{2022-11-24_12_32_32.png} \includegraphics[scale=0.25]{2022-11-24_12_32_39.png}
 \\
 \hline
 Odds vs Probability & 
@@ -491,7 +491,7 @@ Odds Ratio &
 While the previous examples were also ratios, we mean something different with this, namely the division of 2 odd calculations.\newline
 This comes into play when you want to check correlation between two traits based on data.\newline
 Let's take the following idea, we have mice some of which are obese, and some have heart issues.\newline
-\includegraphics[scale=0.4]{2022-11-24:12:59:20.png} \newline
+\includegraphics[scale=0.4]{2022-11-24_12_59_20.png} \newline
 As you can see the odd ratio is the odds of obese mice having heart issues to the odds of non obese mice having heart issues.\newline
 Then we take the log just like regular odds, in order to make the result symetrical!\\
 \hline
@@ -504,7 +504,7 @@ Then we take the log just like regular odds, in order to make the result symetri
 Statistically Significant Odds & 
 For logistic regression we use the \textbf{Wald test} to check whether or not our odds ratio is statistically significant.\newline
 What we do is calculate the \textbf{standard deviation},  this is how most values of the \textbf{odds ratio} will be spread away from 0.\newline
-\includegraphics[scale=0.2]{2022-11-24:01:18:37.png}\newline
+\includegraphics[scale=0.2]{2022-11-24_01_18_37.png}\newline
 here the standard deviation if the 34.1\% mark.\newline
 However instead of calculating every odds ratio, we can caluclate the following instead to get the same value:\newline
 \large standard deviation = \( \sqrt{\dfrac{1}{23} + \dfrac{1}{6} + \dfrac{1}{117} + \dfrac{1}{210}} \)\newline
@@ -531,15 +531,15 @@ Here we have the 2 log on prediction for it to be true and for it to be false:\n
 \vspace{-3mm}
 \end{itemize}
 \, \newline
-\includegraphics[scale=0.4]{2022-11-24:09:26:52.png} \includegraphics[scale=0.4]{2022-11-24:09:26:55.png}\newline
-\includegraphics[scale=0.25]{2022-11-24:09:30:09.png} \includegraphics[scale=0.25]{2022-11-24:09:30:11.png}\newline
+\includegraphics[scale=0.4]{2022-11-24_09_26_52.png} \includegraphics[scale=0.4]{2022-11-24_09_26_55.png}\newline
+\includegraphics[scale=0.25]{2022-11-24_09_30_09.png} \includegraphics[scale=0.25]{2022-11-24_09_30_11.png}\newline
 \textcolor{red}{Here we need to make sure that our coeffiecients/parameters get p to 0 when y is 0 and p to 1 if y is 1.}\newline
 \\
 \hline
 Confusion Matrix with Logistic Regression & 
 We already talked about True/False Positives/Negatives, this now fits well into our system of evaluating things that can either be true or false.\newline
 Here a True Negative or Positive simply states, that the prediction was right, while a False Negative or Positive indicates that the prediction is wrong.\newline
-\includegraphics[scale=0.4]{2022-12-01:08:21:09.png}\\
+\includegraphics[scale=0.4]{2022-12-01_08_21_09.png}\\
 \hline
 Impact of False Positives vs False Negatives & 
 Depending on the use case, the impact of false positives and false negatives are different. For example giving a healthy person a diagnosis of sick in terms of corona might leave them at home for a few days, but other than their employer, noone gets impacted. With a false negative however, they will spread the disease, creating a potential chain of events that leaves thousands of people sick. Hence, in this case, the impact of a false negative is way worse than a false positive.\\
@@ -554,7 +554,7 @@ Matrix Recall \textcolor{OliveGreen}{False Negatives are worse}&
 This matrix \textbf{treats false negatives as worse}, this also means that it will have \textbf{more false positives}.\newline
 \large \textcolor{purple}{\( \text{Recall} = \dfrac{TP}{TP + FN} \)}\newline
 \normalsize \, \newline
-\includegraphics[scale=0.3]{2022-12-01:08:38:24.png}\newline
+\includegraphics[scale=0.3]{2022-12-01_08_38_24.png}\newline
 As one can see here, the value of Recall in model 1 is 0, we have no true positives, so 0 divided by anything is 0.\newline
 And the second model has a Recall value of 0.8, so this model is better according to the recall method.\newline
 \textcolor{orange}{Note that you now have values only based on false negatives and true positives, everything else is completely disregarded,\newline
@@ -573,7 +573,7 @@ Matrix Precision \textcolor{OliveGreen}{False Positives are worse}&
 This matrix \textbf{treats false positives as worse}, this also means that it will have \textbf{more false negatives}.\newline
 \large \textcolor{purple}{\( \text{Recall} = \dfrac{TP}{TP + FP} \)}\newline
 \normalsize \, \newline
-\includegraphics[scale=0.3]{2022-12-01:08:47:44.png}\newline
+\includegraphics[scale=0.3]{2022-12-01_08_47_44.png}\newline
 1. Model Precision value of 0.857\newline
 2. Model Precision value of 0.777\newline
 So the first model is better for Precision here.\newline
@@ -627,10 +627,10 @@ Receiver Operating Characterisits (ROC) &
 This is a graph based on the occurrence of true and false positives.\newline
 Aka how many false positives in relation to true positives.\newline
 We can also look at it as an area under the curve, the bigger this area is, then the higher the ratio of true positives to false positives, and the better the quality of the model.\newline
-\includegraphics[scale=0.3]{2022-12-01:09:15:31.png}\\
+\includegraphics[scale=0.3]{2022-12-01_09_15_31.png}\\
 \hline
 Decision Boundary Calculation &
-\includegraphics[scale=0.3]{2022-12-01:09:27:01.png}\newline
+\includegraphics[scale=0.3]{2022-12-01_09_27_01.png}\newline
 \large \textcolor{purple}{\(p(x) = \dfrac{1}{1 + e^{-(w_0 + w_1x_1 + w_2x_2)}}\)}\newline
 \normalsize \, \newline 
 Legend: \newline
@@ -643,7 +643,7 @@ Legend: \newline
 Polynomial Decision Boundary & 
 Sometimes we have a model that we can't caluclate with a regular linear boundary, here we need something of higher order,\newline
 which can draw that graph that we want.\newline
-\includegraphics[scale=0.3]{2022-12-01:09:24:40.png}\newline
+\includegraphics[scale=0.3]{2022-12-01_09_24_40.png}\newline
 \large \textcolor{purple}{\(p(x) = \dfrac{1}{1 + e^{-(w_0 + w_1x_1^2 + w_2x_2^2)}}\)}\newline
 \normalsize \, \newline 
 Legend: \newline
@@ -681,10 +681,10 @@ Here logistics regression has 2 methods, \textbf{One vs Rest and One vs One}.\ne
 KNN classification & 
 This is a method to define neighbours in classes. \newline
 K stands for a number, which you can define to make a boundary that defines how many neighbours will be in the group:\newline
-\includegraphics[scale=0.3]{2022-12-01:09:38:00.png}\newline
+\includegraphics[scale=0.3]{2022-12-01_09_38_00.png}\newline
 Then we chose a method which could be any calculation,\newline
 in other words, the \textbf{near} can be: \textbf{Euclidean, Manhatten, cosine, Minkowski, or some other algorithm}.\newline
-\includegraphics[scale=0.3]{2022-12-01:09:39:37.png}\newline
+\includegraphics[scale=0.3]{2022-12-01_09_39_37.png}\newline
 \textcolor{orange}{For each dataset in t-test, do the following:}\newline
 \begin{itemize}
 \item \textcolor{purple}{For all training data x-train, calculate the d(x-test, x-train)}
@@ -734,7 +734,7 @@ Distance Metric &
 \normalsize \, \newline
 There are special cases for manhatten at p = 1, and at eucledian for p = 2\newline
 Here a small comparison: \newline
-\includegraphics[scale=0.25]{2022-12-01:09:53:58.png}\\
+\includegraphics[scale=0.25]{2022-12-01_09_53_58.png}\\
 \hline
 \end{tabular}
 \end{table}
@@ -749,15 +749,15 @@ Therefore, the best solution is to have a sweetspot of both complexity and bias,
 \hline
 Naive Bayes Classification & 
 \textcolor{purple}{Calculate the posterior probability based on the previous state.}\newline
-\includegraphics[scale=0.3]{2022-12-08:11:03:47.png}\newline
+\includegraphics[scale=0.3]{2022-12-08_11_03_47.png}\newline
 Remember conditional probability:\newline
 \, \newline
 \large \textcolor{purple}{\( Pr(e | D) = \dfrac{Pr(D,e)}{Pr(e)} \)}\newline
 \normalsize \, \newline
 Let's say we want to see if an email is spam based on whether or not it has a word in it, let's take hurry for this:\newline
 Then we calculate it like this:\newline
-\includegraphics[scale=0.4]{2022-12-08:11:10:40.png}\newline
-\includegraphics[scale=0.4]{2022-12-08:11:12:45.png}\newline
+\includegraphics[scale=0.4]{2022-12-08_11_10_40.png}\newline
+\includegraphics[scale=0.4]{2022-12-08_11_12_45.png}\newline
 \begin{itemize}
 \item \textcolor{OliveGreen}{good when dataset is small}
 \item \textcolor{OliveGreen}{No training}
@@ -776,7 +776,7 @@ You could theoretically convert numerical values into categorical values, making
 Basics & 
 Unsupervised learning deals with data where we do not have labels, this means that we can't manually intervene, since we do not have any hints to do so.\newline
 Remember the flower example we used for KNN, there we had 3 different labels for flowers, so we knew how to categorize, but what if we do not have the flower types? How would we categorize the data?\newline 
-\includegraphics[scale=0.3]{2022-12-08:11:22:47.png}\newline
+\includegraphics[scale=0.3]{2022-12-08_11_22_47.png}\newline
 As you can see this is still the same example, but how do we figure out wich Y value belongs together? If we remember the flower example, we know that we have 3 groups, but here we can only clearly seperate 2 groups... The answer can be found in the next entry -> \textbf{Clustering!}
 \textcolor{orange}{This is usually used in social network analysis, astronomical data, market segmentation and more.}\\
 \hline
@@ -824,9 +824,9 @@ Steps For Clustering &
 \item \textcolor{purple}{Else, go to step 3}
 \end{enumerate}
 Example Assignment:\newline
-\includegraphics[scale=0.3]{2022-12-08:12:42:29.png}\newline
+\includegraphics[scale=0.3]{2022-12-08_12_42_29.png}\newline
 Example New Center Calculation:\newline
-\includegraphics[scale=0.3]{2022-12-08:12:42:35.png}\newline
+\includegraphics[scale=0.3]{2022-12-08_12_42_35.png}\newline
 Notes: \newline
 \begin{itemize}
 \item \textcolor{purple}{Performance}\newline
@@ -851,18 +851,18 @@ You can solve this by either \textbf{manually chosing the initial clusters}, or 
 \hline
 Problems with Clustering & 
 \textcolor{red}{Clustering is only mathematical, therefore it only calculates distance. This means that sometimes you will have clusters that mathematically are indeed correct, but if a human looks at them, they make no sense, as a certain datapoint is completely isolated with a gap between other points as shown here in this example:}\newline
-\includegraphics[scale=0.3]{2022-12-08:01:07:27.png}\newline
+\includegraphics[scale=0.3]{2022-12-08_01_07_27.png}\newline
 Here a single red dot is in the blue cluster because it is mathematically closer to the red center, but to a human this clearly doesn't make sense!!
 \\
 \hline
 Inertia OR within-cluster sum-of-squares (WCSS) & 
 This is the solution to the previous problem, here we simply \textbf{take the sum of each distance of a datapoint to the center}.\newline
 \textcolor{orange}{This sum of distances should be as low as possible!}\newline
-\includegraphics[scale=0.3]{2022-12-08:01:14:08.png}\newline
+\includegraphics[scale=0.3]{2022-12-08_01_14_08.png}\newline
 Here also an example with python:\newline
-\includegraphics[scale=0.3]{2022-12-08:01:13:58.png}\newline
+\includegraphics[scale=0.3]{2022-12-08_01_13_58.png}\newline
 \textcolor{purple}{For the previous example where 1 datapoint was alone in the wrong cluster, we would get a significantly lower WCSS when we remove said problematic point, getting us a better solution!}\newline
-\includegraphics[scale=0.4]{2022-12-08:01:25:03.png}\newline
+\includegraphics[scale=0.4]{2022-12-08_01_25_03.png}\newline
 The more clusters you have, the smaller the WCSS gets, once again makes it clear that you want to have a \textbf{sweet spot}, between cluster count and WCSS 
 \\
 \hline
@@ -883,9 +883,9 @@ Legend: \newline
 \item \textcolor{orange}{b = inter-cluster average (average distance from a cluster to its nearest neighbour cluster)}
 \item \textcolor{orange}{Range of the silhouette score is from -1 to 1 and the value should be closer to 1 than -1!}
 \end{itemize} 
-\includegraphics[scale=0.3]{2022-12-08:01:21:30.png}\newline
+\includegraphics[scale=0.3]{2022-12-08_01_21_30.png}\newline
 The mean of a and b are not shown in the tables but can be calculated as any mean can -> sum over amount of datapoints\newline
-\includegraphics[scale=0.4]{2022-12-08:01:32:23.png}\newline
+\includegraphics[scale=0.4]{2022-12-08_01_32_23.png}\newline
 \textcolor{orange}{Here the lower amount of clusters the better, since the silhouette score needs to be closer to 1 than -1!}\newline
 This is in contrast to WCSS where more would be better!
 \\
@@ -963,7 +963,7 @@ Hard Voting &
 Hard Voting with Weights & 
 With weights, we can say that one model is preferred over another, therefore we can give it a bigger weight, essentially meaning that they have more votes, or more say in the vote.\newline
 We do this with a set of parameters, one parameter for every model.\newline
-\includegraphics[scale=0.3]{2022-12-15:11:07:38.png}\includegraphics[scale=0.3]{2022-12-15:11:07:44.png}\newline
+\includegraphics[scale=0.3]{2022-12-15_11_07_38.png}\includegraphics[scale=0.3]{2022-12-15_11_07_44.png}\newline
 As you can see 2 out of 3 models said y will be spam, but the third model has more weight than both of those combined, meaning that the data will be predicted as Ham.\\
 \hline
 Soft Voting & 
@@ -971,7 +971,7 @@ Soft Voting &
 In other words, a model might predict y to be 80\% spam and 20\% ham, therefore in a regular hard vote, you would simply say the model considers y as spam, but here we take both values and add them to each respective value of the other models.\newline
 At the end you take the \textbf{average of every possible prediction}, here only spam and ham, and the highest value at the end is our prediction.\newline
 Here an example: \newline
-\includegraphics[scale=0.3]{2022-12-15:11:10:24.png} \newline
+\includegraphics[scale=0.3]{2022-12-15_11_10_24.png} \newline
 \textcolor{red}{Important, due to the percentage being necessary, \textbf{this only works with probability}, otherwise we can't take the average of all probabilities!!}\\
 \hline
 Soft Voting with Weights & 
@@ -984,11 +984,11 @@ You can also use different regression models and combine them, this essentially 
 \hline
 Bagging Methods & 
 This splits the data into random sets of data, which can be used to train all the different models that we have to train.\newline
-\includegraphics[scale=0.4]{2022-12-15:11:28:43.png}\\
+\includegraphics[scale=0.4]{2022-12-15_11_28_43.png}\\
 \hline
 Sampling with Replacement & 
 This treats each datapoint as a singular point, of which we essentially have a pool of. From this pool, each model takes an amount of datapoints, and \textbf{we can decide whether or not to remove points chosen from the pool and only use it on this one model, or to reuse points, essentially cloning and leaving the real one inside the pool for the next model to potentially choose.}\newline
-\includegraphics[scale=0.4]{2022-12-15:11:39:41.png} \, \newline
+\includegraphics[scale=0.4]{2022-12-15_11_39_41.png} \, \newline
 \textcolor{red}{Sampling with replacement is also called \textbf{Bagging, or Bootstrap Aggregating}}\newline
 \textcolor{red}{Sampling without replacement is also called \textbf{Pasting}} \newline 
 Note, Bagging works best with strong and complex models as it can \textbf{reduce overfitting} if that is the case!\\
@@ -1023,7 +1023,7 @@ This \textbf{does not split the data} like Bagging, instead it trains the models
 This means that each model will try to improve on the mistakes that the last model made, therefore the combined training error reduces.\newline
 I can already see a problem with overfitting with this method. Therefore, \textbf{use weaker/simpler models when boosting!}\newline
 Here an example of Boosting: \newline
-\includegraphics[scale=0.3]{2022-12-15:12:10:37.png}\newline
+\includegraphics[scale=0.3]{2022-12-15_12_10_37.png}\newline
 The big points are the samples on which the model didn't do well on, this means that for the next model, \textbf{the weight on these samples is incresed}, making sure, that the next model will likely change these samples.\newline
 Popular Boosting methods: \newline
 \begin{itemize}
@@ -1058,14 +1058,14 @@ AdaBoost &
 \hline
 Example for step3 & 
 \vspace{2mm}
-\includegraphics[scale=0.3]{2022-12-15:12:20:01.png}\newline
-\includegraphics[scale=0.3]{2022-12-15:12:20:10.png}\newline
+\includegraphics[scale=0.3]{2022-12-15_12_20_01.png}\newline
+\includegraphics[scale=0.3]{2022-12-15_12_20_10.png}\newline
 As you can see you always divide the correct points over the incorrect ones and take that value to multiply the weight of each incorrect point.
 \\
 \hline
 Example for step 6& 
 For AdaBoost this is done with \textbf{log odds ratio}, making sure that we have 0 to 1 accuracy\newline
-\includegraphics[scale=0.3]{2022-12-15:12:27:56.png}
+\includegraphics[scale=0.3]{2022-12-15_12_27_56.png}
 \\
 \hline
 Adaboost in summorization &
@@ -1089,7 +1089,7 @@ This is the foundation of deep learning as we mimmick the neurons in the brain, 
 \hline
 Neuron & 
 A neuron is composed of \textbf{a nucleus (the center of the neuron), dendrites (the branches away from the nucleus), and an axon (the very long extension)}\newline
-\includegraphics[scale=0.3]{2022-12-22:03:00:13.png}\newline
+\includegraphics[scale=0.3]{2022-12-22_03_00_13.png}\newline
 \begin{itemize}
 \item \textcolor{purple}{The dendrites interact with other neurons, meaning that they receive impulses from them}
 \item \textcolor{purple}{The cell body (called Soma) generates a spike if the collective input in the dendrites passes a threshold}
@@ -1114,7 +1114,7 @@ Artificial Neurons &
   \item \textcolor{purple}{Each neuron has its own input weights [w1,w2,...] and \textbf{bias b} (intercept)}
 \item \textcolor{purple}{The neuron calculates the sum of the weighted input (dot product x * w), adds a bias b, and passes it through a nonlinear \textbf{activation function}}
 \end{itemize}
-\includegraphics[scale=0.4]{2022-12-22:03:11:00.png}\newline
+\includegraphics[scale=0.4]{2022-12-22_03_11_00.png}\newline
 As you can see here, the function looks very similar to the \textbf{sigmoid} function used in logistic regression\newline 
 \textcolor{red}{If you compare this to logistic regression or some other simpler form of training, then you see that we essentially do the same, just with a new model, and the only thing missing here is the loss function, which you can then choose and apply to your appropriate training/testing data!}\\
 \hline
@@ -1122,7 +1122,7 @@ TLU (Threshold Linear Unit) &
 This is one of the simplest forms of a neuron. Here we simply put together the weights and biases with our inputs -> cross product, apply biases and then use a binary function to determine the output -> 0 or 1. \newline
 \textcolor{purple}{\( \text{input} > 0 \text{ => } \text{output} == 1 \)}\newline
 \textcolor{purple}{\( \text{input} \leq 0 \text{ => } \text{output} == 0 \)}\newline
-\includegraphics[scale=0.4]{2022-12-22:03:18:57.png}
+\includegraphics[scale=0.4]{2022-12-22_03_18_57.png}
 \\
 \hline
 Perceptron & 
@@ -1137,7 +1137,7 @@ A single layer of TLUs (multople TLU in a row) is called perceptron, here the fo
 \item \textcolor{purple}{Included in Sklearn}
 \end{itemize} 
 \, \newline
-\includegraphics[scale=0.4]{2022-12-22:03:29:14.png}
+\includegraphics[scale=0.4]{2022-12-22_03_29_14.png}
 \\
 \hline
 AND gate with Perceptron & 
@@ -1148,7 +1148,7 @@ We can crate AND with weights and 2 inputs, consider the caption below with the 
 \item \textcolor{black}{x1=0, x2=1, output = (20 * 0 + 20 * 1) -30 (bias) => -10}
 \item \textcolor{black}{x1=1, x2=1, output = (20 * 1 + 20 * 1) -30 (bias) => 10}
 \end{itemize} 
-\includegraphics[scale=0.4]{2022-12-22:03:38:24.png}
+\includegraphics[scale=0.4]{2022-12-22_03_38_24.png}
 \\
 \hline
 \end{tabular}
@@ -1175,17 +1175,17 @@ Multi Layer Perceptron (MLP :) ) &
 This is also called \textbf{Artificial Neural Network (ANN).}\newline
 As you can see below, each next layer treats the previous neurons as inputs, this means that you can increase the complexity of the neural network depending on the amount of layers \textbf{(depth)} and with the amount of neurons that you place in a layer.\newline
 At the end it also matters how complex your \textbf{activation function in each neuron is!}\newline
-\includegraphics[scale=0.4]{2022-12-22:03:54:40.png}\\
+\includegraphics[scale=0.4]{2022-12-22_03_54_40.png}\\
 \hline
 Training a neural network & 
 When trying to train a neural network, we need to represent the training in the weights, just like with gradient descent.\newline
-\includegraphics[scale=0.4]{2022-12-22:04:14:24.png}\newline
+\includegraphics[scale=0.4]{2022-12-22_04_14_24.png}\newline
 As one can see, the we calculate the loss and apply it to the weight, problem is, we need to propagate this wo each other neuron that also has this input, how can we do this?\newline
 There are a few ways to do it:\newline
 \begin{itemize}
 \item \textcolor{purple}{Partial derivatives -> Pen and paper, very tedious, not automated}
 \item \textcolor{purple}{Numeric Differentiation, imprecise, approximated}\newline
-\includegraphics[scale=0.4]{2022-12-22:04:18:04.png}
+\includegraphics[scale=0.4]{2022-12-22_04_18_04.png}
 \item \textcolor{purple}{Symbolic Differentiation}\newline
   \begin{itemize}
   \item \textcolor{black}{For complicated functions, the resultant expression can be exponentially large}
@@ -1200,7 +1200,7 @@ There are a few ways to do it:\newline
 \hline
 Reverse-mode autodiff  & 
 This essentially does the same as with pen and paper, just that we use \textbf{Backwards Propagation}\newline
-\includegraphics[scale=0.4]{2022-12-22:04:22:59.png}
+\includegraphics[scale=0.4]{2022-12-22_04_22_59.png}
 \\
 \hline
 \end{tabular}
@@ -1211,11 +1211,11 @@ This essentially does the same as with pen and paper, just that we use \textbf{B
 \hline
 &
 \vspace{2mm}
-\includegraphics[scale=0.4]{2022-12-22:04:27:27.png}\\
+\includegraphics[scale=0.4]{2022-12-22_04_27_27.png}\\
 \hline
 Soft max function & 
 This essentially summarizes the probability of the output being of a certain class, aka the picture belonging to the class of human or of pony.\newline
-\includegraphics[scale=0.4]{2022-12-22:04:24:51.png}
+\includegraphics[scale=0.4]{2022-12-22_04_24_51.png}
 \\
 \hline
 \end{tabular}

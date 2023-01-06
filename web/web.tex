@@ -70,7 +70,7 @@ Facts about javascript &
 \\
 \hline
 Types & 
-\includegraphics[scale=0.45]{2022-10-11-10:33:44.png}\\
+\includegraphics[scale=0.45]{2022-10-11-10_33_44.png}\\
 \hline
 Boolean Checks & 
 \textcolor{red}{Every value can be converted to a boolean}\newline
@@ -367,7 +367,7 @@ newEl.appendChild(document.createTextNode('Hello'));
 document.querySelector("#container").appendChild(newEl);
 \end{lstlisting}
 \, \newline
-\pic{2022-10-18-11:26:10.png} \pic{2022-10-18-11:26:36.png}\newline
+\pic{2022-10-18-11_26_10.png} \pic{2022-10-18-11_26_36.png}\newline
 \textcolor{orange}{this is faster with small changes, DOM references stay the same, event handlers stay alive}\\
 \hline
 DOM-Manipulation by innerHTML & 
@@ -384,7 +384,7 @@ DocumentFragment &
 document.createDocumentFragment();
 \end{lstlisting}
 \, \newline
-\pic{2022-10-18-11:31:01.png}\\
+\pic{2022-10-18-11_31_01.png}\\
 \hline
 EventListener & 
 \textcolor{orange}{An event listener is used to bind a function to something like a button\newline
@@ -416,7 +416,7 @@ NodeStructure &
   \vspace{-3mm}
 \end{itemize}
 \, \newline
-\pic{2022-10-18-10:35:52.png}
+\pic{2022-10-18-10_35_52.png}
 \\
 \hline
 \end{tabular}
@@ -430,7 +430,7 @@ NodeStructure &
 This means that there \textbf{is no guarantee for order} and the script will be \textbf{executed before the document has loaded}.}\newline
 \textcolor{blue}{\textbf{defer:} This is the opposite to async, it will \textbf{gurarantee order}, \newline
 and the document will \textbf{be loaded before the script executes}.}\newline
-\pic{2022-10-18-10:45:27.png}\includegraphics[scale=0.4]{2022-10-18-10:46:00.png}\newline
+\pic{2022-10-18-10_45_27.png}\includegraphics[scale=0.4]{2022-10-18-10_46_00.png}\newline
 \textcolor{orange}{\textbf{If you want to check whether or not the document is ready, \newline
 then you can do this with: }}\textcolor{red}{\textbf{\emph{document.readyState}}}
 \\
@@ -504,7 +504,7 @@ Event Phases & \minipg{
 \, \newline
 \textcolor{orange}{Event bubbling and capture is used to dynamically change lists, etc.}
 }
-{\pic{2022-10-18-12:15:49.png}}[0.3,0.4]\\ 
+{\pic{2022-10-18-12_15_49.png}}[0.3,0.4]\\ 
 \hline
 \end{tabular}
 \end{table}
@@ -634,7 +634,7 @@ console.log(event.key);
   \vspace{-3mm}
 \end{itemize}
 }
-{\includegraphics[scale=0.5]{2022-10-18-12:33:39.png}}[0.35,0.4]\\
+{\includegraphics[scale=0.5]{2022-10-18-12_33_39.png}}[0.35,0.4]\\
 \hline
 \end{tabular}
 \end{table}
@@ -1088,14 +1088,14 @@ For example due to the translating, the performance will be much worse, and cons
 \hline
 Model View Controller (MVC) & 
 \textcolor{orange}{This is essentially an abstract system to create web-applications, it abstracts 3 different things: the \textbf{view -> Display of data}, the \textbf{model -> app state}, and the \textbf{Controller -> reaction to input}}\newline
-\includegraphics[scale=0.4]{2022-11-08-11:39:15.png}\newline
+\includegraphics[scale=0.4]{2022-11-08-11_39_15.png}\newline
 \textcolor{teal}{You can create this for every project that you would create with the tri-force html/css/js}\\
 \hline
 Example for MVC & 
 \vspace{2mm}
-\includegraphics[scale=0.4]{2022-11-08-11:42:52.png}\newline
-\includegraphics[scale=0.4]{2022-11-08-11:42:58.png}
-\includegraphics[scale=0.4]{2022-11-08-11:43:08.png}\\
+\includegraphics[scale=0.4]{2022-11-08-11_42_52.png}\newline
+\includegraphics[scale=0.4]{2022-11-08-11_42_58.png}
+\includegraphics[scale=0.4]{2022-11-08-11_43_08.png}\\
 \hline
 \end{tabular}
 \section{npm}
@@ -1253,26 +1253,26 @@ This is a style of transerring resources without side effects, this means that \
 \hline
 Richardsons Maturity Model & 
 \vspace{2mm}
-\includegraphics[scale=0.4]{2022-11-29-11:08:34.png}\\
+\includegraphics[scale=0.4]{2022-11-29-11_08_34.png}\\
 \hline
 Level 0: The Swamp of POX & 
 Here we \textbf{send each request individually}, we send plain \textbf{xml} messages.\newline
 Each request is sent to the \textbf{same endpoint}. 
-\includegraphics[scale=0.35]{2022-11-29-11:14:31.png}\\
+\includegraphics[scale=0.35]{2022-11-29-11_14_31.png}\\
 \\
 \hline
 Level 1: Ressources & 
 With this level we can receive data from different endpoints, this essentially allows \textbf{divide and conquer} -> "multithreading".\newline 
-\includegraphics[scale=0.35]{2022-11-29-11:14:57.png}\\
+\includegraphics[scale=0.35]{2022-11-29-11_14_57.png}\\
 \hline
 Level 2 HTTP-Verbs & 
 Now we can use different html methods like \textbf{GET or POST}, this distinguishes the idea of pushing or getting data, making it easier to handle data apropriately. \newline
-\includegraphics[scale=0.35]{2022-11-29-11:17:08.png}\\
+\includegraphics[scale=0.35]{2022-11-29-11_17_08.png}\\
 \hline
 Level 3: Hypermedia Controls & 
 We now can include \textbf{states of the application}, this allows us to specify the exact usecase even further, making it easier to handle the data accordingly:\newline
 Level 3 also gives us the ability to \textbf{specify possible actions} with this data, eg. book an appointment via an \textbf{URI}.
-\includegraphics[scale=0.35]{2022-11-29-11:19:32.png} \newline
+\includegraphics[scale=0.35]{2022-11-29-11_19_32.png} \newline
 \textcolor{red}{Note the link rel and uri, which specify possible actions to take!}\\
 \hline
 \end{tabular}
@@ -1306,7 +1306,7 @@ Ressource Oriented Architectures &
 \hline
 HTTPS Request & 
 \vspace{2mm}
-\includegraphics[scale=0.4]{2022-11-29-11:35:27.png}\\
+\includegraphics[scale=0.4]{2022-11-29-11_35_27.png}\\
 \hline
 Query filter & 
 You can sort your GET queries like this: \newline
@@ -1360,7 +1360,7 @@ This is a system of things to comply with:\newline
 \hline
 Suspense State & 
 In order to not annoy the user with a "suppossedly broken system", when in actuality the system just needs some time to make the request on the server, \textbf{consider imeplementing a \textcolor{red}{progress bar} inn order to communicate to the user, that we are currently working on the request.}\newline
-\includegraphics[scale=0.4]{2022-12-06-11:30:22.png}\\
+\includegraphics[scale=0.4]{2022-12-06-11_30_22.png}\\
 \hline
 \end{tabular}
 \end{table}
@@ -1371,7 +1371,7 @@ In order to not annoy the user with a "suppossedly broken system", when in actua
 \hline
 Peripheral vs Central Vision & 
 The idea is that changes outside of the central vision are hard to notice, meaning that it is often not recommended to show errors and changes outside of that vision, however, sometimes too much things popping up in the central vision can be irritating when doing some work, see "fabio rages yet again at steams fucking popup for an update"\newline
-\includegraphics[scale=0.3]{2022-12-13-10:37:39.png}\\
+\includegraphics[scale=0.3]{2022-12-13-10_37_39.png}\\
 \hline
 UI element Intuitiveness & 
 In general UI elements should work as expected, text fields should take inputs, buttons should be clickable, radio buttons should only allow one selection, etc.\newline
@@ -1407,7 +1407,7 @@ Your design should be considered a closed system, meaning that it does not use t
 \vspace{-3mm}
 \end{itemize}
 \, \newline
-\includegraphics[scale=0.4]{2022-12-13-11:37:23.png}\\
+\includegraphics[scale=0.4]{2022-12-13-11_37_23.png}\\
 \hline
 Colors & 
 \vspace{2mm}
@@ -1726,10 +1726,10 @@ property: value;
 }
 \end{lstlisting}
 & Pseudo selectors can be used to select only a specific part of an element.\newline
-\pic{2022-10-04-10:58:46.png}\\
+\pic{2022-10-04-10_58_46.png}\\
 \hline
 \textbf{Combinators and selectors} & 
-\minipg{\pic{2022-10-04-11:03:12.png}}{\pic{2022-10-04-11:03:26.png}}[0.35,0.5]\\
+\minipg{\pic{2022-10-04-11_03_12.png}}{\pic{2022-10-04-11_03_26.png}}[0.35,0.5]\\
 \hline
 \begin{lstlisting}
 :is (box, button, something) p:hover {
@@ -1753,7 +1753,7 @@ Selectors in JS &
 \textbf{\emph{content-box and border box}} & \minipg{
   \textbf{content-box} increases the box size to ensure the child \textbf{element has the set size}.\newline
   \textbf{border-box} decreases the element size to ensure \textbf{the box itself has the set size}.
-}{\includegraphics[scale=0.3]{2022-10-04-11:35:35.png}}[0.3,0.5]\\
+}{\includegraphics[scale=0.3]{2022-10-04-11_35_35.png}}[0.3,0.5]\\
 \hline
 \end{tabular}
 \end{table}
@@ -1868,7 +1868,7 @@ Tags are opened with <> and closed with </>.
 \\
 \hline
 \vspace{1.5mm}
-\pic{2022-09-27-10:53:50.png}
+\pic{2022-09-27-10_53_50.png}
 &
 Certain elements like <title> are only allowed in the header, others like <h> are only allowed in the body.\newline
 You can technically just use these tags without specifying the body and header.\newline
@@ -1982,7 +1982,7 @@ Navigation Bar
 \hline
 \end{tabular}
 \subsection{Semantic Element, what to choose?}
-\includegraphics[scale=0.4]{2022-09-27-11:45:58.png}
+\includegraphics[scale=0.4]{2022-09-27-11_45_58.png}
 \section{Global Attritubes}
 \begin{tabular}{|p{0,2\linewidth}|p{0.755\linewidth}|}
 \hline
