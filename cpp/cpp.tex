@@ -48,7 +48,7 @@ Without extern the memory is allocated, this is as the extern expects the variab
 
 \textbf{\emph{Variables close to usage}}
 &
-\pic{2022-09-27-08:41:06.png}\\
+\pic{2022-09-27-08_41_06.png}\\
 \hline
 \end{tabular}
 \subsection{Preprocessor Commands:}
@@ -71,10 +71,13 @@ int x = XYZ compiles to int x = 123\\
 \textbf{General Rule} & \emph{Only include what's necessary, don't just generalize includes to include everything!}\\
 \hline
 \end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
 \section{Value Interpretation}
 \begin{tabular}{|m{0.975\linewidth}|}
 \hline
-\pic{2022-09-27-08:47:15.png}
+\pic{2022-09-27-08_47_15.png}
 \\
 \hline
 \end{tabular}
@@ -111,7 +114,7 @@ int arr[]{1,2,3,4,5};
 //both work
 \end{lstlisting}
 & \minipg{Fixed size arrays.\newline Faster than vector but not dynamic.}
-{\includegraphics[scale=0.4]{2022-10-04-08:41:42.png}}[0.2,0.5]\\
+{\includegraphics[scale=0.4]{2022-10-04-08_41_42.png}}[0.2,0.5]\\
 
 \hline
 \begin{lstlisting}
@@ -132,7 +135,7 @@ vector.find(element);
 \textbf{\textcolor{red}{Index variable type is unsigned int >> size\_t or std::vector<T>::size\_type}}\newline
 \textbf{Iterating through a vector without at() is unsafe, \newline it will cause undefined behavior if out of bounds.\newline
 With at() it will cause an exception instead.}}
-{\includegraphics[scale=0.4]{2022-10-04-08:48:54.png}}[0.2,0.5]
+{\includegraphics[scale=0.4]{2022-10-04-08_48_54.png}}[0.2,0.5]
 \\
 
 \hline
@@ -143,7 +146,24 @@ With at() it will cause an exception instead.}}
 \end{lstlisting}
 & Basic Lambda syntax\newline
 If you capture a value by value then it is by default const.\newline
- References, aka referenced pointer is handled with the \& symbol.
+ References, aka referenced pointer is handled with the \& symbol.\newline
+ Note, capture and parameters are only different in one thing, capture is the state of the parent scope at compile time of the lambda, it therefore doesn't ever change, even if you change variables later on!\newline
+\begin{lstlisting}
+include <iostream>
+using namespace std;
+
+int main(int argc,char **argv)   {
+    auto i=5;
+    auto f = [=](int j) {cout<<"capture i="<<i<<", passing i as j="<<j<< endl; };
+    while (i<30) {
+        i += 10;
+        f(i);
+        // ambda capture i=5, passing i as argument j=1      
+        // lambda capture i=5, passing i as argument j=25
+        // lambda capture i=5, passing i as argument j=35
+    } // i stays the same, even if we increment it!!!
+}
+\end{lstlisting}
 \\
 \hline
 \begin{lstlisting}
@@ -189,6 +209,12 @@ void incr(int & var, unsigned delta);
 \textcolor{red}{Be aware that you should always make sure you enter the type that you want!\newline
 Don't do automatic casting for overloaded functions!}\\
 \hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
 \textbf{Default Values}\newline
 \begin{lstlisting}
 void incr(int & var, unsigned delta = 1);
@@ -203,12 +229,6 @@ var += delta;
 using <alias> = <type>;
 \end{lstlisting}
 & Just don't do using namespace std;\\
-\hline
-\end{tabular}
-\end{table}
-\pagebreak
-\begin{table}[ht!]
-\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
 \textbf{Lambda and std::function}\newline
 \begin{lstlisting}
@@ -263,22 +283,23 @@ return c[c.size() / 2];
 it might not show the type for every IDE.\newline
 \textcolor{red}{The function body must be present for this!}\\
 \hline
-\textbf{static} &
-\textcolor{orange}{static inside a function}\newline
+\textbf{Static} &
+\textcolor{orange}{Static variables are essentially global variables, that are hidden behind a namespace. \newline
+When defining a variable in the global scope, then it will NOT be linked to other files, unlike regular global variables.\newline
+In functions, we can use static to define a variable that should keep its value after a change, even though we define the variable inside this function. This works as a static variable is always defined in the global scope with a different namespace to access it. \newline
+This also means that \textbf{static variables are default initialized!}}\newline
 \begin{lstlisting}
 void spass() {
   static int x = 5;
   x++;
   std::cout << x << "\n";
 }
-\end{lstlisting}
-\, \newline
-\textcolor{orange}{This would increment x everytime you call this function with only defining it once!\newline
-This even applies when you call this function from multiple sources}\\
+\end{lstlisting}\\
 \hline
 \textbf{Inline} & 
-\textcolor{orange}{Inline is used to define a function inside a header file, \newline
-this is usually only done with operator overloading in header files}\newline
+\textcolor{orange}{Inline marks a function with a flag, that tells the compiler to consider this function possible to replace its calls directly.\newline
+Replacing the calls simply mean instead of calling this function, place the function code in the calling function, reducing the amount of function calls in a program.\newline
+It is important to know that the compiler would do this either way via optimization and that the inline keyword does not guarantee this behavior, it is simply a manual flag that tells the compiler to consider doing it.}\newline
 \begin{lstlisting}
 class Date {
 int year, month, day;
@@ -287,7 +308,7 @@ auto operator<(Date const& right) const -> bool;
 };
 
 inline auto operator>(Date const& left, Date const& right) -> bool {
-return right < left;
+  return right < left;
 }
 \end{lstlisting}\\
 \hline
@@ -300,7 +321,7 @@ return right < left;
 \hline
 \textbf{Const by default} & 
 \textcolor{red}{It is general best practice to always use const unless mutability is necessary!}\newline
-\pic{2022-10-11-08:36:02.png}\\
+\pic{2022-10-11-08_36_02.png}\\
 \hline
 \end{tabular}
 \end{table}
@@ -339,7 +360,7 @@ double f = 45 / 8;
 &
 In math operations the actual number takes precedence, here the numbers are int, therefore the value will be truncated to 5. If you want double or float division use 45.0 / 8.0 or 45.f / 8.f. \\
 \hline
-\textbf{\emph{Accessing Containers}} & \includegraphics[scale=0.4]{2022-10-04-09:40:48.png}\\
+\textbf{\emph{Accessing Containers}} & \includegraphics[scale=0.4]{2022-10-04-09_40_48.png}\\
 \hline
 \end{tabular}
 \section{IO-Streams}
@@ -381,7 +402,7 @@ Here the in >> age will return true if the input was successfully transferred in
 &
 Terminating inputstreams can be done with \textbf{\emph{\textcolor{red}{CTRL+D}}}\\
 \hline
-Stream states & \vspace{2mm}\includegraphics[scale=0.25]{2022-10-04-08:13:36.png} \\
+Stream states & \vspace{2mm}\includegraphics[scale=0.25]{2022-10-04-08_13_36.png} \\
 \hline
 \emph{Formatting} &
 \vspace{2mm}
@@ -404,11 +425,11 @@ Stream states & \vspace{2mm}\includegraphics[scale=0.25]{2022-10-04-08:13:36.png
 \begin{tabular}{|m{0.25\linewidth}|m{0.705\linewidth}|}
 \hline
 \textbf{\emph{Range based for-loop}}
-& \includegraphics[scale=0.4]{2022-10-04-09:19:47.png}\\
+& \includegraphics[scale=0.4]{2022-10-04-09_19_47.png}\\
 \hline
 \textbf{\emph{Iterator based for-loop}}
-& \minipg{\includegraphics[scale=0.4]{2022-10-04-09:24:39.png}\newline non constant}
-{\includegraphics[scale=0.4]{2022-10-04-09:24:44.png}\newline constant}[0.4,0.5]\\
+& \minipg{\includegraphics[scale=0.4]{2022-10-04-09_24_39.png}\newline non constant}
+{\includegraphics[scale=0.4]{2022-10-04-09_24_44.png}\newline constant}[0.4,0.5]\\
 \hline
 \end{tabular}
 \end{table}
@@ -545,7 +566,8 @@ private:
 \, \newline
 \textcolor{teal}{Other than the private and public denotations, structs are defined the same way, and also operate the same way!}\\
 \hline
-\textbf{Initializer List\newline and Constructor} & 
+\textbf{Initializer List\newline and Constructor} &
+\textcolor{purple}{The simple difference with initializer lists to the java way of initializing objects, is that with initializer lists, you only create an object once, when doing it in the java way you create two objects, meaning that you will lose performance!}\newline
 \begin{lstlisting}
 class Something {
 private:
@@ -643,30 +665,50 @@ Something() : Something() {
 const this & 
 \textcolor{orange}{\textbf{The this keyword can be const, it may then not change the values of membervariables!}}\\
 \hline 
-\textbf{static variables} &
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+static functions & 
+Static functions are just in the namespace of the class, they can't access or call any object dependent code/variables, and can only use the static variables in the class.\newline
+They are usually used to provide extra functionality, that has nothing to do with the specific instance, but still makes sense to bundle with that class as it has related functionality.\newline
+\begin{lstlisting}
+class globi {
+  static void something() {
+      std::cout << "useless function" << "\n";
+  }
+};
+
+int main() { 
+  globi::something(); // ok static
+}
+\end{lstlisting}\\
+\hline
+\textbf{static variables in classes} &
+\textcolor{purple}{Static variables in classes are considered to be global with a special namespace, just like regular static variables.\newline
+The only difference is that this static variable is the same for \textbf{every instance of this class}, meaning that this will be a \textbf{shared state} between all classes.}
 \begin{lstlisting}
 static const Date myDate;
 // this is an immutable global variable that can be accessed (read-only) with SomeThing::myDate;
 static Date myOtherDate;
 // this can be accessed and also changed, it is a mutable global variable!!
-\end{lstlisting}
-\, \newline
-\textcolor{orange}{Avoid using static to create global variables if you can, this would most likely end badly.}\\
+\end{lstlisting}\\
 \hline
 \end{tabular}
-\end{table}
-\pagebreak
-\begin{table}[ht!]
 \section{Operator Overloading}
 \begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
-All overloadable Operators &
+Operators &
 \vspace{2mm}
-\includegraphics[scale=0.35]{2022-10-18-09:26:28.png}\\
-\hline
-\textbf{NON-Overloadable} Operators & 
-\vspace{2mm}
-\includegraphics[scale=0.4]{2022-10-18-09:26:34.png}\\
+\minipg{
+Overloadable:\newline
+\includegraphics[scale=0.35]{2022-10-18-09_26_28.png}
+}{
+Not Overloadable:\newline
+\includegraphics[scale=0.4]{2022-10-18-09_26_34.png}
+}[0.3,0.5]\\
 \hline
 Spaceship Operator &
 \textcolor{orange}{The spaceship operator implements the usual comparison operators for you class\newline
@@ -676,13 +718,13 @@ class Date {
 int year, month, day;
 public:
 auto operator<=>(Date const& right) const -> std::strong_ordering {
-if (year != right.year) {
-return year <=> right.year;
-}
-if (month != right.month) {
-return month <=> right.month;
-}
-return day <=> right.day;
+  if (year != right.year) {
+    return year <=> right.year;
+  }
+  if (month != right.month) {
+    return month <=> right.month;
+  }
+  return day <=> right.day;
 }
 auto operator==(Date const& right) const -> bool {
 return (*this <=> right) == std::strong_ordering::equal;
@@ -742,6 +784,12 @@ A list of possibilities:\newline
   \vspace{-3mm}
 \end{itemize}\\
 \hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
 \textbf{Partial Ordering with <=>} &
 \textcolor{teal}{Usually used with values that can be something like NaN!}\newline
 \textcolor{red}{\textbf{All values may be distinguishable}}\newline
@@ -758,12 +806,6 @@ A list of possibilities:\newline
   \item \textcolor{teal}{std::partial\_ordering::unordered}\,-> non of the above
   \vspace{-3mm}
 \end{itemize}\\
-\hline
-\end{tabular}
-\end{table}
-\pagebreak
-\begin{table}[ht!]
-\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
 Inline Operator &
 \textcolor{orange}{The best way to define an operator is with the inline version:}\newline
@@ -885,7 +927,7 @@ void calendar::Date::print() { // sinside cpp
 \end{lstlisting}
 \, \newline
 \textcolor{red}{IMPORTANT: this also works with parameters!}\newline
-\includegraphics[scale=0.4]{2022-10-25-08:44:51.png}\newline
+\includegraphics[scale=0.4]{2022-10-25-08_44_51.png}\newline
 \textcolor{teal}{At the end, please do not rely too much on this, as it is not always clear what is being used}\\
 \hline
 Overwriting the std Namespace & 
@@ -1020,7 +1062,7 @@ Categories &
 \hline
 General Container Info &
 \vspace{2mm}
-\includegraphics[scale=0.4]{2022-11-08-08:23:10.png}\newline
+\includegraphics[scale=0.4]{2022-11-08-08_23_10.png}\newline
 \begin{itemize}
 \item \textcolor{orange}{begin()/end()}: Get iterators for algorithms and iteration in general
 \item \textcolor{orange}{erase(iter)}: Removes the element at position the iterator iter points to
@@ -1051,7 +1093,7 @@ Initialization &
 \hline
 Sequence Containers & 
 \vspace{2mm}
-\includegraphics[scale=0.4]{2022-11-08-08:32:12.png}\newline
+\includegraphics[scale=0.4]{2022-11-08-08_32_12.png}\newline
 \begin{itemize}
 \item \textcolor{teal}{std::vector}
 \item \textcolor{teal}{std::deque}
@@ -1084,13 +1126,13 @@ int obsolete[]{2,3,4,5,6};
 \hline
 Double Ended queue std::deque & 
 \vspace{2mm}
-\includegraphics[scale=0.4]{2022-11-08-08:39:23.png}\newline
+\includegraphics[scale=0.4]{2022-11-08-08_39_23.png}\newline
 \textcolor{orange}{This is like the std::vector with the additional functions: \textbf{push\_front() and pop\_front()}}\newline
 \textcolor{teal}{Special implementation for std::vector<bool> and std::deque<bool>.}\\
 \hline
 std::list & 
 \vspace{2mm}
-\includegraphics[scale=0.4]{2022-11-08-08:41:00.png}\newline
+\includegraphics[scale=0.4]{2022-11-08-08_41_00.png}\newline
 \begin{itemize}
 \item \textcolor{orange}{Efficient insertion in any position}
 \item \textcolor{orange}{Lower efficiency in bulk operations}
@@ -1104,7 +1146,7 @@ std::forward\_list &
 std::forward_list<int> l{1, 2, 3, 4, 5, 6};
 \end{lstlisting}
 \, \newline
-\includegraphics[scale=0.4]{2022-11-08-08:43:38.png}\newline
+\includegraphics[scale=0.4]{2022-11-08-08_43_38.png}\newline
 \begin{itemize}
 \item \textcolor{orange}{Efficient insertion AFTER any position, but clumsy with iterator to get "before position"}
 \item \textcolor{orange}{Only forward-iterators, lumsy to search and remove, use member-functions not algorithms}
@@ -1120,7 +1162,7 @@ std::cout << s.top();
 s.pop();
 \end{lstlisting}
 \, \newline
-\includegraphics[scale=0.4]{2022-11-08-08:47:04.png}\newline
+\includegraphics[scale=0.4]{2022-11-08-08_47_04.png}\newline
 \begin{itemize}
 \item \textcolor{orange}{Uses std::deque or std::vector/std::list and limits its functionality to stack operation}
 \item \textcolor{orange}{No iteration}
@@ -1137,7 +1179,7 @@ std::cout << q.front();
 q.pop();
 \end{lstlisting}
 \, \newline
-\includegraphics[scale=0.4]{2022-11-08-08:48:42.png}\newline
+\includegraphics[scale=0.4]{2022-11-08-08_48_42.png}\newline
 \begin{itemize}
 \item \textcolor{orange}{Uses std::deque or std::vector/std::list and limits its functionality to stack operation}
 \item \textcolor{orange}{No iteration}
@@ -1154,7 +1196,7 @@ std::cout << q.front();
 q.pop();
 \end{lstlisting}
 \, \newline
-\includegraphics[scale=0.4]{2022-11-08-08:51:40.png}\newline
+\includegraphics[scale=0.4]{2022-11-08-08_51_40.png}\newline
 \begin{itemize}
 \item \textcolor{orange}{Uses std::deque or std::vector/std::list and limits its functionality to stack operation}
 \item \textcolor{orange}{No iteration}
@@ -1223,7 +1265,7 @@ std::map  &
 std::map<char, size_t> vowels{{'a', 3}, {'e', 8}, {'i', 5}, {'o', 4}, {'u', 2}, {'y', 1}};
 \end{lstlisting}
 \, \newline
-\includegraphics[scale=0.4]{2022-11-08-09:15:15.png}\newline
+\includegraphics[scale=0.4]{2022-11-08-09_15_15.png}\newline
 \begin{itemize}
 \item \textcolor{Orange}{Stores key-value pairs in sorted order}\newline
   Sorted by key in ascending order\newline
@@ -1261,7 +1303,7 @@ std::multiset<char> letters{'a', 'a', 'c', 'c', 'c', 'e', 'e', 'f'};
 // note the c that appears 3 times!
 \end{lstlisting}
 \, \newline
-\includegraphics[scale=0.4]{2022-11-08-09:24:23.png}\newline
+\includegraphics[scale=0.4]{2022-11-08-09_24_23.png}\newline
 \begin{itemize}
 \item \textcolor{orange}{Multiple Keys allowed}\newline
   Use equal\_range() or lower\_bound()/upper\_bound() member functions/algorithms to find boundaries of equivalent keys
@@ -1352,7 +1394,7 @@ auto main() -> int {
 Different Iterators & 
 \textcolor{orange}{There are 2 different main categories, input iterators and output iterators.\newline
 The input iterators has a bunch of parent-iterators with different behaviors}\newline
-\includegraphics[scale=0.4]{2022-11-08-09:34:02.png}\newline
+\includegraphics[scale=0.4]{2022-11-08-09_34_02.png}\newline
 \textcolor{teal}{The more you move outwards on the input iterator, the more power these iterators have!}\\
 \hline
 Input Iterators & 
@@ -1779,15 +1821,15 @@ std::ranges::reverse(values);
 \hline
 Non-Modifying Algorithms & 
 \vspace{2mm}
-\includegraphics[scale=0.4]{2022-11-15-09:43:09.png}\\
+\includegraphics[scale=0.4]{2022-11-15-09_43_09.png}\\
 \hline
 Mutating Sequence Operations & 
 \vspace{2mm}
-\includegraphics[scale=0.4]{2022-11-15-09:43:15.png}\\
+\includegraphics[scale=0.4]{2022-11-15-09_43_15.png}\\
 \hline
 Sorting Algorithms and Related Operations & 
 \vspace{2mm}
-\includegraphics[scale=0.4]{2022-11-15-09:43:22.png}\\
+\includegraphics[scale=0.4]{2022-11-15-09_43_22.png}\\
 \hline
 \end{tabular}
 \end{table}
@@ -1805,7 +1847,8 @@ template <typename T>
   auto min(T left, T right) -> T {
     return left < right ? left : right;
 }
-\end{lstlisting} 
+\end{lstlisting}
+\, \newline
 For the writing in the header file part, the reason for this is that you could only use that template function inside of one cpp file. Usually this makes no sense so we define it in the header, this way we can export the function.\\
 \hline
 Compiler checks & 
@@ -1820,7 +1863,7 @@ With c++ 20 you can technically also do the same in c++ as you did in rust, but 
 \hline
 Type matching & 
 The c++ compiler only does extremely exact matching, meaning a double and an int will not match to either double double or int int:\newline
-\includegraphics[scale=0.4]{2022-11-22-08:46:33.png}\\
+\includegraphics[scale=0.3]{2022-11-22-08_46_33.png}\\
 \hline
 Variable templates & 
 C++ compiler allows for a variable number of templates which can then also be used in a function!\newline
@@ -1832,10 +1875,10 @@ template<typename First, typename...Types>
   if (sizeof...(Types)) {
     std::cout << ", ";
   }
-  printAll(rest...);
-  // print the variable numbers of parameters
+  printAll(rest...); // print the variable numbers of parameters
 }
 \end{lstlisting}
+\, \newline
 \textcolor{OliveGreen}{Note that the variable number of types needs to be the last part of both the template and the parameter list!!}\\
 \hline
 Packing and unpacking & 
@@ -1866,7 +1909,6 @@ You can create generic operator functions with either a struct or a lambda, but 
 auto const printer = [&out](auto const & e) {
   out << "Element: " << e;
 };
-
 // struct method
 struct __PrinterLambda {
   template <typename T>
@@ -1905,7 +1947,8 @@ auto min(std::string const & left, std::string const & right) -> std::string {
 std::string small{"aa"};
 std::string capital{"ZZ"};
 std::cout << min(small, capital) << '\n'; //ZZ
-\end{lstlisting}
+\end{lstlisting} 
+\, \newline
 Here the problem would be that we didn't specify the string as const, this mean the template would be called, which didn't specify that we want to compare the lower symbols only. Bigger symbols are always higher up in the ascii table, meaning we get the wrong behavior with ZZ being "smaller" than aa!\\
 \hline
 Dangling references or rather why to use rust & 
@@ -2107,7 +2150,7 @@ auto main() -> int {
 \hline
 Type deduction with initializer lists & 
 Initializer list allow us to create a container without specifiying the type, as it is implicitly passed by the values that you enter:\newline
-\includegraphics[scale=0.4]{2022-11-29-09:27:18.png}\\
+\includegraphics[scale=0.4]{2022-11-29-09_27_18.png}\\
 \hline
 Type deduction with Iterators & 
 When we want to use type deduction with iterators, then we need a way to do this with iterators.\newline
@@ -2208,7 +2251,8 @@ std::unique\_ptr &
 \item \textcolor{purple}{Not "best" for class hierarchies -> multiple parent not possible due to single owner}\newline
   \textcolor{orange}{Use shared pointer instead}
 \item \textcolor{purple}{Can't be copied due to single owner!}
-\vspace{-3mm}
+\item \textcolor{purple}{Memory freed when out of scope -> like rust}
+\item \textcolor{purple}{Only compile overhead!}
 \end{itemize} 
 \begin{lstlisting}
 auto factory(int i) -> std::unique_ptr<X> {
@@ -2222,7 +2266,7 @@ std::unique_ptr<T> ptr = std::make_unique<T>(); // local
 std::shared\_ptr & 
 This sounds like Ref<A> from rust, but unlike rust, you can have \textbf{multiple MUTABLE pointers!}\newline
 This means that you can get into trouble with concurrency!\newline
-Otherwise it will be alive until the last shared\_pointer goes out of scope.\newline
+\textcolor{purple}{will be alive until the last shared\_pointer goes out of scope.}\newline
 \textcolor{purple}{This is more memory intensive than unique\_pointers, as it needs to store more information -> reference count etc}\newline
 \begin{lstlisting}
 struct A {
@@ -2276,6 +2320,12 @@ void middleEarth() {
 }
 \end{lstlisting}\\
 \hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
 std::weak\_ptr & 
 Just like in rust we also have a weak pointer that will not keep an object alive, instead it is just counted up and down, and can be casted to a proper pointer when needed:\newline
 \textcolor{orange}{Just like in rust, weak pointers are ignored when deleting! This means the object will be deleted despite weak pointers being available, making parent-child cascade deletion possible!}\newline
@@ -2295,14 +2345,8 @@ struct Person {
 };
 \end{lstlisting} \\
 \hline
-\end{tabular}
-\end{table}
-\pagebreak
-\begin{table}[ht!]
-\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
-\hline
 & 
-\includegraphics[scale=0.4]{2022-12-06-09:31:47.png}\includegraphics[scale=0.4]{2022-12-06-09:31:52.png}\\
+\includegraphics[scale=0.4]{2022-12-06-09_31_47.png}\includegraphics[scale=0.4]{2022-12-06-09_31_52.png}\\
 \hline
 Curiously Recurring Template Pattern (CRTP) & 
 This is used when you want parents to be able to spawn their own children, in other words giving us a \textbf{weak pointer to ourselves}:\newline
@@ -2538,7 +2582,7 @@ General advice &
 \hline
 Problems with copy constructor & 
 We have already noted, that sometimes we copy not the entire object, but part of it, something like this happens when trying to copy references:\newline
-\includegraphics[scale=0.3]{2022-12-13-09:44:45.png}\newline
+\includegraphics[scale=0.3]{2022-12-13-09_44_45.png}\newline
 The easiest solution here is to simply delete the copy constructor, this prevents shallow copying a reference into another.\newline
 \begin{lstlisting}
 struct Book {
@@ -2569,7 +2613,7 @@ struct EBook : Book {
 Using in classes to prevent hiding & 
 You can prevent hiding with a \textbf{using} statement.\newline
 This means that you would use the original function of the base class alongside the new one.\newline
-\includegraphics[scale=0.4]{2022-12-13-12:08:35.png}\\
+\includegraphics[scale=0.4]{2022-12-13-12_08_35.png}\\
 \hline
 \end{tabular}
 \section{Initialization}
@@ -2651,6 +2695,7 @@ And should the left and right hand type not be the same, \textbf{a suitable conv
 \\
 \hline
 List Initialization & 
+\vspace{2mm}
 \begin{itemize}
   \item \textcolor{purple}{Uses nonempty \{\}}
     \begin{itemize}
@@ -2674,6 +2719,7 @@ List Initialization &
 \begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
 General Info &
+\vspace{2mm}
 \begin{itemize}
 \item \textcolor{purple}{Consists of simple class types}\newline
   \begin{itemize}
@@ -2709,6 +2755,24 @@ auto main() -> int {
 \, \newline
 \textcolor{purple}{When members have initializer defined, it is used unless it is overwritten by automatic constructor, otherwise they are initialized from empty lists}\newline
 \textcolor{red}{If more elements than members are given to the constructor, the program is "ill-formed"}\\
+\hline
+\end{tabular}
+\section{Appendix and Random stuff}
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Mutable keyword in General & 
+The mutable keyword can be used to for a variable, that can be mutated, even if a function is cosnt.\newline
+This is syntactic sugar, that allows for better programming practices:\newline
+\begin{lstlisting}
+class something {
+  private:
+   mutable int a = 0;
+  public:
+   const something() -> void{
+      a++; // works, as a is defined with mutable
+   }
+};
+\end{lstlisting}\\
 \hline
 \end{tabular}
 \end{table}
