@@ -2591,7 +2591,7 @@ struct Book {
   Book(Book const & other) = delete;
 };
 struct EBook : Book {
-  //...
+  // or simply manually override the copy constructor
   EBook(EBook const & other) :
   Book{pages},
   currentPageNumber{other.currentPageNumber}{}
@@ -2699,8 +2699,8 @@ List Initialization &
 \begin{itemize}
   \item \textcolor{purple}{Uses nonempty \{\}}
     \begin{itemize}
-      \item \textcolor{black}{Direct List initialization: std::string direct{"asd"};}
-      \item \textcolor{black}{Copy List initialization: std::string copy = {"asd2"};}
+      \item \textcolor{black}{Direct List initialization: std::string direct \{"asd"\};}
+      \item \textcolor{black}{Copy List initialization: std::string copy = \{"asd2"\};}
     \end{itemize} 
 \item \textcolor{purple}{Constructors are selected in two phases}
   \begin{itemize}
@@ -2773,6 +2773,109 @@ class something {
    }
 };
 \end{lstlisting}\\
+\hline
+lvalue and rvalue & 
+\textcolor{purple}{lvalue: variable with some location in ram, either on the stack or on the heap.}\newline
+\textcolor{purple}{rvalue: temporary value that has no variable and no location in memory, it only exists in code.}\newline
+\begin{lstlisting}
+int a = 5;
+// 5 is an r value, it has no memory location
+// a is an lvalue -> some address is set to 5
+
+int b = 10;
+
+int c = a + b;
+// a + b is an rvalue -> value is 15, but no memory location for this calculation
+// c is an lvalue -> some address is set to 5
+\end{lstlisting}
+\\
+\hline
+Copy Constructors and rvalues/lvalues & 
+When using copy constructors, rvalues can be passed as paramters via implicit conversion:\newline
+\begin{lstlisting}
+struct something { 
+  //only parameter is important, not implementation
+  something(const something& other) {} // rvalue can be implicitly converted
+  something(something& other) {}       // rvalue can't be implicitly converted!
+  something(something&& other) {}      // most specific rvalue call -> only for rvalues!
+};
+\end{lstlisting}\\
+\hline
+standard sort & 
+\vspace{2mm} 
+\begin{lstlisting}
+std::vector<int> vec{5,1,6,67,71};
+std::sort(vec.begin(),vec.end(),[](int a, int b) -> bool {
+  return a < b;
+}); // 1 5 6 67 71
+// note the last parameter is optional if the type used in the vector can be sorted automatically 
+// the sort that is used without third parameter is the same as shown above, a < b.
+\end{lstlisting}\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Example for a move constructor over a copy constructor & 
+\vspace{2mm}
+\begin{lstlisting}
+#include <cstring>
+#include <iostream>
+
+class String {
+private:
+  char *data;
+  int length;
+
+public:
+  String(const String &str) : length(strlen(str.data)) {
+    std::cout << "copy\n";
+    data = new char[length];
+    memcpy(data, &str.data, length);
+  }
+
+  String(String &&str) {
+    std::cout << "move\n";
+    length = str.length;
+    data = str.data;
+
+    str.data = nullptr;
+    str.length = 0;
+  }
+
+  String(const char *str) : length(strlen(str)) {
+    std::cout << "create\n";
+    data = new char[length + 1];
+    memcpy(data, str, length);
+    data[length] = '\0';
+  }
+
+  ~String() { delete[] data; }
+};
+
+class Test {
+  String name;
+
+public:
+  Test(const String &name) : name(name) {
+    std::cout << "create test with copy\n";
+  }
+  Test(String &&name) : name(std::move(name)) {
+    std::cout << "create test with move\n";
+  }
+};
+
+int main() {
+  Test a{std::move(String("something"))};
+  Test b = a;
+  Test c = std::move(a);
+
+  return 0;
+}
+\end{lstlisting}
+\\
 \hline
 \end{tabular}
 \end{table}
