@@ -3,8 +3,11 @@
 
 
 \begin{document}
-\begin{multicols*}{2}
 
+\tableofcontents
+\pagebreak 
+
+\begin{multicols*}{2}
 \section{The magical Triangle}
 \textcolor{purple}{Cost - Scope - Time}
 The simple problem that these all conflict with each other.\newline
@@ -284,7 +287,7 @@ This standard was made in the pharma industry and can be used in IT, apparently.
 
 \subsection{SWOT Analysis}
 A very wide adopted system to balance opportunities and risks\newline
-\includegraphics[scale=0.4]{2023_01_09_05_02_01.png}
+\includegraphics[scale=0.3]{2023_01_09_05_02_01.png}
 
 \section{Quality Assurance}
 
@@ -565,19 +568,386 @@ Note, scrum is not strictly agile, it is often considered to be bastardization o
 \item \textcolor{purple}{Sprint}: 2 - 4 weeks
 \item \textcolor{purple}{Sprint Planning}: < 4-8 hours\newline
   Product owner specifies user stories, prioritizes them and puts all user stories in the product backlog.\newline
-  All 3 roles then put the user stories with new prioritization to the sprint backlog.\newline
+  The dev team then puts the user stories with new prioritization to the sprint backlog.\newline
+  Note that only a specific amount of user stories will be included in the sprint backlog.
 \item \textcolor{purple}{Sprint Review}: < 2-4 hours\newline
-  showcase the work to the project owner
+  showcase the work to the project owner. \newline
+  Done after sprint, entries from product backlog are discussed.
 \item \textcolor{purple}{Sprint Retrospektive}: 1.5 to 3 hours\newline
   review the sprint, and improve on it
 \item \textcolor{purple}{Daily Scrum}: < 15min\newline
-  simple interaction with other teams to clarify the current state
+  simple interaction with other teams to clarify the current state.\newline
+  Entries from the sprint backlog are discussed.
 \end{itemize} 
 
+\subsubsection{SCRUM Sprint}
+\includegraphics[scale=0.3]{2023_01_10_01_09_48.png}
 
+\subsection{Kanban (NOT AGILE...)}
+\begin{itemize}
+\item \textcolor{purple}{represents the IS-State}
+\item \textcolor{purple}{visualize work}
+\item \textcolor{purple}{sets limits on what one can work}
+\item \textcolor{purple}{Entire work split into rough patches}
+\item \textcolor{purple}{React to prognosis}
+\end{itemize} 
+\textcolor{teal}{The name kanban is from the chinese language and means look-at (the) board}\newline
+\textcolor{teal}{Kanban revolutionized the automobile industry with toyota}\newline
+\includegraphics[scale=0.3]{2023_01_10_12_19_29.png}\newline
+Technically there is scrumban, which is a bastardized mix of the two.
 
+\section{Communication}
+\subsection{Stakeholder}
+\begin{itemize}
+\item \textcolor{purple}{Every party that is interested in the project is considered a stakeholder}
+\item \textcolor{purple}{Stakeholders represent different group of needs}
+\item \textcolor{purple}{Project manager should include stakeholder in the development of the project}
+\item \textcolor{purple}{continuously update information for stakeholders and inform them}
+\end{itemize} 
 
+\subsubsection{Finding Stakeholders}
+\begin{enumerate}
+\item \textcolor{purple}{Who works on the project and who provides the resources?}
+\item \textcolor{purple}{Who can influence the project?}
+\item \textcolor{purple}{Who is affected by the project?}
+\item \textcolor{purple}{Who can influence the success of the project}
+\item \textcolor{purple}{Who will be the user of the project?}
+\item \textcolor{purple}{Who MUST be involved?}
+\end{enumerate}
+\textcolor{red}{For the module, the project team is not considered a stakeholder, however according to the 6 questions it definitely is a stakeholder.}
 
+\subsubsection{Interests and Influence of Stakeholders}
+\includegraphics[scale=0.3]{2023_01_10_12_27_49.png}\newline
+Depending on the influence and interest of the stakeholder, make sure you give them appropriate attention and work with them.\newline
+\textcolor{red}{Note, do not just let stakeholders cross the red line without reason.}
+
+\subsubsection{Conflicts and Harmony with stakeholders}
+\includegraphics[scale=0.3]{2023_01_10_12_40_44.png}
+
+\subsection{Leadership}
+Leadership is simply the act of coordination within a project.\newline
+As expected, there are multiple variants of leadership, some allow the team-members more autonomy, some less.\newline
+Note that for agile methods, autonomy is a requirement.\newline
+\includegraphics[scale=0.3]{2023_01_10_12_42_34.png}\newline
+\textcolor{teal}{This means however, that not everyone can fit into the agile development style, as they require more strict guidelines on what, how and when.} 
+
+\subsubsection{Leadership Rhythm} 
+This simply states how many times you: \textbf{receive information, consider the information, make a decision based on the information and check the results of it}.\newline
+Keep this rhythm as low as possible, but increase it if challenges appear.
+
+\subsection{Communication Matrix}
+\includegraphics[scale=0.28]{2023_01_10_12_51_33.png}\newline
+Apparently you should always define who will communicate with who clearly.\newline
+But if you remember the agile methods, then you notice that this does not always make sense.\newline
+For communication between customer and your team it might make sense, since the team should not be bothered with bullshit, instead they should be talking to people who are involved with the project directly.\newline
+Making too many assumptions about who is useful would make this whole ordeal waterfall again.....
+ 
+\subsection{Quality over Quantity}
+\begin{itemize}
+\item \textcolor{purple}{Communicate only when necessary}
+\item \textcolor{purple}{Leave irrelevant information out}
+\item \textcolor{purple}{Do not involve stakeholders that do not need this information}
+\end{itemize}
+
+\subsection{Schulz von Thun}
+\includegraphics[scale=0.3]{2023_01_10_12_55_27.png}\newline
+With communication, we have one obvious problem. Sometimes we will aggravate someone without intending to do so.\newline
+It is therefore important to at least try to keep it on the \textbf{informational ("sachlich")} level.\newline
+Other forms of communication are not suitable for cooperation inside a project. 
+
+\subsection{Marketing}
+\textcolor{purple}{It is more than just advertising}\newline
+\begin{itemize}
+\item \textcolor{black}{Leads the kick-off for the project}
+\item \textcolor{black}{Included in planning}
+\item \textcolor{black}{Sets the initial targets and proposition for stakeholders}
+\item \textcolor{black}{Relays information on project status to stakeholders}
+\item Gives recognition to the project team after project end 
+\item shows use case and advertises product at the end of the project
+\end{itemize} 
+\textcolor{teal}{The project manager as \textbf{ambassador}, in other words, the most valuable skill for companies in project managers is often the presentation of the project to others, including but not limited to the customer or other stakeholders.}\newline
+Once again, note here that the project manager is much more involved in this role with the classical approach rather than the agile one.\newline
+Most stakeholders would interact with the team directly in an agile environment. 
+
+\subsection{Documentation}
+We differentiate between 2 types of documentation:\newline
+\begin{itemize}
+\item \textcolor{purple}{static documentation}\newline
+  These are documentation that represent the results of the project and are therefore no longer needed when the project has eneded.\newline
+  These docs will be archived.\newline
+  \begin{itemize}
+  \item \textcolor{black}{Phase independent documentation}
+  \item \textcolor{black}{Phase dependent documentation}
+  \end{itemize} 
+\item \textcolor{purple}{dynamic documentation}\newline
+  These docs are updates regularly and will also be "shipped" with the product.\newline
+  \begin{itemize}
+  \item \textcolor{black}{user documentation}
+  \item \textcolor{black}{maintenance documentation}
+  \item \textcolor{black}{usage documentation}
+  \end{itemize} 
+\end{itemize} 
+\textcolor{teal}{Note, once again this is made for the classical approach, as can be seen by the mention of the word "phases", agile does not really care about the first part, bar the user stories.}
+
+\section{Cooperation and Solutions}
+
+\subsection{Techniques for finding solutions}
+\begin{itemize}
+\item \textcolor{purple}{brainstorming}\newline
+  \begin{itemize}
+  \item \textcolor{orange}{Protocol leader writes down all ideas}
+  \item \textcolor{orange}{Discussion Leader formulates the problem and oversees discussion}
+  \item \textcolor{orange}{Criticism is forbidden -> analysis after brainstorming}
+  \item \textcolor{black}{ALL ideas are welcome and will be written down}
+  \item \textcolor{black}{broad spread of ideas}
+  \item \textcolor{black}{Team should be diverse, but not with too many differences in hierarchy}
+  \item Combine and expand existing ideas
+  \end{itemize}
+  \textcolor{red}{Brainstorming is good for creativity, but not when competency is required!}
+\item \textcolor{purple}{Method 635}\newline
+  \begin{itemize}
+    \item \textcolor{black}{\textbf{6 participants and 6 papers}}
+    \item \textcolor{black}{each participant writes down \textbf{3 ideas} on their own paper}
+  \item \textcolor{black}{after that give the paper to the next person}
+  \item \textcolor{black}{That person will then expand the paper with another 3 ideas that are based on the previous ones, or expand the previous ones}
+  \item \textcolor{black}{This is \textbf{repeated 5 times}}
+  \item Time for each round: 5min, 6min, 7min, 8min, 9min, 10min
+  \end{itemize} 
+\item \textcolor{purple}{Morphological Box}
+  With this method you try to \textbf{split the problem into smaller problems}, then you will try to find solutions for each underlying problem.\newline
+  At the end you will give each person a pen and let them choose the "path" that will lead to their solution.\newline
+  \includegraphics[scale=0.3]{2023_01_10_01_29_58.png}
+\end{itemize} 
+
+\subsection{Techniques for evaluating solutions}
+\begin{itemize}
+\item \textcolor{purple}{Value analysis}\newline
+  \begin{itemize}
+  \item \textcolor{orange}{List Criteria}
+  \item \textcolor{orange}{Weight Criteria}
+  \item \textcolor{black}{Each solution will be evaluated for each criteria}
+  \item \textcolor{black}{sum up the points for each solution -> most points wins.}
+  \end{itemize} 
+  \textcolor{teal}{With small point differences you might find some other things that will make the difference...}
+\item \textcolor{purple}{Decision Tree}\newline
+  \includegraphics[scale=0.3]{2023_01_10_01_37_59.png}
+\end{itemize} 
+
+\subsection{Meeting Techniques}
+Questions before the meeting:\newline
+\begin{itemize}
+\item \textcolor{black}{Is the meeting necessary? LMAO}
+\item \textcolor{black}{Are the goals clear?}
+\item \textcolor{black}{Who needs to be present?}
+\item \textcolor{black}{Do the participants even have time?}
+\item What should be the end result for every participant?
+\item What are the dependencies with the project?
+\item What is the order of items to be discussed?
+\end{itemize} 
+
+\subsubsection{How to act as Meetingleader}
+\begin{itemize}
+\item \textcolor{black}{specify a protocol writer}
+\item \textcolor{black}{stay within the timeframe!}
+\item \textcolor{black}{moderate the meeting not lead it}
+\item \textcolor{black}{never be personal}
+\item stop any distractions
+\item record decisions, activities and appointments
+\end{itemize} 
+
+\subsubsection{Participants in the meeting}
+As a leader you need to be prepared for everything.\newline
+You might have participants who are shy, and never really express themselves, even when it would be necessary for them to do so.\newline
+However, you might also have a rainbow dash, who can't keep her mouth shut:P. \newline
+In other words, you need to make sure that the tone and atmosphere is civil and helpful for the project.\newline
+\includegraphics[scale=0.3]{2023_01_10_02_03_24.png}
+
+\subsection{Negotiation Techniques}
+\subsubsection{Harvard-Method}
+\begin{enumerate}
+\item \textcolor{purple}{Don't discuss what the discussion partner wants, but also why}
+\item \textcolor{purple}{Try to understand the position of the discussion partner and help them understand your position as well}
+\item \textcolor{purple}{try to act constructive to the discussion partners demands}
+\item \textcolor{purple}{Try to find common ground}
+\item \textcolor{purple}{Keep the negotiation alive, even when it seems that the negotiation failed}
+\end{enumerate} 
+
+\subsubsection{Compromise vs Consensus}
+A compromise means that people will need to take a hit in their goals, a consensus means that you both found common ground where no one has to lose.\newline
+Usually this means leaving a different part of the negotiation away and deal with that later, but implement the part that is beneficial for both parties, instead of trying to negotiate something that the other party clearly does not want.
+
+\subsubsection{Conflict-Escalation (Friedrich Glas)}
+\begin{itemize}
+\item \textcolor{green}{WIN-WIN}\newline
+  \begin{itemize}
+  \item \textcolor{purple}{Increase in "roughness" (Verhärtung)}\newline
+    conflict begins with "tension"
+  \item \textcolor{purple}{Debate}\newline
+    Difference in opinion, apply force to negotiation partner
+  \item \textcolor{purple}{Action over words}\newline
+    Empathy slowly gets lost, nonverbal
+  \end{itemize} 
+\item \textcolor{orange}{WIN-LOSE}
+  \begin{itemize}
+  \item \textcolor{purple}{Coalitions}\newline
+    Attack/denounce the negotiation partner
+  \item \textcolor{purple}{Lose of Face}\newline
+    Ad-hominem attacks
+  \item \textcolor{purple}{Threat strategies}\newline
+    show of force
+  \end{itemize} 
+\item \textcolor{red}{LOSE-LOSE}
+  \begin{itemize}
+  \item \textcolor{purple}{Limited destruction}\newline
+    cause damage to the opponent
+  \item \textcolor{purple}{Destruction}\newline
+    Destroy the system of the opponent
+  \item \textcolor{purple}{mutually assured destruction}\newline
+  \end{itemize} 
+\end{itemize}
+
+\subsubsection{Conflict (Virginia Satir)}
+\includegraphics[scale=0.3]{2023_01_10_02_18_51.png}
+
+\section{IT ServiceManagement}
+\subsection{Business Usage}
+\includegraphics[scale=0.3]{2023_01_10_03_14_32.png}\newline
+A customer would like the ROI to be 0 very fast, as the customer obviously wants to see returns from their investment. 
+
+\subsection{Utility and Warranty}
+\includegraphics[scale=0.3]{2023_01_10_03_15_26.png}\newline
+\textcolor{purple}{Utility -> Fit for purpose}\newline
+\textcolor{purple}{Warranty -> Fit for use}\newline
+Both the \textbf{utility and warranty need to be fulfilled in order for the product to be usable.} 
+
+\subsection{Sections of Service Management}
+\begin{itemize}
+\item \textcolor{purple}{Organization}\newline
+  \begin{itemize}
+  \item \textcolor{black}{Structure}
+  \item \textcolor{black}{Culture}
+  \item \textcolor{black}{Capacity}
+  \item \textcolor{black}{Skills}
+  \item Management
+  \item Communication
+  \item Cooperation
+  \end{itemize} 
+\item \textcolor{purple}{Information}\newline
+  \begin{itemize}
+  \item \textcolor{black}{Technology}
+  \item \textcolor{black}{Knowledge}
+  \item \textcolor{black}{Inputs}
+  \item \textcolor{black}{Outputs}
+  \item Relationship
+  \end{itemize} 
+\item \textcolor{purple}{Partner \& Supplier}\newline
+  \begin{itemize}
+  \item \textcolor{black}{Relationship}
+  \item \textcolor{black}{Contracts}
+  \item \textcolor{black}{Agreements}
+  \end{itemize} 
+\item \textcolor{purple}{Value Streams}\newline
+  \begin{itemize}
+  \item \textcolor{black}{Processes}
+  \item \textcolor{black}{Activities}
+  \item \textcolor{black}{Workflows}
+  \item \textcolor{black}{Controls}
+  \item Procedures
+  \end{itemize} 
+\end{itemize} 
+
+\subsection{Service Value System}
+This is simply the process of turning the left side (ex. user story) into the wanted right side, (ex. completed user story).\newline
+The middle here are the resources that are available to us.\newline
+\includegraphics[scale=0.3]{2023_01_10_03_23_38.png}\newline
+\textcolor{purple}{The problem here is that often there are echo chambers that will not properly work with each other, this is in general a problem for agile development, as agile only works if everyone works with everyone. Echo chambers can therefore ruin the entire process.}
+
+\subsection{Resilience and Flexibility}
+There is a fundamental difference between resilience and flexibility, namely the fact that flexibility is change for good, while resilience means being stand fest against change for the worse.\newline
+Ex. in an economic crisis it might be a good thing to be resilient against layoffs, while being flexible with new technologies is in general a good thing. \newline
+\textcolor{purple}{Another aspect is the influence from third parties, often these are not welcome and resilience to change caused by third party considered a good thing.}
+
+\subsection{Principles of ITIL}
+\begin{itemize}
+\item \textcolor{purple}{Focus on usage}
+\item \textcolor{purple}{Start at the current point, not at a theoretical one}
+\item \textcolor{purple}{Do small steps and check these steps}
+\item \textcolor{purple}{Cooperate and further transparency}
+\item \textcolor{purple}{think and act at the same time (WAT LMAO)}
+\item \textcolor{purple}{Keep it simple and practical}
+\item \textcolor{purple}{optimize and automatize}
+\end{itemize}
+\textcolor{teal}{sounds like agile kekw}
+
+\subsection{Service Value Chain}
+\includegraphics[scale=0.3]{2023_01_10_03_30_48.png}\newline
+\begin{itemize}
+\item \textcolor{purple}{Plan}\newline
+  current status and direction
+\item \textcolor{purple}{Improve}\newline
+  continuous improvements on all activities in the value chain
+\item \textcolor{purple}{Engage}\newline
+  Understanding of requirements, transparency and engagement
+\item \textcolor{purple}{Design \& Transition}\newline
+  Quality, cost and time to market must be fulfilled
+\item \textcolor{purple}{Obtain or Build}\newline
+  Either buy or build the components at the right time and the right place
+\item \textcolor{purple}{Deliver and Support}\newline
+  deliver services and provide support
+\end{itemize} 
+
+\subsection{General Management Practices}
+\includegraphics[scale=0.3]{2023_01_10_03_42_51.png}\newline
+\includegraphics[scale=0.3]{2023_01_10_03_43_35.png}
+
+\subsection{Service Management Practices}
+\includegraphics[scale=0.3]{2023_01_10_03_44_25.png}\newline
+\includegraphics[scale=0.3]{2023_01_10_03_44_34.png}
+
+\subsubsection{Service Design}
+Deliver something new, while not breaking something that already exists and ensure that the service at the end will return the ROI for the customer.\newline
+\includegraphics[scale=0.3]{2023_01_10_03_46_23.png}
+
+\subsubsection{Service Level Management}
+\includegraphics[scale=0.3]{2023_01_10_03_47_49.png}
+
+\subsubsection{Capacity Management}
+Ask the customer, what do you need \textbf{exactly?}\newline
+\includegraphics[scale=0.3]{2023_01_10_03_48_06.png}
+
+\subsubsection{Availability Management}
+\includegraphics[scale=0.3]{2023_01_10_03_49_14.png}
+
+\subsubsection{IT Asset and Service Configuration Management}
+\includegraphics[scale=0.28]{2023_01_10_03_49_28.png}
+
+\subsubsection{Service Desk and Incident Management}
+\includegraphics[scale=0.3]{2023_01_10_03_49_42.png}
+
+\subsubsection{Problem Management}
+\includegraphics[scale=0.3]{2023_01_10_03_50_03.png}
+
+\subsubsection{Incident - Problem - Change}
+\includegraphics[scale=0.3]{2023_01_10_03_50_31.png}
+
+\subsubsection{Monitoring and Event Management}
+\includegraphics[scale=0.28]{2023_01_10_03_50_57.png}
+
+\subsubsection{Service Continuity Management}
+\includegraphics[scale=0.3]{2023_01_10_03_51_07.png}
+
+\subsection{Technical Management Practises}
+\includegraphics[scale=0.3]{2023_01_10_03_52_06.png}
+
+\subsubsection{Change and Release Management (conventional)}
+\includegraphics[scale=0.3]{2023_01_10_03_52_14.png}
+
+\subsubsection{Change and Release Management (agile)}
+\includegraphics[scale=0.3]{2023_01_10_03_52_44.png}
+
+\subsection{Infrastructure and Platform Management}
+\includegraphics[scale=0.3]{2023_01_10_03_53_34.png}\newline
+\textcolor{purple}{Dev-Ops teams need up to 30\% of the resources for their operation!}
 
 
 \end{multicols*}
