@@ -9,9 +9,17 @@
     style=code,
 }
 
+\section{Multiplication of Binary number}
+1001 * 101 = \(2^3 * 2^2 = 2^5\)\newline
+\textcolor{red}{Note, if both binary numbers are negated, (two complement), then the result will be the same!}
+
+\section{Processor}
+\textcolor{purple}{Address Bus}\newline
+\textcolor{purple}{Data Bus}\newline
+\textcolor{purple}{Control Signals}
+
 \section{Assembly}
-Assembly is a platform -> intel, arm, risc-v dependent programming language. 
-It converts instructions into binary -> machine code. Most compiled language will convert to assembly code before being compiled to binary!
+\textcolor{red}{BITS 64}: in first line == 64bit support
 
 \subsection{Numbers in Assembly}
 \begin{itemize}
@@ -27,33 +35,50 @@ It converts instructions into binary -> machine code. Most compiled language wil
 \item \textcolor{orange}{10001000b or 1000\_1000b -> b/y for binary}
 \end{itemize}
 \subsection{Length Calculation}
-\includegraphics[scale=0.2]{2022-09-27-04_27_52.png}
-first define a quadword with 2 unknown labels, then define my\_text with 'Besys',
-after define aftermytext and recude the current instruction pointer with the instruction pointer at my\_text
+\vspace{-2.5mm}
+\begin{lstlisting}
+length: dq after_my_text - my_text
+my_text: db 'Besys 1?!'
+after_my_text:
+\end{lstlisting}
+\vspace{2mm}
+\textcolor{red}{Labels like my\_text or after my text are pointers!}\newline
+\textcolor{teal}{With the \$ sign you can access the current \textbf{offset} to the stackpointer!}
+
 \subsection{Default Registers}
-\begin{itemize}
-\item Right 8 bit register: \textcolor{purple}{AL}
-\item Left 8 bit register: \textcolor{purple}{AH}
-\item 16 bit register: \textcolor{purple}{AX}
-\item 32 bit register: \textcolor{purple}{EAX}
-\item 64 bit register: \textcolor{purple}{RAX}
-\end{itemize} 
+\minipg{
+Right 8 bit register: \textcolor{purple}{AL}\newline
+Left 8 bit register: \textcolor{purple}{AH}
+}{
+16 bit register: \textcolor{purple}{AX}\newline
+32 bit register: \textcolor{purple}{EAX}\newline
+64 bit register: \textcolor{purple}{RAX}
+}[0.11,0.14]
 
 \subsection{Special Registers}
 \begin{itemize}
   \item \textcolor{purple}{RAX} general use register
   \item \textcolor{purple}{RCX} Counter for loops or strings
-  \item \textcolor{purple}{RDX} Pointer for I/O Operations
+  \item \textcolor{purple}{RDX} Pointer for I/O Operations\newline
+    also length for strings in IO
   \item \textcolor{purple}{RBX} Datapointer
-  \item \textcolor{purple}{RSI,RDI} Source for stringoperations
+  \item \textcolor{purple}{RSI} String to print
+  \item \textcolor{purple}{RDI} output target -> ex. stdout == 1
   \item \textcolor{purple}{RSP} Stackpointer!!
   \item \textcolor{purple}{RBP} Basepointer
   \item \textcolor{purple}{R8-R15} additional registers
 \end{itemize}
-Note other registers like RBX exist as well, but aren't specifically used for something.
 
-\subsection{Dealing with Memoryi}
-Memory is accessed with the [] operators, this can also be offset with either multiplication or other calulations
+\subsection{Variables in assembly}
+\vspace{-2.5mm}
+\begin{lstlisting}
+SECTION .data ; necessary !!
+varname dq 45 ; 8 byte int
+\end{lstlisting}
+\vspace{2mm}
+
+\subsection{Dealing with Memory}
+Memory is accessed with the [] operators, this can also be offset with either multiplication or other calculations
 \vspace{-2.5mm}
 \begin{lstlisting}
 mov rax, [0x8000] ; ok move 8000h into rax
@@ -66,7 +91,7 @@ mov [0x8000], [0x7000] ; error can't move memory to memory!!
 \subsection{Assembly Instructions}
 \begin{itemize}
 \item mov rax, 1 \textcolor{teal}{//move the value 1 into rax, keep in mind that mov can hold other operations!}
-\item equ rax, 1+1 \textcolor{teal}{//arithmic operation}
+\item equ rax, 1+1 \textcolor{teal}{//arithmetic operation}
 \item add z,   q  \textcolor{teal}{// z + q} 
 \item sub z,   q  \textcolor{teal}{// z - q}
 \item adc z,   q  \textcolor{teal}{// z + q + c (carry -> previous calculation)}
@@ -168,7 +193,13 @@ starts with a-z, A-Z followed by letters, digits or \_
 \item \textcolor{purple}{String or Character literals}\newline
   string starts with ", char with ', escape \textbackslash 
 \item \textcolor{purple}{Operations and punctuators}\newline
-  \includegraphics[scale=0.24]{2022-10-11-03_40_12.png}
+\vspace{-2.5mm}
+\begin{lstlisting}
+() [] {} . , : ; ? ... -> # ## = + - * /
+% & | ^ ~ ! << >> == != < > <= >= && ||
+*= /= %= += -= ++ -- <<= >>= &= |= ^=
+\end{lstlisting}
+\vspace{2mm}
 \item \textcolor{purple}{others}
 \end{itemize} 
 
@@ -230,16 +261,17 @@ void b(1, 2, 3, 4) { ... } // !! ERROR !!
 Global variables are allocated on the heap, therefore they receive a default value -> int to 0, local variables are on stack -> undefined behavior by default
 
 \subsection{printf Identifiers -> Strings! "\%d"}
-\begin{itemize}
-\item \textcolor{teal}{sizeof(Integer) as signed decimal = \%d}
-\item \textcolor{teal}{sizeof(Integer) as unsigned decimal = \%u}
-\item \textcolor{teal}{sizeof(Integer) as hexadecimal = \%x or \%U}
-\item \textcolor{teal}{sizeof(long) as signed decimal = \%li}
-\item \textcolor{teal}{sizeof(long long) as signed decimal = \%lli}
-\item \textcolor{teal}{sizeof(void *) as pointer = \%p}
-\item \textcolor{teal}{sizeof(char *) as pointer (null terminated) = \%s}
-\item \textcolor{teal}{sizeof(double) as floating point = \%f}
-\end{itemize}
+\minipg{
+\textcolor{teal}{signed decimal = \%d}\newline
+\textcolor{teal}{unsigned decimal = \%u}\newline
+\textcolor{teal}{hexadecimal = \%x or \%U}\newline
+\textcolor{teal}{signed decimal = \%li}\newline
+}{
+\textcolor{teal}{as signed decimal = \%lli}\newline
+\textcolor{teal}{pointer = \%p}\newline
+\textcolor{teal}{pointer(0 terminated) = \%s}\newline
+\textcolor{teal}{floating point = \%f}
+}[0.12,0.14]
 
 \subsection{typedef}
 \vspace{-2.5mm}
@@ -305,7 +337,8 @@ void initialize() {
 \section{Cache}
 
 \subsection{Locality Principle}
-This is the reason for L1,L2,L3 cache, the closer the cache is to the cpu, the less the data needs to travel, this can affect latency in todays hardware!
+\textcolor{purple}{Spatial}: access to neighbour data -> ex. array\newline
+\textcolor{purple}{Temporal}: repeated acces -> ex. sum += sum + 1
 
 \subsection{Median Access Time}
 \textcolor{red}{\(E(T) = P_C * T_C + (1 - P_C )* T_M\)}\newline
@@ -332,8 +365,9 @@ For the next example, consider the amount of cachelines to be 8.
 
 \subsection{k-Way Set-Associative-Cache SAC}
 \textcolor{purple}{One DMC per "Way". Best compromise between both.}\newline
-k defines the amount of DMC used. 
-\includegraphics[scale=0.2]{2022-12-27_01_42_01.png} 
+k defines the amount of DMC used.
+\includegraphics[scale=0.18]{2023_01_11_04_50_09.png}
+%\includegraphics[scale=0.2]{2022-12-27_01_42_01.png} 
 \textcolor{red}{Solves the issue of collisions from the DMC!}
 
 \section{Fragmentation}
@@ -352,7 +386,7 @@ k defines the amount of DMC used.
 \end{itemize} 
 
 \subsection{Buddy System}
-Starts with the entire memory and splits down to smalles possible size.\newline
+Starts with the entire memory and splits down to smallest possible size.\newline
 \includegraphics[scale=0.15]{2022-11-29-05_19_44.png}
 
 \subsection{Object-Pools}
@@ -397,7 +431,8 @@ The MMU maps physical RAM to virtual RAM via \textbf{Page-Table}.\newline
 \subsubsection{Page-Tables}
 Page Tables can have multiple levels just like k-Way SAC.\newline
 The root part of this is associated with a process.\newline
-\includegraphics[scale=0.27]{2022-12-06-04_46_09.png}\newline
+\includegraphics[scale=0.18]{2023_01_11_04_39_04.png}\newline
+% \includegraphics[scale=0.27]{2022-12-06-04_46_09.png}\newline
 \textcolor{red}{Page-Tables always allocate the entire list! Page Directories only allocate the entries when they exist!}\newline
 This is because you always need the space for the actual entry, but you don't need the space for an abstraction!
 \textcolor{teal}{There are other implementations like Inverted Page Table or Hash Page Table, but they are not used}
@@ -414,7 +449,8 @@ For example when an address is not in physical memory!\newline
 \item \textcolor{black}{A=0, D=1} -> written a while ago
 \item \textcolor{black}{A=0, D=0} -> there was no access for a while
 \end{itemize}
-\includegraphics[scale=0.27]{2022-12-13-03_22_16.png}
+\includegraphics[scale=0.20]{2023_01_11_04_41_29.png}
+% \includegraphics[scale=0.27]{2022-12-13-03_22_16.png}
 
 \subsection{Paging Strategies}
 Consists of \textcolor{purple}{Fetching Policies, Cleaning Policies and Replacement Policies} 
@@ -448,7 +484,8 @@ Replace page that has not been used for the longest time.\newline
 \subsubsection{Not Frequently Used with Aging NFU}
 OS creates interval, if MMU accesses page within interval, counter increases.\newline
 \textcolor{red}{Counter is binary! With each iteration, counter is shifted to right (aging!)}\newline
-\includegraphics[scale=0.2]{2022-12-13-04_37_48.png}
+\includegraphics[scale=0.18]{2023_01_11_04_59_46.png}
+% \includegraphics[scale=0.2]{2022-12-13-04_37_48.png}
 
 \subsubsection{Working Set}
 \textcolor{purple}{Uses page-fault interrupt. Chooses an interval T.}\newline

@@ -7,3 +7,4 @@ clean:
 move: 
 	cp besys.pdf $${HOME}/Documents/OST\ 3.semester/exams/besys.pdf
 	cp comgra.pdf $${HOME}/Documents/OST\ 3.semester/exams/comgra.pdf
+	cp pmqm.pdf $${HOME}/Documents/OST\ 3.semester/exams/pmqm.pdf
