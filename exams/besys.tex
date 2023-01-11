@@ -65,7 +65,7 @@ Left 8 bit register: \textcolor{purple}{AH}
   \item \textcolor{purple}{RSI} String to print
   \item \textcolor{purple}{RDI} output target -> ex. stdout == 1
   \item \textcolor{purple}{RSP} Stackpointer!!
-  \item \textcolor{purple}{RBP} Basepointer
+  \item \textcolor{purple}{RBP} Basepointer/Framepointer!
   \item \textcolor{purple}{R8-R15} additional registers
 \end{itemize}
 
@@ -348,7 +348,8 @@ void initialize() {
 
 \subsection{Fully Associative Cache FAC}
 Every Byte OR Cacheline is mapped to 1 address on the cache. If full, new entry deletes an old entry.
-\textcolor{red}{Costs a lot, one lookup part per entry!!}, \textcolor{green}{Really fast}
+\textcolor{red}{Costs a lot, one lookup part per entry (parallel!)}, \textcolor{green}{Really fast}\newline
+\textcolor{purple}{Overhead: \(n * 2^M = n * M \text{Bit}\)}
 
 \subsection{Cacheline}
 Instead of storing every byte, we can store 64 bytes as one. \textcolor{red}{Because every 64 bytes has the last 6 bits as 0, we can use these as an offset to indicate which byte we want to access!!}
@@ -411,7 +412,10 @@ Frontend commands: \textcolor{purple}{HeapCreate, HeapAlloc, HeapFree}\newline
 HeapCreate chooses heap variant itself.
 
 \section{RAM}
-\textcolor{red}{Should access be invalid, then OS will throw segfault!}
+\textcolor{red}{Should access be invalid, then OS will throw segfault!}\newline
+\textcolor{purple}{Regular array == stack == static}\newline
+\textcolor{purple}{alloca() == defined max, dynamic == \textbf{stack}!}\newline
+\textcolor{orange}{malloc() == heap, "infinite" == slower} 
 
 \subsection{Terminology}
 page = block of memory in storage
@@ -429,7 +433,7 @@ The MMU maps physical RAM to virtual RAM via \textbf{Page-Table}.\newline
 \textcolor{purple}{Special Cache for MMU that only stores mappings}
 
 \subsubsection{Page-Tables}
-Page Tables can have multiple levels just like k-Way SAC.\newline
+Page Tables can have multiple levels just like k-Way SAC. \textcolor{red}{!!Offset = 12 Bit!!}\newline
 The root part of this is associated with a process.\newline
 \includegraphics[scale=0.18]{2023_01_11_04_39_04.png}\newline
 % \includegraphics[scale=0.27]{2022-12-06-04_46_09.png}\newline
@@ -439,7 +443,7 @@ This is because you always need the space for the actual entry, but you don't ne
 
 \subsection{Interrupt}
 MMU will throw interrupts, which the OS needs to handle.\newline
-For example when an address is not in physical memory!\newline
+Example: when an address is not in physical memory!\newline
 
 \subsection{Status, Access and Dirty Bit}
 \begin{itemize}
