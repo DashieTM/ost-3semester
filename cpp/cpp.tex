@@ -274,7 +274,7 @@ int member{};
 \hline
 \textbf{auto function return}\newline
 \begin{lstlisting}
-auto middle(std::vector<int> const & c) {
+auto middle(std::vector<int> const& c) {
 //check not empty
 return c[c.size() / 2];
 }
@@ -424,8 +424,13 @@ Stream states & \vspace{2mm}\includegraphics[scale=0.25]{2022-10-04-08_13_36.png
 \section{Loops}
 \begin{tabular}{|m{0.25\linewidth}|m{0.705\linewidth}|}
 \hline
-\textbf{\emph{Range based for-loop}}
-& \includegraphics[scale=0.4]{2022-10-04-09_19_47.png}\\
+\textbf{\emph{Range based for-loop}} &
+\vspace{2mm}
+\begin{lstlisting}
+for(const& elem : vec ) {
+  std::cout << elem << "\n";
+}
+\end{lstlisting}\\
 \hline
 \textbf{\emph{Iterator based for-loop}}
 & \minipg{\includegraphics[scale=0.4]{2022-10-04-09_24_39.png}\newline non constant}
@@ -475,6 +480,7 @@ In order to include your projects in the clanD server, you need to compile a jso
 \begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
 \textbf{Ways to handle Errors} &
+\vspace{2mm}
 \begin{enumerate}
   \item Ignore the error and provide a potentially \textcolor{red}{undefined behavior}
   \item Return a \textcolor{red}{standard result} to cover the error
@@ -599,7 +605,7 @@ Date d3{std::move(d)};
 \, \newline
 \begin{lstlisting}
 Date() = default; // default constructor, if you write this, write default to avoid overwriting it!
-Date(Date const &); // copy constructor
+Date(Date const&); // copy constructor
 Date(Date &&); // move constructor
 \end{lstlisting}
 \\
@@ -752,7 +758,8 @@ auto operator==(Date const& right) const = default;
 };
 \end{lstlisting}\\
 \hline
-\textbf{Strong Ordering with <=>} &
+\textbf{Strong Ordering with <=>} \newline
+defined in: <functional>&
 \textcolor{teal}{Usually used with ints or Dates}\newline
 \textcolor{red}{\textbf{All values are indistinguishable}}\newline
 \textcolor{orange}{\textbf{one of: a > b, a == b, a < b must be true}}\newline
@@ -768,7 +775,8 @@ A list of possibilities:\newline
   \vspace{-3mm}
 \end{itemize}\\
 \hline
-\textbf{Weak Ordering with <=>} &
+\textbf{Weak Ordering with <=>}\newline
+defined in: <functional> & 
 \textcolor{teal}{Usually used with words, -> case insenstivive -> hello == Hello}\newline
 \textcolor{red}{\textbf{All values may be distinguishable}}\newline
 \textcolor{orange}{\textbf{one of: a > b, a == b, a < b must be true}}\newline
@@ -790,7 +798,8 @@ A list of possibilities:\newline
 \begin{table}[ht!]
 \begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
-\textbf{Partial Ordering with <=>} &
+\textbf{Partial Ordering with <=>} \newline
+defined in: <functional>&
 \textcolor{teal}{Usually used with values that can be something like NaN!}\newline
 \textcolor{red}{\textbf{All values may be distinguishable}}\newline
 \textcolor{orange}{\textbf{a > b, a == b , a < b can all be false}}\newline
@@ -803,7 +812,7 @@ A list of possibilities:\newline
   \item \textcolor{teal}{std::partial\_ordering::less} \,\,-> a < b 
   \item \textcolor{teal}{std::partial\_ordering::equivalent}\,\,-> a == b 
   \item \textcolor{teal}{std::partial\_ordering::greater}\,-> a > b
-  \item \textcolor{teal}{std::partial\_ordering::unordered}\,-> non of the above
+  \item \textcolor{teal}{std::partial\_ordering::unordered}\,-> none of the above
   \vspace{-3mm}
 \end{itemize}\\
 \hline
@@ -829,12 +838,12 @@ However it also makes sure that the operator function respects the private varia
 \textcolor{orange}{Since you can have 2 different implementation of + and +=, you have to make sure they actually have the same functionality!}\newline
 \begin{lstlisting}
 struct Ring5 : boost::addable<Ring5> {
-  auto operator*=(Ring5 const &r) -> Ring5 {
+  auto operator*=(Ring5 const&r) -> Ring5 {
   val = (val * r. val) % 5;
   return *this;
   }
 };
-inline auto operator*(Ring5 l, Ring5 const & r) -> Ring5 {
+inline auto operator*(Ring5 l, Ring5 const& r) -> Ring5 {
   return l += r;
 }
 \end{lstlisting}\\
@@ -1034,10 +1043,11 @@ Enum Operator Overloading &
 enum DayOfWeek {
   Mon, Tue, Wed, Thu, Fri, Sat, Sun
 };
-auto operator++(DayOfWeek& aday) -> DayOfWeek {
-  int day = (aday + 1) % (Sun + 1);
-  aday = static_cast<DayOfWeek>(day);
-  return aday;
+auto operator++(DayOfWeek& d) -> DayOfWeek { // prefix
+  return static_cast<DayOfWeek>((aday + 1) % (Sun + 1));
+}
+auto operator++(DayOfWeek& d, int) -> DayOfWeek { // postfix
+  return static_cast<DayOfWeek>((aday + 1) % (Sun + 1));
 }
 \end{lstlisting}\\
 \hline
@@ -1057,7 +1067,7 @@ Categories &
 \item \textcolor{orange}{Hashed Container (Unsorted Associative Container)\newline
   Element are accessible in unspecified order\newline
   find as member function in constant time}
-\vspace{2mm}
+\vspace{-2mm}
 \end{itemize}\\ 
 \hline
 General Container Info &
@@ -1068,7 +1078,7 @@ General Container Info &
 \item \textcolor{orange}{erase(iter)}: Removes the element at position the iterator iter points to
 \item \textcolor{orange}{insert(iter, value)}: Inserts value at the position the iterator iter points to
 \item \textcolor{orange}{size()/empty()}: Check the size of the container
-\vspace{2mm}
+\vspace{-2mm}
 \end{itemize}
 \, \newline
 \textcolor{teal}{Containers can be:}\newline
@@ -1078,7 +1088,7 @@ General Container Info &
 \item \textcolor{teal}{Equality compared if the same type}: if(v == v2)
 \item \textcolor{teal}{lexicographically compared if elements can be compared}
 \item \textcolor{teal}{emptied with clear()}
-\vspace{2mm}
+\vspace{-2mm}
 \end{itemize}\\
 \hline
 Initialization & 
@@ -1088,7 +1098,7 @@ Initialization &
   \item \textcolor{teal}{Construction with number of elements}: std::vector<int> v(5, 10);
   \item \textcolor{teal}{With range}: std::vector<int> v{cbegin(v), cend(v)};
 \item \textcolor{teal}{item 4}
-\vspace{2mm}
+\vspace{-2mm}
 \end{itemize}\\
 \hline
 Sequence Containers & 
@@ -1099,10 +1109,11 @@ Sequence Containers &
 \item \textcolor{teal}{std::deque}
 \item \textcolor{teal}{std::list}
 \item \textcolor{teal}{std::array}
-\vspace{2mm}
+\vspace{-2mm}
 \end{itemize}\\
 \hline
-std::array &
+std::array \newline
+defined in: <array> &
 \vspace{2mm}
 \begin{lstlisting}
 std::array values{1,2,3,5,6};
@@ -1115,7 +1126,7 @@ int obsolete[]{2,3,4,5,6};
 \item \textcolor{orange}{Can be initialized at compile time}
 \item \textcolor{orange}{use std::array over C style array}
 \item \textcolor{orange}{item 4}
-\vspace{2mm}
+\vspace{-2mm}
 \end{itemize}\\ 
 \hline
 \end{tabular}
@@ -1124,13 +1135,15 @@ int obsolete[]{2,3,4,5,6};
 \begin{table}[ht!]
 \begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
-Double Ended queue std::deque & 
+Double Ended queue std::deque \newline 
+defined in: <deque>& 
 \vspace{2mm}
 \includegraphics[scale=0.4]{2022-11-08-08_39_23.png}\newline
 \textcolor{orange}{This is like the std::vector with the additional functions: \textbf{push\_front() and pop\_front()}}\newline
 \textcolor{teal}{Special implementation for std::vector<bool> and std::deque<bool>.}\\
 \hline
-std::list & 
+std::list \newline 
+defined in: <list> & 
 \vspace{2mm}
 \includegraphics[scale=0.4]{2022-11-08-08_41_00.png}\newline
 \begin{itemize}
@@ -1141,7 +1154,8 @@ std::list &
 \vspace{-2mm}
 \end{itemize}\\
 \hline
-std::forward\_list & 
+std::forward\_list \newline 
+defined in: <forward\_list> & 
 \begin{lstlisting}
 std::forward_list<int> l{1, 2, 3, 4, 5, 6};
 \end{lstlisting}
@@ -1154,7 +1168,8 @@ std::forward_list<int> l{1, 2, 3, 4, 5, 6};
 \vspace{-2mm}
 \end{itemize}\\
 \hline
-std::stack & 
+std::stack \newline 
+defined in: <stack> & 
 \begin{lstlisting}
 std::stack<int> s{};
 s.push(42);
@@ -1171,7 +1186,8 @@ s.pop();
 \vspace{-2mm}
 \end{itemize}\\
 \hline
-std::queue & 
+std::queue  \newline 
+defined in: <queue> & 
 \begin{lstlisting}
 std::queue<int> q{};
 q.push(42);
@@ -1213,8 +1229,8 @@ q.pop();
 \begin{table}[ht!]
 \begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
-\vspace{2mm}
 Associative Containers & 
+\vspace{2mm}
 \begin{itemize}
 \item \textcolor{Orange}{Key Unique / Key only: std::set}
 \item \textcolor{Orange}{Key Unique / Key and value: std::map}
@@ -1223,7 +1239,8 @@ Associative Containers &
 \vspace{-2mm}
 \end{itemize}\\ 
 \hline
-std::set &
+std::set \newline 
+defined in: <set> &
 \begin{lstlisting}
 std::set<int> values{5,6,2,9,8};
 \end{lstlisting}
@@ -1242,6 +1259,7 @@ std::set<int> values{5,6,2,9,8};
 \item \textcolor{orange}{Discouraged alternatives: s.find(x) != s.end() or s.count(x)}
 \vspace{-2mm}
 \end{itemize} 
+\, \newline
 \textcolor{orange}{Example:}\newline
 \begin{lstlisting}
 #include <iostream>
@@ -1260,7 +1278,8 @@ auto main() -> int {
 }
 \end{lstlisting}\\
 \hline
-std::map  &
+std::map  \newline 
+defined in: <map> &
 \begin{lstlisting}
 std::map<char, size_t> vowels{{'a', 3}, {'e', 8}, {'i', 5}, {'o', 4}, {'u', 2}, {'y', 1}};
 \end{lstlisting}
@@ -1297,7 +1316,8 @@ auto countVowels(std::istream& in, std::ostream& out) -> void {
 }
 \end{lstlisting}\\
 \hline
-std::multiset and std::multimap & 
+std::multiset and std::multimap \newline
+defined in <set> and <map> respectively& 
 \begin{lstlisting}
 std::multiset<char> letters{'a', 'a', 'c', 'c', 'c', 'e', 'e', 'f'};
 // note the c that appears 3 times!
@@ -1334,13 +1354,15 @@ auto sortedStringList(std::istream& in, std::ostream& out) -> void {
   }
 }
 \end{lstlisting} 
+\, \newline
 \begin{itemize}
 \item \textcolor{orange}{First copy-algorithm call prints each word on separate line}
 \item \textcolor{orange}{Code in while-loop groups equivalent words on one line}
 \vspace{-2mm}
 \end{itemize} \\
 \hline
-std::unordered\_set & 
+std::unordered\_set \newline 
+defined in: <unordered\_set>& 
 \begin{lstlisting}
 #include <algorithm>
 #include <iostream>
@@ -1364,7 +1386,8 @@ auto main() -> int {
 \vspace{-2mm}
 \end{itemize} \\
 \hline
-std::unordered\_map & 
+std::unordered\_map \newline
+defined in: <unordered\_map>& 
 \begin{lstlisting}
 #include <iostream>
 #include <string>
@@ -1392,6 +1415,7 @@ auto main() -> int {
 \begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
 Different Iterators & 
+\textcolor{red}{All iterators are defined in <iterator>}\newline
 \textcolor{orange}{There are 2 different main categories, input iterators and output iterators.\newline
 The input iterators has a bunch of parent-iterators with different behaviors}\newline
 \includegraphics[scale=0.4]{2022-11-08-09_34_02.png}\newline
@@ -1490,7 +1514,7 @@ auto operator+(distance) -> It;
 auto operator+=(distance) -> It&;
 auto operator-(distance) -> It;
 auto operator-=(distance) -> It&;
-auto operator-(It const &) -> distance;
+auto operator-(It const&) -> distance;
 //relational operators, like <
 \end{lstlisting}
 \, \newline
@@ -1533,6 +1557,7 @@ auto operator++(int) -> It;
 \end{itemize}\\ 
 \hline
 std::distance(start, goal) & 
+\vspace{2mm}
 \begin{itemize}
   \item \textcolor{orange}{counts the number of hops it needs to take to the goal}  
 \item \textcolor{orange}{Efficient for random access iterators}
@@ -1570,6 +1595,7 @@ auto iter2 = values.cbegin(); //std::vector<int>::const_iterator
 \begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline 
 Different Algorithms and numberic functions & 
+\textcolor{red}{All of these are defined in <algorithm>}\newline
 \minipg{
 Algorithms:\newline
 \begin{itemize}
@@ -1617,24 +1643,21 @@ Functors are just overloaded structs or classes on the () operator.\newline
 Here is how to implement it:\newline 
 \begin{lstlisting}
 struct Accumulator {
-  int count{0};
   int accumulatedValue{0};
   auto operator()(int value) -> void {
-    count++;
     accumulatedValue += value;
   }
-  int average() const;
-  int sum() const;
+  int sum() const; // does what the function says above
 };
-auto average(std::vector<int> values) -> int {
+auto sum(std::vector<int> values) -> int {
   Accumulator acc{};
   for(auto v : values) { acc(v); }
-  return acc.average();
+  return acc.sum();
 }
-
-auto average(std::vector<int> values) -> int {
+ // OR
+auto sum(std::vector<int> values) -> int {
   auto acc = Accumulator{};
-  return std::for_each(begin(values), end(values), acc).average();
+  return std::for_each(begin(values), end(values), acc).sum();
 }
 \end{lstlisting}\\
 \hline
@@ -1649,7 +1672,8 @@ You can pass a bool lambda to associative containers, this means that the result
 The idea is that you can give a sorting algorithm to the set in order to easily sort it out of the box.\newline
 \begin{lstlisting}
 std::set<int, std::greater<>> reverse_int_set{};
-\end{lstlisting}
+\end{lstlisting} 
+\, \newline
 \textcolor{OliveGreen}{Note that this lambda must be \textbf{transitive and irreflexive}}\newline
 Transitive: \(x > y\) and \(y > z\), then also \(x > z\)\newline
 Irreflexive: \\
@@ -1664,6 +1688,7 @@ auto times = [](auto i, auto c) { return std::string(i, c); };
 std::transform(begin(counts), end(counts), begin(letters),
 std::back_inserter(combined), times);
 \end{lstlisting}
+\, \newline
 Here we would print each character x amount of times, with x being the same index element in the counts vector.\\
 \hline
 Merge & 
@@ -1688,6 +1713,7 @@ values.erase(removed, values.end());
 // erase the marked elements
 // vector is now -> 54,57,95
 \end{lstlisting} 
+\, \newline
 remove\_if just has an additional boolean check which can be done with a lambda, use case is shown here for filtering!\\
 \hline
 Accumulate & 
@@ -1700,7 +1726,7 @@ end(longMonths),
 //End
 longMonths.at(0),
 //First element, usually the neutral element
-[](std::string const & acc, std::string const & element) {
+[](std::string const& acc, std::string const& element) {
 return acc + ", " + element;
 }); //Jan, Mar, May, Jul, Aug, Oct, Dec
 \end{lstlisting}\\
@@ -1758,6 +1784,12 @@ push_heap(v.begin(),v.end());
 sort_heap(v.begin(),v.end());
 \end{lstlisting}\\
 \hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
 Don't mixmatch Iterators & 
 \textcolor{red}{Don't mixmatch iterators!}:\newline
 \begin{lstlisting}
@@ -1767,12 +1799,6 @@ auto f = [](unsigned u) {/*...*/};
 std::for_each(begin(values1), end(values2), f);
 \end{lstlisting}
 \\
-\hline
-\end{tabular}
-\end{table}
-\pagebreak
-\begin{table}[ht!]
-\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
 Make sure that enough space is allocated in a vector & 
 \textcolor{red}{Make sure that enough space is allocated for when you copy data!}\newline
@@ -1863,14 +1889,18 @@ With c++ 20 you can technically also do the same in c++ as you did in rust, but 
 \hline
 Type matching & 
 The c++ compiler only does extremely exact matching, meaning a double and an int will not match to either double double or int int:\newline
-\includegraphics[scale=0.3]{2022-11-22-08_46_33.png}\\
+\minipg{
+\includegraphics[scale=0.3]{2022-11-22-08_46_33.png}
+}{
+\textcolor{red}{ERROR BRO}
+}[0.5,0.25]\\
 \hline
 Variable templates & 
 C++ compiler allows for a variable number of templates which can then also be used in a function!\newline
 \begin{lstlisting}
 auto printAll() -> void {} // needed for printAll with the last case where first is empty!
 template<typename First, typename...Types>
-  auto printAll(First const & first, Types const &...rest) -> void {
+  auto printAll(First const& first, Types const&...rest) -> void {
   std::cout << first;
   if (sizeof...(Types)) {
     std::cout << ", ";
@@ -1889,30 +1919,30 @@ Here it will put together the types with \textbf{Types const \&...rest} and then
 Template overloading & 
 You can overload a template if you for example want to use pointers instead of the actual type, or you can even write an overload for an explicit type:\newline
 \begin{lstlisting}
-template <typename T>
+template <typename T> // regular types
   auto min(T left, T right) -> T {
     return left < right ? left : right;
 }
-template <typename T>
-  auto * min(T * left, T * right) -> T {
+template <typename T> // specific to pointers
+  auto* min(T* left, T* right) -> T {
     return *left < *right ? left : right;
 }
-auto min(char const * left, char const * right) -> char const * {
-return std::string{left} < std::string{right} ? left : right;
-}
+auto min(char const* left, char const* right) -> char const* {
+  return std::string{left} < std::string{right} ? left : right;
+} // overload for explicit type
 \end{lstlisting}\\
 \hline
 Generic Operator functions &
 You can create generic operator functions with either a struct or a lambda, but this might not always work, as there are often more specific matches which will be called instead!\newline
 \begin{lstlisting}
 // lambda
-auto const printer = [&out](auto const & e) {
+auto const printer = [&out](auto const& e) {
   out << "Element: " << e;
 };
 // struct method
 struct __PrinterLambda {
   template <typename T>
-  auto operator()(T const & e) const -> void {
+  auto operator()(T const& e) const -> void {
     __out << "Element: " << e;
   }
   std::ostream & __out;
@@ -1936,10 +1966,10 @@ std::cout << min("C++"s, "Java"s);
 More specificity problems & 
 \begin{lstlisting}
 template <typename T>
-  auto min(T & left, T & right) -> T {
+  auto min(T& left, T& right) -> T {
     return left < right ? left : right;
 }
-auto min(std::string const & left, std::string const & right) -> std::string {
+auto min(std::string const& left, std::string const& right) -> std::string {
   return std::ranges::lexicographical_compare(left, right, [](char l, char r) {
     return tolower(l) < tolower(r);
   }) ? left : right;
@@ -1956,18 +1986,19 @@ The following is exactly why borrowing just works, we pass 2 references to a fun
 This means you could potentially be getting invalid values!\newline 
 \begin{lstlisting}
 template <typename T>
-auto const & min(T const & left, T const & right) -> T {
+auto const& min(T const& left, T const& right) -> T {
 return left < right ? left : right;
 // left and right now dead as lifetime not extended
 // in other words, return is invalid
 }
-std::string const & smaller = min("a"s, "b"s);
+std::string const& smaller = min("a"s, "b"s);
 std::cout << "smaller is: " << smaller; // undefined behavior! might or might not work!
 \end{lstlisting}
+\, \newline
 \textcolor{OliveGreen}{The fix is to return a const \& reference as well, as this would extend the lifetime of the reference!}\newline
 \begin{lstlisting}
 template <typename T>
-auto min(T const & left, T const & right) -> T const & {
+auto min(T const& left, T const& right) -> T const& {
   return left < right ? left : right;
 }
 \end{lstlisting}\\
@@ -1991,7 +2022,7 @@ public:
   auto size() const -> size_type{
     return theSack.size();
   }
-  auto putInto(T const & item) -> void {
+  auto putInto(T const& item) -> void {
     theSack.push_back(item);
   }
   auto getOut() -> T; //Implementation out of line
@@ -2197,14 +2228,14 @@ Non-type parameters &
 You can also specify non-type parameters for things like size of arrays etc:\newline
 \begin{lstlisting}
 template <typename T, std::size_t n>
-  auto average(std::array<T, n> const & values) {
+  auto average(std::array<T, n> const& values) {
   auto sumOfValues = accumulate(begin(values), end(values), 0);
   return sumOfValues / n;
 }
 
 // You can also use auto if the non-type parameter should be flexible
 template <typename T, auto n>
-  auto average(std::array<T, n> const & values) {
+  auto average(std::array<T, n> const& values) {
   auto sumOfValues = accumulate(begin(values), end(values), 0);
   return sumOfValues / n;
 }
@@ -2527,7 +2558,7 @@ auto greet(Base base) -> void {
   base.sayHello();
 }
 // reference takes the resolved type -> here child class
-auto greet(Base const & base) -> void {
+auto greet(Base const& base) -> void {
   //calls sayHello() of the actual type
   base.sayHello();
 }
@@ -2587,15 +2618,15 @@ The easiest solution here is to simply delete the copy constructor, this prevent
 \begin{lstlisting}
 struct Book {
   //...
-  auto operator=(Book const & other) -> Book & = delete;
-  Book(Book const & other) = delete;
+  auto operator=(Book const& other) -> Book & = delete;
+  Book(Book const& other) = delete;
 };
 struct EBook : Book {
   // or simply manually override the copy constructor
-  EBook(EBook const & other) :
+  EBook(EBook const& other) :
   Book{pages},
   currentPageNumber{other.currentPageNumber}{}
-  auto operator=(EBook const & other) -> EBook & {
+  auto operator=(EBook const& other) -> EBook & {
     pages = other.pages;
     currentPageNumber = other.currentPageNumber;
     return *this;
@@ -2724,7 +2755,7 @@ General Info &
 \item \textcolor{purple}{Consists of simple class types}\newline
   \begin{itemize}
   \item \textcolor{black}{Can have other types as public base classes}
-  \item \textcolor{black}{Can have member varialbes and functions}
+  \item \textcolor{black}{Can have member variables and functions}
   \item \textcolor{black}{Must not have virtual member functions}
   \item \textcolor{black}{Must not have user-declared or inherited constructors}
   \item Must not have protected or private direct non-static data members
@@ -2740,7 +2771,7 @@ The use of this is to get auto constructors!! \newline
 struct person {
   std::string name;
   int age{42};
-  auto operator<(person const & other) const -> bool {
+  auto operator<(person const& other) const -> bool {
     return age < other.age;
   }
   auto write(std::ostream & out) const -> void {
@@ -2761,7 +2792,7 @@ auto main() -> int {
 \begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
 Mutable keyword in General & 
-The mutable keyword can be used to for a variable, that can be mutated, even if a function is cosnt.\newline
+The mutable keyword can be used to for a variable, that can be mutated, even if a function is const.\newline
 This is syntactic sugar, that allows for better programming practices:\newline
 \begin{lstlisting}
 class something {
