@@ -14,8 +14,8 @@
 \textcolor{red}{Note, if both binary numbers are negated, (two complement), then the result will be the same!}
 
 \section{Processor}
-\textcolor{purple}{Address Bus}\newline
-\textcolor{purple}{Data Bus}\newline
+\textcolor{purple}{Address Bus} |
+\textcolor{purple}{Data Bus} |
 \textcolor{purple}{Control Signals}
 
 \section{Assembly}
@@ -318,7 +318,7 @@ test.first = 17;
 \vspace{2mm}
 
 \subsection{Complete vs Incomplete}
-Complete types are of known size at compile time, incomplete types are not, they are therefore heap allocated!
+Complete types are of known size at compile time, incomplete types are not, they are heap allocated!
 
 \subsection{Malloc and free}
 \vspace{-2.5mm}
@@ -337,6 +337,7 @@ void initialize() {
 \section{Cache}
 
 \subsection{Locality Principle}
+Working space(t,T) == all addresses accessed within timeframe [t-T,t] \newline
 \textcolor{purple}{Spatial}: access to neighbour data -> ex. array\newline
 \textcolor{purple}{Temporal}: repeated acces -> ex. sum += sum + 1
 
@@ -352,14 +353,14 @@ Every Byte OR Cacheline is mapped to 1 address on the cache. If full, new entry 
 \textcolor{purple}{Overhead: \(n * 2^M = n * M \text{Bit}\)}
 
 \subsection{Cacheline}
-Instead of storing every byte, we can store 64 bytes as one. \textcolor{red}{Because every 64 bytes has the last 6 bits as 0, we can use these as an offset to indicate which byte we want to access!!}
+Instead of storing every byte, we can store 64 bytes as one. The offset can then access individual bytes.\newline \textcolor{red}{The offset is based on the size of the cacheline!}
 \textcolor{purple}{Calculation for 6 bit offset: 84480801h / \(2^6\) = 8448080h / \(2^2\) = 2112020h, offset = 1 }
 
 \subsection{Direct Mapped Cache DMC}
 This stores each block in a specific cacheline. 
 It does this by indexing each cacheline with bits. The amount needed for this is called \textbf{p}. 
 We can split the address now even further into \textbf{reduced tag and line number}.
-For the next example, consider the amount of cachelines to be 8.
+For the next example, consider the amount of cachelines to be 8 -> \(2^3 == 2^p\).
 \textcolor{purple}{Calculation for tag and linenumber: 2112020h / \(2^p\) => tag:21120, linenumber:20, offset:1}
 \textcolor{red}{Now you only need one comparator for the tag, as the rest is already stored in a fixed position!!}\newline
 \textcolor{OliveGreen}{Note that tag 52315, linenumber: 20 would be stored at the same place!}
@@ -412,6 +413,7 @@ Frontend commands: \textcolor{purple}{HeapCreate, HeapAlloc, HeapFree}\newline
 HeapCreate chooses heap variant itself.
 
 \section{RAM}
+\textcolor{red}{Address size is encoding of Memory Size!! \(2^x => \text{x bits}\)}\newline
 \textcolor{red}{Should access be invalid, then OS will throw segfault!}\newline
 \textcolor{purple}{Regular array == stack == static}\newline
 \textcolor{purple}{alloca() == defined max, dynamic == \textbf{stack}!}\newline
@@ -433,7 +435,7 @@ The MMU maps physical RAM to virtual RAM via \textbf{Page-Table}.\newline
 \textcolor{purple}{Special Cache for MMU that only stores mappings}
 
 \subsubsection{Page-Tables}
-Page Tables can have multiple levels just like k-Way SAC. \textcolor{red}{!!Offset = 12 Bit!!}\newline
+Page Tables can have multiple levels just like k-Way SAC. \textcolor{red}{!! offset based on frame size !!}\newline
 The root part of this is associated with a process.\newline
 \includegraphics[scale=0.18]{2023_01_11_04_39_04.png}\newline
 % \includegraphics[scale=0.27]{2022-12-06-04_46_09.png}\newline
