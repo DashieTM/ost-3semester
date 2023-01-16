@@ -3417,4 +3417,137 @@ template <typename T> bool Vector<T>::empty() const {
 \hline
 \end{tabular}
 \end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Inheritance & 
+\begin{lstlisting}
+struct monster {
+  monster() { std::cout << "a monster is bread"; }
+  ~monster() { std::cout << "monster killed"; }
+  auto health() -> void { std::cout << "immortal?"; }
+  virtual auto attack() -> void { std::cout << "roar"; }
+};
+
+struct troll : monster {
+  troll() { std::cout << "a troll grows"; }
+  ~troll() { std::cout << "troll petrified"; }
+  auto attack() -> void { swing_club(); }
+  virtual auto swing_club() -> void {
+    std::cout << "clubbing kills me";
+    myhealth--;
+  }
+  void health() { std::cout << "troll-health:" << myhealth << ''; }
+
+protected:
+  int myhealth{10};
+};
+
+struct forum_troll : troll {
+  forum_troll() : troll{} { std::cout << "not quite a monster"; }
+  ~forum_troll() { std::cout << "troll banned"; }
+   auto swing_club() -> void {
+    std::cout << "swinging is healthy";
+    myhealth++;
+  }
+  void attack() { std::cout << "write stupid things"; }
+};
+
+#endif.
+
+auto main() -> int {
+  std::cout << "a ------";    // a ------
+  forum_troll ft{};             // a monster is bread
+  troll t{ft};                  // a troll grows
+  monster &m{ft};               // not quite a monster
+  std::cout << "b ------";    // b ------
+  ft.attack();                  // write stupid things
+  t.attack();                   // clubbing kills me
+  m.attack();                   // write stupid things
+  std::cout << "c ------";    // c ------
+  ft.swing_club();              // swinging is healthy
+  t.swing_club();               // clubbing kills me
+  std::cout << "d ------";    // d ------
+  ft.health();                  // troll-health:11
+  t.health();                   // troll-health:8
+  m.health();                   // immortal?
+  std::cout << "end ------";  // end ------
+  // troll petrified
+  // monster killed
+  // troll banned
+  // troll petrified
+  // monster killed
+}
+\end{lstlisting}
+\\
+\hline
+Inheritance 2 & 
+\begin{lstlisting}
+struct Animal {
+    auto makeSound() -> void { cout << "---\n"; }
+    virtual auto move() -> void { cout << "---\n"; }
+
+    Animal() { cout << "animal born\n"; }
+    ~Animal() { cout << "animal died\n"; }
+};
+
+struct Bird : Animal {
+    virtual auto makeSound() -> void { cout << "chirp\n"; }
+    auto move() -> void { cout << "fly\n"; }
+
+    Bird() { cout << "bird hatched\n"; }
+    ~Bird() { cout << "bird crashed\n"; }
+};
+
+struct Hummingbird : Bird {
+    auto makeSound() -> void { cout << "peep\n"; }
+    virtual auto move() -> void { cout << "hum\n"; }
+
+    Hummingbird() { cout << "hummingbird hatched\n"; }
+    ~Hummingbird() { cout << "hummingbird died\n"; }
+};
+
+auto main() -> int {
+    cout << "(a)----------------------------\n";
+    Hummingbird hummingbird;        // animal born
+    Bird bird = hummingbird;        // keine Ausgabe
+    Animal &animal = hummingbird;   // keine Ausgabe
+    cout << "(b)-----------------------------\n";
+    hummingbird.makeSound();        // peep
+    bird.makeSound();               // chirp
+    animal.makeSound();             // ---
+    cout << "(c)-----------------------------\n";
+    hummingbird.move();             // hum
+    bird.move();                    // fly
+    animal.move();                  // hum (weil animal move virtual ist, 
+                                    // ist bird move implizit virtual)
+    cout << "(d)-----------------------------\n";
+}
+\end{lstlisting}
+\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Read words and produce sorted list & 
+\begin{lstlisting}
+auto compareLexicographically(std::string a, std::string b) -> bool {
+    return std::lexicographical_compare(std::begin(a), std::end(a), std::begin(b), std::end(b),
+     [](char left, char right){return tolower(left) < tolower(right);});
+}
+
+auto wlist_caseless(std::istream &input, std::ostream &output) -> void {
+    std::istream_iterator<std::string> inIt {input};
+    std::istream_iterator<std::string> eof {};
+    std::set words (inIt, eof, compareLexicographically);
+}
+\end{lstlisting}
+\\
+\hline
+\end{tabular}
+\end{table}
 \end{document}
