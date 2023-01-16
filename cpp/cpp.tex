@@ -2910,4 +2910,511 @@ int main() {
 \hline
 \end{tabular}
 \end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Indexable Set & 
+\vspace{2mm}
+\begin{lstlisting}
+#include <functional>
+#include <initializer_list>
+#include <iostream>
+#include <iterator>
+#include <set>
+
+template <typename T, typename Compare = std::less<T>>
+class indexable_set : public std::set<T, Compare> {
+public:
+  indexable_set() {}
+  indexable_set(std::initializer_list<T> list)
+      : std::set<T, Compare>(list) {}
+  ~indexable_set() {}
+
+  T const &operator[](int index) {
+    auto it = this->begin();
+    for (int i = 0; i < index; i++) {
+      it++;
+    }
+    return *it;
+  }
+
+  auto at(int index) {
+    if (this->size <= index) {
+      throw("geil");
+    }
+
+    return this[index];
+  }
+
+  auto front() { return this[0]; }
+
+  auto back() { return this[this->size - 1]; }
+
+private:
+};
+
+int main() {
+
+  indexable_set<int> set;
+  set.insert(21);
+  set.insert(45);
+  set.insert(1);
+  set.insert(4);
+
+  indexable_set<double> newset = {5.5,23532.3,22.2,324.9,9.9};
+  std::cout << newset[1] << "\n";
+
+  std::cout << set[3] << "\n";
+  std::cout << set[2] << "\n";
+  std::cout << set[1] << "\n";
+
+  return 0;
+}
+
+// template<typename T>
+// inline bool operator<(const& T elem, const& T other)  {
+//   return elem < other;
+// }
+\end{lstlisting}
+\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Word part 1 & 
+\vspace{2mm}
+\begin{lstlisting}
+#include "kwic.hpp"
+#include <algorithm>
+#include <bits/ranges_algo.h>
+namespace text {
+auto printVec(std::ostream &os, std::vector<line> &vecs) -> void {
+  std::vector<line> newVecs{};
+  for (const auto &vec : vecs) {
+    for (int i = 0; i < vec.size(); i++) {
+      line vecToShuffle = vec;
+      std::rotate(vecToShuffle.begin(), vecToShuffle.begin() + i,
+                  vecToShuffle.end());
+      newVecs.push_back(vecToShuffle);
+    }
+  }
+  std::sort(newVecs.begin(), newVecs.end(), [](auto vecA, auto vecB) -> bool {
+    int size = 0;
+    if (vecA.size() < vecB.size()) {
+      size = vecA.size();
+    } else {
+      size = vecB.size();
+    }
+    for (int i = 0; i < size; i++) {
+      if (vecA[i] < vecB[i]) {
+        return true;
+      } else if (vecA[i] > vecB[i]) {
+        return false;
+      }
+    }
+    return false;
+  });
+  for (const auto vec : newVecs) {
+    for (const auto word : vec) {
+      os << word << " ";
+    }
+    os << "\n";
+  }
+}
+
+auto splitLines(std::istream &is) -> std::vector<line> {
+  if (is.fail() || is.eof()) {
+    return {};
+  }
+  std::vector<line> vecs{};
+  for (std::string buffer; std::getline(is, buffer);) {
+    if (buffer.empty()) {
+      break;
+    }
+    line vec{};
+    std::istringstream stream(buffer);
+    while (!stream.eof() && !stream.fail()) {
+      if (stream.bad()) {
+        break;
+      }
+      Word w{};
+      stream >> w;
+      if (!w.isEmpty()) {
+        vec.push_back(w);
+      }
+    }
+    stream.ignore();
+    vecs.push_back(vec);
+  }
+  return vecs;
+}
+
+auto kwic(std::istream &in, std::ostream &os) -> void {
+  std::vector<line> vec = splitLines(in);
+  printVec(os, vec);
+}
+} // namespace text
+\end{lstlisting}
+\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Word part 2 & 
+\vspace{2mm}
+\begin{lstlisting}
+#include "word.hpp"
+#include <stdexcept>
+
+text::Word::Word() {}
+text::Word::Word(std::string word) { this->read(word); }
+
+void text::Word::read(std::istream &in) {
+  if (in.eof()) {
+    in.setstate(std::ios::failbit);
+  }
+  bool b_word_lock = false;
+  std::string buffer{};
+  int count = 0;
+  while (!in.eof() && !in.fail()) {
+    const auto character = in.peek();
+    if (std::isalpha(character)) {
+      in.get();
+      count++;
+      buffer += character;
+      b_word_lock = true;
+    } else if (b_word_lock) {
+      this->word = buffer;
+      this->empty = false;
+      return;
+    } else {
+      in.get();
+    }
+  }
+  if (count > 0 && buffer != "") {
+    this->word = buffer;
+    this->empty = false;
+    return;
+  }
+}
+
+void text::Word::read(std::string &str) {
+  if (str.empty()) {
+    throw std::invalid_argument("Can't create empty word!");
+  }
+  bool b_word_lock = false;
+  std::string buffer{};
+  int count = 0;
+  for (const auto character : str) {
+    if (std::isalpha(character)) {
+      count++;
+      buffer += character;
+      b_word_lock = true;
+    } else {
+      throw std::invalid_argument(
+          "Can't create word with non alpha characters!");
+    }
+  }
+  this->word = buffer;
+}
+
+void text::Word::write(std::ostream &os) const {
+  if (!this->word.empty())
+    os << this->word;
+}
+
+std::string text::Word::getCurrentWord() const { return this->word; }
+
+std::string text::Word::getCurrentWordLower() const {
+  std::string buffer = "";
+  for (const auto e : this->word) {
+    buffer += std::tolower(e);
+  }
+  return buffer;
+}
+
+bool text::Word::isEmpty() {
+  if (this->empty) {
+    return true;
+  }
+  return false;
+}
+\end{lstlisting}
+\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Word part 3 & 
+\vspace{2mm}
+\begin{lstlisting}
+#pragma once
+#include <algorithm>
+#include <cctype>
+#include <compare>
+#include <iostream>
+#include <sstream>
+#include <string>
+#include <vector>
+
+namespace text {
+class Word {
+private:
+  std::string word = "this is a default";
+  bool empty = true;
+
+  std::string getCurrentWord() const;
+  std::string getCurrentWordLower() const;
+
+protected:
+public:
+  Word();
+  Word(std::string word);
+
+  class StreamBadException : public std::exception {};
+
+  void read(std::istream &in);
+  void read(std::string &str);
+  void write(std::ostream &os) const;
+  bool isEmpty();
+
+  bool operator==(const Word &wr) const {
+    if (this->getCurrentWordLower() == wr.getCurrentWordLower()) {
+      return true;
+    }
+    return false;
+  }
+  std::weak_ordering operator<=>(const Word &wr) const {
+    auto comp = this->getCurrentWordLower().compare(wr.getCurrentWordLower());
+    if (comp > 0) {
+      return std::weak_ordering::greater;
+    } else if (comp == 0) {
+      return std::weak_ordering::equivalent;
+    } else {
+      return std::weak_ordering::less;
+    }
+  };
+};
+
+inline std::ostream &operator<<(std::ostream &os, const Word &w) {
+  w.write(os);
+  return os;
+};
+inline std::istream &operator>>(std::istream &in, Word &w) {
+  w.read(in);
+  return in;
+};
+}; // namespace text
+\end{lstlisting}
+\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Vector Implementation & 
+\vspace{2mm}
+\begin{lstlisting}
+#include <initializer_list>
+#include <vector>
+#include <iostream>
+
+template <typename T> class Vector {
+private:
+  int size;
+  int cap;
+  T *data;
+
+  void resize_vec();
+
+public:
+  Vector() : size(0), cap(5) { this->data = new T[this->cap]; }
+  Vector(std::initializer_list<T> list) : size(0), cap(5) {
+    this->data = new T[list.size()];
+    this->cap = list.size();
+    int i = 0;
+    for (auto elem : list) {
+      this->data[i] = elem;
+      this->size += 1;
+      i += 1;
+    }
+  }
+  Vector(std::vector<T> vec) : size(vec.size()), cap(vec.max_size()) {
+    this->data = new T[this->cap];
+    int i = 0;
+    for (auto elem : vec) {
+      this->data[i] = elem;
+      this->size += 1;
+      i += 1;
+    }
+  }
+  Vector(Vector<T> const &vec) : size(vec.size), cap(vec.cap) {
+    this->data = new T[this->cap];
+    int i = 0;
+    for (auto elem : vec) {
+      this->data[i] = elem;
+      this->size += 1;
+      i += 1;
+    }
+  }
+  Vector(Vector<T> &&vec)
+      : size(vec.size), cap(vec.cap), data(std::move(vec.data)) {
+    vec.data = nullptr;
+  }
+
+  Vector(int size) : size(size), cap(this->size * 2) {
+    this->data = new T[this->cap];
+  }
+  ~Vector() { delete[] (this->data); }
+
+  T operator[](int index) { return this->data[index]; }
+
+  void pushback(T elem);          // add element at the end
+  void delback();                 // remove element at the end
+  void pushfront(T elem);         // add element at the front
+  void delfront();                // remove element at the front
+  void insert(T elem, int index); // insert element at index
+  void remove(int index);         // remove element at index
+  void print_vec();               // print the vector
+  T *begin();                     // return iterator at the begin
+  T *end();                       // return iterator at the end
+  T *rbegin();                    // return reverse iterator at the end
+  T *rend();                      // return reverse iterator at the front
+  T &at(int index);               // return element at index with bound checking
+  T front();                      // return element at the front
+  T back();                       // return element at the back
+  int current_size() const;       // returns size
+  bool empty() const;             // returns if the element is empty or not
+};
+
+template <typename T> void Vector<T>::resize_vec() {
+  T *arr = new T[this->cap * 2];
+  for (int i = 0; i < this->cap; i++) {
+    arr[i] = this->data[i];
+  }
+  delete[] (this->data);
+  this->data = arr;
+  this->cap *= 2;
+}
+
+template <typename T> void Vector<T>::pushback(T elem) {
+  if (size + 1 >= this->cap) {
+    this->resize_vec();
+  }
+  this->data[size] = elem;
+  this->size += 1;
+}
+
+template <typename T> void Vector<T>::pushfront(T elem) {
+  this->insert(elem, 0);
+}
+
+template <typename T> void Vector<T>::delfront() { this->remove(0); }
+
+template <typename T> void Vector<T>::delback() { this->size -= 1; }
+\end{lstlisting}
+\\
+\hline
+\end{tabular}
+\end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+& 
+\begin{lstlisting}
+template <typename T> void Vector<T>::print_vec() {
+  for (int i = 0; i < this->size - 1; i++) {
+    std::cout << this->data[i] << ", ";
+  }
+  std::cout << this->data[this->size - 1] << "\n";
+}
+
+template <typename T> T &Vector<T>::at(int index) {
+  if (size <= 0) {
+    throw("sowwy error");
+  }
+  if (index >= this->size + 1 || index < 0) {
+    throw("out of bounds");
+  }
+
+  return this->data[size - 1];
+}
+
+template <typename T> void Vector<T>::insert(T elem, int index) {
+  if (this->cap - 1 <= this->size) {
+    this->resize_vec();
+  }
+  if (index >= this->size + 1 || index < 0) {
+    throw("can't insert out of bounds");
+  }
+  T bufferprev = this->data[index];
+  T buffernext;
+  for (int i = index + 1; i < this->size + 1; i++) {
+    buffernext = this->data[i];
+    this->data[i] = bufferprev;
+    bufferprev = buffernext;
+  }
+  this->data[index] = elem;
+  this->size += 1;
+}
+
+template <typename T> void Vector<T>::remove(int index) {
+  if (index >= this->size + 1 || index < 0) {
+    throw("can't insert out of bounds");
+  }
+
+  for (int i = index + 1; i < this->size + 1; i++) {
+    this->data[i - 1] = this->data[i];
+  }
+  this->size -= 1;
+}
+
+template <typename T> T Vector<T>::front() {
+  if (this->size < 1) {
+    throw("can't call front on empty vector!");
+  }
+  return this->data[0];
+}
+
+template <typename T> T Vector<T>::back() {
+  if (this->size < 1) {
+    throw("can't call back from empty vector!");
+  }
+  return this->data[this->size - 1];
+}
+
+template <typename T> T *Vector<T>::rbegin() { return this->data + this->size - 1; }
+
+template <typename T> T *Vector<T>::rend() { return this->data; }
+
+template <typename T> T *Vector<T>::begin() { return this->data; }
+
+template <typename T> T *Vector<T>::end() { return this->data + this->size; }
+
+template <typename T> int Vector<T>::current_size() const { return this->size; }
+
+template <typename T> bool Vector<T>::empty() const {
+  if (this->size > 0) {
+    return true;
+  }
+  return false;
+}
+\end{lstlisting}
+\\
+\hline
+\end{tabular}
+\end{table}
 \end{document}
