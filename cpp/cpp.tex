@@ -3621,4 +3621,93 @@ void VectorSet<T, Compare>::print() const {
 \hline
 \end{tabular}
 \end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Counting Chars and words & 
+\vspace{2mm}
+\begin{lstlisting}
+#include <iostream>
+#include <sstream>
+#include <string>
+void countwords() {
+  std::string something;
+  int count;
+  while (std::getline(std::cin, something)) {
+    std::istringstream ss{something};
+    while (!ss.eof()) {
+      std::string buffer;
+      ss >> buffer;
+      count++;
+      std::cout << buffer << "\n";
+    }
+  }
+  std::cout << "the amount of words were: " << count << "\n";
+}
+
+int countlines(std::istream &in) {
+  int count = 0;
+  for (std::string buffer; std::getline(in, buffer);) {
+    count++;
+  }
+  return count;
+}
+
+int countwords2(std::istream &in) {
+  int count = 0;
+  while (in.peek() != EOF) {
+    if (in.peek() == '\n') {
+      in.get();
+      return count;
+    }
+    std::string buffer;
+    in >> buffer;
+    count++;
+  }
+  return count;
+}
+
+int countchar(std::istream &in) {
+  int count = 0;
+  while (in.peek() != EOF) {
+    if (in.peek() == '\n') {
+      in.get();
+      return count;
+    }
+    if (in.peek() == ' ' || in.peek() == '\0') {
+      in.get();
+      continue;
+    }
+    count++;
+    in.get();
+  }
+  return count;
+}
+
+int countallchar(std::istream &in) {
+  int count = 0;
+  while (in.peek() != EOF) {
+    if (in.peek() == '\n') {
+      in.get();
+      return count;
+    }
+    count++;
+    in.get();
+  }
+  return count;
+}
+
+int main() {
+  std::cout << countchar(std::cin) << "\n";
+  std::cout << countallchar(std::cin) << "\n";
+  std::cout << countwords2(std::cin) << "\n";
+  std::cout << countlines(std::cin) << "\n";
+  return 0;
+}
+\end{lstlisting}
+\\
+\hline
+\end{tabular}
+\end{table}
 \end{document}
