@@ -3550,4 +3550,81 @@ auto wlist_caseless(std::istream &input, std::ostream &output) -> void {
 \hline
 \end{tabular}
 \end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+VectorSet & 
+\vspace{2mm}
+\begin{lstlisting}
+#include <functional>
+#include <initializer_list>
+#include <iostream>
+#include <set>
+#include <vector>
+
+// -- what is the type of iterators??? -> just use auto
+// or using vecit = typename std::vector<T>::const_iterator
+// -- how to know when to implement the constructors yourself?
+// just do it every time, that is safe
+
+template <typename T = int, typename Compare = std::less<T>>
+class VectorSet : public std::vector<T> {
+private:
+  std::vector<T> vec;
+
+public:
+  using vecit = typename std::vector<T>::const_iterator;
+  VectorSet(std::initializer_list<T> list) : vec(std::vector<T>(list)) {
+    std::sort(this->vec.begin(), this->vec.end(), Compare());
+  }
+  VectorSet(auto begin, auto end) : vec(std::vector<T>(begin,end)) {}
+  VectorSet(VectorSet<T,Compare> & svec) : vec(svec.vec) {}
+  VectorSet(VectorSet<T,Compare> && svec) : vec(std::move(svec.vec)) {}
+
+  vecit find(T elem) const;
+  int count(T elem) const;
+  void print() const;
+
+  std::multiset<T, Compare> operator()(VectorSet<T> &vec) {
+    return std::multiset<T, Compare>(vec);
+  }
+};
+
+template <typename T, typename Compare>
+typename std::vector<T>::const_iterator
+VectorSet<T, Compare>::find(T elem) const {
+  vecit it = this->vec.begin();
+  for (size_t i = 0; i < this->vec.size(); i++) {
+    if (elem == *it) {
+      return it;
+    }
+    it++;
+  }
+  return it;
+}
+
+template <typename T, typename Compare>
+int VectorSet<T, Compare>::count(T elem) const {
+  int i = 0;
+  for (auto inelem : this->vec) {
+    if (inelem == elem) {
+      i += 1;
+    }
+  }
+  return i;
+}
+
+template <typename T, typename Compare>
+void VectorSet<T, Compare>::print() const {
+  for (size_t i = 0; i < this->vec.size() - 1; i++) {
+    std::cout << this->vec[i] << "\n";
+  }
+  std::cout << this->vec[this->vec.size() - 1] << "\n";
+}
+\end{lstlisting}
+\\
+\hline
+\end{tabular}
+\end{table}
 \end{document}

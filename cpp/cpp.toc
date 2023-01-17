@@ -1,25 +1,25 @@
 \babel@toc {english}{}\relax 
-\contentsline {section}{\numberline {1}Basic Terms and Information}{1}{section.1}%
-\contentsline {subsection}{\numberline {1.1}Preprocessor Commands:}{1}{subsection.1.1}%
-\contentsline {section}{\numberline {2}Value Interpretation}{2}{section.2}%
-\contentsline {section}{\numberline {3}Basic Syntax and Keywords}{3}{section.3}%
-\contentsline {section}{\numberline {4}Best practices}{5}{section.4}%
-\contentsline {section}{\numberline {5}Default Operators}{6}{section.5}%
-\contentsline {section}{\numberline {6}Quirks}{6}{section.6}%
-\contentsline {section}{\numberline {7}IO-Streams}{6}{section.7}%
-\contentsline {section}{\numberline {8}Loops}{6}{section.8}%
-\contentsline {section}{\numberline {9}Pointer and References}{7}{section.9}%
-\contentsline {section}{\numberline {10}Cmake}{7}{section.10}%
-\contentsline {section}{\numberline {11}Error Handling}{7}{section.11}%
-\contentsline {section}{\numberline {12}Classes and Structs}{8}{section.12}%
-\contentsline {section}{\numberline {13}Operator Overloading}{9}{section.13}%
-\contentsline {section}{\numberline {14}Namespaces}{10}{section.14}%
-\contentsline {section}{\numberline {15}Enums}{11}{section.15}%
-\contentsline {section}{\numberline {16}Containers}{12}{section.16}%
-\contentsline {section}{\numberline {17}Iterators}{15}{section.17}%
-\contentsline {section}{\numberline {18}Algorithms}{17}{section.18}%
-\contentsline {section}{\numberline {19}Templates}{20}{section.19}%
-\contentsline {section}{\numberline {20}Class Templates}{21}{section.20}%
+\contentsline {section}{\numberline {1}Basic Terms and Information}{2}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Preprocessor Commands:}{2}{subsection.1.1}%
+\contentsline {section}{\numberline {2}Value Interpretation}{3}{section.2}%
+\contentsline {section}{\numberline {3}Basic Syntax and Keywords}{4}{section.3}%
+\contentsline {section}{\numberline {4}Best practices}{6}{section.4}%
+\contentsline {section}{\numberline {5}Default Operators}{7}{section.5}%
+\contentsline {section}{\numberline {6}Quirks}{7}{section.6}%
+\contentsline {section}{\numberline {7}IO-Streams}{7}{section.7}%
+\contentsline {section}{\numberline {8}Loops}{7}{section.8}%
+\contentsline {section}{\numberline {9}Pointer and References}{8}{section.9}%
+\contentsline {section}{\numberline {10}Cmake}{8}{section.10}%
+\contentsline {section}{\numberline {11}Error Handling}{8}{section.11}%
+\contentsline {section}{\numberline {12}Classes and Structs}{9}{section.12}%
+\contentsline {section}{\numberline {13}Operator Overloading}{10}{section.13}%
+\contentsline {section}{\numberline {14}Namespaces}{11}{section.14}%
+\contentsline {section}{\numberline {15}Enums}{12}{section.15}%
+\contentsline {section}{\numberline {16}Containers}{13}{section.16}%
+\contentsline {section}{\numberline {17}Iterators}{16}{section.17}%
+\contentsline {section}{\numberline {18}Algorithms}{18}{section.18}%
+\contentsline {section}{\numberline {19}Templates}{21}{section.19}%
+\contentsline {section}{\numberline {20}Class Templates}{22}{section.20}%
 \contentsline {section}{\numberline {21}Pointers and Heap}{25}{section.21}%
 \contentsline {section}{\numberline {22}Dynamic Polymorphism}{27}{section.22}%
 \contentsline {section}{\numberline {23}Initialization}{29}{section.23}%
