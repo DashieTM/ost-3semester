@@ -919,25 +919,37 @@ print(); // ERROR, no access to print!
 \begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
 \hline
 Argument Dependent Lookup & 
-\textcolor{orange}{Just like you don't need to specify the this keyword inside of functions of classes,\newline
-you also don't need to use the "::" operator to access anything inside a namespace, if you are already inside a namespace function!}\newline
+\vspace{2mm}
 \begin{lstlisting}
-namespace calendar { // inside hpp
-class Date {
-  void print();
-  bool isValid();
-};
-}
-void calendar::Date::print() { // sinside cpp
-  if (isValid()) { // works as we are inside the function that is in the namespace and class!
-    std:cout << this;
+namespace lol {
+  struct type_one {};
+  auto f(type_one) -> void {
+    std::cout << "this is bs\n";
   }
 }
+namespace lmao {
+  struct type_two {};
+  auto f(type_two) -> void { std::cout << "This is the other bs\n"; }
+  auto h(lol::type_one) -> void { std::cout << "No worky 1\n"; }
+  auto g(lol::type_one) -> void { std::cout << "No worky 2\n"; }
+}
+auto g(lmao::type_two) -> void { std::cout << "this one worky\n"; }
+int main() {
+  lol::type_one t1{};
+  f(t1); // implicit call to namespace lol
+  lmao::type_two t2{};
+  f(t2); // implicit call to namespace lmao
+  // h(t2); no worky, t1 has no access to namespace lmao
+  lmao::g(t1); // works as it is called explicitly!
+  //g(t1); trying to use the g function from lmao, but it can't find it!
+  // you can't do argument dependent lookup across 2 namespaces, this only works with 1 namespace!
+  // h(t1); aka, this also won't work, you need to use the lmao:: before the function for it to work
+  // Simply put, just do not depend on this crap and write lol or lmao when you want to use these functions ....
+  g(t2); // ok, calls the global function as this is the most specific one
+  return 0;
+}
 \end{lstlisting}
-\, \newline
-\textcolor{red}{IMPORTANT: this also works with parameters!}\newline
-\includegraphics[scale=0.4]{2022-10-25-08_44_51.png}\newline
-\textcolor{teal}{At the end, please do not rely too much on this, as it is not always clear what is being used}\\
+\\
 \hline
 Overwriting the std Namespace & 
 \textcolor{orange}{Overwriting the standard namespace is not allowed!\newline
@@ -1011,14 +1023,6 @@ enum FilePermissions {
   executable = 4 //100
 };
 \end{lstlisting}\\
-\hline
-
-\hline
-
-\hline
-
-\hline
-
 \hline
 \end{tabular}
 \end{table}
