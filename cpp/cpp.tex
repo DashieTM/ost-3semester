@@ -581,13 +581,9 @@ class Something {
 private:
   int a,b;
 public:
-  Something(int a, int b);
-}
-
-Something(int a, int b) : 
-a{a}, b{b} {
-// regular constructor
-// !! a constructor doesn't return a value !!
+  Something(int a, int b) : a{a}, b{b} {}
+  // note as soon as you have 1 constructor that is user made, all default ones are deleted!
+  // retain them via: Something() = default;
 }
 \end{lstlisting}
 \, \newline
@@ -1103,7 +1099,6 @@ Initialization &
   \item \textcolor{teal}{initializer list}: std::vector<int> v{1,2,3,5,6};
   \item \textcolor{teal}{Construction with number of elements}: std::vector<int> v(5, 10);
   \item \textcolor{teal}{With range}: std::vector<int> v{cbegin(v), cend(v)};
-\item \textcolor{teal}{item 4}
 \vspace{-2mm}
 \end{itemize}\\
 \hline
@@ -1589,9 +1584,11 @@ const iterators &
 \begin{lstlisting}
 std::vector v{3, 1, 4, 1, 5, 9, 2, 6};
 auto const iter1 = values.begin(); //std::vector<int>::iterator const
-++iter1;
+++iter1; // error can't modify const iterator
+// can modify value, but not iterator itself!
 auto iter2 = values.cbegin(); //std::vector<int>::const_iterator
-*iter = 2;
+*iter = 2; // error can't modify value of const_iterator!
+// can modify itself, but not the value!
 \end{lstlisting}
 \, \newline
 \textcolor{teal}{Here we would try to change the value behind the iterator, this doesn't work with const iterators!}\\
@@ -1992,19 +1989,20 @@ The following is exactly why borrowing just works, we pass 2 references to a fun
 This means you could potentially be getting invalid values!\newline 
 \begin{lstlisting}
 template <typename T>
-auto const& min(T const& left, T const& right) -> T {
+auto const T& min(T const& left, T const& right) {
 return left < right ? left : right;
 // left and right now dead as lifetime not extended
 // in other words, return is invalid
+// compiler often warn or give errors for this!
 }
 std::string const& smaller = min("a"s, "b"s);
 std::cout << "smaller is: " << smaller; // undefined behavior! might or might not work!
 \end{lstlisting}
 \, \newline
-\textcolor{OliveGreen}{The fix is to return a const \& reference as well, as this would extend the lifetime of the reference!}\newline
+\textcolor{OliveGreen}{The fix is to return a copy of the value!}\newline
 \begin{lstlisting}
 template <typename T>
-auto min(T const& left, T const& right) -> T const& {
+T min(T const& left, T const& right) {
   return left < right ? left : right;
 }
 \end{lstlisting}\\
@@ -2190,18 +2188,15 @@ Initializer list allow us to create a container without specifiying the type, as
 \includegraphics[scale=0.4]{2022-11-29-09_27_18.png}\\
 \hline
 Type deduction with Iterators & 
-When we want to use type deduction with iterators, then we need a way to do this with iterators.\newline
-Obviously this is not done out of the box, therefore we need another way to do this: \newline
+\vspace{2mm}
 \begin{lstlisting}
-template <typename Iter>
-Sack(Iter begin, Iter end) -> Sack<typename std::iterator_traits<Iter>::value_type>;
+template <typename T> class Sack {
+private:
+  std::vector<T> theSack;
 
-TEST(testDeductionForIterators) {
-  std::vector values{3, 1, 4, 1, 5, 9, 2, 6};
-  Sack aSack(begin(values), end(values));
-  ASSERT_EQUAL(values.size(), aSack.size());
-}
-// Note without the template above, aSack would not compile!
+public:
+  template <typename Iter> Sack(Iter begin, Iter end) : theSack(begin, end) {}
+};
 \end{lstlisting}\\
 \hline
 Passing a standard container as template parameter & 
