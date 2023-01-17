@@ -7,16 +7,16 @@
 \renewcommand{\familydefault}{\sfdefault}
 
 % Format
-\usepackage[top=3mm,bottom=3mm,left=5mm,right=5mm, includefoot]{geometry}
-% \setlength{\headheight}{\baselineskip}
-% \setlength{\headsep}{5mm}
-%
-% \usepackage{scrlayer-scrpage}
-% \clearpairofpagestyles
-% \chead{{\bfseries\TITLE, \AUTHOR, \pagename~\thepage}}
-%
-% \addtokomafont{pagehead}{\upshape}
-\pagenumbering{arabic}
+\usepackage[top=5mm,bottom=5mm,left=5mm,right=5mm]{geometry}
+%\setlength{\headheight}{\baselineskip}
+%\setlength{\headsep}{0mm}
+
+%\usepackage{scrlayer-scrpage}
+%\clearpairofpagestyles
+%\chead{{\bfseries\TITLE, \AUTHOR, \pagename~\thepage}}
+
+%\addtokomafont{pagehead}{\upshape}
+
 \usepackage{multicol}
 \setlength{\columnsep}{2mm}
 \setlength{\columnseprule}{0.1pt}
@@ -71,7 +71,6 @@
     showstringspaces=false,
     showtabs=false,                  
     tabsize=2,
-    belowskip=-5pt
 }
 
 
@@ -120,11 +119,11 @@
 \usepackage[explicit]{titlesec}
 
 %% Color Boxes
-\newcommand{\sectioncolor}[1]{\colorbox{black!60}{\parbox{0.989\linewidth}{\color{white}#1}}}
-\newcommand{\subsectioncolor}[1]{\colorbox{black!50}{\parbox{0.989\linewidth}{\color{white}#1}}}
-\newcommand{\subsubsectioncolor}[1]{\colorbox{black!40}{\parbox{0.989\linewidth}{\color{white}#1}}}
-\newcommand{\paragraphcolor}[1]{\colorbox{black!30}{\parbox{0.989\linewidth}{\color{white}#1}}}
-\newcommand{\subparagraphcolor}[1]{\colorbox{black!20}{\parbox{0.989\linewidth}{\color{white}#1}}}
+\newcommand{\sectioncolor}[1]{\colorbox{black!60}{\parbox{0.97\linewidth}{\color{white}#1}}}
+\newcommand{\subsectioncolor}[1]{\colorbox{black!50}{\parbox{0.97\linewidth}{\color{white}#1}}}
+\newcommand{\subsubsectioncolor}[1]{\colorbox{black!40}{\parbox{0.97\linewidth}{\color{white}#1}}}
+\newcommand{\paragraphcolor}[1]{\colorbox{black!30}{\parbox{0.97\linewidth}{\color{white}#1}}}
+\newcommand{\subparagraphcolor}[1]{\colorbox{black!20}{\parbox{0.97\linewidth}{\color{white}#1}}}
 
 %% Title Format
 \titleformat{\section}{\vspace{0.5mm}\bfseries}{}{0mm}{\sectioncolor{\thesection~#1}}[{\vspace{0.5mm}}]
