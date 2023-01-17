@@ -3735,4 +3735,114 @@ Includes &
 \hline
 \end{tabular}
 \end{table}
+\pagebreak
+\begin{table}[ht!]
+\begin{tabular}{|m{0.2\linewidth}|m{0.755\linewidth}|}
+\hline
+Constructors and operators & 
+\vspace{2mm}
+\begin{lstlisting}
+#include <iostream>
+#include <ostream>
+#include <vector>
+
+class Sub : public std::vector<int> {
+  public:
+
+  int& operator[](size_t index) {
+    return *(this->begin()+index);
+    // return std::vector<int>::operator[](index); // does the same
+  }
+
+  virtual void print() {
+    std::cout << "this is overriden\n";
+    for (size_t i = 0; i < this->size() - 1; i++) {
+      std::cout << std::vector<int>::operator[](i) << ", ";
+      // std::cout << (*this)[i] << ", "; // does the same
+    }
+    // std::cout << (*this)[this->size() - 1] << "\n"; // does the same
+      std::cout << std::vector<int>::operator[](this->size()-1) << "\n";
+  }
+};
+      // this: a pointer to the current object!
+      // this-> and not this.!
+      // (*this).something() this->something() is easier
+      // inside a class
+      // how can i make this[i] work instead of (*this)[i]
+
+int main() { 
+  Sub sb;
+  sb.push_back(1);
+  sb.push_back(2);
+  sb.push_back(3);
+  sb.push_back(4);
+  sb.print();
+  std::cout << sb[2] << "\n";
+  sb[2] = 100;
+  std::cout << sb[2] << "\n";
+  // worky!
+
+  return 0; 
+}
+\end{lstlisting}
+\\
+\hline
+Friend & 
+\vspace{2mm}
+\begin{lstlisting}
+#include <iostream>
+struct something {
+  public: 
+    friend void somefunc(something& obj);
+    friend struct friendstruct;
+    void print() {
+      std::cout << this->some << "\n";
+    }
+  private: 
+    int some = 0;
+};
+
+struct friendstruct {
+  public: 
+    void friendstructfunc(something& obj) {
+      std::cout << "this is from struct " << obj.some << "\n";
+    }
+};
+
+void somefunc(something& obj) {
+  obj.some = 100;
+}
+
+// void somefunc2(something& obj) {
+//   obj.some = 100; // this is not considered a friend unlike the first somefunc
+// } therefore it can't access the some variable!!
+
+int main() {
+  something obj;
+  obj.print();
+  somefunc(obj);
+  obj.print();
+
+  friendstruct fren;
+  fren.friendstructfunc(obj);
+
+  return 0;
+}
+\end{lstlisting} 
+\\
+\hline
+basic map usage & 
+\vspace{2mm}
+\begin{lstlisting}
+map.insert(std::pair("hello", 5)); // insert or modify
+map["whatever"] = 10; // insert or modify
+
+for(auto [key,value] : map) { // c++ 17 feature
+  std::cout << key << value << "\n";
+}
+\end{lstlisting}
+\\
+\hline
+\end{tabular}
+\end{table}
 \end{document}
