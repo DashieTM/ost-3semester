@@ -1,4 +1,4 @@
-\documentclass[main.tex,fontsize=8pt,paper=a4,paper=landscape,DIV=calc,]{scrartcl}
+\documentclass[main.tex,fontsize=7pt,paper=a4,paper=landscape,DIV=calc,]{scrartcl}
 \input{../template-exam.tex}
 
 \begin{document}
@@ -11,7 +11,11 @@
 
 \section{Multiplication of Binary number}
 1001 * 101 = \(2^3 * 2^2 = 2^5\)\newline
-\textcolor{red}{Note, if both binary numbers are negated, (two complement), then the result will be the same!}
+\textcolor{red}{Note, if both binary numbers are negated, (two complement), then the result will be the same!}\newline 
+
+\subsection{Calculation}
+4 Registers, 16 databits, 8 address bits\newline
+max addressable ram: log2(databits) * registers = \(2^8 * 2^2\)\newline
 
 \section{Processor}
 \textcolor{purple}{Address Bus} |
@@ -107,9 +111,10 @@ div rbx  \newline
 d = RDX:RAX\newline
 RAX <-- RDX:RAX / RBX\newline
 RDX <-- RDX:RAX mod RBX
-\item shl z,   i  \textcolor{teal}{// z * \(2^i\)               --> shift}
-\item shr z,   i  \textcolor{teal}{// z * \(2^{-i}\) z signed   --> shift}
-\item sar z,   i  \textcolor{teal}{// z * \(2^{-i}\) z unsigned --> shift}
+\item shl z,   i  \textcolor{teal}{// z * \(2^i\)               --> shift left}
+\item sal z,   i  \textcolor{teal}{// z * \(2^{-i}\) z unsigned --> shift left}
+\item shr z,   i  \textcolor{teal}{// z * \(2^{-i}\) z signed   --> shift right}
+\item sar z,   i  \textcolor{teal}{// z * \(2^{-i}\) z unsigned --> shift right}
 \item rol z,   i  \textcolor{teal}{// Left-Rotate i Bits }
 \item ror z,   i  \textcolor{teal}{// Right-Rotate i Bits }
 \item and rax, rbx\textcolor{teal}{// AND}
@@ -126,6 +131,12 @@ RDX <-- RDX:RAX mod RBX
 \item call S \textcolor{teal}{// push rax and jmp S > function call}
 \item ret    \textcolor{teal}{// pop rax and jmp rax > return}
 \end{itemize}
+
+\subsubsection{Shifting}
+leftshift: insert from right\newline
+righshift: insert from left\newline
+arithmetic: shift with status bit 0 or 1\newline
+logical: always shift with 0
 
 \subsubsection{Stack}
 Note that the stack has the highest address from the bottom, meaning that adding to the stack decreases the stack pointer (rsp)!!
@@ -238,9 +249,10 @@ Note, C has no references, that is a c++ thing
 
 \subsection{Bitwise Operators}
 \textcolor{teal}{not: \(\tilde{} \) q} | \textcolor{teal}{and: q \& p} | \textcolor{teal}{or: q | p} \newline
-\textcolor{teal}{left shift: q << p} | \textcolor{teal}{right shift: q >> p}
+\textcolor{teal}{left shift: q << p} | \textcolor{teal}{right shift: q >> p}\newline
+\textcolor{purple}{Shifts in C are usually arithmetic!!}
 
-\subsection{Arithmic Operators}
+\subsection{Arithmetic Operators}
 like c++, \textcolor{red}{BUT RETURN TYPE IS INTEGER!!!!!}
 
 \subsection{Parameters in Functions}
@@ -283,8 +295,11 @@ typedef int (* func) ( param )
 \vspace{2mm}
 
 \subsection{Strings in C}
-Strings in C are not 0 terminated, meaning you have to do it yourself!
-They are just \textbf{char arrays!!}
+Strings in C can be represented by char arrays or char pointers.\newline
+\begin{lstlisting}
+char c = {'H','e','n','l','o'}; // not 0 terminated! 
+char *b = "Henlo"; // 0 terminated!
+\end{lstlisting}
 
 \subsection{Const}
 There is no proper const in C, there is only the let equivalent in rust, where the underlying variable is not mutable, but other fucntion can mutate the said value of the variable!!
@@ -298,11 +313,13 @@ Static variables are essentially hidden global variables, meaning that they will
 \subsection{Structs}
 \vspace{-2.5mm}
 \begin{lstlisting}
-struct something { int q; // ... };
-struct something fun = {5};
-// struct keyword + struct name + variable name
-// or nameless with struct { int q; } fun;
-// access with fun.q or with pointers fun->q
+typedef struct {
+int a;
+char b;
+} mystruct;
+mystruct something;
+something.a = 5;
+something.b = 'L';
 \end{lstlisting}
 \vspace{2mm}
 
@@ -310,7 +327,7 @@ struct something fun = {5};
 \textcolor{red}{Unions point to the same memory, meaning that you can have multiple members that will point to a certain memory location and you can interpret them all at once! The size is determined by the biggest member}
 \vspace{-2.5mm}
 \begin{lstlisting}
-typedef union U { int_64 first; char bytes[8]; } U;
+typedef union { int_64 first; char bytes[8]; } U;
 U test;
 test.first = 17;
 // bytes == 11 00 00 00 00 00 00 00 == 17!!
@@ -408,9 +425,29 @@ Starts with the entire memory and splits down to smallest possible size.\newline
 \textcolor{orange}{FreeList[128]} stores free space, and is an array of pointers with size 128\newline
 Additional Bitmap and cache over FreeList for fast lookup.\newline
 Extra Cache over Bitmap for fast lookup on free space.\newline
-Program chan choose between \textbf{Look-Aside List and Low-Fragmentation Heap implementation}\newline
+Program can choose between \textbf{Look-Aside List and Low-Fragmentation Heap implementation}\newline
 Frontend commands: \textcolor{purple}{HeapCreate, HeapAlloc, HeapFree}\newline
 HeapCreate chooses heap variant itself.
+
+\subsection{Calculations}
+\begin{itemize}
+\item \textcolor{orange}{Amount of Cacheline = Cache size / cache line size}\newline
+  128MB Cache size, 64bytes cacheline \( 2^27 / 2^6 = 2^21 = 2\text{MB} \)
+\item \textcolor{orange}{Offset = \(\text{log}_2(\text{Cacheline size})\)}\newline
+  \( \text{log}_2(64) = 6 -> \text{6 bits} \)
+\item \textcolor{orange}{Tag = address bits (usually 64) - offset}
+\item \textcolor{orange}{reduced tag (only for DMC and SAC) = address bits - offset - linenumber}\newline
+  \( 64 - 5 - 21 = 38 \)
+\item \textcolor{orange}{linenumber = \(\text{log}_2(\text{amount of cachelines})\)}\newline
+  \( \text{log}_2(2^21) = 21 -> \text{21 bits} \)
+\item \textcolor{orange}{Overhead = reduced tag or tag * amount of cachelines}\newline
+\item  \textcolor{orange}{Available Cache per cachelines:}\newline
+  32GB Ram, 128MB Cache with 4 way \newline
+  Ram size * way amount / Cache size => \( 2^35 * 2^2 / 2^27 = 1K \)\newline
+  1K Cache per 4 cachelines || 4 cachelines share 1K memory
+\end{itemize} 
+\includegraphics[scale=0.18]{2023_01_19_02_53_25.png}
+
 
 \section{RAM}
 \textcolor{red}{Address size is encoding of Memory Size!! \(2^x => \text{x bits}\)}\newline
@@ -426,6 +463,8 @@ cacheline = block of memory in RAM
 \textcolor{red}{ALL OF THESE HAVE THE SAME SIZE!}
 
 \subsection{Pages}
+These store the data, note that these are NOT inside the virtual memory.\newline
+Virtual memory only does mapping, aka it stores addresses, unlike cache.
 
 \subsection{Memory Management Unit MMU}
 The MMU maps physical RAM to virtual RAM via \textbf{Page-Table}.\newline
@@ -442,6 +481,23 @@ The root part of this is associated with a process.\newline
 \textcolor{red}{Page-Tables always allocate the entire list! Page Directories only allocate the entries when they exist!}\newline
 This is because you always need the space for the actual entry, but you don't need the space for an abstraction!
 \textcolor{teal}{There are other implementations like Inverted Page Table or Hash Page Table, but they are not used}
+
+\subsection{Calculations}
+\begin{itemize}
+\item \textcolor{orange}{Bits for page frame = log2(amount of frames)}\newline
+  -> 64KB ram, 4KB sized frames -> 16 frames\newline
+  -> log2(16) = 4. bits used == 4
+\item \textcolor{orange}{Page table size = address bytes * \(2^{\text{table index bits}}\)}\newline
+  4 bytes (32 bit) * \(2^10\) = 4KB 
+\item \textcolor{orange}{Page Directory size = frame bits * \(2^{\text{Directory Index}}\) }
+\item \textcolor{orange}{Page amount: \(2^\text{amount of bits for frame number}\)}
+\item \textcolor{orange}{Frame number = virt address bit (usually 64) - offset}
+\item \textcolor{orange}{Table Index, Directory Index, Pointer}\newline
+  address bits - offset and split into 3,2,1 depending on level.
+\item \textcolor{orange}{Amount of entries per page} pagesize / entry size
+\item \textcolor{orange}{Bits needed for all entries in page} log2(amount of entries per page)
+\end{itemize}
+\textcolor{purple}{Processor usage needs to be divided by page size!}
 
 \subsection{Interrupt}
 MMU will throw interrupts, which the OS needs to handle.\newline
@@ -504,6 +560,7 @@ If page not in working set, page can be cleaned with a cleaning algorithm of cho
 \subsubsection{WS Clock}
 Same as Working set with proper Clock instead of timestamping, iterates over clock at fault-interrupt.\newline
 \textcolor{purple}{Same structure as Clock from second chance}
+
 
 \end{multicols*}
 \end{document}
