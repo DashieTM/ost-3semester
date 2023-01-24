@@ -7,6 +7,7 @@
 \begin{document}
 
 \tableofcontents
+\pagebreak
 
 \section{Terms and Definitions}
 
@@ -226,7 +227,14 @@ This will return 0 when used in a right angle as \(cos(90)\) is 0!\\
 
 \subsubsection{Gravity}
 \textcolor{purple}{\( |\vec{F_G}| = G * \dfrac{m_1 * m_2}{r^2} \)} | 
-G = \(6.67 * 10^{-11}\dfrac{m^3}{kgs^2}\)\vspace{2mm}
+G = \(6.67 * 10^{-11}\dfrac{m^3}{kgs^2}\)\vspace{2mm}\newline
+Legend: \newline
+\begin{itemize}
+\item \(G\) = Gravitational Constant
+\item \(m1\) = Mass of planet
+\item \(m2\) = mass of object
+\item \(r\) = radius from planet \emph{to object}!
+\end{itemize} 
 
 \subsubsection{Gravity change}
 Difference in some height to surface earth for gravity.\newline
@@ -487,7 +495,7 @@ Due to the poisson number being withing 0 to 0.5, the following are the limits f
 Legend: \newline
 \begin{itemize}
 \item M = torque
-\item c = ??
+\item c = Springconstant -> [\(\dfrac{N}{m}\)]
 \item \(\phi\) = turning angle 
 \item l = length
 \end{itemize} 
@@ -500,16 +508,19 @@ something over infinity will be 0 when considering the limit
 \subsubsection{Screw-Spring}
 \, \newline
 \large \textcolor{purple}{\( \Delta l = \dfrac{F}{c} = \dfrac{F * 4nR^3}{G * r^4} = \dfrac{F * 8nR^3 (1 + \mu)}{E * r^4}\)}\newline
+\large \textcolor{purple}{\( W = \dfrac{c * \Delta l^2}{2} = m * g * (h + \Delta l) \)}\newline
 \, \newline
 \normalsize 
 \minipg{
 Legend: \newline
 \begin{itemize}
 \item F = force
-\item c = ??
+\item c = Springconstant -> [\(\dfrac{N}{m}\)]
 \item l = length
 \item n = amount of coils
 \item R = radius of coil
+\item m = mass
+\item h = height from where object that compressed the spring fell from / or went towards
 \end{itemize} 
 }{
 \includegraphics[scale=0.4]{2022-12-29_01_30_58.png}
@@ -697,6 +708,22 @@ It is used to get a radius that is needed in order to calculate the speed, accel
 \item \textcolor{orange}{\(2\pi\) == 1 Circulation}
 \end{itemize}
 
+\subsection{Centripetal Force}
+\large \textcolor{purple}{\( F_c = \dfrac{m * v_t^2}{r} \)} | 
+\large \textcolor{purple}{\( a_c = \dfrac{2 * v_t^2}{d} \)}\newline
+\normalsize Legend: 
+\begin{itemize}
+\item \(F_c\) = Centripetal force
+\item m = mass
+\item \(v_t\) = tangential velocity 
+\item r = radius of curve etc
+\item d = diameter of curve etc
+\item \(a_c\) = centripetal acceleration
+\end{itemize}
+\includegraphics[width=\columnwidth]{2023_01_24_01_53_22.png}\newline
+Any force applied as tangential will therefore have a centripedal aspect.\newline
+This means when you brake, you also have a centripedal aspect, with the resulting vector of braking still on the curve!.
+
 \subsection{Free Fall and Parables}
 \subsubsection{Vertical Throw}
 \, \newline
@@ -840,7 +867,8 @@ The unit of work is \(Nm\), but because of the potential confusion, we use the u
 }{
 Legend: \newline
 \begin{itemize}
-\item W = Work
+  \item W = Work in [J]\newline
+    Note, can be converted into kWh \newline \textcolor{red}{ 1kWh == \(3.6 * 10^6 J\)}
 \item \(F_s\) = Force for this specific length
 \item \(s_AB\) = part of the whole distance
 \end{itemize} 
@@ -866,7 +894,8 @@ Legend: \newline
 \textcolor{purple}{These are energies that are essentially "stored", ex. a book that I hold can fall down, which is "work".\newline
 Or a spring that I compressed has the potential to jump into it's original shape -> which is "work"}\newline
 \, \newline
-\large \textcolor{purple}{\( W = m * g * h \)}\newline
+\large \textcolor{purple}{\( W = F_G * h =  m * g * h = \dfrac{m*v^2}{2} \)}
+\large \textcolor{red}{| !! \(m * g * h = \dfrac{m*v^2}{2} \) !!}\newline
 \, \newline
 \normalsize Legend: \newline
 \begin{itemize}
@@ -879,14 +908,16 @@ Or a spring that I compressed has the potential to jump into it's original shape
 \subsubsection{Potential Energy with Springs}
 \minipg{
 \, \newline
-\large \textcolor{purple}{\( F = -k * x \)}\newline
-\large \textcolor{purple}{\( W = \int^{x_0}_0{-F * dx} = \int^{x_0}_0{k * x * dx} = \dfrac{k * x^2_0}{2}\)}\newline
+\large \textcolor{purple}{\( F = c * x \)}\newline
+\large \textcolor{purple}{\( W = \int^{x_0}_0{-F * dx} = \int^{x_0}_0{c * x * dx} = \dfrac{c * x^2_0}{2}\)}\newline
+\large ex: \textcolor{purple}{\( \dfrac{c * s^2}{2} = m * g (h + s)\)}\newline
 \, \newline
 \normalsize Legend: \newline
 \begin{itemize}
-\item F = Force used to prepare spring
-\item k = Springconstant
-\item x = length that was stretched or compressed 
+\item F = Force used to prepare spring\newline
+  maximum springforce
+\item c = Springconstant -> [\(\dfrac{N}{m}\)]
+\item x OR s = length that was stretched or compressed 
 \item W = potential Energy
 \end{itemize} 
 }{
@@ -1130,6 +1161,11 @@ Legend:\newline
 \, \newline
 \normalsize 
 
+\subsubsection{Gravity on a planet}
+\, \newline
+\large \textcolor{purple}{\( \text{Accelleration = }\dfrac{6.67 * 10^{-11}* \text{Mass of planet [kg]}} {\text{radius of planet [m]}} \)}\newline
+\, \newline
+\normalsize 
 
 \subsubsection{Newtons Law of Gravity}
 \, \newline
@@ -1226,6 +1262,8 @@ Within an accelerated context system, the mass of your own body will be used in 
 \includegraphics[scale=0.3]{2023_01_01_04_27_36.png}
 
 \subsubsection{Centrifugal Force within context}
+\textcolor{red}{Centrifugal force is not a real force!}\newline
+It is the result of inertia!\newline
 \, \newline
 \large \textcolor{purple}{\( \vec{F_{ce}} = -m\vec{a_{ce}} = -m * \omega^2 * \vec{r} \)}\newline
 \, \newline
