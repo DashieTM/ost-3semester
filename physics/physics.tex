@@ -304,6 +304,10 @@ A vector of a force can be used anywhere on that vector.\newline
 This means that the point of effect can be moved infinitely in the vector line.\newline
 \includegraphics[scale=0.2]{2022-09-30-11_37_46.png}
 
+\subsection{torque vs force}
+Both the sum of forces and the sum of torque needs to be 0 in a balanced system. \textcolor{red}{Note that the 2 are not connected! They both need to be looked at seperately!}\newline
+\includegraphics[width=0.6\columnwidth]{2023_01_26_04_25_56.png}
+
 \subsubsection{lever} 
 \minipg{
 }{\includegraphics[scale=0.2]{2022-09-30-11_44_32.png}}[0.2,0.2]
@@ -349,7 +353,8 @@ It is simply the cross product of 2 vectors!\newline
 This can be done as long as we have a reference point, here R!.}}\newline
 \, \newline}
 {\pic{2022-10-07-10_50_19.png}}[0.3,0.2]
-\Large if reference point available:\newline \( |\vec{M}| = | \vec{r} \text{x} \vec{F} | = a * | \vec{F} | \ \)
+\Large if reference point available:\newline \( |\vec{M}| = | \vec{r} \text{x} \vec{F} | = a * | \vec{F} | \ \)\newline
+\includegraphics[width=0.5\columnwidth]{2023_01_26_01_14_04.png}
 
 \section{Mass and Equilibrium}
 
@@ -668,7 +673,7 @@ It is used to get a radius that is needed in order to calculate the speed, accel
 \, \newline \normalsize
 \begin{itemize}
 \item \textcolor{orange}{\(\phi\) == angle}
-\item \textcolor{orange}{\(\omega\) == angle acceleration}
+\item \textcolor{orange}{\(\omega\) == angle velocity}
 \item \textcolor{orange}{ t == time}
 \item \textcolor{orange}{s == distance}
 
@@ -687,7 +692,13 @@ It is used to get a radius that is needed in order to calculate the speed, accel
 \, \newline
 \large \textcolor{purple}{\( \omega = 2\pi f <=> f = \dfrac{\omega}{2\pi} \)}\newline
 \, \newline
-\large \textcolor{orange}{\( r \omega = \dfrac{2\pi r}{T} = v \)}\newline
+\large \textcolor{orange}{\( v_t = \dfrac{2\pi r}{T} \)}\newline
+\, \newline
+\large \textcolor{orange}{\( v_{t0} - a * t = r * \alpha * t \)}
+\normalsize \textcolor{red}{ | note the difference between a and alpha!!!}\newline
+\textcolor{purple}{This symbolizes the chance from gliding to rolling. \newline
+When gliding, the left side is bigger, when rolling the right side is bigger.\newline
+the de-acceleration on the left side is the friction on the ground.}
 \, \newline
 \large \textcolor{orange}{\( \alpha = \underset{\Delta t -> 0}{\lim} \dfrac{\omega (t + \Delta t) - \omega (t)}{\Delta t} = \dfrac{d\omega}{dt} \)}\newline 
 \, \newline
@@ -703,7 +714,8 @@ It is used to get a radius that is needed in order to calculate the speed, accel
 \item \textcolor{orange}{T = Time per Circulation}
 \item \textcolor{orange}{\(f\) == frequency}
 \item \textcolor{orange}{r == radius}
-\item \textcolor{orange}{v == velocity}
+\item \textcolor{orange}{\(v_t\) == velocity at radius ->tangential velocity}
+\item \textcolor{orange}{\(\omega\) = angle velocity => [\(\dfrac{1}{HZ}\)]}
 \item \textcolor{orange}{\(\Phi\) == angle}
 \item \textcolor{orange}{\(2\pi\) == 1 Circulation}
 \end{itemize}
@@ -1340,12 +1352,15 @@ In this case we only have a tangential rotation, hence the only axis that matter
 \, \newline
 \large \textcolor{purple}{\( J = \int{r^2 * dm} \)}\newline
 \, \newline
-\large \textcolor{purple}{\( M = J * a \)}
+\large \textcolor{purple}{\( M = J * \alpha \)}
 \, \newline
 \normalsize Legend: \newline
 \begin{itemize}
-\item Moment of Inertia = J
-\item \( \alpha \) = angle
+  \item Moment of Inertia = J => [\( \dfrac{N}{m^2} \)]
+  \item \( \alpha \) = angle acceleration -> [\( \dfrac{\text{rad}}{s^2}\)]
+\item M = torque => \( FR * r \) => \( FN * g * r\)
+\item FR = friction force
+\item r = radius
 \end{itemize}
 
 \subsubsection{Moment of Inertia with different forms}
@@ -1358,6 +1373,8 @@ In this case we only have a tangential rotation, hence the only axis that matter
     \includegraphics[scale=0.3]{2023_01_01_05_13_13.png}\textcolor{purple}{\( \dfrac{2}{5} m * r^2 \)}
   \item \textcolor{orange}{Block} \newline
     \includegraphics[scale=0.3]{2023_01_01_05_13_16.png}\textcolor{purple}{\( \dfrac{m(a^2 + b^2)}{12} \)}
+  \item \textcolor{orange}{Circle}\newline
+    \textcolor{purple}{\( m * r^2 \)}
 \end{itemize} 
 
 \subsubsection{Inertia radius}
@@ -1425,6 +1442,7 @@ When you have 2 axes, you can calculate the second inertia moment by adding the 
 \end{itemize} 
 
 \subsubsection{Energies}
+\minipg{
 \large \textcolor{orange}{Translation-Energy}\newline
 \, \newline
 \large \textcolor{purple}{\( E_{\text{trans}} = \dfrac{1}{2}mv^2_s \)}\newline
@@ -1437,6 +1455,9 @@ When you have 2 axes, you can calculate the second inertia moment by adding the 
 \, \newline
 \large \textcolor{purple}{\(E_{\text{tot}} = E_{\text{trans}} +  E_{\text{rot}}\)}
 \normalsize
+}{
+  \includegraphics[width=\columnwidth]{2023_01_26_03_18_10.png}
+}[0.5\columnwidth,0.5\columnwidth]
 
 \subsubsection{Turning Impulse}
 \, \newline
