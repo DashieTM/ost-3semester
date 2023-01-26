@@ -1028,13 +1028,22 @@ Legend:\newline
 
 \subsection{straight, central, completely elastic collision}
 
-\subsubsection{Impulse Law}
+\subsubsection{Impulse Law / Impulse retention}
 \vspace{2mm}
 \large \textcolor{purple}{\( p \overset{!}{=} p' \text{ <=> } m_1v_1 + m_2v_2 \overset{!}{=} m_1v_1' + m_2v_2' \)}\newline
+\, \newline
+\large \textcolor{purple}{\(p_{\text{new}} = m_1*v_1 + m_2*v_2 \)}\newline
+\, \newline
+\large \textcolor{purple}{\(m_1*v_1 + m_2*v_2 = (m_1 + m_2) * v\)}\newline
 \normalsize \, \newline
 Legend:\newline
-...
-
+\begin{itemize}
+\item \textcolor{orange}{\(m_1\) = mass1}
+\item \textcolor{orange}{\(m_2\) = mass2}
+\item \textcolor{orange}{\(v_1\) = velocity 1}
+\item \textcolor{orange}{\(v_2\) = velocity 2}
+\item \textcolor{orange}{v = new velocity}
+\end{itemize} 
 \subsubsection{Energy Law}
 \vspace{2mm}
 \large \textcolor{purple}{\( E_{\text{kin}} \overset{!}{=} E_{\text{kin}}' \text{ <=> } \dfrac{m_1v_1^2}{2} + \dfrac{m_2v_2^2}{2} \overset{1}{=} \dfrac{m_1v_1'^2}{2} + \dfrac{m_2v_2'^2}{2} \)}\newline
@@ -1070,6 +1079,8 @@ Legend:\newline
 \large \textcolor{purple}{\( \dfrac{m_1v_1^2}{2} + \dfrac{m_2v_2^2}{2} = \dfrac{(m_1 + m_2)v'^2}{2} + Q \)}\newline
 \, \newline
 \textcolor{purple}{\(Q = \dfrac{m_1m_2}{2(m_1+m_2)}*(v_1 -v_2)^2\)}\newline
+\, \newline
+\textcolor{purple}{\( Q = E_1 + E_2 - E \)}
 \normalsize \, \newline
 Legend:\newline
 \begin{itemize}
@@ -1077,8 +1088,9 @@ Legend:\newline
 \item \textcolor{orange}{\(m_2\) = Center of mass entity 2}
 \item \textcolor{orange}{\(v_1\) = velocity entity 1}
 \item \textcolor{orange}{\(v_2\) = velocity entity 2}
-\item \textcolor{orange}{Q = Deformation-Work}
+\item \textcolor{orange}{Q = Deformation-Work (loss of energy)}
 \end{itemize}
+\textcolor{red}{Note that with an elastic collision Q is 0! meaning that \(E_1 + E_2 = E!\)}
 
 
 \subsubsection{Reduced Mass, Relative Velocity}
@@ -1202,6 +1214,8 @@ Legend:\newline
 \, \newline
 \large \textcolor{purple}{\( F_G = G \dfrac{M * m}{r^2} \)}\newline
 \, \newline
+\large \textcolor{purple}{\( E_{\text{pot}} = \dfrac{G * M * m}{r} \)}\newline
+\, \newline
 \normalsize 
 \minipg{
 Legend: \newline
@@ -1236,7 +1250,18 @@ Legend: \newline
   \includegraphics[scale=0.3]{2023_01_01_03_07_59.png}
 }[0.20,0.25]
 
-\subsubsection{Gravitational Potential within a homogenous zentral object}
+\subsection{Escape Velocity}
+\, \newline
+\large \textcolor{purple}{ \(v_{\text{escape}} = \sqrt{\dfrac{2 * G * m}{r}} \)}\newline
+\, \newline
+\normalsize Legend: \newline
+\begin{itemize}
+\item G = gravitational constant
+\item m = mass of planet etc. 
+\item r = radius of planet  
+\end{itemize} 
+
+\subsubsection{Gravitational Potential within a homogeneous central object}
 \, \newline
 \large \textcolor{purple}{\( F_G = \dfrac{4 \phi G \rho m}{3} * r \)}\newline
 \, \newline
@@ -1260,7 +1285,7 @@ If the newtons laws apply to context system s then it will also apply to context
 }[0.23,0.25]
 
 \subsection{Accelerated Context systems}
-\subsubsection{InertiaForce}
+\subsubsection{InertialForce}
 Within an accelerated context system, the mass of your own body will be used in combination with the acceleration of the context system to append the other acceleration that is applied.
 \, \newline
 \large \textcolor{purple}{\( \vec{F} = \vec{F} - m\vec{a_0} = \vec{F} + \vec{F_{\text{inertia}}} \text{ => } \vec{F_{\text{inertia}}} = m\vec{a_0} \)}\newline
