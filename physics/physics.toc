@@ -1,0 +1,145 @@
+\babel@toc {english}{}\relax 
+\contentsline {section}{\numberline {1}Terms and Definitions}{3}{section.1}%
+\contentsline {section}{\numberline {2}General Rules}{3}{section.2}%
+\contentsline {section}{\numberline {3}Shape Formulas}{3}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Circle}{3}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Triangle}{3}{subsection.3.2}%
+\contentsline {subsubsection}{\numberline {3.2.1}sin/cos and tan}{3}{subsubsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.3}Parallelogram}{3}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Trapezoid}{3}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.5}Circular Sector}{3}{subsection.3.5}%
+\contentsline {subsection}{\numberline {3.6}Sphere}{3}{subsection.3.6}%
+\contentsline {subsection}{\numberline {3.7}Cylinder}{3}{subsection.3.7}%
+\contentsline {subsection}{\numberline {3.8}Circular Cone}{3}{subsection.3.8}%
+\contentsline {section}{\numberline {4}Vectors}{3}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Dotproduct}{4}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Crossproduct}{4}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}SohCahToa}{4}{subsection.4.3}%
+\contentsline {section}{\numberline {5}Static}{4}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Forces}{4}{subsection.5.1}%
+\contentsline {subsubsection}{\numberline {5.1.1}Types}{4}{subsubsection.5.1.1}%
+\contentsline {subsubsection}{\numberline {5.1.2}Gravity}{4}{subsubsection.5.1.2}%
+\contentsline {subsubsection}{\numberline {5.1.3}Gravity change}{4}{subsubsection.5.1.3}%
+\contentsline {subsubsection}{\numberline {5.1.4}Fall acceleration}{4}{subsubsection.5.1.4}%
+\contentsline {subsubsection}{\numberline {5.1.5}Newton}{4}{subsubsection.5.1.5}%
+\contentsline {subsection}{\numberline {5.2}MassPoint}{4}{subsection.5.2}%
+\contentsline {subsubsection}{\numberline {5.2.1}Term Definition}{4}{subsubsection.5.2.1}%
+\contentsline {subsubsection}{\numberline {5.2.2}regular friction}{4}{subsubsection.5.2.2}%
+\contentsline {subsubsection}{\numberline {5.2.3}viscose friction}{4}{subsubsection.5.2.3}%
+\contentsline {subsubsection}{\numberline {5.2.4}Actio \& Reactio}{4}{subsubsection.5.2.4}%
+\contentsline {subsubsection}{\numberline {5.2.5}Normal Force}{4}{subsubsection.5.2.5}%
+\contentsline {subsubsection}{\numberline {5.2.6}inclined plane}{4}{subsubsection.5.2.6}%
+\contentsline {subsubsection}{\numberline {5.2.7}rope Force}{4}{subsubsection.5.2.7}%
+\contentsline {section}{\numberline {6}torque}{4}{section.6}%
+\contentsline {subsubsection}{\numberline {6.0.1}line of effect}{4}{subsubsection.6.0.1}%
+\contentsline {subsection}{\numberline {6.1}torque vs force}{4}{subsection.6.1}%
+\contentsline {subsubsection}{\numberline {6.1.1}lever}{5}{subsubsection.6.1.1}%
+\contentsline {subsubsection}{\numberline {6.1.2}Plank}{5}{subsubsection.6.1.2}%
+\contentsline {subsubsection}{\numberline {6.1.3}Balance}{5}{subsubsection.6.1.3}%
+\contentsline {subsubsection}{\numberline {6.1.4}Force and Acceleration}{5}{subsubsection.6.1.4}%
+\contentsline {subsubsection}{\numberline {6.1.5}torque}{5}{subsubsection.6.1.5}%
+\contentsline {section}{\numberline {7}Mass and Equilibrium}{5}{section.7}%
+\contentsline {subsubsection}{\numberline {7.0.1}Center of Mass}{5}{subsubsection.7.0.1}%
+\contentsline {subsubsection}{\numberline {7.0.2}Equilibrium}{5}{subsubsection.7.0.2}%
+\contentsline {subsubsection}{\numberline {7.0.3}Types of Equilibriums}{5}{subsubsection.7.0.3}%
+\contentsline {subsection}{\numberline {7.1}Tension, Torsion, Contraction, Compression}{5}{subsection.7.1}%
+\contentsline {subsubsection}{\numberline {7.1.1}Pull-Pressure}{5}{subsubsection.7.1.1}%
+\contentsline {subsubsection}{\numberline {7.1.2}Pushpressure}{5}{subsubsection.7.1.2}%
+\contentsline {subsubsection}{\numberline {7.1.3}Stretching}{5}{subsubsection.7.1.3}%
+\contentsline {subsubsection}{\numberline {7.1.4}Compressability}{5}{subsubsection.7.1.4}%
+\contentsline {subsubsection}{\numberline {7.1.5}crosscontraction}{6}{subsubsection.7.1.5}%
+\contentsline {subsubsection}{\numberline {7.1.6}crosscontraction as Poisson-Number}{6}{subsubsection.7.1.6}%
+\contentsline {subsubsection}{\numberline {7.1.7}Torsionmodel}{6}{subsubsection.7.1.7}%
+\contentsline {subsubsection}{\numberline {7.1.8}Torsion-Spring}{6}{subsubsection.7.1.8}%
+\contentsline {subsubsection}{\numberline {7.1.9}Screw-Spring}{6}{subsubsection.7.1.9}%
+\contentsline {subsubsection}{\numberline {7.1.10}Plankdeformation}{6}{subsubsection.7.1.10}%
+\contentsline {section}{\numberline {8}kinematic}{6}{section.8}%
+\contentsline {subsection}{\numberline {8.1}Median acceleration}{6}{subsection.8.1}%
+\contentsline {subsubsection}{\numberline {8.1.1}Current Acceleration}{6}{subsubsection.8.1.1}%
+\contentsline {subsubsection}{\numberline {8.1.2}Derivatives}{6}{subsubsection.8.1.2}%
+\contentsline {subsubsection}{\numberline {8.1.3}Derivative of a Vector}{6}{subsubsection.8.1.3}%
+\contentsline {subsubsection}{\numberline {8.1.4}Current Velocity with Vectors}{6}{subsubsection.8.1.4}%
+\contentsline {subsubsection}{\numberline {8.1.5}Equal accellerated translation}{6}{subsubsection.8.1.5}%
+\contentsline {subsubsection}{\numberline {8.1.6}Equally de-accelerated Translation}{6}{subsubsection.8.1.6}%
+\contentsline {subsubsection}{\numberline {8.1.7}extreme values}{6}{subsubsection.8.1.7}%
+\contentsline {subsubsection}{\numberline {8.1.8}osculating circle (Schmieg)}{6}{subsubsection.8.1.8}%
+\contentsline {subsubsection}{\numberline {8.1.9}Radial and Tangential Acceleration}{7}{subsubsection.8.1.9}%
+\contentsline {subsubsection}{\numberline {8.1.10}Equally accelerated tangential translation}{7}{subsubsection.8.1.10}%
+\contentsline {subsubsection}{\numberline {8.1.11}Coordinates}{7}{subsubsection.8.1.11}%
+\contentsline {subsubsection}{\numberline {8.1.12}Angle Velocity}{7}{subsubsection.8.1.12}%
+\contentsline {subsubsection}{\numberline {8.1.13}Frequency and Circulation}{7}{subsubsection.8.1.13}%
+\contentsline {subsection}{\numberline {8.2}Centripetal Force}{7}{subsection.8.2}%
+\contentsline {subsection}{\numberline {8.3}Free Fall and Parables}{7}{subsection.8.3}%
+\contentsline {subsubsection}{\numberline {8.3.1}Vertical Throw}{7}{subsubsection.8.3.1}%
+\contentsline {subsubsection}{\numberline {8.3.2}Free Fall}{7}{subsubsection.8.3.2}%
+\contentsline {subsubsection}{\numberline {8.3.3}Diagonal Throw}{8}{subsubsection.8.3.3}%
+\contentsline {subsubsection}{\numberline {8.3.4}Maximal Throw Gravity at new heightdistance}{8}{subsubsection.8.3.4}%
+\contentsline {subsubsection}{\numberline {8.3.5}Angle given explicit Throwdistance}{8}{subsubsection.8.3.5}%
+\contentsline {section}{\numberline {9}Dynamic}{8}{section.9}%
+\contentsline {subsection}{\numberline {9.1}Newtons Laws}{8}{subsection.9.1}%
+\contentsline {subsection}{\numberline {9.2}Friction Forces}{8}{subsection.9.2}%
+\contentsline {subsubsection}{\numberline {9.2.1}Gliding Friction}{8}{subsubsection.9.2.1}%
+\contentsline {subsubsection}{\numberline {9.2.2}RollFriction}{8}{subsubsection.9.2.2}%
+\contentsline {subsubsection}{\numberline {9.2.3}RollFriction Length}{8}{subsubsection.9.2.3}%
+\contentsline {subsection}{\numberline {9.3}Work, potential and kinetic Energy}{8}{subsection.9.3}%
+\contentsline {subsubsection}{\numberline {9.3.1}Unit of Work}{8}{subsubsection.9.3.1}%
+\contentsline {subsubsection}{\numberline {9.3.2}Work with constant Force}{8}{subsubsection.9.3.2}%
+\contentsline {subsubsection}{\numberline {9.3.3}Work with non constant Force}{8}{subsubsection.9.3.3}%
+\contentsline {subsubsection}{\numberline {9.3.4}Potential Energy}{8}{subsubsection.9.3.4}%
+\contentsline {subsubsection}{\numberline {9.3.5}Potential Energy with Springs}{8}{subsubsection.9.3.5}%
+\contentsline {subsubsection}{\numberline {9.3.6}Conservation Law}{8}{subsubsection.9.3.6}%
+\contentsline {subsection}{\numberline {9.4}Power and Power coefficient}{8}{subsection.9.4}%
+\contentsline {subsection}{\numberline {9.5}Impulses and Impulsretention}{8}{subsection.9.5}%
+\contentsline {subsubsection}{\numberline {9.5.1}Impulse}{8}{subsubsection.9.5.1}%
+\contentsline {subsubsection}{\numberline {9.5.2}Force Push (kekw-wars)}{9}{subsubsection.9.5.2}%
+\contentsline {subsubsection}{\numberline {9.5.3}Impulsretention}{9}{subsubsection.9.5.3}%
+\contentsline {subsection}{\numberline {9.6}Center of Mass and Impulses}{9}{subsection.9.6}%
+\contentsline {subsubsection}{\numberline {9.6.1}Center of Mass in a collision}{9}{subsubsection.9.6.1}%
+\contentsline {subsubsection}{\numberline {9.6.2}Deformation"Work"}{9}{subsubsection.9.6.2}%
+\contentsline {subsubsection}{\numberline {9.6.3}Elasticity Count}{9}{subsubsection.9.6.3}%
+\contentsline {subsection}{\numberline {9.7}straight, central, completely elastic collision}{9}{subsection.9.7}%
+\contentsline {subsubsection}{\numberline {9.7.1}Impulse Law / Impulse retention}{9}{subsubsection.9.7.1}%
+\contentsline {subsubsection}{\numberline {9.7.2}Energy Law}{9}{subsubsection.9.7.2}%
+\contentsline {subsubsection}{\numberline {9.7.3}Special case with \(m_1 = m_2\)}{9}{subsubsection.9.7.3}%
+\contentsline {subsection}{\numberline {9.8}Straight, central, completely inelastic collision}{9}{subsection.9.8}%
+\contentsline {subsubsection}{\numberline {9.8.1}Impulse Law}{9}{subsubsection.9.8.1}%
+\contentsline {subsubsection}{\numberline {9.8.2}Energy Law and Deformation-Work}{9}{subsubsection.9.8.2}%
+\contentsline {subsubsection}{\numberline {9.8.3}Reduced Mass, Relative Velocity}{9}{subsubsection.9.8.3}%
+\contentsline {subsubsection}{\numberline {9.8.4}Trace Speed}{9}{subsubsection.9.8.4}%
+\contentsline {subsubsection}{\numberline {9.8.5}Rocket Equation}{9}{subsubsection.9.8.5}%
+\contentsline {subsection}{\numberline {9.9}Gravity}{9}{subsection.9.9}%
+\contentsline {subsubsection}{\numberline {9.9.1}Keplers Laws}{9}{subsubsection.9.9.1}%
+\contentsline {subsubsection}{\numberline {9.9.2}Gravitational Constant}{10}{subsubsection.9.9.2}%
+\contentsline {subsubsection}{\numberline {9.9.3}Gravity on a planet}{10}{subsubsection.9.9.3}%
+\contentsline {subsubsection}{\numberline {9.9.4}Newtons Law of Gravity}{10}{subsubsection.9.9.4}%
+\contentsline {subsubsection}{\numberline {9.9.5}Gravitational Pull -> a ball}{10}{subsubsection.9.9.5}%
+\contentsline {subsubsection}{\numberline {9.9.6}Gravitational Work}{10}{subsubsection.9.9.6}%
+\contentsline {subsubsection}{\numberline {9.9.7}Gravitational Potential}{10}{subsubsection.9.9.7}%
+\contentsline {subsection}{\numberline {9.10}Escape Velocity}{10}{subsection.9.10}%
+\contentsline {subsubsection}{\numberline {9.10.1}Gravitational Potential within a homogeneous central object}{10}{subsubsection.9.10.1}%
+\contentsline {subsection}{\numberline {9.11}Context Systems}{10}{subsection.9.11}%
+\contentsline {subsubsection}{\numberline {9.11.1}Inertialsystems}{10}{subsubsection.9.11.1}%
+\contentsline {subsection}{\numberline {9.12}Accelerated Context systems}{10}{subsection.9.12}%
+\contentsline {subsubsection}{\numberline {9.12.1}InertialForce}{10}{subsubsection.9.12.1}%
+\contentsline {subsubsection}{\numberline {9.12.2}Centrifugal Force within context}{10}{subsubsection.9.12.2}%
+\contentsline {subsubsection}{\numberline {9.12.3}Coriolis}{11}{subsubsection.9.12.3}%
+\contentsline {subsubsection}{\numberline {9.12.4}Lambert}{11}{subsubsection.9.12.4}%
+\contentsline {subsection}{\numberline {9.13}Rotation of rigid bodies}{11}{subsection.9.13}%
+\contentsline {subsubsection}{\numberline {9.13.1}Rotation vs Turning}{11}{subsubsection.9.13.1}%
+\contentsline {subsubsection}{\numberline {9.13.2}Dynamic Base Rule of Rotation}{11}{subsubsection.9.13.2}%
+\contentsline {subsubsection}{\numberline {9.13.3}Moment of Inertia (Trägheitsmoment)}{11}{subsubsection.9.13.3}%
+\contentsline {subsubsection}{\numberline {9.13.4}Moment of Inertia with different forms}{11}{subsubsection.9.13.4}%
+\contentsline {subsubsection}{\numberline {9.13.5}Inertia radius}{11}{subsubsection.9.13.5}%
+\contentsline {subsubsection}{\numberline {9.13.6}Moment of Inertia on any axis}{11}{subsubsection.9.13.6}%
+\contentsline {subsubsection}{\numberline {9.13.7}Steiners Rule}{11}{subsubsection.9.13.7}%
+\contentsline {subsubsection}{\numberline {9.13.8}Work on Rotation}{11}{subsubsection.9.13.8}%
+\contentsline {subsubsection}{\numberline {9.13.9}Power of Rotation}{11}{subsubsection.9.13.9}%
+\contentsline {subsubsection}{\numberline {9.13.10}Energies}{11}{subsubsection.9.13.10}%
+\contentsline {subsubsection}{\numberline {9.13.11}Turning Impulse}{11}{subsubsection.9.13.11}%
+\contentsline {subsubsection}{\numberline {9.13.12}torque vs Turning impulse}{12}{subsubsection.9.13.12}%
+\contentsline {subsubsection}{\numberline {9.13.13}Turning impulse vs angle velocity}{12}{subsubsection.9.13.13}%
+\contentsline {subsection}{\numberline {9.14}gyroscope}{12}{subsection.9.14}%
+\contentsline {subsubsection}{\numberline {9.14.1}Force free gyroscope}{12}{subsubsection.9.14.1}%
+\contentsline {subsubsection}{\numberline {9.14.2}Forces on gyroscope}{12}{subsubsection.9.14.2}%
+\contentsline {subsubsection}{\numberline {9.14.3}Precision gyroscope}{12}{subsubsection.9.14.3}%
+\providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 
