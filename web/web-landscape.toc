@@ -1,0 +1,139 @@
+\babel@toc {english}{}\relax 
+\contentsline {section}{\numberline {1}Basics}{1}{section.1}%
+\contentsline {subsection}{\numberline {1.1}ECMAScript}{1}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Primitives vs Objects}{1}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}Types}{1}{subsection.1.3}%
+\contentsline {subsection}{\numberline {1.4}Boolean Checks}{1}{subsection.1.4}%
+\contentsline {subsection}{\numberline {1.5}NaN}{1}{subsection.1.5}%
+\contentsline {subsection}{\numberline {1.6}Infinity}{1}{subsection.1.6}%
+\contentsline {subsection}{\numberline {1.7}Numbers}{1}{subsection.1.7}%
+\contentsline {subsection}{\numberline {1.8}String}{1}{subsection.1.8}%
+\contentsline {subsection}{\numberline {1.9}null / undefined}{1}{subsection.1.9}%
+\contentsline {subsection}{\numberline {1.10}Array}{1}{subsection.1.10}%
+\contentsline {subsection}{\numberline {1.11}For Loops}{1}{subsection.1.11}%
+\contentsline {subsection}{\numberline {1.12}Object}{1}{subsection.1.12}%
+\contentsline {subsection}{\numberline {1.13}Mutability of Objects}{1}{subsection.1.13}%
+\contentsline {subsection}{\numberline {1.14}Functions}{1}{subsection.1.14}%
+\contentsline {subsection}{\numberline {1.15}Parameters}{1}{subsection.1.15}%
+\contentsline {section}{\numberline {2}DOM Document Object Model}{1}{section.2}%
+\contentsline {subsection}{\numberline {2.1}window}{1}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}DOM-Manipulation by create}{1}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}DOM-Manipulation by innerHTML}{1}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}DocumentFragment}{1}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5}EventListener}{2}{subsection.2.5}%
+\contentsline {subsection}{\numberline {2.6}remove Eventlistener and dispatchEvent}{2}{subsection.2.6}%
+\contentsline {subsection}{\numberline {2.7}NodeStructure}{2}{subsection.2.7}%
+\contentsline {subsection}{\numberline {2.8}async and defer}{2}{subsection.2.8}%
+\contentsline {subsection}{\numberline {2.9}TextContent and innerText}{2}{subsection.2.9}%
+\contentsline {subsection}{\numberline {2.10}className and classList}{2}{subsection.2.10}%
+\contentsline {subsection}{\numberline {2.11}Event Handling}{2}{subsection.2.11}%
+\contentsline {subsubsection}{\numberline {2.11.1}EventListener with options}{2}{subsubsection.2.11.1}%
+\contentsline {subsubsection}{\numberline {2.11.2}Event Listener vs inline}{2}{subsubsection.2.11.2}%
+\contentsline {subsubsection}{\numberline {2.11.3}Event Phases}{2}{subsubsection.2.11.3}%
+\contentsline {subsection}{\numberline {2.12}Node}{2}{subsection.2.12}%
+\contentsline {subsubsection}{\numberline {2.12.1}Important Properties and functions}{2}{subsubsection.2.12.1}%
+\contentsline {subsection}{\numberline {2.13}Element}{2}{subsection.2.13}%
+\contentsline {subsubsection}{\numberline {2.13.1}Important Properties and functions}{2}{subsubsection.2.13.1}%
+\contentsline {subsubsection}{\numberline {2.13.2}Element ParentNode}{2}{subsubsection.2.13.2}%
+\contentsline {subsection}{\numberline {2.14}HTMLElement}{2}{subsection.2.14}%
+\contentsline {subsubsection}{\numberline {2.14.1}Important Properties and functions}{2}{subsubsection.2.14.1}%
+\contentsline {subsection}{\numberline {2.15}Event-Object}{2}{subsection.2.15}%
+\contentsline {subsubsection}{\numberline {2.15.1}Important Properties and functions}{2}{subsubsection.2.15.1}%
+\contentsline {subsection}{\numberline {2.16}Keyboard Event}{2}{subsection.2.16}%
+\contentsline {section}{\numberline {3}Scopes}{2}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Var vs let}{2}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Scope per file in NodeJs}{2}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Closure}{2}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}global Scope}{2}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.5}This in scopes}{2}{subsection.3.5}%
+\contentsline {subsection}{\numberline {3.6}Functions with new (old js)}{2}{subsection.3.6}%
+\contentsline {subsection}{\numberline {3.7}This as a parameter}{2}{subsection.3.7}%
+\contentsline {subsection}{\numberline {3.8}Bind}{2}{subsection.3.8}%
+\contentsline {section}{\numberline {4}strict}{3}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Basic}{3}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Usage}{3}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}General}{3}{subsection.4.3}%
+\contentsline {section}{\numberline {5}Lambda}{3}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Notation}{3}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}This in Lambda}{3}{subsection.5.2}%
+\contentsline {section}{\numberline {6}Objects and Classes}{3}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Objects are Hashtables!}{3}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Classes}{3}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}Classes before JS6}{3}{subsection.6.3}%
+\contentsline {section}{\numberline {7}Modules}{3}{section.7}%
+\contentsline {subsection}{\numberline {7.1}UseCase}{3}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Definition}{3}{subsection.7.2}%
+\contentsline {subsection}{\numberline {7.3}Module Usage}{3}{subsection.7.3}%
+\contentsline {subsection}{\numberline {7.4}Export}{3}{subsection.7.4}%
+\contentsline {section}{\numberline {8}Advanced JS Features}{3}{section.8}%
+\contentsline {subsection}{\numberline {8.1}Spread}{3}{subsection.8.1}%
+\contentsline {subsection}{\numberline {8.2}Spread Operator as parameter}{3}{subsection.8.2}%
+\contentsline {subsection}{\numberline {8.3}Destructuring}{3}{subsection.8.3}%
+\contentsline {subsection}{\numberline {8.4}Nullish Operator}{3}{subsection.8.4}%
+\contentsline {subsection}{\numberline {8.5}Optional chaining}{3}{subsection.8.5}%
+\contentsline {section}{\numberline {9}Clean Code}{3}{section.9}%
+\contentsline {subsection}{\numberline {9.1}Naming}{3}{subsection.9.1}%
+\contentsline {subsection}{\numberline {9.2}Naming schemes}{3}{subsection.9.2}%
+\contentsline {subsection}{\numberline {9.3}Functions}{3}{subsection.9.3}%
+\contentsline {subsection}{\numberline {9.4}Code Smells}{3}{subsection.9.4}%
+\contentsline {section}{\numberline {10}PolyFill and BabelJS}{3}{section.10}%
+\contentsline {subsection}{\numberline {10.1}BabelJS}{3}{subsection.10.1}%
+\contentsline {subsection}{\numberline {10.2}PolyFill}{3}{subsection.10.2}%
+\contentsline {subsection}{\numberline {10.3}Model View Controller (MVC)}{3}{subsection.10.3}%
+\contentsline {subsection}{\numberline {10.4}Example for MVC}{4}{subsection.10.4}%
+\contentsline {section}{\numberline {11}npm}{4}{section.11}%
+\contentsline {subsection}{\numberline {11.1}Basics Commands}{4}{subsection.11.1}%
+\contentsline {subsection}{\numberline {11.2}Packages in npm}{4}{subsection.11.2}%
+\contentsline {section}{\numberline {12}AJAX Asynchronous JavaScript and XML}{4}{section.12}%
+\contentsline {subsection}{\numberline {12.1}Creating a small Server}{4}{subsection.12.1}%
+\contentsline {subsection}{\numberline {12.2}Use Case}{4}{subsection.12.2}%
+\contentsline {subsection}{\numberline {12.3}Promise}{4}{subsection.12.3}%
+\contentsline {subsection}{\numberline {12.4}Constructor of Promise}{4}{subsection.12.4}%
+\contentsline {subsection}{\numberline {12.5}Using promises}{4}{subsection.12.5}%
+\contentsline {section}{\numberline {13}REST}{4}{section.13}%
+\contentsline {subsection}{\numberline {13.1}Representational State Transfer (REST)}{4}{subsection.13.1}%
+\contentsline {subsection}{\numberline {13.2}Richardsons Maturity Model}{4}{subsection.13.2}%
+\contentsline {subsection}{\numberline {13.3}Level 0: The Swamp of POX}{4}{subsection.13.3}%
+\contentsline {subsection}{\numberline {13.4}Level 1: Ressources}{4}{subsection.13.4}%
+\contentsline {subsection}{\numberline {13.5}Level 2 HTTP-Verbs}{4}{subsection.13.5}%
+\contentsline {subsection}{\numberline {13.6}Level 3: Hypermedia Controls}{4}{subsection.13.6}%
+\contentsline {subsection}{\numberline {13.7}REST vs RPC (Remote Procedure Call)}{4}{subsection.13.7}%
+\contentsline {subsection}{\numberline {13.8}Ressource Oriented Architectures}{4}{subsection.13.8}%
+\contentsline {subsection}{\numberline {13.9}HTTPS Request}{4}{subsection.13.9}%
+\contentsline {subsection}{\numberline {13.10}Query filter}{4}{subsection.13.10}%
+\contentsline {subsection}{\numberline {13.11}Important HTTP Methods}{4}{subsection.13.11}%
+\contentsline {subsection}{\numberline {13.12}Best practices}{4}{subsection.13.12}%
+\contentsline {subsection}{\numberline {13.13}Nielsen}{4}{subsection.13.13}%
+\contentsline {subsection}{\numberline {13.14}Suspense State}{4}{subsection.13.14}%
+\contentsline {section}{\numberline {14}Usability}{5}{section.14}%
+\contentsline {subsection}{\numberline {14.1}Peripheral vs Central Vision}{5}{subsection.14.1}%
+\contentsline {subsection}{\numberline {14.2}UI element Intuitiveness}{5}{subsection.14.2}%
+\contentsline {subsection}{\numberline {14.3}Consistency}{5}{subsection.14.3}%
+\contentsline {subsection}{\numberline {14.4}Rules of design}{5}{subsection.14.4}%
+\contentsline {subsection}{\numberline {14.5}Colors}{5}{subsection.14.5}%
+\contentsline {subsection}{\numberline {14.6}Usability Tests}{5}{subsection.14.6}%
+\contentsline {section}{\numberline {15}CSS}{5}{section.15}%
+\contentsline {subsection}{\numberline {15.1}Syntax}{5}{subsection.15.1}%
+\contentsline {subsection}{\numberline {15.2}Units}{5}{subsection.15.2}%
+\contentsline {subsection}{\numberline {15.3}Colors}{5}{subsection.15.3}%
+\contentsline {subsection}{\numberline {15.4}Background}{5}{subsection.15.4}%
+\contentsline {subsection}{\numberline {15.5}Borders}{5}{subsection.15.5}%
+\contentsline {subsection}{\numberline {15.6}Margins and Paddings}{5}{subsection.15.6}%
+\contentsline {subsection}{\numberline {15.7}Text}{5}{subsection.15.7}%
+\contentsline {subsubsection}{\numberline {15.7.1}Fonts}{5}{subsubsection.15.7.1}%
+\contentsline {subsection}{\numberline {15.8}Display, justify and align}{5}{subsection.15.8}%
+\contentsline {subsection}{\numberline {15.9}Selectors and Combinators}{5}{subsection.15.9}%
+\contentsline {subsection}{\numberline {15.10}Selectors in JS}{6}{subsection.15.10}%
+\contentsline {section}{\numberline {16}Boxes}{6}{section.16}%
+\contentsline {subsection}{\numberline {16.1}display: flex}{6}{subsection.16.1}%
+\contentsline {subsection}{\numberline {16.2}Types of Boxes}{6}{subsection.16.2}%
+\contentsline {section}{\numberline {17}HTML Hypertext Markup Lanugage}{6}{section.17}%
+\contentsline {section}{\numberline {18}Example HTML File}{6}{section.18}%
+\contentsline {section}{\numberline {19}Basic Syntax and Information}{6}{section.19}%
+\contentsline {subsection}{\numberline {19.1}Semantic Markup}{6}{subsection.19.1}%
+\contentsline {section}{\numberline {20}Base Elements}{6}{section.20}%
+\contentsline {subsection}{\numberline {20.1}Semantic Element, what to choose?}{6}{subsection.20.1}%
+\contentsline {section}{\numberline {21}Global Attritubes}{6}{section.21}%
+\contentsline {section}{\numberline {22}Web Server}{6}{section.22}%
+\contentsline {section}{\numberline {23}JS exceptions}{6}{section.23}%
+\providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

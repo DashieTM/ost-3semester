@@ -25,10 +25,11 @@
 
 \newcommand{\TITLE}{Web Engineering 1}
 \newcommand{\AUTHOR}{Fabio Lenherr / Felix Tran}
+\setcounter{tocdepth}{1}
 
 \begin{document}
 \begin{multicols*}{4}
-
+% \tableofcontents
 
 \section{Basics}
 
@@ -43,7 +44,7 @@ Javascript is only an implementation of ECMAScript. So ECMA is the actual standa
   \item \textcolor{teal}{compared by value}
   \item \textcolor{teal}{always immutable}
 \end{itemize}
-\, \newline
+\vspace{2mm}
 \textcolor{red}{Objects}
 \begin{itemize}
   \item \textcolor{teal}{Arrays, Regular Expressions, Functions}
@@ -63,14 +64,13 @@ Javascript is only an implementation of ECMAScript. So ECMA is the actual standa
   \item Boolean( null ) => false
 \end{itemize}
 \begin{itemize}
-  \item \textcolor{teal}{Logical Operators \\ ||}
+  \item \textcolor{teal}{Logical Operators || \&\&}
   \item \textcolor{teal}{Not !}
   \item \textcolor{teal}{Equality Checks === !== > >= < <=} true or false
-  \item \textcolor{teal}{Value Equality Check == !=} true false or NaN -> cast to number
-  
+  \item \textcolor{teal}{Value Equality Check == !=} true false or NaN(cast to number)
 \end{itemize}
 \minipg{
-False Values:\newline
+False Values:
 \begin{itemize}
   \item false
   \item 0 
@@ -78,18 +78,18 @@ False Values:\newline
   \item null 
   \item undefined 
   \item NaN
+  \, \newline
 \end{itemize}
-}
-{True Values:
+}{
+True Values:
 \begin{itemize}
-  \item "0" \textcolor{teal}{any string that has something in it is considered true}
+  \item "0" 
   \item "false"
   \item \char`\[ \char`\]
   \item \char`\{ \char`\}
-  \, \newline
-  \, \newline
-  \, \newline
-\end{itemize}}[0.1,0.1]
+\end{itemize}
+\textcolor{teal}{any string that has something in it is considered true}
+}[0.1,0.1]
  
 \subsection{NaN} 
 \begin{itemize}
@@ -97,6 +97,7 @@ False Values:\newline
   \item 0 / 0 = NaN
   \item is of type number
   \item NaN == NaN is false \textcolor{teal}{// use isNan\char`\( \char`\) instead}
+  \item NaN === NaN is false 
 \end{itemize}
 
 \subsection{Infinity}  
@@ -119,7 +120,7 @@ Will also be used if the number is too big!
 \textcolor{teal}{Can be represented with either "" or ''}\newline
 \textcolor{teal}{Escape character is \textbackslash}\newline
 \minipg{
-Typical Methods:\newline
+Typical Methods:
 \begin{itemize}
   \item length
   \item slice
@@ -129,17 +130,22 @@ Typical Methods:\newline
 \end{itemize}
 }
 {
-  Special Operations:\newline
-  \textcolor{red}{Number + String = String}\newline
-  \textcolor{red}{String + Number = String}\newline
+  Special Operations:
+  \begin{itemize}
+  \item \textcolor{red}{Number + String = String}
+  \item \textcolor{red}{String + Number = String}
   \, \newline
-}[0.1, 0.1]
+  \, \newline
+  \, \newline
+  \end{itemize} 
+}[0.1, 0.15]
 
 \subsection{null / undefined}  
 \textcolor{teal}{Undefined means nothing, not yet defined}\newline
 \textcolor{teal}{null is a value, the null value}\newline
-\textcolor{red}{IMPORTANT: null == undefined = true !!}\newline
+\textcolor{red}{IMPORTANT: null == undefined = true !!\newline While: null === undefined = false}\newline
 Example with null and undefined:
+\vspace{-2mm}
 \begin{lstlisting}
 import * as userList
 from './user.mjs';
@@ -152,10 +158,11 @@ console.log( userList.update(0, {name : null, birthday: "19.05.1986"}) );
 { name: 'Michael', birthday: '19.05.1986' }
 { name: null, birthday: '19.05.1986' }
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 
 
 \subsection{Array}  
+\vspace{-2mm}
 \begin{lstlisting}
 const arr = [ 'a', 'b', 'c' ];
 arr[0] = 'x';
@@ -163,7 +170,7 @@ arr.push("d");
 console.log(arr); // [ 'x', 'b', 'c', 'd' ]
 console.log(arr.length); // 4
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 This is the list for everything.\newline
 \begin{itemize}
   \item \textcolor{teal}{no fix length}
@@ -171,6 +178,7 @@ This is the list for everything.\newline
   
 \end{itemize}
 \textcolor{orange}{\textbf{To check if something is an array you can compare constructors!}}\newline
+\vspace{-2mm}
 \begin{lstlisting}
 function isArray(arr) {
   if(arr.constructor === Array) {
@@ -179,47 +187,53 @@ function isArray(arr) {
   return false;
 }
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 \textcolor{teal}{arr.forEach}\newline
+\vspace{-2mm}
 \begin{lstlisting}
 let sum = 0;
 arr.forEach(num => { sum += num });
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 \textcolor{teal}{arr.reduce}\newline
+\vspace{-2mm}
 \begin{lstlisting}
 const sum = arr.reduce((total, n) => total + n, 0);
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 
 
 \subsection{For Loops}  
 \textcolor{teal}{classic:}
+\vspace{-2mm}
 \begin{lstlisting}
 for(let i=0; i<arr.length; ++i) {
   console.log("for",arr[i]);
 } // like regular loop just with let
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 \textcolor{teal}{For-In:}
+\vspace{-2mm}
 \begin{lstlisting}
 for(const x in arr) {
   console.log("for in", x + ":" + arr[x]);
 } // !! this returns the index string not the element !!
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 \textcolor{teal}{For-Of:}
+\vspace{-2mm}
 \begin{lstlisting}
 for(const y of arr) {
   console.log("for of", y);
 } // like for(auto e : arr)
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 
 
 \subsection{Object}  
 \textcolor{teal}{An object is a collection of properties}\newline
 These values are stored in a \textbf{key | value} -> \textbf{HashSet}.
+\vspace{-2mm}
 \begin{lstlisting}
 cosnt person = {
   name: "spass"
@@ -230,37 +244,54 @@ cosnt person = {
 person.name = "Bob";
 person.func();
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 
 \subsection{Mutability of Objects}  
 \textcolor{teal}{You can overwrite functions inside of these objects!}
+\vspace{-2mm}
 \begin{lstlisting}
 person.func = function() {
   console.log("this does something else now !");
 }
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
+
+\subsection{Const}
+\textcolor{purple}{In JS, just because the object is const, doesn't mean the underlying data of it is!}
+\vspace{-2mm}
+\begin{lstlisting}
+const player = {
+    name: '',
+    id: 0,
+};
+player.id = 5; // works!!!
+player = otherplayer; // ERROR
+\end{lstlisting}
+\vspace{2mm}
 
 \subsection{Functions} 
 \textcolor{teal}{As expected, functions are first class citizens, aka they can be variables!}
+\vspace{-2mm}
 \begin{lstlisting}
 func = printSomething() {
   console.log("ping pang");
 }
 func();
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 Or You can use something like lambdas:
+\vspace{-2mm}
 \begin{lstlisting}
 const func = (value) => {
   console.log(value);
 }
 func(5); // prints 5
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 
 \subsection{Parameters}  
 \textcolor{red}{in javascript you can call functions with too many parameters, they will simply be stored in a buffer!!}
+\vspace{-2mm}
 \begin{lstlisting}
 function foo(name, ...params){
 console.log(1,name);
@@ -269,48 +300,43 @@ console.log(2,params.join(";"));
 foo("Michael", "Gfeller", "OST", "IFS");
 // prints "Michael" and "Gfeller;OST;IFS"
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 
   \textcolor{teal}{Properties of functions}
+\vspace{-2mm}
 \begin{lstlisting}
 const fn1 = function(){ return "Michael" };
 console.log(fn1.name);
 // ""
-
 const fn2 = function name(){ return "Michael" };
 console.log(fn2.name);
 // "name"
-console.log(fn2.length); // 0
 
+console.log(fn2.length); // 0
 const fn3 = function name(name){ return name };
 console.log(fn3.length); // 1
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
+
+\subsection{Overloading}
  \textcolor{red}{!!! Javascript doesn't have function overloading !!!}\newline
  The solution is to use if statements inside those functions with \textbf{typeof}
+\vspace{-2mm}
 \begin{lstlisting}
 jQuery.fn.init = function( selector, context ) {
-//...
-if ( !selector ) {
-return this;
-}
-// Handle HTML strings
-if ( typeof selector === "string" ) {
-//...
-} else if ( selector.nodeType ) {
-//...
-} else if ( jQuery.isFunction( selector ) ) {
-//...
-}
-//...
+  if ( !selector ) {
+  return this;
+  }
+  // Handle HTML strings
+  if ( typeof selector === "string" ) {
+    //...
+  } else if ( jQuery.isFunction( selector ) ) {
+    //...
+  }
 return jQuery.makeArray( selector, this );
 };
 \end{lstlisting}
-\, \newline
-
-
-
-
+\vspace{2mm}
 
 \section{DOM Document Object Model}
 
@@ -332,43 +358,48 @@ However theoretically the html selectors are faster!}
 
 \subsection{DOM-Manipulation by create}  
 \textcolor{orange}{We can also create new elements with js the same way we select elements}
+\vspace{-2mm}
 \begin{lstlisting}
 const newEl = document.createElement('div');
 newEl.appendChild(document.createTextNode('Hello'));
 document.querySelector("#container").appendChild(newEl);
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 \includegraphics[width=0.7\columnwidth]{2022-10-18-11_26_10.png}\newline 
 \textcolor{orange}{this is faster with small changes, DOM references stay the same, event handlers stay alive}
 
 \subsection{DOM-Manipulation by innerHTML}  
+\vspace{-2mm}
 \begin{lstlisting}
 const c = document.querySelector('#container');
 c.innerHTML = '<div>Ping pang!</div>';
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 \textcolor{orange}{this is likely faster and more readable}
  
 \subsection{DocumentFragment}  
 \textcolor{orange}{This creates a temporary fragment that will be deleted when attaching this to a parent node.}
+\vspace{-2mm}
 \begin{lstlisting}
 document.createDocumentFragment();
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 \includegraphics[width=\columnwidth]{2022-10-18-11_31_01.png}
 
 \subsection{EventListener}  
 \textcolor{orange}{An event listener is used to bind a function to something like a button\newline
 For example a darkmode button is mapped to the useDarkMode function}
+\vspace{-2mm}
 \begin{lstlisting}
 document.querySelector('button')
 .addEventListener('click' // action to map , useDarkMode // function to map,[options] // once, capture etc)
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 
 
 \subsection{remove Eventlistener and dispatchEvent}  
 You can of course also remove an eventlistener, or execute an event per js call:
+\vspace{-2mm}
 \begin{lstlisting}
 document.querySelector('button').removeEventListener('click', useDarkMode);
 // remove eventlistener
@@ -376,7 +407,7 @@ document.querySelector('button').removeEventListener('click', useDarkMode);
 document.querySelector('button').dispatchEvent('click');
 // dispatch the click event
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 
 \subsection{NodeStructure}  
 \textcolor{orange}{HTML is built like a tree with different nodes and leafs.}\newline
@@ -413,6 +444,7 @@ then you can do this with: }}\textcolor{red}{\textbf{\emph{document.readyState}}
 \textcolor{blue}{HTMLElement.textContent provides the complete raw text with no css applied}
  
 \subsection{className and classList}  
+\vspace{-2mm}
 \begin{lstlisting}
 <script>
 console.log(
@@ -424,18 +456,18 @@ console.log(document.querySelector("#el")
 // DOMTokenList(3) ["box", "alert", "important"]
 </script>
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 
 
 \subsection{Event Handling}
 
 \subsubsection{EventListener with options}  
+\vspace{-2mm}
 \begin{lstlisting}
 target.addEventListener(type, listener[, options]);
 \end{lstlisting}
-\, \newline
-\, \newline
-options:\newline
+\vspace{2mm}
+options:
 \begin{itemize}
   \item capture \newline
     Whether or not the element in question should catch the event during capture phase
@@ -449,6 +481,7 @@ options:\newline
 \end{itemize}
 
 \subsubsection{Event Listener vs inline}  
+\vspace{-2mm}
 \begin{lstlisting}
 <HTMLElement>.addEventListener()
 document.querySelector("#1").addEventListener("click", () => alert('1'));
@@ -462,7 +495,7 @@ document.querySelector("#2").onclick = () => alert('2');
 <button onclick="alert('3')">3</button>
 // provides the least amount of flexibility, not recommended
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 
 \subsubsection{Event Phases} 
 \textcolor{orange}{Events go through 3 phases:}\newline
@@ -476,7 +509,7 @@ document.querySelector("#2").onclick = () => alert('2');
     Event travels from leaf to root\newline
     Each element can react
 \end{enumerate}
-\, \newline
+\vspace{2mm}
 \textcolor{orange}{Event bubbling and capture is used to dynamically change lists, etc.}
 \includegraphics[width=0.7\columnwidth]{2022-10-18-12_15_49.png}
 
@@ -499,11 +532,11 @@ document.querySelector("#2").onclick = () => alert('2');
 \begin{itemize}
   \item \textcolor{teal}{appendChild()}
   \item \textcolor{teal}{removeChild()}
-  \, \newline
-  \, \newline
-  \, \newline
-  \, \newline
-  \, \newline
+  \vspace{2mm}
+  \vspace{2mm}
+  \vspace{2mm}
+  \vspace{2mm}
+  \vspace{2mm}
 \end{itemize}
 }[0.17,0.09]
 
@@ -586,6 +619,7 @@ document.querySelector("#2").onclick = () => alert('2');
 \end{itemize}
 
 \subsection{Keyboard Event}  
+\vspace{-2mm}
 \begin{lstlisting}
 <body>
 <input>
@@ -595,7 +629,7 @@ console.log(event.key);
 })
 </script>
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 \minipg{
 \begin{itemize}
   \item change: what changed?
@@ -610,6 +644,7 @@ console.log(event.key);
 
 \subsection{Var vs let}  
 \textcolor{orange}{Usually we declare variables using the let keyword, however, the old var keyword still has one technicality that the let keyword doesn't have. Namely the var keyword will always be available for the parent scope:}\newline
+\vspace{-2mm}
 \begin{lstlisting}
 { // empty explicit scope to show difference
   function some_func() {
@@ -622,7 +657,7 @@ console.log(event.key);
     console.log(num1); // ok -> 6
 }
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 
 \subsection{Scope per file in NodeJs} 
 \textcolor{orange}{NodeJs creates an additional scope per file, this means that you essentially can only explicitly declare a truly global variable with var.}\newline
@@ -630,6 +665,7 @@ console.log(event.key);
 
 \subsection{Closure}  
 \textcolor{orange}{This is just the concept of boxing a something in something and then accessing the scope from the inner "something". Usually done with functions:}\newline
+\vspace{-2mm}
 \begin{lstlisting}
 function something1() {
   let num = 5;
@@ -638,7 +674,7 @@ function something1() {
   }
 }
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 
 \subsection{global Scope}  
 \textcolor{orange}{If you access a global variable, it is probably better to use the \textbf{global.variable} naming scheme. The reason for this is obviously the fact that you don't use the variable of another scope by accident.}
@@ -646,6 +682,7 @@ function something1() {
 \subsection{This in scopes}  
 \textcolor{orange}{if we do not have an object, then the \textbf{the global scope will be this!}\newline
 This means that you can do things like this:}\newline
+\vspace{-2mm}
 \begin{lstlisting}
 function printName() {
   console.log(this.name);
@@ -661,10 +698,11 @@ logEntry.printName = printName;
 logEntry.printName(); // will print "pang"
 printName(); // will print "ping" -> empty object will always invoke the global object!!
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 
 \subsection{Functions with new (old js)}  
 \textcolor{orange}{Before proper OOP was introduced, this was the way you wrote OOP in js:}\newline
+\vspace{-2mm}
 \begin{lstlisting}
 // given the code from above, we create another printName instance with new
 // this will create an empty object that will be the "instance" to call the method on
@@ -677,25 +715,27 @@ new printName();
 //   return self;
 // }
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 
 \subsection{This as a parameter}  
 \textcolor{orange}{You can also pass the this keyword as a parameter!}\newline
+\vspace{-2mm}
 \begin{lstlisting}
 logEntry.printName({name: "pingpang"});
 // this will print "pingpang" instead of the logEntry name "pang" !!
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 
 \subsection{Bind}  
 \textcolor{orange}{You can also "bind" a certain "this" to one function in particular, this means that all other function other than the one you bound, will be used with the regular "this"!!}\newline
+\vspace{-2mm}
 \begin{lstlisting}
 const bindPrintName = logEntry.printName({ name: "burrmiu" });
 bindPrintName(); // this will ALWAYS print "burrmiu"
 // at least until you override it!
 bindPrintName({name: "pangPing!"}); // !!!! this will still print "burrmiu" !!!!
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 
 
 \section{strict}
@@ -707,13 +747,14 @@ It can be enabled per Scope or per file}\newline
 \textcolor{purple}{Usually this simply makes JS throw an exception when you would expect it from other functions,for example when using a method with a "this" but used on nothing -> exception instead of using global scope.}
 
 \subsection{Usage}  
+\vspace{-2mm}
 \begin{lstlisting}
 function someFunc() {
   'use strict'; // this enables the strict mode for this particular scope or file
   // for compatability, should a browser use old js without this feature, then the strict will simply be ignored
 }
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 
 \subsection{General}  
 \textcolor{orange}{All new features in JS are in strict mode, this essentially forces us to use it, and it is generally good practice to simply use the strict mode!}
@@ -721,6 +762,7 @@ function someFunc() {
 \section{Lambda}
 
 \subsection{Notation}  
+\vspace{-2mm}
 \begin{lstlisting}
 let x = (parameter) => {
   // Do something
@@ -728,11 +770,12 @@ let x = (parameter) => {
 };
 x(5); // will print 5!
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 
 \subsection{This in Lambda} 
 \textcolor{orange}{In Lambdas the this is always based on the parent scope.\newline
 For example within a function or a class the this will be based on that function or class:}\newline
+\vspace{-2mm}
 \begin{lstlisting}
 function Point(x, y){
 this.x = x;
@@ -753,7 +796,7 @@ console.log(areaFn());
 //   };
 // }
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 
 
 \section{Objects and Classes}
@@ -761,6 +804,7 @@ console.log(areaFn());
 \subsection{Objects are Hashtables!} 
 \textcolor{orange}{Every object is a hashtable, this means that we have different means to access it's values. \newline
 The same thing therefore applies to arrays as well as long as there is a name for it:}\newline
+\vspace{-2mm}
 \begin{lstlisting}
 const items = {name: "pingpang"};
 
@@ -768,7 +812,7 @@ console.log(items.name);
 console.log(items["name"]);
 // these are both the same!
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 \textcolor{purple}{Since js does not have static types, you can also add something like name: "ping" to an array and access it the same way you access any other object, however this is \textbf{not recommended!}}
 
 \subsection{Classes} 
@@ -780,6 +824,7 @@ console.log(items["name"]);
   an instance is an object of class xyz\newline
 Note, subclasses are also instanceof parentclass!}
 \end{itemize}
+\vspace{-2mm}
 \begin{lstlisting}
 class Clock {
   #timer // the # makes it private!
@@ -802,13 +847,14 @@ class Clock {
 
 const clock = new Clock(); // instance
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 
 \subsection{Classes before JS6}  
 \textcolor{orange}{The prototype keyword was used to use OOP before JS6, this is still used under the hood, but do not use this anymore unless you have performance issues.}
 
 This Context with Lambda Callbacks 
 \textcolor{red}{This code below does not work, the reason for this is that when we pass person.wackUP, we lose the this context, as we only pass the function itself!}\newline
+\vspace{-2mm}
 \begin{lstlisting}
 class Person {
   constructor(name) {
@@ -830,19 +876,21 @@ const person = new Person("Michael");
 const alarm = new Alarm();
 alarm.registerAlarm(person.wackUp);
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 \textcolor{red}{In order to preserve the context, we can pass the function as a lambda:}\newline
+\vspace{-2mm}
 \begin{lstlisting}
 alarm.registerAlarm(() => person.wackUP() );
 \end{lstlisting}
-\, \newline 
+\vspace{2mm} 
 \textcolor{red}{The same can be done in the class itself!!}\newline
+\vspace{-2mm}
 \begin{lstlisting}
 wackUp = () => {
   console.log(`${this.name} is awake!`)
 }
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 
 \section{Modules}
 
@@ -858,37 +906,41 @@ For example every script in the browser is in the global scope, this means that 
 
 \subsection{Module Usage}  
 \textcolor{red}{\textbf{In order to use a module, the file itself needs to be a module!}}\newline
+\vspace{-2mm}
 \begin{lstlisting}
 <script src="index.js" type="module"></script>
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 \textcolor{orange}{The usage is done with the import keyword:}\newline
+\vspace{-2mm}
 \begin{lstlisting}
 import {register as alarmClock} from './libs/alarm-clock.js'
 import {register as newsFeed} from './libs/news-feed.js'
 import * from './pingpang.js' // import every export from this file 
 import defaultExport from './something.js' // default export explained below
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 
 \subsection{Export}
 \textcolor{purple}{There are 2 types of exports, \textbf{named} and \textbf{unnamed}.}\newline
-\, \newline
+\vspace{2mm}
 \textcolor{orange}{\textbf{Named Export}: In order to export a function or value, you need to use the export keyword before that function/value:}\newline
+\vspace{-2mm}
 \begin{lstlisting}
 export someFunc() {
   console.log("pingpang");
 }
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 \textcolor{orange}{\textbf{defaultExport}: Here we define an export at the end of the file:}\newline
+\vspace{-2mm}
 \begin{lstlisting}
 export default {name: "pangping"};
 
 // in the import file
 console.log(defaultExport.name);
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 
 
 
@@ -896,6 +948,7 @@ console.log(defaultExport.name);
 
 \subsection{Spread}  
 \textcolor{orange}{Spread is a feature that allows fast and easy concatenation of arrays just like in haskell:}
+\vspace{-2mm}
 \begin{lstlisting}
 const listA = [1,2,3,4,5];
 const listB = [10,11,12,13,14];
@@ -912,10 +965,11 @@ console.log(objC); // {name: "pingpang", name: "pangping"}
 console.log(objD); // {{name: "pingpang"}, {name: "pangping"}}
 // note the extra curly braces on the objD -> deep copy!
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 
 \subsection{Spread Operator as parameter}  
 \textcolor{orange}{You can also enter an array as a parameter:}
+\vspace{-2mm}
 \begin{lstlisting}
 function something(a,b,c) {
   return a + b + c;
@@ -923,10 +977,11 @@ function something(a,b,c) {
 const arr = [1,2,3,4,5,6,7,8,9];
 something(...arr); // this works -> a=1,b=2,c=3, rest ignored
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 
 \subsection{Destructuring}  
 \textcolor{orange}{You can create variables directly from an array or object:}
+\vspace{-2mm}
 \begin{lstlisting}
 const [a, b] = [10,20]; // a = 10, b = 20 
 const {c, d} = {name: "pang", price: 50};
@@ -942,21 +997,23 @@ console.log(message);
 printWithDefaults({code: "error_1"}) // error_1
 printWithDefaults() // message
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 
 \subsection{Nullish Operator}  
 \textcolor{orange}{In case you want to check if for example a number exists, even a 0, you can use the nullish operator.\newline
 This will simply use the value in case it exists, or the default value that you have specified if it is undefined or null.}
+\vspace{-2mm}
 \begin{lstlisting}
 console.log(0 ?? 42); // will print 0 
 console.log(undefined ?? 42); // will print 42
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 
 
 \subsection{Optional chaining}  
 \textcolor{orange}{In JS you might always encounter values that are undefined, this often leads to issues where you call a function with undefined values, or even worse the entire function is undefined.\newline
 We can counteract this with the Optional Operator:}
+\vspace{-2mm}
 \begin{lstlisting}
 const item = {
   name: "pangping",
@@ -968,7 +1025,7 @@ const item = {
 console.log(item.fun?.word); // this will print "no" IF the fun object exists!
 // otherwise we simply do not execute this code, no exception will be thrown.
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 
 
 \section{Clean Code}
@@ -1051,6 +1108,7 @@ For example due to the translating, the performance will be much worse, and cons
 Each node package has its own \textbf{package.json}.\newline
 This specifies \textbf{the name, the type, the version, main file, description and dependencies}:\newline
 Here an example package:\newline
+\vspace{-2mm}
 \begin{lstlisting}
 {
   "name": "my-package",
@@ -1066,11 +1124,12 @@ Here an example package:\newline
   }
 }
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 
 \section{AJAX Asynchronous JavaScript and XML}
 
 \subsection{Creating a small Server}  
+\vspace{-2mm}
 \begin{lstlisting}
 // imports and config
 import http from 'http';
@@ -1090,7 +1149,7 @@ server.listen(port, hostname, () => {
   `Server running at http://${hostname}:${port}/`)
 })
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 
 \subsection{Use Case}  
 The problem with js is that it is singlethreaded, this means that only one thing can be done at a time.\newline
@@ -1107,6 +1166,7 @@ Other Effects that AJAX made possible:
 This states that \textbf{at some point you will receive an answer}, however, \textbf{there is no guarantee for the value}, it can be anything or even null/undefined.\newline
 This is mostly used to get a value that you can't be sure to get, consider it similar to channels in async rust, just that this is within the same thread!\newline
 \textcolor{OliveGreen}{A promise has 3 states, \textbf{Fulfilled, Pending and Rejected}, fulfilled means the action was successfull and a return value is available, pending means operation still active and rejected means the action has failed}
+\vspace{-2mm}
 \begin{lstlisting}
 async function fetchFromURL() {
   return new Promise ((resolve, reject) => {
@@ -1118,9 +1178,10 @@ async function fetchFromURL() {
   );
 }
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 
 \subsection{Constructor of Promise}  
+\vspace{-2mm}
 \begin{lstlisting}
 new Promise((resolve, reject) =>
 // call async func with arguments
@@ -1132,11 +1193,12 @@ new Promise((resolve, reject) =>
   }
 })
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 As you can see a promise has 2 functions as parameters that will handle the 2 possible end states reject -> rejected and resolve -> fulfilled.
 
 \subsection{Using promises}  
 You can either use promises with the \textbf{.then()} function, or with the \textbf{await} keyword.
+\vspace{-2mm}
 \begin{lstlisting}
 // with .then()
 function onClick() {
@@ -1153,9 +1215,10 @@ async function fetchFromURLAwait() {
   return response.json();
 }
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 Try catch with async await  
 Since the promise can fail, we can use a try catch block to do error handling:\newline 
+\vspace{-2mm}
 \begin{lstlisting}
 async function getGreeting() {
   try {
@@ -1166,7 +1229,7 @@ async function getGreeting() {
   }
 }
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 
 
 
@@ -1234,10 +1297,11 @@ The downside is that at some point RPC will be easier when you get to a certain 
 
 \subsection{Query filter}  
 You can sort your GET queries like this: \newline
+\vspace{-2mm}
 \begin{lstlisting}
 orders?state=activeseller_id=1234
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 
 \subsection{Important HTTP Methods}  
 \begin{itemize}
@@ -1318,7 +1382,7 @@ Do not make sudden changes with your design language or your UI elements, it sho
 \item \textcolor{purple}{Rule of Closed system}\newline
 Your design should be considered a closed system, meaning that it does not use the entirety of the screen
 \end{itemize}
-\, \newline
+\vspace{2mm}
 \includegraphics[width=0.8\columnwidth]{2022-12-13-11_37_23.png}
 
 \subsection{Colors}  
@@ -1364,36 +1428,37 @@ In other words, see if the old boomer dude can use the app as well if they are p
 }
 %%%%%
 
-
 \section{CSS}
 \subsection{Syntax}
 
-
 %\begin{csscode}
+\vspace{-2mm}
 \begin{lstlisting}
 body { 
     color: red;
 }
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 %\end{csscode}
 
 The first part is the element you want to modify, this can be the body, header, footer, a class like .button or even everything like with *. You can also add them together like: body, header, .button. \newline
 \textbf{All selectors: \#id .class element.class * element element[ attribute ]}
 
 
+\vspace{-2mm}
 \begin{lstlisting}
 /*inline css*/
 <p style="color:red;">
     This is a paragraph.
 </p>
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 
 You can also use css right inside html if you for some reason want to do this. But please only do this when you have a single thing that needs something simple like a color. \newline For everything else use stylesheets.
 
 
 
+\vspace{-2mm}
 \begin{lstlisting}
 /*full css inside html*/
 <style>
@@ -1402,86 +1467,87 @@ body {
 }
 </style>
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 You can of course also use a stylesheet inside html, also pretty useless, just use a proper stylesheet.
 
 
 
+\vspace{-2mm}
 \begin{lstlisting}
 /*This is a comment*/ 
 /*This is a 
 multiline comment*/
 // This is also a comment
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 The comments are made with these /* */ or //. Multilines are also allowed.
 
 
+\vspace{-2mm}
 \begin{lstlisting}
 color: value|initial|inherit;
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 Besides the actual values, you can always use initial for the default values, or inherit for the value of the parent.
 
+\vspace{-2mm}
 \begin{lstlisting}
-p {
-color: red;
-}
+#p {color: red;} /* id always most specific */
 
-div {
-color: blue;
-}
+div p {color: green;}
 
-div p {
-color: green;
-}
+p {color: blue;}
 \end{lstlisting}
-\, \newline 
+\vspace{2mm} 
 \textcolor{red}{\textbf{\emph{specifity:}}} \newline
 If you have 2 rules that affect 1 element. For example color red and blue, then the most specific rule will win.\newline
 For example, consider a paragraph inside a div.\newline
 In this case div p is the most specific rule, then followed by p and div.\newline
-Aka order: \textcolor{green}{green} \textcolor{red}{red} \textcolor{blue}{blue}
+Aka order: \textcolor{red}{red} \textcolor{green}{green} \textcolor{blue}{blue}
 
+\vspace{-2mm}
 \begin{lstlisting}
 h1 {
 font-weight: bold;
 font-size: 20px; !important;
-}
-h1 {
+} /* due to important this is the MOST specific! */
+#h1 {
 font-size: 30px;
-}
+} /* ignored because important tag -> font-size is 20 */
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
  You can override rules with \textbf{\textcolor{red}{!important}} if you specifically want a lower case rule to take effect instead!\newline
 \textcolor{red}{Should always be avoided if you can!}
 
+\vspace{-2mm}
 \begin{lstlisting}
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="https://shitgaem.online">
 \end{lstlisting}
-\, \newline  
+\vspace{2mm}  
 Proper link styles can be inserted with <link>. You can also embed a stylesheet from the internet!
 
+\vspace{-2mm}
 \begin{lstlisting}
 tr.warning td:nth-child(1)::before{
   color: red;
   content: "\26A0";
 }
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
  This selects the td of a tr in class warning. Then goes to the nth-child, here 1 and before the content of said td.\newline
 Then you can add new content with content: "something";\newline
 Keep in mind that any changes with color etc are only made to this new content,\newline 
 as you specify it above!
 
 
+\vspace{-2mm}
 \begin{lstlisting}
 some-element::before {
   display: none;Glace
 }
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
  If you would like to not display something from the html files, you can do this by specifying
 display none before the content in question. \newline Keep in mind that this does not remove the content altogether, it only hides it!
 
@@ -1495,15 +1561,40 @@ Inheritance in css is only applied sparsely, the reason for this is that you can
 \textbf{Important note for CSS. If you want to affect an elements position, you will always have to change the attributes in the parent. \newline
 In other words, justify-content and similar need to be defined in the box parent, not the div that you want to center!}
 
+\subsection{Units}
+\minipg{
+\textcolor{purple}{Relative size}
+\begin{itemize}
+\item \textcolor{orange}{em:} relative to parent font-size
+\item \textcolor{orange}{rem:} relative to the root font-size
+\item \textcolor{orange}{ch:} relative to the character"0"
+\item \textcolor{orange}{vh:} relative to viewport height
+\item \textcolor{orange}{vw:} relative to viewport width
+\item \textcolor{orange}{\%:} relative to parent size
+\end{itemize} 
+}{
+  \textcolor{purple}{Fixed size}
+\begin{itemize}
+\item \textcolor{orange}{px}
+\item \textcolor{orange}{mm}
+\item \textcolor{orange}{cm}
+\item \textcolor{orange}{in}
+\, \newline
+\, \newline
+\, \newline
+\end{itemize} 
+}[0.15,0.1]
+
 \subsection{Colors}
 
+\vspace{-2mm}
 \begin{lstlisting}
 color: red;
 /* or */
 color: #55667788;
 /* #RRGGBBAA */
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 Colors are straight forward, you can either write the name of preconfigured colors, or use the RBGA values. \newline A is opacity.
 
 
@@ -1511,6 +1602,7 @@ Colors are straight forward, you can either write the name of preconfigured colo
 
 \subsection{Background}
 
+\vspace{-2mm}
 \begin{lstlisting}
 background-color: red;
 background-image: "/path"; /* can also be an url -> url(https://...)*/
@@ -1523,10 +1615,11 @@ background-origin: padding-box|content-box|border-box;
 // Used to define where the background image starts inside a box, only works when background-attachement is not fixed.
 background-repeat: repeat|repeat-x|repeat-y|no-repeat|space|round; //useless shit
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 
 \subsection{Borders}
 
+\vspace{-2mm}
 \begin{lstlisting}
 border: 4px solid red;
 border: border-width border-style border-color;
@@ -1539,23 +1632,25 @@ border-collapse: separate|collapse|initial|inherit;
 // collapse means borders will merge in boxes. seperate will draw borders for both elements.
 border-spacing: 4px; //Spacing between borders if the border-collapse is enabled!
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 
 
 \subsection{Margins and Paddings}
+\vspace{-2mm}
 \begin{lstlisting}
 margin: top right bottom left;
-margin: 10px 10px 10px 10px;
+margin: 10px 10px 10px 10px; /* == margin: 10px; */
 padding: top right bottom left;
-padding: top right bottom left;
+padding: 10px 10px 10px 10px;
 //margin-right padding-left etc work as well.
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 Margin is the spacing between the element itself and it's parent and or other elements in the same hierarchy.\newline
 Padding is the spacing inside the element to the contents of said element.
 
 \subsection{Text}
 
+\vspace{-2mm}
 \begin{lstlisting}
 text-align: left|right|center|justify; // justify is text as a block.
 text-align-last: left|right|center|justify; //The last line can be configured indiidually.
@@ -1571,9 +1666,10 @@ text-overflow: clip|ellipsis|string;
 text-shadow: h-shadow v-shadow blur-radius color|none;
 text-transform: none|capitalize|uppercase|lowercase;
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 
 \subsubsection{Fonts}
+\vspace{-2mm}
 \begin{lstlisting}
 font: font-style font-variant font-weight font-size/line-height font-family
 |caption|icon|menu|message-box|small-caption|status-bar; //use the font used by this element
@@ -1584,14 +1680,15 @@ font-size: medium|xx-small|x-small|small|large|x-large|xx-large|smaller|larger|l
 line-height: normal|number|length;
 font-family: family-name|generic-family; //generic-family example: Isoveka
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 
 \subsection{Display, justify and align}
+\vspace{-2mm}
 \begin{lstlisting}
 display: none|inline|block|contents|flex|grid|inline-block|inline-flex|inline-grid|inline-table|list-item|run-in|table|
          table-caption|table-column-group|table-footer-group|table-row-group|table-cell|table-column|table-row;
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 Center Div or other HORIZONTALLY \newline 
 You can center a box horizontally by using the \textbf{display: flex or display: grid} on the parent box, as well as \textbf{justify-content: center} on the parent box\newline
 Center Div or other VERTICALLY \newline 
@@ -1599,24 +1696,26 @@ You can center a box vertically by using the \textbf{display: table} on the \emp
 
 \subsection{Selectors and Combinators}
 \textbf{Selectors}
+\vspace{-2mm}
 \begin{lstlisting}
 selector::pseudo-element {
 property: value;
 }
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
  Pseudo selectors can be used to select only a specific part of an element.
 \includegraphics[width=\columnwidth]{2022-10-04-10_58_46.png}
 \textbf{Combinators and selectors}  
 \includegraphics[width=0.8\columnwidth]{2022-10-04-11_03_12.png}\newline 
 \includegraphics[width=0.8\columnwidth]{2022-10-04-11_03_26.png}
+\vspace{-2mm}
 \begin{lstlisting}
 :is (box, button, something) p:hover {
 background-color: red;
 something-else: value;
 }
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
  This applies a rule to all button box and something elements if hovered.
 
  \subsection{Selectors in JS}  
@@ -1669,50 +1768,53 @@ This should be used instead of width and height because an object might grow big
 
 \section{HTML Hypertext Markup Lanugage}
 
-\textbf{\emph{HTML is not a programming lanugage}}, it is a markup language. It doesn't have logical operations, just as css does't have it. If you want more than a few pictures and a bit of text, then you need javascript or some other actual language to do the work!\newline
+\textbf{\emph{HTML is not a programming lanugage}}, it is a markup language.\newline
 HTML simply defines \textbf{content} and \textbf{structure}.
 
-
-\section{Basic Syntax and Information}
+\section{Example HTML File}
+\vspace{-2mm}
 \begin{lstlisting}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>hello</title>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="styles/global.css" />
+  <link rel="shortcut icon" href="#" />
+  <title>Rock Paper Scissors</title>
 </head>
 <body>
-    Hello World
+  <!-- other stuff -->
+  <script src="scripts/main.js" type="module"></script>
 </body>
-</html>
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
+
+\section{Basic Syntax and Information}
 A Simple html page doesn't need even a header or a body, however it is typical of a page to have it.\newline
 In the header you can specify title page, encoding languages and more.\newline
 Content is typically shown inside the body, while addresses and Information is usually found in the footer.\newline
-the <> </> open and close a tag, usually tags need both, but some may only need an opening tag.
+the <> </> open and close a tag, usually tags need both, but some may only need an opening tag.\newline
+\textcolor{purple}{Comments:}
+\vspace{-2mm}
 \begin{lstlisting}
 <!--This is an html comment!-->
 <!--This is a 
 multiline comment!-->
 \end{lstlisting}
-\, \newline
-Comments are made with <!-- -->.
+\vspace{2mm}
+
+\textcolor{purple}{Tags}
+\vspace{-2mm}
 \begin{lstlisting}
 <input type="text" placeholder"enter something">
+<!-- optional /> inside the tag above (discouraged) -->
+<!-- no </input>! (empty tag!) -->
 \end{lstlisting}
-\, \newline
-This is an empty tag, no closing </> is allowed. \newline
-The optional / at the end is \textbf{strongly discouraged} -> <input type="text"/>
-\begin{lstlisting}
-<div>Some text!<div>
-\end{lstlisting}
-\, \newline
-Tags are opened with <> and closed with </>.
-\includegraphics[width=\columnwidth]{2022-09-27-10_53_50.png}
+\vspace{2mm}
 Certain elements like <title> are only allowed in the header, others like <h> are only allowed in the body.\newline
 You can technically just use these tags without specifying the body and header.\newline
 However this might be confusing to some people.
+\includegraphics[width=\columnwidth]{2022-09-27-10_53_50.png}
 
 
 \subsection{Semantic Markup}
@@ -1723,33 +1825,43 @@ However this might be confusing to some people.
 
 
 \section{Base Elements}
+\textcolor{purple}{Image <img>}
+\vspace{-2mm}
 \begin{lstlisting}
 <img src="path to source" alt="alternative text">
 \end{lstlisting}
-\, \newline
- Inserts an image in html.
+\vspace{2mm}
+
+\textcolor{purple}{Input:}
+\vspace{-2mm}
 \begin{lstlisting}
 <input type="text" placeholder="something">
 \end{lstlisting}
-\, \newline
- Input with placeholder
+\vspace{2mm}
+
+\textcolor{purple}{Form with js function:}
+\vspace{-2mm}
 \begin{lstlisting}
 <form onsubmit={() => handleSubmit() }><!--Inputs and buttons.--> </form>
 \end{lstlisting}
-\, \newline
- Form with js function
+\vspace{2mm}
+
+\textcolor{purple}{Header-text, from 1 to 6:}
+\vspace{-2mm}
 \begin{lstlisting}
 <h1>Some text to use as header</h1> <!--h1,h2,h3,h4,h5,h6-->
 \end{lstlisting}
-\, \newline
- Header-text, from 1 to 6.
+\vspace{2mm}
 
+\textcolor{purple}{Paragraph:}
+\vspace{-2mm}
 \begin{lstlisting}
 <p>Some text to display</p>
 \end{lstlisting}
-\, \newline
- Paragraph
+\vspace{2mm}
 
+\textcolor{purple}{Ordered List:}
+\vspace{-2mm}
 \begin{lstlisting}
 <ol>
     <li>element1</li>
@@ -1757,9 +1869,10 @@ However this might be confusing to some people.
     <li>element3</li>
 </ol>
 \end{lstlisting}
-\, \newline
- Ordered List.
+\vspace{2mm}
 
+\textcolor{purple}{Unordered List:}
+\vspace{-2mm}
 \begin{lstlisting}
 <ul>
     <li>element1</li>
@@ -1767,41 +1880,38 @@ However this might be confusing to some people.
     <li>element3</li>
 </ul>
 \end{lstlisting}
-\, \newline
- Unordered List.
+\vspace{2mm}
 
+\textcolor{purple}{Hyperlink:}
+\vspace{-2mm}
 \begin{lstlisting}
 <a href="https://shitgaem.online">Shitgaem</a>
 \end{lstlisting}
-\, \newline
- Hyperlink
+\vspace{2mm}
 
-\begin{lstlisting}
-<code>std::cout << "Henlo Birb!\n"</code>
-\end{lstlisting}
-\, \newline
- Did someone say minted?
-
+\textcolor{purple}{bold text:}
+\vspace{-2mm}
 \begin{lstlisting}
 <b>this text is bold, or maybe not.</b>
 \end{lstlisting}
-\, \newline
- \textbf{bold text}
+\vspace{2mm}
 
+\textcolor{purple}{italic text:}
+\vspace{-2mm}
 \begin{lstlisting}
 <em>This text is italic, or maybe not</em>
 \end{lstlisting}
-\, \newline
- \emph{italic text}
+\vspace{2mm}
 
+\textcolor{purple}{div:}
+\vspace{-2mm}
 \begin{lstlisting}
-<div>This is the standard div container, try centering it!</div>
+<div>try centering it!</div>
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 
-div
-
-
+\textcolor{purple}{Navigation Bar:}
+\vspace{-2mm}
 \begin{lstlisting}
  <nav>
   <a href="/html/">HTML</a> |
@@ -1810,22 +1920,14 @@ div
   <a href="/cpp/">C++</a>
 </nav>
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 
-Navigation Bar
-
-
-
-
-
-
+\textcolor{purple}{Bar on the side:}
+\vspace{-2mm}
 \begin{lstlisting}
 <aside>Something to display on the side</aside>
 \end{lstlisting}
-\, \newline
- Implements a bar on the side.
-
-
+\vspace{2mm}
 
 \subsection{Semantic Element, what to choose?}
 \includegraphics[width=\columnwidth]{2022-09-27-11_45_58.png}
@@ -1843,6 +1945,7 @@ data-*  Used to store custom data private to the page or application\newline
 data-event= add -> handle add in parent node to rerender, etc\newline
 In the parent node you can then perform a check on this by using target.class == add\newline
 \textbf{This makes sure you don't use the same function for every single bubbling event!}}\newline
+\vspace{-2mm}
 \begin{lstlisting}
 document.querySelector("pingpang").addEventListener("click", (event) => { 
   if (event.target.getAttribute("data-eventtype") == "add") {
@@ -1852,7 +1955,7 @@ document.querySelector("pingpang").addEventListener("click", (event) => {
   }
 })
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 
 
 dir  Specifies the text direction for the content in an element
@@ -1879,22 +1982,6 @@ translate  Specifies whether the content of an element should be translated or n
 It is generally recommended to do this for stylistic reasons.
 
 
-\section{Example HTML Header}
-\begin{lstlisting}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <link rel="stylesheet" href="styles/global.css" />
-  <link rel="shortcut icon" href="#" />
-  <title>Rock Paper Scissors</title>
-</head>
-<body>
-  <!-- other stuff -->
-  <script src="scripts/main.js" type="module"></script>
-</body>
-\end{lstlisting}
-\, \newline
 
 
 
@@ -1907,6 +1994,7 @@ Https Request
 Https uses requests to both get and push data.\newline
 We call them \textbf{GET request} and \textbf{POST request}.\newline
 Usually we only use GET requests in combination with js like this:\newline
+\vspace{-2mm}
 \begin{lstlisting}
 async function fetchFromURL() {
   try {
@@ -1920,9 +2008,10 @@ async function fetchFromURL() {
   }
 }
 \end{lstlisting}
-\, \newline
+\vspace{2mm}
 
 \section{JS exceptions}
+\vspace{-2mm}
 \begin{lstlisting}
 "4" / "2"               //=> 2: Number
 "4" - "2"               //=> 2: Number
