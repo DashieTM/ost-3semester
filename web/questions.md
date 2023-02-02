@@ -8,4 +8,3 @@
 - is important just another counter like a? -> 0? [ ]
 
 ## HTML
-- wtf is the openAPI and does it even matter? [ ]
