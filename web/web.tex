@@ -372,7 +372,7 @@ return jQuery.makeArray( selector, this );
 \section{DOM Document Object Model}
 
 \subsection{window}  
-\textcolor{orange}{This simply provides global objects such as \textbf{console, document and HTMLDocument}}\newline
+This simply provides global objects such as \textbf{console, document and HTMLDocument}\newline
 \textcolor{teal}{All global variables reside here.}
 
 Selection 
@@ -384,8 +384,8 @@ Selection
   \item \textcolor{teal}{document.getElementByTagName('li')} // select by Tag name
   \item \textcolor{teal}{document.getElementsByClassName('nav-item')} // select by class name
 \end{itemize}
-\textcolor{orange}{Just use the querySelector -> it allows more ways to select it! \newline
-However theoretically the html selectors are faster!}
+Just use the querySelector -> it allows more ways to select it! \newline
+However theoretically the html selectors are faster!
 
 \subsection{DOM-Manipulation by create}  
 \textcolor{orange}{We can also create new elements with js the same way we select elements}
@@ -397,7 +397,7 @@ document.querySelector("#container").appendChild(newEl);
 \end{lstlisting}
 \vspace{2mm}
 \includegraphics[width=0.7\columnwidth]{2022-10-18-11_26_10.png}\newline 
-\textcolor{orange}{this is faster with small changes, DOM references stay the same, event handlers stay alive}
+\textcolor{purple}{this is faster with small changes, DOM references stay the same, event handlers stay alive}
 
 \subsection{DOM-Manipulation by innerHTML}  
 \vspace{-2mm}
@@ -409,7 +409,7 @@ c.innerHTML = '<div>Ping pang!</div>';
 \textcolor{orange}{this is likely faster and more readable}
  
 \subsection{DocumentFragment}  
-\textcolor{orange}{This creates a temporary fragment that will be deleted when attaching this to a parent node.}
+This creates a temporary fragment that will be deleted when attaching this to a parent node.
 \vspace{-2mm}
 \begin{lstlisting}
 document.createDocumentFragment();
@@ -418,8 +418,8 @@ document.createDocumentFragment();
 \includegraphics[width=\columnwidth]{2022-10-18-11_31_01.png}
 
 \subsection{EventListener}  
-\textcolor{orange}{An event listener is used to bind a function to something like a button\newline
-For example a darkmode button is mapped to the useDarkMode function}
+An event listener is used to bind a function to something like a button\newline
+For example a darkmode button is mapped to the useDarkMode function
 \vspace{-2mm}
 \begin{lstlisting}
 document.querySelector('button')
@@ -452,13 +452,23 @@ document.querySelector('button').dispatchEvent('click');
 \includegraphics[width=\columnwidth]{2022-10-18-10_35_52.png}
 
 \subsection{async and defer}  
-\textcolor{orange}{\textbf{async:} Async means that the script will be loaded and executed immediately.\newline
-This means that there \textbf{is no guarantee for order} and the script will be \textbf{executed before the document has loaded}.}\newline
-\textcolor{blue}{\textbf{defer:} This is the opposite to async, it will \textbf{gurarantee order}, \newline
-and the document will \textbf{be loaded before the script executes}.}\newline
+\textcolor{orange}{\textbf{async:}}\newline
+Async means that the script will be loaded and executed immediately.\newline
+This means that there \textbf{is no guarantee for order} and the script will be \textbf{executed before the document has loaded}.\newline
+\textcolor{blue}{\textbf{defer:}}\newline
+This is the opposite to async, it will \textbf{gurarantee order}, \newline
+and the document will \textbf{be loaded before the script executes}.
 \minipg{
 \includegraphics[width=\columnwidth]{2022-10-18-10_45_27.png} 
 }{
+Events:
+\begin{itemize}
+\item \textcolor{orange}{DOMContentLoaded}\newline
+  Document parsed, but images etc are loading
+\item \textcolor{orange}{load}\newline
+  both are ready
+\end{itemize} 
+Legend:
 \begin{itemize}
 \item \textcolor{green}{HTML Parsing}
 \item \textcolor{gray}{HTML parsing paused}
@@ -514,17 +524,15 @@ options:
 \subsubsection{Event Listener vs inline}  
 \vspace{-2mm}
 \begin{lstlisting}
-<HTMLElement>.addEventListener()
+// dynamic eventype: multiple listeners possible!
 document.querySelector("#1").addEventListener("click", () => alert('1'));
-// multiple listeners possible!
 
-<HTMLElement>.on... = eventHandler
-document.querySelector("#2").onclick = () => alert('2');
-// only 1 listener possible
+// fixed type: only 1 listener possible
 // will overwrite previous onclick assignments
+document.querySelector("#2").onclick = () => alert('2');
 
+// inline: provides the least amount of flexibility, not recommended
 <button onclick="alert('3')">3</button>
-// provides the least amount of flexibility, not recommended
 \end{lstlisting}
 \vspace{2mm}
 
@@ -650,17 +658,6 @@ document.querySelector("#2").onclick = () => alert('2');
 \end{itemize}
 
 \subsection{Keyboard Event}  
-\vspace{-2mm}
-\begin{lstlisting}
-<body>
-<input>
-<script>
-document.querySelector("input").addEventListener("keydown", (event) => {
-console.log(event.key);
-})
-</script>
-\end{lstlisting}
-\vspace{2mm}
 \minipg{
 \begin{itemize}
   \item change: what changed?
@@ -670,11 +667,18 @@ console.log(event.key);
 }{
 \includegraphics[width=\columnwidth]{2022-10-18-12_33_39.png}
 }[0.17,0.07]
+\vspace{-2mm}
+\begin{lstlisting}
+document.querySelector("input").addEventListener("keydown", (event) => {
+  console.log(event.key);
+})
+\end{lstlisting}
+\vspace{2mm}
 
 \section{Scopes}
 
 \subsection{Var vs let}  
-\textcolor{orange}{Usually we declare variables using the let keyword, however, the old var keyword still has one technicality that the let keyword doesn't have. Namely the var keyword will always be available for the parent scope:}\newline
+Usually we declare variables using the let keyword, however, the old var keyword still has one technicality that the let keyword doesn't have. Namely the var keyword will always be available for the parent scope:
 \vspace{-2mm}
 \begin{lstlisting}
 { // empty explicit scope to show difference
@@ -691,11 +695,11 @@ console.log(event.key);
 \vspace{2mm}
 
 \subsection{Scope per file in NodeJs} 
-\textcolor{orange}{NodeJs creates an additional scope per file, this means that you essentially can only explicitly declare a truly global variable with var.}\newline
+NodeJs creates an additional scope per file, this means that you essentially can only explicitly declare a truly global variable with var.\newline
 \textcolor{red}{However, the browser does \textbf{NOT} have this feature!}
 
 \subsection{Closure}  
-\textcolor{orange}{This is just the concept of boxing a something in something and then accessing the scope from the inner "something". Usually done with functions:}\newline
+This is just the concept of boxing a something in something and then accessing the scope from the inner "something". Usually done with functions:
 \vspace{-2mm}
 \begin{lstlisting}
 function something1() {
@@ -708,11 +712,11 @@ function something1() {
 \vspace{2mm}
 
 \subsection{global Scope}  
-\textcolor{orange}{If you access a global variable, it is probably better to use the \textbf{global.variable} naming scheme. The reason for this is obviously the fact that you don't use the variable of another scope by accident.}
+If you access a global variable, it is probably better to use the \textbf{global.variable} naming scheme. The reason for this is obviously the fact that you don't use the variable of another scope by accident.
 
 \subsection{This in scopes}  
-\textcolor{orange}{if we do not have an object, then the \textbf{the global scope will be this!}\newline
-This means that you can do things like this:}\newline
+if we do not have an object, then the \textbf{the global scope will be this!}\newline
+This means that you can do things like this:
 \vspace{-2mm}
 \begin{lstlisting}
 function printName() {
@@ -758,7 +762,7 @@ logEntry.printName({name: "pingpang"});
 \vspace{2mm}
 
 \subsection{Bind}  
-\textcolor{orange}{You can also "bind" a certain "this" to one function in particular, this means that all other function other than the one you bound, will be used with the regular "this"!!}\newline
+You can also "bind" a certain "this" to one function in particular, this means that all other function other than the one you bound, will be used with the regular "this"!!\newline
 \vspace{-2mm}
 \begin{lstlisting}
 const bindPrintName = logEntry.printName({ name: "burrmiu" });
@@ -769,12 +773,12 @@ bindPrintName({name: "pangPing!"}); // !!!! this will still print "burrmiu" !!!!
 \vspace{2mm}
 
 
-\section{strict}
+\section{Strict Mode in JS}
 
 
 \subsection{Basic} 
-\textcolor{orange}{This disables certain JS features that might be unwanted in this particular usecase. \newline
-It can be enabled per Scope or per file}\newline
+This disables certain JS features that might be unwanted in this particular usecase. \newline
+It can be enabled per Scope or per file\newline
 \textcolor{purple}{Usually this simply makes JS throw an exception when you would expect it from other functions,for example when using a method with a "this" but used on nothing -> exception instead of using global scope.}
 
 \subsection{Usage}  
@@ -788,7 +792,7 @@ function someFunc() {
 \vspace{2mm}
 
 \subsection{General}  
-\textcolor{orange}{All new features in JS are in strict mode, this essentially forces us to use it, and it is generally good practice to simply use the strict mode!}
+All new features in JS are in strict mode, this essentially forces us to use it, and it is generally good practice to simply use the strict mode!
 
 \section{Lambda}
 
@@ -804,8 +808,8 @@ x(5); // will print 5!
 \vspace{2mm}
 
 \subsection{This in Lambda} 
-\textcolor{orange}{In Lambdas the this is always based on the parent scope.\newline
-For example within a function or a class the this will be based on that function or class:}\newline
+In Lambdas the this is always based on the parent scope.\newline
+For example within a function or a class the this will be based on that function or class:
 \vspace{-2mm}
 \begin{lstlisting}
 function Point(x, y){
@@ -833,8 +837,8 @@ console.log(areaFn());
 \section{Objects and Classes}
 
 \subsection{Objects are Hashtables!} 
-\textcolor{orange}{Every object is a hashtable, this means that we have different means to access it's values. \newline
-The same thing therefore applies to arrays as well as long as there is a name for it:}\newline
+Every object is a hashtable, this means that we have different means to access it's values. \newline
+The same thing therefore applies to arrays as well as long as there is a name for it:
 \vspace{-2mm}
 \begin{lstlisting}
 const items = {name: "pingpang"};
@@ -881,7 +885,7 @@ const clock = new Clock(); // instance
 \vspace{2mm}
 
 \subsection{Classes before JS6}  
-\textcolor{orange}{The prototype keyword was used to use OOP before JS6, this is still used under the hood, but do not use this anymore unless you have performance issues.}
+The prototype keyword was used to use OOP before JS6, this is still used under the hood, but do not use this anymore unless you have performance issues.
 
 This Context with Lambda Callbacks 
 \textcolor{red}{This code below does not work, the reason for this is that when we pass person.wackUP, we lose the this context, as we only pass the function itself!}\newline
@@ -926,8 +930,8 @@ wackUp = () => {
 \section{Modules}
 
 \subsection{UseCase}  
-\textcolor{orange}{The use case is as expected the prevention of namespace issues.\newline
-For example every script in the browser is in the global scope, this means that if the index.js and the home.js both have a function called hello(), then they will overwrite each others definition!!}\newline
+The use case is as expected the prevention of namespace issues.\newline
+For example every script in the browser is in the global scope, this means that if the index.js and the home.js both have a function called hello(), then they will overwrite each others definition!!\newline
 \textcolor{purple}{The other usecase is \textbf{dependency solving} and \textbf{code departmentalization}.}\newline
 \textcolor{teal}{In Node.js the file need to end with .mjs in order to use modules, in the browser the ending .js is fine.}\newline
 \textcolor{teal}{Modules are \textbf{ALWAYS STRICT!}}
@@ -1031,8 +1035,8 @@ printWithDefaults() // message
 \vspace{2mm}
 
 \subsection{Nullish Operator}  
-\textcolor{orange}{In case you want to check if for example a number exists, even a 0, you can use the nullish operator.\newline
-This will simply use the value in case it exists, or the default value that you have specified if it is undefined or null.}
+In case you want to check if for example a number exists, even a 0, you can use the nullish operator.\newline
+This will simply use the value in case it exists, or the default value that you have specified if it is undefined or null.
 \vspace{-2mm}
 \begin{lstlisting}
 console.log(0 ?? 42); // will print 0 
@@ -1042,8 +1046,8 @@ console.log(undefined ?? 42); // will print 42
 
 
 \subsection{Optional chaining}  
-\textcolor{orange}{In JS you might always encounter values that are undefined, this often leads to issues where you call a function with undefined values, or even worse the entire function is undefined.\newline
-We can counteract this with the Optional Operator:}
+In JS you might always encounter values that are undefined, this often leads to issues where you call a function with undefined values, or even worse the entire function is undefined.\newline
+We can counteract this with the Optional Operator:
 \vspace{-2mm}
 \begin{lstlisting}
 const item = {
@@ -1076,47 +1080,47 @@ console.log(item.fun?.word); // this will print "no" IF the fun object exists!
 \end{itemize} 
 
 \subsection{Functions}  
-\textcolor{orange}{Function should also be \textbf{short, fitting name for functionality, pos-x compliant} -> only 1 functionality and \textbf{as few parameters as possible}}
+Function should also be \textbf{short, fitting name for functionality, pos-x compliant} -> only 1 functionality and \textbf{as few parameters as possible}
 
 \subsection{Code Smells}  
 Names
 \begin{itemize}
-\item \textcolor{orange}{useless Names}
-\item \textcolor{orange}{too short names}
-\item \textcolor{orange}{too abstract names}
+\item \textcolor{purple}{useless Names}
+\item \textcolor{purple}{too short names}
+\item \textcolor{purple}{too abstract names}
 \end{itemize}
 Functions
 \begin{itemize}
-\item \textcolor{orange}{too many parameters}
-\item \textcolor{orange}{too much dead code -> not reached code}
-\item \textcolor{orange}{Function too long}
-\item \textcolor{orange}{boolean flags}
+\item \textcolor{purple}{too many parameters}
+\item \textcolor{purple}{too much dead code -> not reached code}
+\item \textcolor{purple}{Function too long}
+\item \textcolor{purple}{boolean flags}
 \end{itemize} 
 Comments
 \begin{itemize}
-\item \textcolor{orange}{outdated comments}
-\item \textcolor{orange}{superfluous comments}
-\item \textcolor{orange}{commented code}
+\item \textcolor{purple}{outdated comments}
+\item \textcolor{purple}{superfluous comments}
+\item \textcolor{purple}{commented code}
 \end{itemize} 
 More
 \begin{itemize}
-\item \textcolor{orange}{Code duplicates}
-\item \textcolor{orange}{Inconsistent formatting}
-\item \textcolor{orange}{Inconsistent naming across functions and names}
+\item \textcolor{purple}{Code duplicates}
+\item \textcolor{purple}{Inconsistent formatting}
+\item \textcolor{purple}{Inconsistent naming across functions and names}
 \end{itemize}
 
 
 \section{PolyFill and BabelJS}
 
 \subsection{BabelJS}  
-\textcolor{orange}{BabelJS converts new and modern JS code into old style JS, this is used for compatibility with older browsers that do not support the new features.}
+BabelJS converts new and modern JS code into old style JS, this is used for compatibility with older browsers that do not support the new features.
 
 \subsection{PolyFill} 
-\textcolor{orange}{BabelJS has certain limitations that PolyFill tries to essentially "fill in". This further increases the compatibility with older browsers, however, this still is limited to a certain extend.\newline
-For example due to the translating, the performance will be much worse, and considering we are already using an older browser, this can quickly get out of hand.}
+BabelJS has certain limitations that PolyFill tries to essentially "fill in". This further increases the compatibility with older browsers, however, this still is limited to a certain extend.\newline
+For example due to the translating, the performance will be much worse, and considering we are already using an older browser, this can quickly get out of hand.
 
 \subsection{Model View Controller (MVC)}  
-\textcolor{orange}{This is essentially an abstract system to create web-applications, it abstracts 3 different things: the \textbf{view -> Display of data}, the \textbf{model -> app state}, and the \textbf{Controller -> reaction to input}}\newline
+This is essentially an abstract system to create web-applications, it abstracts 3 different things: the \textbf{view -> Display of data}, the \textbf{model -> app state}, and the \textbf{Controller -> reaction to input}\newline
 \includegraphics[width=\columnwidth]{2022-11-08-11_39_15.png}\newline
 \textcolor{teal}{You can create this for every project that you would create with the tri-force html/css/js}
 
