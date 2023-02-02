@@ -722,13 +722,11 @@ This means that you can do things like this:
 function printName() {
   console.log(this.name);
 }
-
 const name = "ping"
 
 const logEntry = {
   name: "pang"
 };
-
 logEntry.printName = printName;
 logEntry.printName(); // will print "pang"
 printName(); // will print "ping" -> empty object will always invoke the global object!!
@@ -813,11 +811,10 @@ For example within a function or a class the this will be based on that function
 \vspace{-2mm}
 \begin{lstlisting}
 function Point(x, y){
-this.x = x;
-this.y = y;
-this.area = () => this.x + this.y;
+  this.x = x;
+  this.y = y;
+  this.area = () => this.x + this.y;
 }
-
 var areaFn = new Point(10,50).area;
 console.log(areaFn());
 
@@ -879,7 +876,6 @@ class Clock {
     this.currentTime = newTime
   }
 }
-
 const clock = new Clock(); // instance
 \end{lstlisting}
 \vspace{2mm}
@@ -895,7 +891,6 @@ class Person {
   constructor(name) {
     this.name = name;
   }
-
   wackUp() {
     console.log(`${this.name} is awake!`)
   }
@@ -981,6 +976,16 @@ console.log(defaultExport.name);
 
 \section{Advanced JS Features}
 
+\subsection{Set Timeout}
+\vspace{-2mm}
+\begin{lstlisting}
+const timer = setTimeout(() => {
+  // perform this after x amount of miliseconds
+}, 1000); // 1000 miliseconds!
+clearTimeout(timer); // kills the timer -> call before timer ends
+\end{lstlisting}
+\vspace{2mm}
+
 \subsection{Spread}  
 \textcolor{orange}{Spread is a feature that allows fast and easy concatenation of arrays just like in haskell:}
 \vspace{-2mm}
@@ -991,13 +996,13 @@ const listC = [...listA, ...listB];
 
 // this can also be done with other objects
 
-const objA = {name: "pingpang"};
-const objB = {name: "pangping"};
+const objA = {name: "ping"};
+const objB = {name2: "pang"}; // can't have same key twice!
 const objC = {...objA,...objB}; // this copies the values of objA and objB into objC
 const objD = {objA,objB}; // this however copies the full object into it
 
-console.log(objC); // {name: "pingpang", name: "pangping"}
-console.log(objD); // {{name: "pingpang"}, {name: "pangping"}}
+console.log(objC); // {name: "ping", name2: "pang"}
+console.log(objD); // {objA: {name: "ping"}, objB: {name2: "pang"}}
 // note the extra curly braces on the objD -> deep copy!
 \end{lstlisting}
 \vspace{2mm}
@@ -1275,15 +1280,14 @@ async function getGreeting(fetchURL) {
 \textcolor{purple}{Manual promise usage:}
 \vspace{-2mm}
 \begin{lstlisting}
-const p1 = Promise.reject('no'); // rejects with error ̈́'no'
+const p1 = Promise.reject('no'); // rejects with error 'no'
 const p1 = Promise.resolve(42);  // creates promise
 p1.then(x => console.log(x))); // unpacks promise and logs 42
 \end{lstlisting}
 \vspace{2mm}
 
-\section{REST}
-
-\subsection{Representational State Transfer (REST)}  
+\section{REST Representational State Transfer}
+\textcolor{purple}{Services that implement this are called "RESTful"}\newline
 This is a style of transerring resources without side effects, this means that \textbf{we only transer data, there will be no function calls!}.
 \begin{itemize}
 \item \textcolor{purple}{Client-Server based}
@@ -1302,7 +1306,7 @@ Each request is sent to the \textbf{same endpoint}.
 \includegraphics[width=0.8\columnwidth]{2022-11-29-11_14_31.png}
 
 
-\subsection{Level 1: Ressources}  
+\subsection{Level 1: Resources}  
 With this level we can receive data from different endpoints, this essentially allows \textbf{divide and conquer} -> "multithreading".\newline 
 \includegraphics[width=0.7\columnwidth]{2022-11-29-11_14_57.png}
 
@@ -1319,19 +1323,19 @@ Level 3 also gives us the ability to \textbf{specify possible actions} with this
 \subsection{REST vs RPC (Remote Procedure Call)}  
 REST is much simpler, this allows a much cleaner implementation of function on your side, and also gives you much more flexibility as to what and how you implement things. \newline
 The downside is that at some point RPC will be easier when you get to a certain dependency on each other, in other words, loosely connected applications benefit from the REST concept, while strongly connected ones benefit from RPC.\newline 
-\textcolor{orange}{In general REST is better for data requests, as it is based on ressources instead of calls}
+\textcolor{orange}{In general REST is better for data requests, as it is based on resources instead of calls}
 
-\subsection{Ressource Oriented Architectures}  
+\subsection{Resource Oriented Architectures (ROA)}  
 
 \begin{itemize}
-\item \textcolor{purple}{Ressource}\newline
+\item \textcolor{purple}{Resource}\newline
   Everything that is important enough to get its own id
 \item \textcolor{purple}{Name}\newline
-  unique ID of a ressource
+  unique ID of a resource
 \item \textcolor{purple}{Representation}\newline
   Can be done in multiple ways, html, xml, whatever
 \item \textcolor{purple}{Links}\newline
-  Hyperlinks connect ressources
+  Hyperlinks connect resources
 \item \textcolor{purple}{Interface}\newline
   Uniform Interface\newline
   Standard HTML methods
@@ -1368,9 +1372,20 @@ async function postJson(url, json) {
 \end{lstlisting}
 \vspace{2mm}
 
-\subsection{OpenAPI Documentation}
+\subsection{OpenAPI Documentation and JSON Server}
 \vspace{-2mm}
 \begin{lstlisting}
+{ // JSON server
+"posts": [{
+"id": 1,
+"title": "json-server",
+"author": "xxx"
+}, {
+"title": "WED1 is great",
+"author": "markus",
+"id": 2
+}],
+// OpenAPI
 paths:
   /board:
   get:
@@ -1385,27 +1400,38 @@ paths:
 \end{lstlisting}
 \vspace{2mm}
 
-\subsection{Query filter}  
-You can sort your GET queries like this: \newline
+\subsection{Query filter, sort}  
 \vspace{-2mm}
 \begin{lstlisting}
+// filter
 orders?state=activeseller_id=1234
+// sort
+orders?order-by=date&order-direction=asc
+// Pagination
+GET /companies?skip=10&take=10
 \end{lstlisting}
 \vspace{2mm}
 
 \subsection{Important HTTP Methods}  
+\minipg{
 \begin{itemize}
 \item \textcolor{purple}{GET}\newline
-  Request ressources
+  Request resources
 \item \textcolor{purple}{POST}\newline
-  Create ressources
+  Create resources
 \item \textcolor{purple}{PUT}\newline
-  Update or Create ressources
+  Update or Create resources
+\end{itemize} 
+}{
+  \begin{itemize}
 \item \textcolor{purple}{DELETE}\newline
-  Delete ressources
+  Delete resources
 \item \textcolor{purple}{PATCH}\newline
   Partial updates
-\end{itemize} 
+  \, \newline
+  \, \newline
+  \end{itemize} 
+}[0.15,0.1]
 
 \subsection{Best practices}  
 \begin{itemize}
@@ -1433,8 +1459,17 @@ This is a system of things to comply with:\newline
 \end{itemize} 
 
 \subsection{Suspense State} 
-In order to not annoy the user with a "suppossedly broken system", when in actuality the system just needs some time to make the request on the server, \textbf{consider imeplementing a \textcolor{red}{progress bar} inn order to communicate to the user, that we are currently working on the request.}\newline
-\includegraphics[width=\columnwidth]{2022-12-06-11_30_22.png}
+Inform the user when your system needs to load something and is currently doing so. Also consider removing/disabling UI elements that wouldn't work during this time, e.g. sending the request again!
+\includegraphics[width=0.8\columnwidth]{2022-12-06-11_30_22.png}
+
+\subsection{Debouncing and Preempting}
+When trying to create a Search Machine, you want to show the possible completions, however this costs a GET request with each letter.\newline
+Instead we wait a few miliseconds to see if the user will write another character and only then send the request. -> \textcolor{purple}{\emph{Debouncing}}\newline
+In case we already want a new request before the last has been processed, \textcolor{purple}{\emph{we cancel it preemptively -> preempting}} and send the new one.\newline 
+\textcolor{purple}{Throttling:} simply reduce the amount of requests....
+
+\subsection{Polling and Sockets}
+When trying to receive Information from a server, you can either \emph{poll the server in specific timeframes (high load on server)}, or you can agree on a \emph{mutual timeframe where the server send you data -> socket}.
 
 \section{Usability}
 
@@ -1545,6 +1580,13 @@ body { /* thing to change the style of */
 multiline comment */
 \end{lstlisting}
 \vspace{2mm}
+\, \newline
+\textcolor{purple}{Colors}
+\vspace{-2mm}
+\begin{lstlisting}
+color: red; /* or */ color: #55667788; /* #RRGGBBAA */
+\end{lstlisting}
+\vspace{2mm}
 
 \subsubsection{Stylesheets vs Inline}
 \textcolor{purple}{Inline css, and <style> (DO NOT USE!)}
@@ -1577,7 +1619,7 @@ color: value|initial|inherit;
 /* initial = default value, inherit = parent value*/
 \end{lstlisting}
 \vspace{2mm}
-Inheritance in css is only applied sparsely, the reason for this is that you can still overwrite it with pretty much any selector, no matter how low the specificity is.\newline
+\textcolor{purple}{Specificity of inherit and initial are 0!}\newline
 \textcolor{orange}{If you want something to use inheritance then you need to explicitly state this!}
 
 \subsubsection{Base Specificity}
@@ -1613,10 +1655,10 @@ The css style will be applied starting with the lowest value selector, therefore
 \begin{lstlisting}
 h1 {
 font-weight: bold;
-font-size: 20px; !important; /* specificity: 210001 */
+font-size: 20px; !important; /* specificity: 120001 */
 } /* due to important this is the MOST specific! */
 #h1 {
-font-size: 30px; /* specificity: 201000 */
+font-size: 30px; /* specificity: 021000 */
 } /* ignored because important tag -> font-size is 20 */
 \end{lstlisting}
 \vspace{2mm}
@@ -1691,18 +1733,6 @@ some-element::before {
 \, \newline
 \end{itemize} 
 }[0.15,0.1]
-
-\subsection{Colors}
-
-\vspace{-2mm}
-\begin{lstlisting}
-color: red;
-/* or */
-color: #55667788;
-/* #RRGGBBAA */
-\end{lstlisting}
-\vspace{2mm}
-Colors are straight forward, you can either write the name of preconfigured colors, or use the RBGA values. \newline A is opacity.
 
 \subsection{Background}
 \vspace{-2mm}
@@ -1893,7 +1923,8 @@ However this might be confusing to some people.
 -- It also helps with recognition in search engines.\newline
 -- Mobile support is also likely to be better with proper html.
 
-
+\subsubsection{Semantic Element, what to choose?}
+\includegraphics[width=\columnwidth]{2022-09-27-11_45_58.png}
 
 \subsubsection{Base Elements}
 \textcolor{purple}{Categories of Elements}
@@ -1916,7 +1947,7 @@ However this might be confusing to some people.
 \textcolor{purple}{Form with js function <form> (interactive)}
 \vspace{-2mm}
 \begin{lstlisting}
-<form onsubmit={() => handleSubmit() }><!--Inputs and buttons.--> </form>
+<form onsubmit={() => handleSubmit()}><!-- elements --></form>
 \end{lstlisting}
 \vspace{2mm}
 
@@ -1940,7 +1971,6 @@ However this might be confusing to some people.
 <ol>
     <li>element1</li>
     <li>element2</li>
-    <li>element3</li>
 </ol>
 \end{lstlisting}
 \vspace{2mm}
@@ -1980,7 +2010,6 @@ However this might be confusing to some people.
   <a href="/html/">HTML</a> |
   <a href="/css/">CSS</a> |
   <a href="/js/">JavaScript</a> |
-  <a href="/cpp/">C++</a>
 </nav>
 \end{lstlisting}
 \vspace{2mm}
@@ -2003,13 +2032,9 @@ However this might be confusing to some people.
 \vspace{-2mm}
 \begin{lstlisting}
 <section><!-- this should always have a heading! --></section>
-<!-- The difference to article is that section is not independent! 
-it always has a heading. -->
+<!-- The difference to article is that section is not independent! it always has a heading. -->
 \end{lstlisting}
 \vspace{2mm}
-
-\subsubsection{Semantic Element, what to choose?}
-\includegraphics[width=\columnwidth]{2022-09-27-11_45_58.png}
 
 \subsubsection{Global Attributes}
 Basic attributes, self-explanatory
@@ -2050,13 +2075,6 @@ Certain tags can be omitted in special cases:\newline
 When exactly they can be omitted is found on the MDN\newline
 \textcolor{purple}{It is not recommended to omit tags!}
 
-
-
-
-
-
-
-
 \section{JS exceptions}
 \vspace{-2mm}
 \begin{lstlisting}
@@ -2094,7 +2112,7 @@ NaN === NaN             //=> false
 false === false         //=> true
 4 === 4                 //=> true
 false === true          //=> false
-true + true + true == 3 //=>true 
+true + true + true == 3 //=> true 
 true - true             //=> 0   
 true == 1               //=> true
 true === 1              //=> false
