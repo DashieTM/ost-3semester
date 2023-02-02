@@ -543,13 +543,13 @@ document.querySelector("#2").onclick = () => alert('2');
     Event travels from root to leaf\newline
     Every Element can react here
   \item \textcolor{teal}{Target-Phase}\newline
-    Event will be destroyed on target
+    Event will be executed on target
   \item \textcolor{teal}{Bubble-Phase}\newline/
     Event travels from leaf to root\newline
     Each element can react
 \end{enumerate}
 \vspace{2mm}
-\textcolor{orange}{Event bubbling and capture is used to dynamically change lists, etc.}
+\textcolor{orange}{Event bubbling and capture is used to dynamically change lists, etc.}\newline
 \includegraphics[width=0.7\columnwidth]{2022-10-18-12_15_49.png}
 
 \subsection{Node}
@@ -1081,6 +1081,8 @@ console.log(item.fun?.word); // this will print "no" IF the fun object exists!
 
 \subsection{Functions}  
 Function should also be \textbf{short, fitting name for functionality, pos-x compliant} -> only 1 functionality and \textbf{as few parameters as possible}
+\textcolor{purple}{Naming:}\newline
+\includegraphics[width=0.6\columnwidth]{2023_02_02_04_51_04.png}
 
 \subsection{Code Smells}  
 Names
@@ -1243,7 +1245,6 @@ function onClick() {
     }
   );
 }
-
 // with await
 async function fetchFromURLAwait() {
   const response = await fetch('https://stone.sifs0005.infs.ch/ranking');
@@ -1251,17 +1252,23 @@ async function fetchFromURLAwait() {
 }
 \end{lstlisting}
 \vspace{2mm}
-Try catch with async await  
-Since the promise can fail, we can use a try catch block to do error handling:\newline 
+Error handling with promises:\newline 
 \vspace{-2mm}
 \begin{lstlisting}
-async function getGreeting() {
-  try {
-    return await greeting;
-  }
-  catch (e) {
+async function getGreeting(fetchURL) {
+  try { 
+    return await fetch(fetchURL); 
+  } catch (e) {
     console.error(e);
   }
+}
+// or with .then
+async function getGreeting(fetchURL) {
+  .then((response) => {
+    return response; 
+  }).catch((e) => {
+    console.log(e);
+  })
 }
 \end{lstlisting}
 \vspace{2mm}
@@ -1288,7 +1295,7 @@ This is a style of transerring resources without side effects, this means that \
 \subsection{Level 0: The Swamp of POX}  
 Here we \textbf{send each request individually}, we send plain \textbf{xml} messages.\newline
 Each request is sent to the \textbf{same endpoint}. 
-\includegraphics[width=0.7\columnwidth]{2022-11-29-11_14_31.png}
+\includegraphics[width=0.8\columnwidth]{2022-11-29-11_14_31.png}
 
 
 \subsection{Level 1: Ressources}  
@@ -1297,7 +1304,7 @@ With this level we can receive data from different endpoints, this essentially a
 
 \subsection{Level 2 HTTP-Verbs}  
 Now we can use different html methods like \textbf{GET or POST}, this distinguishes the idea of pushing or getting data, making it easier to handle data apropriately. \newline
-\includegraphics[width=0.8\columnwidth]{2022-11-29-11_17_08.png}
+\includegraphics[width=0.9\columnwidth]{2022-11-29-11_17_08.png}
 
 \subsection{Level 3: Hypermedia Controls}  
 We now can include \textbf{states of the application}, this allows us to specify the exact usecase even further, making it easier to handle the data accordingly:\newline
@@ -1329,6 +1336,12 @@ The downside is that at some point RPC will be easier when you get to a certain 
 
 \subsection{HTTPS Request}  
 \includegraphics[width=\columnwidth]{2022-11-29-11_35_27.png}
+
+\subsection{HTTPS Response}
+\includegraphics[width=\columnwidth]{2023_02_02_04_59_15.png}
+
+\subsection{Reponse Codes}
+\includegraphics[width=0.7\columnwidth]{2023_02_02_05_00_11.png}
 
 \subsection{Query filter}  
 You can sort your GET queries like this: \newline
@@ -1386,7 +1399,7 @@ In order to not annoy the user with a "suppossedly broken system", when in actua
 \subsection{Peripheral vs Central Vision}  
 The idea is that changes outside of the central vision are hard to notice, meaning that it is often not recommended to show errors and changes outside of that vision, however, sometimes too much things popping up in the central vision can be irritating when doing some work, see "fabio rages yet again at steams fucking popup for an update"\newline
 
-\subsection{UI element Intuitiveness}  
+\subsection{UI element Intuitiveness / Affordance}  
 In general UI elements should work as expected, text fields should take inputs, buttons should be clickable, radio buttons should only allow one selection, etc.\newline
 \textcolor{purple}{The easiest way to guarantee this is to make a connection to the real world, does it work the way everything else does?}
 
