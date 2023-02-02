@@ -1589,18 +1589,18 @@ Inheritance in css is only applied sparsely, the reason for this is that you can
 
 \subsubsection{Specificity on page}
 \textcolor{orange}{This applies to the part that is defined by the developer!}\newline
-\textcolor{purple}{There are 4 counters:}
+\textcolor{purple}{There are 4 counters:} (theoretically 6) -> user and important
 \begin{itemize}
 \item \textcolor{orange}{a:} Inline styles
 \item \textcolor{orange}{b:} ID selectors
 \item \textcolor{orange}{c:} Class, pseudo class and attribute selectors
-\item \textcolor{orange}{d:} element and pseudoelement selectors
+\item \textcolor{orange}{d:} element and pseudo-element selectors
 \end{itemize}
 \minipg{
-\includegraphics[width=\columnwidth]{2023_02_02_03_52_26.png}\newline
+\includegraphics[width=\columnwidth]{2023_02_02_03_52_26.png}
 }{
   \begin{itemize}
-  \item \textcolor{black}{The * selector is ignored}\newline
+  \item \textcolor{black}{The * has specificity 0}\newline
     \textcolor{purple}{the * stands for \emph{everything}}
   \item \textcolor{black}{The :not() is ignored, but not the contents inside of it}
   \end{itemize} 
@@ -1613,10 +1613,10 @@ The css style will be applied starting with the lowest value selector, therefore
 \begin{lstlisting}
 h1 {
 font-weight: bold;
-font-size: 20px; !important;
+font-size: 20px; !important; /* specificity: 210001 */
 } /* due to important this is the MOST specific! */
 #h1 {
-font-size: 30px;
+font-size: 30px; /* specificity: 201000 */
 } /* ignored because important tag -> font-size is 20 */
 \end{lstlisting}
 \vspace{2mm}
@@ -1641,7 +1641,7 @@ something-else: value;
 \begin{lstlisting}
 div:has(p.error) {
   border: 1px solid red;
-} /* same as div p.error */
+} /* selects divs that have p.error as child */
 \end{lstlisting}
 \vspace{2mm}
 \vspace{-2mm}
