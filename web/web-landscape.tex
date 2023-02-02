@@ -50,12 +50,29 @@ Javascript is only an implementation of ECMAScript. So ECMA is the actual standa
   \item \textcolor{teal}{Arrays, Regular Expressions, Functions}
   \item \textcolor{teal}{compared by Reference}
   \item \textcolor{teal}{Mutable by default}
-  
 \end{itemize}
 
 
 \subsection{Types} 
 \includegraphics[width=0.8\columnwidth]{2022-10-11-10_33_44.png}
+
+\subsection{Automatic casting to Integer}
+\textcolor{purple}{Engines try to represent floats as integers if possible:}
+\vspace{-2mm}
+\begin{lstlisting}
+console.log(0.3333333333333333 * 3 == 1);  //true
+let x = 1/3;                               
+console.log(x + x + x);                    //1
+console.log(0.3 + 0.7);                    //1
+console.log(Number.isInteger(x + x + x));  //true
+console.log(Number.isInteger(0.3));        //false
+console.log(0.1 + 0.2);       //0.3000000000000004
+
+// however sometimes it is out of bounds:
+console.log(99999999999999999); //100000000000000000
+Number.isSafeInteger(99999999999999999); //false
+\end{lstlisting}
+\vspace{2mm}
 
 \subsection{Boolean Checks}  
 \textcolor{red}{Every value can be converted to a boolean}\newline
@@ -113,7 +130,7 @@ Will also be used if the number is too big!
   \item Number("abc") = NaN \textcolor{teal}{remember NaN is of type number!}
   \item one exception -> symbol, this is not a number\newline
     Error would be: Uncaught TypeError: Cannot convert a Symbol value to a number
-  
+  \item You can explicitly convert string to number with \emph{parseInt() and parseFloat()} 
 \end{itemize}
 
 \subsection{String}  
@@ -139,6 +156,11 @@ Typical Methods:
   \, \newline
   \end{itemize} 
 }[0.1, 0.15]
+\vspace{-2mm}
+\begin{lstlisting}
+`Composition string ${var}` // string with variables
+\end{lstlisting}
+\vspace{2mm}
 
 \subsection{null / undefined}  
 \textcolor{teal}{Undefined means nothing, not yet defined}\newline
@@ -147,18 +169,12 @@ Typical Methods:
 Example with null and undefined:
 \vspace{-2mm}
 \begin{lstlisting}
-import * as userList
-from './user.mjs';
-console.log( userList.get(0) );
-console.log( userList.update(0, {birthday: "19.05.1986"}) );
-console.log( userList.update(0, {name : undefined, birthday: "19.05.1986"}) );
-console.log( userList.update(0, {name : null, birthday: "19.05.1986"}) );
-{ name: 'Michael', birthday: '19.05.1985' }
-{ name: 'Michael', birthday: '19.05.1986' }
-{ name: 'Michael', birthday: '19.05.1986' }
-{ name: null, birthday: '19.05.1986' }
+console.log(a); // undefined -> a not defined
+let a; // a still undefined as not initialized!
+// null is either set specifically, or happens when a function should return a value but doesn't
 \end{lstlisting}
 \vspace{2mm}
+Note that functions like console.log return undefined -> void.
 
 
 \subsection{Array}  
@@ -195,12 +211,23 @@ let sum = 0;
 arr.forEach(num => { sum += num });
 \end{lstlisting}
 \vspace{2mm}
-\textcolor{teal}{arr.reduce}\newline
+\textcolor{teal}{Other array functions}\newline
 \vspace{-2mm}
 \begin{lstlisting}
-const sum = arr.reduce((total, n) => total + n, 0);
+const sum = arr.reduce((total, n) => total + n, 0); 
+// sum of all elements in array, last value is 0(2nd param)
+const mapped = arr.map((x) => x * 2); // all values doubled
+const some = arr.some((x) => x === 0); 
+// true if one value in the array has value 0
+const every = arr.every((x) => x === 0); 
+// true if all values are 0
+const filter = arr.filter((x) => x === 0); 
+// filter is a new array with all NON 0 values removed
+const sort = arr.sort((a,b) => { return a - b});
+// note the a - b -> in js needs to return number!! not bool!
 \end{lstlisting}
 \vspace{2mm}
+\textcolor{purple}{Note that you can omit brackets when using only 1 param, or 1 line. If you use {} specifically, remember to write \emph{return}!!}
 
 
 \subsection{For Loops}  
@@ -242,15 +269,8 @@ cosnt person = {
   }
 };
 person.name = "Bob";
-person.func();
-\end{lstlisting}
-\vspace{2mm}
-
-\subsection{Mutability of Objects}  
-\textcolor{teal}{You can overwrite functions inside of these objects!}
-\vspace{-2mm}
-\begin{lstlisting}
-person.func = function() {
+person.os = "penguin"; // you can add properties on the fly!
+person.func = function() { // or override functions!
   console.log("this does something else now !");
 }
 \end{lstlisting}
@@ -307,14 +327,25 @@ foo("Michael", "Gfeller", "OST", "IFS");
 \begin{lstlisting}
 const fn1 = function(){ return "Michael" };
 console.log(fn1.name);
-// ""
+// "" -> function is anonymous
 const fn2 = function name(){ return "Michael" };
 console.log(fn2.name);
-// "name"
+// "name" -> this is the name of the function
 
-console.log(fn2.length); // 0
+console.log(fn2.length); // 0 -> function has 0 params
 const fn3 = function name(name){ return name };
-console.log(fn3.length); // 1
+console.log(fn3.length); // 1 -> function has 1 param
+\end{lstlisting}
+\vspace{2mm}
+
+\subsubsection{Default Parameters}
+\vspace{-2mm}
+\begin{lstlisting}
+function something(name = "henlo") {
+  console.log(name);
+}
+something(); // henlo
+something("birb"); // birb
 \end{lstlisting}
 \vspace{2mm}
 
@@ -1429,82 +1460,96 @@ In other words, see if the old boomer dude can use the app as well if they are p
 %%%%%
 
 \section{CSS}
-\subsection{Syntax}
-
-%\begin{csscode}
+\subsection{Syntax and Selectors}
 \vspace{-2mm}
 \begin{lstlisting}
-body { 
-    color: red;
+body { /* thing to change the style of */ 
+    color: red; /* style changes */
 }
 \end{lstlisting}
 \vspace{2mm}
-%\end{csscode}
-
-The first part is the element you want to modify, this can be the body, header, footer, a class like .button or even everything like with *. You can also add them together like: body, header, .button. \newline
-\textbf{All selectors: \#id .class element.class * element element[ attribute ]}
-
-
+\textcolor{purple}{Selectors}
+\begin{itemize}
+\item \textcolor{orange}{\#hello} id
+\item \textcolor{orange}{.something} class -> here class something
+\item \textcolor{orange}{div} element -> here element div
+\item \textcolor{orange}{p::before} pseudo-element, here selects non-existing element before p
+\item \textcolor{orange}{p:hover} pseudo-class, selected when you hover over p element
+\item \textcolor{orange}{a[ href]} attribute select: selected when href is set in a element
+\end{itemize} 
+\, \newline
+\textcolor{purple}{Comments:}
 \vspace{-2mm}
 \begin{lstlisting}
-/*inline css*/
-<p style="color:red;">
-    This is a paragraph.
-</p>
+/* This is a comment*/ 
+/* This is a 
+multiline comment */
 \end{lstlisting}
 \vspace{2mm}
 
-You can also use css right inside html if you for some reason want to do this. But please only do this when you have a single thing that needs something simple like a color. \newline For everything else use stylesheets.
-
-
-
+\subsubsection{Stylesheets vs Inline}
+\textcolor{purple}{Inline css, and <style> (DO NOT USE!)}
 \vspace{-2mm}
 \begin{lstlisting}
-/*full css inside html*/
-<style>
+<p style="color:red;"> /* inline css */
+    This is a paragraph.
+</p>
+<style> /* full css inside html */
 body {
   background-color: linen;
 }
 </style>
 \end{lstlisting}
 \vspace{2mm}
-You can of course also use a stylesheet inside html, also pretty useless, just use a proper stylesheet.
 
-
-
+\textcolor{purple}{Proper Stylesheets}
 \vspace{-2mm}
 \begin{lstlisting}
-/*This is a comment*/ 
-/*This is a 
-multiline comment*/
-// This is also a comment
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://dashie.org"> 
+/* css style is in that file, note: second is online! */ 
 \end{lstlisting}
 \vspace{2mm}
-The comments are made with these /* */ or //. Multilines are also allowed.
 
-
+\subsubsection{Inherit and initial}
 \vspace{-2mm}
 \begin{lstlisting}
 color: value|initial|inherit;
+/* initial = default value, inherit = parent value*/
 \end{lstlisting}
 \vspace{2mm}
-Besides the actual values, you can always use initial for the default values, or inherit for the value of the parent.
+Inheritance in css is only applied sparsely, the reason for this is that you can still overwrite it with pretty much any selector, no matter how low the specificity is.\newline
+\textcolor{orange}{If you want something to use inheritance then you need to explicitly state this!}
 
-\vspace{-2mm}
-\begin{lstlisting}
-#p {color: red;} /* id always most specific */
+\subsubsection{Base Specificity}
+\begin{enumerate}
+\item \textcolor{orange}{Browser defaults}
+\item \textcolor{orange}{Webpage defined by dev}
+\item \textcolor{orange}{Browser settings by user}
+\end{enumerate} 
 
-div p {color: green;}
+\subsubsection{Specificity on page}
+\textcolor{orange}{This applies to the part that is defined by the developer!}\newline
+\textcolor{purple}{There are 4 counters:}
+\begin{itemize}
+\item \textcolor{orange}{a:} Inline styles
+\item \textcolor{orange}{b:} ID selectors
+\item \textcolor{orange}{c:} Class, pseudo class and attribute selectors
+\item \textcolor{orange}{d:} element and pseudoelement selectors
+\end{itemize}
+\minipg{
+\includegraphics[width=\columnwidth]{2023_02_02_03_52_26.png}\newline
+}{
+  \begin{itemize}
+  \item \textcolor{black}{The * selector is ignored}\newline
+    \textcolor{purple}{the * stands for \emph{everything}}
+  \item \textcolor{black}{The :not() is ignored, but not the contents inside of it}
+  \end{itemize} 
+}[0.15,0.09]
+\textcolor{purple}{Cascade:}\newline
+The css style will be applied starting with the lowest value selector, therefore the higher values will override the lower ones!
 
-p {color: blue;}
-\end{lstlisting}
-\vspace{2mm} 
-\textcolor{red}{\textbf{\emph{specifity:}}} \newline
-If you have 2 rules that affect 1 element. For example color red and blue, then the most specific rule will win.\newline
-For example, consider a paragraph inside a div.\newline
-In this case div p is the most specific rule, then followed by p and div.\newline
-Aka order: \textcolor{red}{red} \textcolor{green}{green} \textcolor{blue}{blue}
-
+\textcolor{purple}{Override with !important:}
 \vspace{-2mm}
 \begin{lstlisting}
 h1 {
@@ -1516,17 +1561,30 @@ font-size: 30px;
 } /* ignored because important tag -> font-size is 20 */
 \end{lstlisting}
 \vspace{2mm}
- You can override rules with \textbf{\textcolor{red}{!important}} if you specifically want a lower case rule to take effect instead!\newline
 \textcolor{red}{Should always be avoided if you can!}
 
+\subsubsection{Specific Selection}
+\includegraphics[width=0.9\columnwidth]{2022-10-04-10_58_46.png}
+\textbf{Combinators and selectors}  
+\includegraphics[width=0.8\columnwidth]{2022-10-04-11_03_12.png}\newline 
+\includegraphics[width=0.7\columnwidth]{2022-10-04-11_03_26.png}\newline
+\textcolor{purple}{:is pseudo class selector}
 \vspace{-2mm}
 \begin{lstlisting}
-<link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="https://shitgaem.online">
+:is (box, button, something) p:hover {
+background-color: red;
+something-else: value;
+} /* less writing than box p:hover, buttom p:hover ... */
 \end{lstlisting}
-\vspace{2mm}  
-Proper link styles can be inserted with <link>. You can also embed a stylesheet from the internet!
-
+\vspace{2mm}
+\textcolor{purple}{:has pseudo class selector}
+\vspace{-2mm}
+\begin{lstlisting}
+div:has(p.error) {
+  border: 1px solid red;
+} /* same as div p.error */
+\end{lstlisting}
+\vspace{2mm}
 \vspace{-2mm}
 \begin{lstlisting}
 tr.warning td:nth-child(1)::before{
@@ -1537,29 +1595,19 @@ tr.warning td:nth-child(1)::before{
 \vspace{2mm}
  This selects the td of a tr in class warning. Then goes to the nth-child, here 1 and before the content of said td.\newline
 Then you can add new content with content: "something";\newline
-Keep in mind that any changes with color etc are only made to this new content,\newline 
-as you specify it above!
+Keep in mind that any changes with color etc are only made to this new content, as you specify it above!\newline
 
-
+\textcolor{purple}{Hiding an element:}
 \vspace{-2mm}
 \begin{lstlisting}
 some-element::before {
-  display: none;Glace
-}
+  display: none;
+} /* element is only hidden, not deleted! */
 \end{lstlisting}
 \vspace{2mm}
- If you would like to not display something from the html files, you can do this by specifying
-display none before the content in question. \newline Keep in mind that this does not remove the content altogether, it only hides it!
 
-
-Inheritance  
-Inheritance in css is only applied sparsely, the reason for this is that you can still overwrite it with pretty much any selector, no matter how low the specificity is.\newline
-\textcolor{orange}{If you want something to use inheritance then you need to explicitly state this!}
-
-
-
-\textbf{Important note for CSS. If you want to affect an elements position, you will always have to change the attributes in the parent. \newline
-In other words, justify-content and similar need to be defined in the box parent, not the div that you want to center!}
+ \subsection{Pseudo selectors in JS}  
+\textbf{You can't use the CSS pseudo selectors in JS without some weird hacks, therefore, JS has some specific elements inbuilt like first-child, last-child and more.}
 
 \subsection{Units}
 \minipg{
@@ -1597,11 +1645,7 @@ color: #55667788;
 \vspace{2mm}
 Colors are straight forward, you can either write the name of preconfigured colors, or use the RBGA values. \newline A is opacity.
 
-
-
-
 \subsection{Background}
-
 \vspace{-2mm}
 \begin{lstlisting}
 background-color: red;
@@ -1618,7 +1662,6 @@ background-repeat: repeat|repeat-x|repeat-y|no-repeat|space|round; //useless shi
 \vspace{2mm}
 
 \subsection{Borders}
-
 \vspace{-2mm}
 \begin{lstlisting}
 border: 4px solid red;
@@ -1649,7 +1692,6 @@ Margin is the spacing between the element itself and it's parent and or other el
 Padding is the spacing inside the element to the contents of said element.
 
 \subsection{Text}
-
 \vspace{-2mm}
 \begin{lstlisting}
 text-align: left|right|center|justify; // justify is text as a block.
@@ -1682,53 +1724,27 @@ font-family: family-name|generic-family; //generic-family example: Isoveka
 \end{lstlisting}
 \vspace{2mm}
 
-\subsection{Display, justify and align}
+\subsection{Boxes}
+\subsubsection{Display, justify and align}
 \vspace{-2mm}
 \begin{lstlisting}
-display: none|inline|block|contents|flex|grid|inline-block|inline-flex|inline-grid|inline-table|list-item|run-in|table|
-         table-caption|table-column-group|table-footer-group|table-row-group|table-cell|table-column|table-row;
+display: none|flex|grid|inline|block|contents|inline-block|inline-flex|inline-grid|inline-table|list-item|run-in|table|table-caption|table-column-group|table-footer-group|table-row-group|table-cell|table-column|table-row;
 \end{lstlisting}
 \vspace{2mm}
-Center Div or other HORIZONTALLY \newline 
+\textcolor{purple}{Center Div or other HORIZONTALLY}\newline 
 You can center a box horizontally by using the \textbf{display: flex or display: grid} on the parent box, as well as \textbf{justify-content: center} on the parent box\newline
-Center Div or other VERTICALLY \newline 
-You can center a box vertically by using the \textbf{display: table} on the \emph{parent of the parent} and using \textbf{display: table-cell} on the parent. 
+\textcolor{purple}{Center Div or other VERTICALLY}\newline 
+You can center a box vertically by using the \textbf{display: table} on the \emph{parent of the parent} and using \textbf{display: table-cell} on the parent.\newline 
+\textcolor{red}{Important note for CSS: Position is usually relative and based on parent attributes, this means that centering etc must usually be done in the parent!}
 
-\subsection{Selectors and Combinators}
-\textbf{Selectors}
-\vspace{-2mm}
-\begin{lstlisting}
-selector::pseudo-element {
-property: value;
-}
-\end{lstlisting}
-\vspace{2mm}
- Pseudo selectors can be used to select only a specific part of an element.
-\includegraphics[width=\columnwidth]{2022-10-04-10_58_46.png}
-\textbf{Combinators and selectors}  
-\includegraphics[width=0.8\columnwidth]{2022-10-04-11_03_12.png}\newline 
-\includegraphics[width=0.8\columnwidth]{2022-10-04-11_03_26.png}
-\vspace{-2mm}
-\begin{lstlisting}
-:is (box, button, something) p:hover {
-background-color: red;
-something-else: value;
-}
-\end{lstlisting}
-\vspace{2mm}
- This applies a rule to all button box and something elements if hovered.
-
- \subsection{Selectors in JS}  
-\textbf{You can't use the CSS selectors in JS without some weird hacks, therefore, JS has some specific elements inbuilt like first-child, last-child and more.}
-
-\section{Boxes}
-\subsection{display: flex}
+\subsubsection{Information about flexbox}
 dynamically allocates spaces for elements inside this element.
-usually combined with justify-content to adjust element position. 
-min-height and min-width\newline 
-This should be used instead of width and height because an object might grow bigger than the max size. This will eventually break the look of the page, or break the application -> see eww. 
+usually combined with justify-content to adjust element position.\newline 
+\textcolor{purple}{min-height and min-width}\newline 
+Use this instead of fixed height or width, as it allows your page to scale with bigger screens!
 
-\subsection{Types of Boxes}
+
+\subsubsection{Types of Boxes}
 \textbf{\emph{content-box and border box}}
   \textbf{content-box} increases the box size to ensure the child \textbf{element has the set size}.\newline
   \textbf{border-box} decreases the element size to ensure \textbf{the box itself has the set size}.
@@ -1766,22 +1782,22 @@ This should be used instead of width and height because an object might grow big
 %%%%%
 
 
-\section{HTML Hypertext Markup Lanugage}
+\section{HTML Hypertext Markup Language}
 
-\textbf{\emph{HTML is not a programming lanugage}}, it is a markup language.\newline
+\textbf{\emph{HTML is not a programming language}}, it is a markup language.\newline
 HTML simply defines \textbf{content} and \textbf{structure}.
 
-\section{Example HTML File}
+\subsection{Example HTML File}
 \vspace{-2mm}
 \begin{lstlisting}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <link rel="stylesheet" href="styles/global.css" />
-  <link rel="shortcut icon" href="#" />
+<head> <!-- Metadata only, not displayed! -->
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="styles/global.css">
+  <link rel="shortcut icon" href="#">
   <title>Rock Paper Scissors</title>
-</head>
+</head> <!-- not the same as header! -->
 <body>
   <!-- other stuff -->
   <script src="scripts/main.js" type="module"></script>
@@ -1789,11 +1805,7 @@ HTML simply defines \textbf{content} and \textbf{structure}.
 \end{lstlisting}
 \vspace{2mm}
 
-\section{Basic Syntax and Information}
-A Simple html page doesn't need even a header or a body, however it is typical of a page to have it.\newline
-In the header you can specify title page, encoding languages and more.\newline
-Content is typically shown inside the body, while addresses and Information is usually found in the footer.\newline
-the <> </> open and close a tag, usually tags need both, but some may only need an opening tag.\newline
+\subsection{Basic Syntax and Information}
 \textcolor{purple}{Comments:}
 \vspace{-2mm}
 \begin{lstlisting}
@@ -1814,53 +1826,56 @@ multiline comment!-->
 Certain elements like <title> are only allowed in the header, others like <h> are only allowed in the body.\newline
 You can technically just use these tags without specifying the body and header.\newline
 However this might be confusing to some people.
-\includegraphics[width=\columnwidth]{2022-09-27-10_53_50.png}
+\includegraphics[width=0.8\columnwidth]{2022-09-27-10_53_50.png}
 
 
-\subsection{Semantic Markup}
--- In order to provide better support for people with accessibility issues, use proper html,\newline \,\,\, this means use proper lists and don't use divs that you force-convert to lists.\newline
+\subsubsection{Semantic Markup}
+-- HTML offers a variety of tags specifically made for a usecase, these also work well with screenreaders etc\newline
 -- It also helps with recognition in search engines.\newline
 -- Mobile support is also likely to be better with proper html.
 
 
 
-\section{Base Elements}
-\textcolor{purple}{Image <img>}
+\subsubsection{Base Elements}
+\textcolor{purple}{Categories of Elements}
+\includegraphics[width=0.8\columnwidth]{2023_02_02_01_44_10.png}
+
+\textcolor{purple}{Image <img> (empty tag, embedded/interactive)}
 \vspace{-2mm}
 \begin{lstlisting}
 <img src="path to source" alt="alternative text">
 \end{lstlisting}
 \vspace{2mm}
 
-\textcolor{purple}{Input:}
+\textcolor{purple}{Input <input> (empty tag, interactive)}
 \vspace{-2mm}
 \begin{lstlisting}
 <input type="text" placeholder="something">
 \end{lstlisting}
 \vspace{2mm}
 
-\textcolor{purple}{Form with js function:}
+\textcolor{purple}{Form with js function <form> (interactive)}
 \vspace{-2mm}
 \begin{lstlisting}
 <form onsubmit={() => handleSubmit() }><!--Inputs and buttons.--> </form>
 \end{lstlisting}
 \vspace{2mm}
 
-\textcolor{purple}{Header-text, from 1 to 6:}
+\textcolor{purple}{Header-text, from 1 to 6 <h1> (heading)}
 \vspace{-2mm}
 \begin{lstlisting}
 <h1>Some text to use as header</h1> <!--h1,h2,h3,h4,h5,h6-->
 \end{lstlisting}
 \vspace{2mm}
 
-\textcolor{purple}{Paragraph:}
+\textcolor{purple}{Paragraph <p> (phrasing)}
 \vspace{-2mm}
 \begin{lstlisting}
 <p>Some text to display</p>
 \end{lstlisting}
 \vspace{2mm}
 
-\textcolor{purple}{Ordered List:}
+\textcolor{purple}{Ordered List <ol> / <ul> (flow)}
 \vspace{-2mm}
 \begin{lstlisting}
 <ol>
@@ -1871,46 +1886,35 @@ However this might be confusing to some people.
 \end{lstlisting}
 \vspace{2mm}
 
-\textcolor{purple}{Unordered List:}
+\textcolor{purple}{Hyperlink <a> (interactive)}
 \vspace{-2mm}
 \begin{lstlisting}
-<ul>
-    <li>element1</li>
-    <li>element2</li>
-    <li>element3</li>
-</ul>
+<a href="htts://dashie.org">Shitgaem</a>
 \end{lstlisting}
 \vspace{2mm}
 
-\textcolor{purple}{Hyperlink:}
-\vspace{-2mm}
-\begin{lstlisting}
-<a href="https://shitgaem.online">Shitgaem</a>
-\end{lstlisting}
-\vspace{2mm}
-
-\textcolor{purple}{bold text:}
+\textcolor{purple}{bold text <b> (phrasing)}
 \vspace{-2mm}
 \begin{lstlisting}
 <b>this text is bold, or maybe not.</b>
 \end{lstlisting}
 \vspace{2mm}
 
-\textcolor{purple}{italic text:}
+\textcolor{purple}{italic text <em> (phrasing)}
 \vspace{-2mm}
 \begin{lstlisting}
 <em>This text is italic, or maybe not</em>
 \end{lstlisting}
 \vspace{2mm}
 
-\textcolor{purple}{div:}
+\textcolor{purple}{div <div> (flow)}
 \vspace{-2mm}
 \begin{lstlisting}
 <div>try centering it!</div>
 \end{lstlisting}
 \vspace{2mm}
 
-\textcolor{purple}{Navigation Bar:}
+\textcolor{purple}{Navigation Bar <nav> (sectioning)}
 \vspace{-2mm}
 \begin{lstlisting}
  <nav>
@@ -1922,29 +1926,51 @@ However this might be confusing to some people.
 \end{lstlisting}
 \vspace{2mm}
 
-\textcolor{purple}{Bar on the side:}
+\textcolor{purple}{Bar on the side <aside> (sectioning)}
 \vspace{-2mm}
 \begin{lstlisting}
 <aside>Something to display on the side</aside>
 \end{lstlisting}
 \vspace{2mm}
 
-\subsection{Semantic Element, what to choose?}
+\textcolor{purple}{article <article> (sectioning)}
+\vspace{-2mm}
+\begin{lstlisting}
+<article><!-- other elements --></article>
+\end{lstlisting}
+\vspace{2mm}
+
+\textcolor{purple}{section <section> (sectioning)}
+\vspace{-2mm}
+\begin{lstlisting}
+<section><!-- this should always have a heading! --></section>
+<!-- The difference to article is that section is not independent! 
+it always has a heading. -->
+\end{lstlisting}
+\vspace{2mm}
+
+\subsubsection{Semantic Element, what to choose?}
 \includegraphics[width=\columnwidth]{2022-09-27-11_45_58.png}
-\section{Global Attritubes}
 
+\subsubsection{Global Attributes}
+Basic attributes, self-explanatory
+\begin{itemize}
+\item \textcolor{purple}{id, hidden, title, lang, class, accesskey, draggable, hidden}
+\item \textcolor{purple}{onclick, oncancel, contentedible, spellcheck, title (extra information)}
+\end{itemize} 
 
-accesskey  Specifies a shortcut key to activate/focus an element
+\textcolor{purple}{Special Attributes}
+\begin{itemize}
+\item \textcolor{orange}{dir:} specifies the direction of text
+\item \textcolor{orange}{style:} specifies inline css, don't use!
+\item \textcolor{orange}{tabindex:} tabbing order of an element
+\item \textcolor{orange}{Aria Attributes:} Accessible Rich Internet Applications\newline
+  This is used to re-purpose elements with proper accessibility, only use if nothing else works!
+\end{itemize} 
+\, \newline
 
-class  Specifies one or more classnames for an element (refers to a class in a style sheet)
-
-contenteditable  Specifies whether the content of an element is editable or not
-
-data-*  Used to store custom data private to the page or application\newline
-\textcolor{orange}{These (for example) used to handle event bubbling\newline 
-data-event= add -> handle add in parent node to rerender, etc\newline
-In the parent node you can then perform a check on this by using target.class == add\newline
-\textbf{This makes sure you don't use the same function for every single bubbling event!}}\newline
+\textcolor{purple}{Custom Attributes with data-*:}\newline
+You can name an attribute data-eventtype and use it as follows:
 \vspace{-2mm}
 \begin{lstlisting}
 document.querySelector("pingpang").addEventListener("click", (event) => { 
@@ -1956,30 +1982,14 @@ document.querySelector("pingpang").addEventListener("click", (event) => {
 })
 \end{lstlisting}
 \vspace{2mm}
+\textbf{This makes sure you don't use the same function for every single bubbling event!}\newline
+\, \newline
 
-
-dir  Specifies the text direction for the content in an element
-
-draggable  Specifies whether an element is draggable or not
-
-hidden 	Specifies that an element is not yet, or is no longer, relevant
-
-id  Specifies a unique id for an element
-
-lang  Specifies the language of the element's content
-
-spellcheck  Specifies whether the element is to have its spelling and grammar checked or not
-
-style  Specifies an inline CSS style for an element
-
-tabindex  Specifies the tabbing order of an element
-
-title  Specifies extra information about an element
-
-translate  Specifies whether the content of an element should be translated or not
-
-\textbf{\emph{Tag Omission}}  You can omit certain tags. Namely the following: <html>, <body>, <head>, <p>, <li>.\newline
-It is generally recommended to do this for stylistic reasons.
+\textbf{\textcolor{red}{Tag Omission}}\newline 
+Certain tags can be omitted in special cases:\newline
+<html>, <body>, <head>, <p>, <li>.\newline
+When exactly they can be omitted is found on the MDN\newline
+\textcolor{purple}{It is not recommended to omit tags!}
 
 
 
