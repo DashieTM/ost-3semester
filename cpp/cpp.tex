@@ -226,6 +226,15 @@ var += delta;
 \end{lstlisting}
 & \textcolor{teal}{Amazing functionality! This means that you can create \textbf{optional parameters!}}\\
 \hline
+  Automatic conversion &
+  \begin{lstlisting}
+  unsigned int a = 55;
+  int b = 1234;
+  auto what = a + b; // automatic conversion to unsigned!
+  // this means the value might be fucked!
+  \end{lstlisting}
+  \\
+\hline
 \textbf{Alias}\newline
 \begin{lstlisting}
 using <alias> = <type>;
@@ -544,6 +553,15 @@ throw ENUM;
 // don't
 throw 2;
 throw "sowwy ewwow";
+try {
+
+} catch(exceptionname) {
+  // catch exception
+} catch (const& type) {
+  // catch a thrown object
+} catch(...) {
+  // catches everything
+}
 \end{lstlisting}
 \, \newline
 With C++ you can throw all kinds of crap, but please, throw exceptions or enums.\\
@@ -2241,6 +2259,23 @@ template <typename T, auto n>
   return sumOfValues / n;
 }
 \end{lstlisting}\\
+\hline
+Final keyword & 
+The final keyword specifies that a virtual fuction may no longer be overriden:\newline
+\begin{lstlisting}
+struct Base {
+    virtual void foo();
+};
+struct A : Base {
+    void foo() final; // Base::foo is overridden and A::foo is the final override
+    void bar() final; // Error: bar cannot be final as it is non-virtual
+};
+struct B final : A // struct B is final {
+    void foo() override; // Error: foo cannot be overridden as it is final in A
+};
+struct C : B {}; // Error: B is final
+\end{lstlisting}
+\\
 \hline
 \end{tabular}
 \end{table}
